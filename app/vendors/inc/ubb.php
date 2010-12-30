@@ -1,0 +1,86 @@
+<?php
+/****************************************************
+ * FileName: app/vendors/inc/ubb.php
+ * Author: xw <wei.xiao.bupt@gmail.com>
+ *****************************************************/
+
+/**
+ * class XUBB
+ *
+ * @author xw
+ */
+class XUBB {
+    public static $rule = array(
+        array(
+            "'\[ATT=([^\[\]]*?) SIZE=([^\[\]]*?)\](?:\s*?)\[/ATT\]'",
+            "'\[(em[a-zA-Z]?)0?(\d+)\]'i",
+            "'\[b\](.*?)\[/b\]'i",
+            "'\[i\](.*?)\[/i\]'i",
+            "'\[u\](.*?)\[/u\]'i",
+            //compact for wForum tag, move,fly,glow,shadow
+            "'\[move\](.*?)\[/move\]'i",
+            "'\[fly\](.*?)\[/fly\]'i",
+            "'\[glow=(?:[^,]*?),([^,]*?),([^,]*?)\](.*?)\[/glow\]'i",
+            "'\[shadow=(?:[^,]*?),([^,]*?),([^,]*?)\](.*?)\[/shadow\]'i",
+            "'\[color=(#\w*?)\](.*?)\[/color\]'i",
+            "'\[size=(\d*?)\](.*?)\[/size\]'i",
+            "'\[face=([^\[\]]*?)\](.*?)\[/face\]'i",
+            "'\[url=((?:http|https|ftp|rtsp|mms)[^\[\]]*?)\](.*?)\[/url\]'i",
+            "'\[email=((?:[a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@(?:[a-zA-Z0-9)]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3})\](.*?)\[/email\]'i",
+            "'\[img=((?:http|https)[^\[\]]*?)\](?:\s*?)\[/img\]'i",
+            "'\[swf=((?:http|https)[^\[\]]*?)\](?:\s*?)\[/swf\]'i",
+            "'\[mp3=((?:http|https)[^\[\]]*?) auto=([01])\](?:\s*?)\[/mp3\]'i",
+            "'(?<!>|=|\")(?:http|https|ftp|rtsp|mms):(?://|\\\\)(&(?=amp;)|[A-Za-z0-9\./=\?%\-#_~`@\[\]\':;+!])+'i"
+        ),
+        array(
+            "<font color=\"blue\">附件(\\2字节):</font>&nbsp;<a href=\"\\1\">\\3</a>",
+            "<img src=\"/img/ubb/\\1/\\2.gif\" style=\"display:inline;border-style:none\"/>",
+            "<b>\\1</b>",
+            "<i>\\1</i>",
+            "<u>\\1</u>",
+            //compact for wForum tag, move,fly,glow,shadow,glow and shadow use css3
+            "<marquee scrollamount=\"3\">\\1</marquee>",
+            "<marquee width=\"100%\" behavior=\"alternate\" scrollamount=\"3\">\\1</marquee>",
+            "<span style=\"text-shadow:0px 0px \\2px \\1\">\\3</span>",
+            "<span style=\"text-shadow:2px 2px \\2px \\1\">\\3</span>",
+            "<font color=\"\\1\">\\2</font>",
+            "<font size=\"\\1\">\\2</font>",
+            "<font face=\"\\1\">\\2</font>",
+            "<a target=\"_blank\" href=\"\\1\">\\2</a>",
+            "<a href=\"mailto:\\1\">\\2</a>",
+            "<a target=\"_blank\" href=\"\\1\"><img border=\"0\" title=\"单击此在新窗口浏览图片\" src=\"\\1\" class=\"resizeable\" /></a>",
+            "<object class=\"resizeable\"classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0\" width=\"560px\" height=\"420px\"><param name=\"allowScriptAccess\" value=\"never\" /><param name=\"allowFullScreen\" value=\"true\" /><param name=\"movie\" value=\"\\1\" /><param name=\"quality\" value=\"high\" /><embed src=\"\\1\" quality=\"high\" allowScriptAccess=\"never\" allowFullScreen=\"true\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" width=\"560px\" height=\"420px\"/></object>",
+            "<EMBED src=\"\\1\" width=\"560px\" height=\"45px\" type=\"audio/x-ms-wma\" nojava=\"true\" controls=\"ImageWindow,ControlPanel,StatusBar\" mute=\"false\" autostart=\"\\2\">",
+            "<a target=\"_blank\" href=\"\\0\">\\0</a>"
+        ),
+        array(
+            "",
+            "",
+            "\\0",
+            "\\0",
+            "\\0",
+            "\\1",
+            "\\1",
+            "\\3",
+            "\\3",
+            "\\0",
+            "\\2",
+            "\\1",
+            "\\2",
+            "\\2",
+            "",
+            "",
+            "",
+            "\\0",
+        ),
+    );
+
+    public static function parse($text){
+        return preg_replace(self::$rule[0], self::$rule[1], $text);
+    }
+
+    public static function remove($text){
+        return preg_replace(self::$rule[0], self::$rule[2], $text);
+    }
+}
+?>

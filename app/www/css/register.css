@@ -1,0 +1,15 @@
+.mouseover{
+    background-color: #f5f8fb;
+}
+#c_content{border:1px solid #598edd;margin-top:5px;}
+#r_table{ width:100%; margin-top:1px;}
+#r_table td{ vertical-align:middle; padding-top:10px; padding-bottom:3px; border-bottom:1px solid #c9d7f1;}
+#r_table span{ display:block; font-size:14px; font-weight:bold; color:#666; padding-bottom:3px;}
+#r_table input{font-size:18px; margin-right:10px}
+#r_table samp{height:26px;width:15px;margin-right:4px;}
+#r_table .button{font-size:12px;}
+.r_cell_1{ width:350px; padding-left:40px;}
+.r_su{ display:block;margin:15px;}
+.r_submit{ margin-left:140px; margin-right:-130px;}
+#t_auth, #authimg{float:left;}
+#t_auth{margin-top:6px;}

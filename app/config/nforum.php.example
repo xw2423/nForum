@@ -1,0 +1,258 @@
+<?php
+/********* site info config ******************/
+$config['site']['name'] = "NFORUM测试论坛";
+#类型: String
+#描述: 站点名称
+
+$config['site']['desc'] = "NFORUM测试论坛";
+#类型: String
+#描述: 站点标题，网站默认标题为name-desc
+
+$config['site']['keywords'] = "nforum kbs bbs";
+#类型: String
+#描述: 站点关键字，存在于html的head中
+
+$config['site']['description'] = "NFORUM测试论坛";
+#类型: String
+#描述: 站点描述，存在于html的head中
+
+$config['site']['ssl'] = false;
+#类型: Boolean
+#描述: 是否启用https连接
+
+#it will be a string or array, if it is array ,funciton nforum_check_domain will valid current domain
+$config['site']['domain'] = array("localhost", "127.0.0.1");
+#类型: Array
+#描述: 可用的域名，数组的值为可用的域名，如array('localhost','xxx.cn:8888')
+
+#if static domain is empty, it will be the same as domain. static should start with http:// or https:// 
+$config['site']['static'] = "";
+#类型: String
+#描述: 资源文件域名，对于不需要cookie验证的资源文件，可以用此域名访问。如果值为空则与当前域名相同。在域名前请加上http://,如http://s.xxx.cn
+
+$config['site']['prefix'] = "";
+#类型: String
+#描述: 如果nForum在非web根目录下，请在此设置web虚拟目录，如"/bbs"
+
+$config['site']['home'] = "/default";
+
+$config['site']['notice']['text'] = "公告:&nbsp;啦啦啦，这是一个公告";
+$config['site']['notice']['url'] = "javascript:void(0)";
+#类型: String
+#描述: nForum首页导航公告&链接
+
+/********* site global config ******************/
+$config['smarty']['compile_check'] = false;
+#类型: Boolean
+#描述: 是否检查模板修。如果为true，修改视图文件后自动重新编译模板
+
+$config['smarty']['force_compile'] = false;
+#类型: Boolean
+#描述: 是否强制编译模板
+
+$config['pack']['on'] = true;
+#类型: Boolean
+#描述: 是否压缩html
+
+#check request method
+$config['ajax']['check'] = false; 
+
+#valid cookie
+$config['ajax']['valid'] = false; 
+
+$config['redirect']['error'] = 3;
+#类型: Int
+#描述: 发生错误时的跳转等待时间
+
+$config['redirect']['wait'] = 3;
+#类型: Int
+#描述: 操作成功时的跳转等待时间
+
+$config['cache']['second'] = 300;
+
+#if there is a proxy before server, change below true
+$config['proxy']['X_FORWARDED_FOR'] = false;
+#类型: Boolean
+#描述: web服务器前端存在代理时设为true
+
+$config['search']['max'] = 999;
+$config['search']['day'] = 7;
+$config['ubb']['parse'] = true;
+$config['elite']['root'] = "0Announce";
+
+/********* component config ******************/
+$config['rss']['num'] = 20;
+#类型: Int
+#描述: RSS服务输出的条目数
+
+$config['adv']['path'] = "files/adv";
+
+#id which can access advertisment managment page
+$config['adv']['id'] = array("xw2423");
+#类型: Array
+#描述: 可访问广告管理系统的id
+
+#board which use exif component to parse exif information of attachment
+$config['exif'] = array('Photo');
+#类型: Array
+#描述: 解析图片exif信息的版面
+
+/********* article config ******************/
+$config['article']['ref_line'] = BBS_QUOTED_LINES;
+$config['article']['quote_level'] = BBS_QUOTE_LEV;
+$config['article']['att_num'] = BBS_MAXATTACHMENTCOUNT;
+$config['article']['att_size'] = BBS_MAXATTACHMENTSIZE;
+$config['article']['att_check'] = false;
+
+/********* plugin config ******************/
+$config['plugins']['install'] = array('vote', 'mobile');
+#类型: Array
+#描述: 已使用的插件，插件位于app/plugins目录
+
+$config['plugins']['vote']['base'] = "/vote";
+$config['plugins']['mobile']['base'] = "/m";
+
+/********* user config ******************/
+$config['user']['face']['size'] = 1024 * 256;
+#类型: Int
+#描述: 用户自定义头像大小限制，单位字节
+
+$config['user']['face']['dir'] = "uploadFace";
+#类型: String
+#描述: 用户自定义头像上传目录，为整合wForum，此目录设置为wForum建议的目录
+
+$config['user']['face']['ext'] = array(".jpg", ".jpeg", ".gif", ".png");
+#类型: Array
+#描述: 用户自定义头像允许格式
+
+$config['user']['custom']['userdefine0'] = array(
+        array(29,"显示详细用户信息", "是否允许他人看到您的性别、生日等资料", "允许", "不允许"));
+//user_define2 is none after 1
+$config['user']['custom']['userdefine1'] = array(
+        array(0,"隐藏 IP", "是否发文和被查询的时候隐藏自己的 IP 信息","隐藏","不隐藏"),
+        //bit-31 for column num of web 2 or 3
+        array(31,"首页列数", "首页显示的列数","3&nbsp;&nbsp;","2"));
+//mailbox_prop is none after 2
+$config['user']['custom']['mailbox_prop'] = array(
+        array(0,"发信时保存信件到发件箱", "是否发信时自动选择保存到发件箱","保存","不保存"),
+        array(1,"删除信件时不保存到垃圾箱", "是否删除信件时不保存到垃圾箱","不保存","保存"),
+);
+
+/********* pagination config ******************/
+$config['pagination']['threads'] = 20;
+#类型: Int
+#描述: 版面每页显示的主题数
+
+$config['pagination']['article'] = 10;
+#类型: Int
+#描述: 主题每页显示的文章数
+
+$config['pagination']['mail'] = 20;
+#类型: Int
+#描述: 邮箱每页显示的邮件数
+
+$config['pagination']['friend'] = 20;
+#类型: Int
+#描述: 每页显示的好友数量
+
+$config['pagination']['search'] = 80;
+#类型: Int
+#描述: 搜索结果每页显示的数量
+
+/********* cookie config ******************/
+#prefix not null
+$config['cookie']['prefix'] = "nforum";
+#类型: String
+#描述: cookie前缀，不能为空
+
+#if cookie domain is empty, it will be the same as domain
+$config['cookie']['domain'] = "";
+#类型: String
+#描述: cookie域，默认为空就好
+
+$config['cookie']['path'] = "/";
+#类型: String
+#描述: cookie路径
+
+$config['cookie']['encryption'] = false;
+#类型: Boolean
+#描述: 是否对cookie用ip加密，如果为true可以有效的防止xss，但是如果ip发生变化cookie失效
+
+/********* section list ******************/
+for($i = 0;$i <= BBS_SECNUM - 1;$i++){
+    $config['section'][constant("BBS_SECCODE{$i}")] = array(constant("BBS_SECNAME{$i}_0"),constant("BBS_SECNAME{$i}_1"));
+}
+
+/********* widget config ******************/
+#if persistent is false, widget content will use ajax
+$config['widget']['persistent'] = true;    
+#类型: Boolean
+#描述: 首页widget是否在服务器持久化，如果为true服务器自动保存widget的值，如果为false，widget将使用ajax方式获取内容。
+
+$config['widget']['core'] = array("board", "section", "favor");    
+
+/**
+ * the extension widget config is
+ * $config['widget']['ext'][category-index] = array(category-name, array(widget-list)[, array(default-file)])
+ * it will be include default-file first and check whether have widget
+ * if not it will include widget-name.php
+ */
+$config['widget']['ext']['0'] = array("论坛相关", array("topten", "recommend", "bless"), array('classic'));    
+$config['widget']['ext']['1'] = array("其他", array("weather", "vote"));    
+
+//default widget for guest
+//example array('col', 'row', 'title'(array), color)
+$config['widget']['default']["recommend"] = array("col"=>1, "row"=>1);
+$config['widget']['default']["section-0"] = array("col"=>1, "row"=>2);
+$config['widget']['default']["section-2"] = array("col"=>1, "row"=>3);
+$config['widget']['default']["section-4"] = array("col"=>1, "row"=>4);
+$config['widget']['default']["section-7"] = array("col"=>1, "row"=>5);
+$config['widget']['default']["section-A"] = array("col"=>1, "row"=>6);
+$config['widget']['default']["topten"] = array("col"=>2, "row"=>1);
+$config['widget']['default']["section-1"] = array("col"=>2, "row"=>2);
+$config['widget']['default']["section-3"] = array("col"=>2, "row"=>3);
+$config['widget']['default']["section-5"] = array("col"=>2, "row"=>4);
+$config['widget']['default']["section-8"] = array("col"=>2, "row"=>5);
+$config['widget']['default']["section-B"] = array("col"=>2, "row"=>6);
+$config['widget']['default']["weather"] = array("col"=>3, "row"=>1);
+$config['widget']['default']["vote"] = array("col"=>3, "row"=>2);
+$config['widget']['default']["bless"] = array("col"=>3, "row"=>3);
+$config['widget']['default']["section-6"] = array("col"=>3, "row"=>4);
+$config['widget']['default']["section-9"] = array("col"=>3, "row"=>5);
+$config['widget']['default']["section-C"] = array("col"=>3, "row"=>6);
+$config['widget']['color'] = array(
+        0 => array("default", "默认"),
+        1 => array("red", "红"), 
+        2 => array("orange", "橙"), 
+        3 => array("yellow", "黄"),
+        4 => array("green", "绿"), 
+        5 => array("blue", "蓝"), 
+        6 => array("white", "白") 
+        );
+
+/********* db config ******************/
+$config['db']['dbms'] = "mysql";
+$config['db']['host'] = "localhost";
+$config['db']['port'] = "3306";
+
+$config['db']['user'] = "";
+$config['db']['pwd'] = "";
+$config['db']['db'] = "";
+#类型: String
+#描述: 数据库配置
+
+$config['db']['dsn'] = "{$config['db']['dbms']}:host={$config['db']['host']};port={$config['db']['port']};dbname={$config['db']['db']}";
+$config['db']['charset'] = "gbk";
+
+/********* acl config ******************/
+#if true,check for all pages auto
+$config['ipacl']['on'] = false;
+$config['uaacl']['on'] = false;
+
+/********* jsr config ******************/
+$config['jsr']['mWidth'] = 1000;
+#page in iframe
+$config['jsr']['iframe'] = false;
+#if jsr.iframe false,the allow page pattern(javascript)
+$config['jsr']['allowFrame'] = "/att/.*|/user/face";
+?>

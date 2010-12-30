@@ -1,0 +1,36 @@
+#c_content{border:1px solid #598edd;margin-top:5px;}
+#c_content h6{ font-size:14px; color:#598ede; padding:2px 10px 2px 7px; border-bottom:1px solid #c9d7f1; margin-left:13px; margin-right:13px; margin-top:10px; clear:both;}
+#c_content ul{ display:block; margin-left:20px; margin-top:20px; margin-bottom:20px; *zoom:1;}
+#c_content ul li{ margin-bottom:10px; clear:both;}
+#c_content ul li a{ color:#598edd; text-decoration:underline; padding-top:3px;}
+.mouseover{ background-color: #f5f8fb; }
+
+/*user info start*/
+.b-left-m{width:120px; float:left; font-size:14px; text-align:right; padding-top:3px; color:#666; font-weight:bold;}
+.b-right-m{font-size:12px; text-align:right;color:#666;padding-left:10px;display:inline-block;vertical-align:middle}
+.b-textarea{ width:510px; height:120px;_height:90px;}
+.imgface{ border:1px solid #c9d7f1; display:none; margin-left:120px; width:420px; overflow:hidden;}
+.u-img-d{float:left;border:1px solid #c9d7f1;margin-left:120px;_margin-left:61px;height:122px; width:380px; overflow:hidden;padding:0 10px;}
+.u-img-d div{margin-top:12px;}
+.u-img-d span{display:inline-block;text-align:center;width:60px; padding-top:5px;}
+.u-img-d input{width:300px;}
+.u-img-show{float:left;border:1px solid #c9d7f1;width:120px; margin-left:10px; padding:1px;height:120px;}
+.u-img-show .maxDiv{display:inline-block; *display:inline; vertical-align:middle;height:100%;*zoom:1;}
+.u-img-show .imgss{display:inline-block; *display:inline;position:relative; vertical-align:middle;*zoom:1;}
+.u-img-show img{*zoom:1}
+.b-op{ display:block; border-top:1px solid #c9d7f1; margin:15px; padding-left:130px;padding-top:10px;}
+.b-op .button{ margin-left:15px;}
+/*user info end*/
+
+/* user passwd start*/
+.b-nc-change{ border:0px; margin-top:-20px;}
+/* user passwd end*/
+
+/* user custom start*/
+#d_user{ width:100%; margin-top:1px;}
+#d_user td{ vertical-align:bottom; padding-top:10px; padding-bottom:3px; border-bottom:1px solid #c9d7f1;}
+.u-title-1{ width:350px; padding-left:40px;}
+.u-title-1 span{ display:block; font-size:14px; font-weight:bold; color:#666; padding-bottom:3px;}
+.u-title-2 input{margin-left:5px;}
+.u-op{ border:0px; margin-top:0px;}
+/* user custom end*/

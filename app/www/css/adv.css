@@ -1,0 +1,59 @@
+.title{
+    font-size:30px;
+    font-weight:bold;
+    color:#000;
+    border-bottom:2px solid #bbb;
+    text-align:center;
+    margin: 10px auto;
+    padding-bottom:6px;
+}
+#op{
+    border:1px solid #aaa;
+    width:600px;
+    margin:auto;
+}
+#selection {margin-top:10px;text-align:center;}
+#selection li{display:inline;margin-left:16px;}
+#selection a{font-size:14px; font-weight:bold}
+#selection .selected{color:red;}
+#page{text-align:center;}
+.pagination{
+    font-size:14;
+    margin:0 auto;
+    padding:10px 0;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+#add{margin-top:-5px;*margin-top:-1px}
+#adv_main{
+    margin-top:20px;
+    min-width:1024px;
+}
+#adv{ 
+    border:1px solid #aaa;
+    width:85%;
+    margin:auto;    
+}
+#adv th, #adv td{
+    border-bottom:1px solid #aaa;
+    border-right:1px solid #aaa;
+    text-align:center;
+}
+#adv th{ height:25px; }
+#adv td{ height:28px; }
+.button{margin-left:5px;}
+.c_1{width:30px}
+.c_2{width:150px}
+.c_3{width:auto}
+.c_4{width:70px}
+.c_5{width:70px}
+.c_6{width:30px}
+.c_7{width:170px}
+.c_8{width:140px}
+.used{color:red;}
+.dialog-form li{padding:2px 0}
+.dialog-form li span{display:inline-block; width:70px; }
+.dialog-form li .input-text{ width:200px;}
+.dialog-form li .submit{ width:170px;display:block;margin:auto; }
+.ui-datepicker{z-index:3000}

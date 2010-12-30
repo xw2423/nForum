@@ -1,0 +1,23 @@
+#main_wrap{ margin:2px 5px; }
+#body{
+    width:800px;
+    margin:0 auto;
+    padding:20px 0;
+}
+.b-head{text-align:center;}
+.b-head span{ font-size:14px;}
+.b-content{
+    padding:30px;
+}
+.error{border-bottom:1px solid #CCC;}
+.error h5{font-size:14px;}
+.error div{margin-top:10px;}
+.error ul{padding:12px 30px 28px;}
+.error li{padding:5px 0 5px 20px}
+.error li samp {
+    height:14px;
+    margin-right:6px;
+    width:8px;
+}
+.error-op{text-align:center;padding-top:20px;}
+.error-su{width:100px;padding:4px 0;*padding:4px 0 1px}

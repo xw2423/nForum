@@ -1,0 +1,84 @@
+.w-filter{
+    text-align:center;
+}
+.w-filter li{
+    padding:2px 8px;
+    *padding:3px 8px 0px;
+    margin:0 3px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+.w-search{
+    margin:auto;
+    width:380px;
+    line-height:20px;
+}
+.w-search span{
+    color:#3e6195;
+    font-size:14px;
+    font-weight:bold;
+    vertical-align:middle;
+}
+.w-search .input-text{
+    width:200px;
+    vertical-align:middle;
+}
+.w-search .button{
+    width:70px;
+    margin-left:6px;
+    vertical-align:middle;
+}
+.w-search select{
+    margin-left:10px;
+}
+#application{
+    margin:10px 0;
+    padding:10px 10px;
+    border:1px solid #c9d7f1;
+    clear:both;
+}
+#application li{
+    width:143px;
+    height:143px;
+    text-align:center;
+    display:inline-block;
+    *display:inline;
+    *zoom:1
+}
+#application li:hover{
+    background:url(../img/app/hover.gif) no-repeat left top;
+}
+.app-title{
+    color:#4c72ac;
+    font-size:14px;
+    width:130px;
+    margin:10px auto 0;
+    height:20px;
+}
+.app-logo{
+    height:73px;
+    margin:0 auto;
+}
+.app-submit{
+    width:110px;
+    height:23px;
+    margin:0 auto;
+    margin-top:5px;
+}
+.app-submit input{
+    width:110px;
+    margin:auto;
+}
+.line{
+    display:block;
+    border-bottom:1px solid #c9d7f1;
+    margin-top:10px;
+    margin-bottom:15px;
+    clear:both;
+    *zoom:1;
+}
+#addform ul{ margin: 8px auto; }
+#addform li{ margin-bottom: 8px; }
+#addform li .submit{ width:224px; }
+/*change widget end*/

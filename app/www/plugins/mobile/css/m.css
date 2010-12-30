@@ -1,0 +1,67 @@
+body,img,ul,li,form,p{margin:0; padding:0; list-style:none; border:0 none;} 
+/*div,li,p{line-height:1.2em}*/
+.sp,li,p{padding:3px}
+input,select,textarea{
+    margin:0px;
+    padding:0px;
+    border:1px solid #77a2d2;
+}
+a{color:#03f;text-decoration:none;}
+a:hover{ color:#000; text-decoration:none;}
+a.top{color:#f00}
+a.m{color:#f60}
+.nav{padding:3px 0}
+.nav a{padding:0 3px;}
+.nav a.plant{color:#000}
+.hl{
+    background-color:#ebf5ff;
+}
+.hla{
+    background-color:#E4E8EF;
+}
+.hlb{
+    background-color:#E4E8EF;
+}
+.sec{
+    border-bottom:solid 1px #999;
+}
+.list li{
+    border-top:1px solid #ccc;
+}
+.f{
+    border:0 none;
+    color:#069;
+    font-weight:bold;
+}
+.btn{
+    border:1px solid #77a2d2;
+    background:#ecf4fd;
+    color:#4c6785;
+    font-size:12px;
+}
+#wraper{
+    width:100%;
+}
+.logo{
+    color:#fff;
+    background-color:#9dbb61;
+}
+.menu{
+    color:#fff;
+    background-color:#49adc5;
+}
+.menu a{
+    color:#fff;
+}
+.menu a:hover{
+    color:#000;
+}
+
+#m_main{
+}
+.m-login{
+    border-bottom:solid 1px #000;
+}
+.m-login input{
+    margin-bottom:2px;
+}

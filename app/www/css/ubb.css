@@ -1,0 +1,7 @@
+#ubb_wrap .ubb-icon{margin-top:3px}
+.ubb-img-tab{padding:3px;height:auto;overflow:hidden;width:97%}
+.ubb-img-tab li{float:left;margin:0;margin-left:1px;width:70px;line-height:20px;text-align:center;border:1px solid #598EDD;cursor:pointer;padding:1px}
+.ubb-img-tab li div{font-weight:bold;color:#598EDE;font-size:14px;width:100%;height:100%;}
+.ubb-img-tab .selected{background-color:#598EDE;color:#FFF}
+.ubb-img{margin:3px;padding:3px;border:1px solid #598EDD;width:98%;height:auto;overflow:hidden;clear:both;display:none}
+.ubb-img img{float:left;margin:2px;cursor:pointer;}
