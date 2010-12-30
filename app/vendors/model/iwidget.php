@@ -50,13 +50,14 @@ interface iWidget{
  * public function wGetTime()
  * 
  * style list:w-free w-tab w-list-line w-list-float 
- * C={text:"", url:""}
+ * A=[{t:w-tab, v:A|B}+]|B
  * B={s:w-free|w-list-line|w-list-float, v:[C+]}
- * A=[(A|B)+]|B
+ * C={text:"", url:""}
 
+ * A=array(array("t"=>"","v"=>A|B)+)|B
+ * B=array("s"=>STYLE,"v"=>array(C+))
+ * STYLE=w-free|w-list-line|w-list-float
  * C=array("text"=>"", "url"=>"")
- * B=array("s"=>"","v"=>array(C+))
- * A=array(array("t"=>"","v"=>(A|B)+)+)
  */
 abstract class WidgetAdapter implements iWidget{
     public static $S_FREE = "w-free";
