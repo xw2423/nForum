@@ -77,7 +77,7 @@ class ECode {
     public static $MAIL_RENUMERROR =     '0610';
     public static $MAIL_NOPERM =         '0611';
     public static $SEC_NOSECTION =       '0700';
-    public static $SEC_NOHOT =             '0701';
+    public static $SEC_NOHOT =           '0701';
     public static $SEC_NOBOARD =         '0702';
     public static $FRIEND_NOPRIV =       '0800';
     public static $FRIEND_EXIST =        '0801';
@@ -103,14 +103,14 @@ class ECode {
     public static $REG_FORMOK =          '1105';
     public static $REG_REGED =           '1106';
     public static $REG_HAVAFORM =        '1107';
-    public static $ATT_NLIMIT =             '1201';
-    public static $ATT_SLIMIT =             '1202';
-    public static $ATT_NONE =             '1203';
-    public static $ATT_NAMEERROR =         '1204';
-    public static $ATT_SAMENAME =         '1205';
-    public static $ATT_NOPERM =             '1206';
-    public static $ATT_ADDOK =             '1207';
-    public static $ATT_DELOK =             '1208';
+    public static $ATT_NLIMIT =          '1201';
+    public static $ATT_SLIMIT =          '1202';
+    public static $ATT_NONE =            '1203';
+    public static $ATT_NAMEERROR =       '1204';
+    public static $ATT_SAMENAME =        '1205';
+    public static $ATT_NOPERM =          '1206';
+    public static $ATT_ADDOK =           '1207';
+    public static $ATT_DELOK =           '1208';
     public static $XW_JOKE =             '9999';
 
     public static function msg($code){
