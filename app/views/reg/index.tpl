@@ -14,7 +14,7 @@
                         <td class="r_cell_2"><input type="text" class="input-text" name="id" id="t_id" /></td>
                     </tr>
                     <tr>
-                    	<td class="r_cell_1"><span>密码</span>请输入密码，5-18字符，区分大小写<br />请不要使用任何类似 '*'、' ' 或 HTML 字符</td>
+                    	<td class="r_cell_1"><span>密码</span>请输入密码，4-39字符，区分大小写<br />请不要使用任何类似 '*'、' ' 或 HTML 字符</td>
                         <td class="r_cell_2"><input type="password" class="input-text" name="passwd1" id="t_pwd1" /></td>
                     </tr>
                     <tr>
