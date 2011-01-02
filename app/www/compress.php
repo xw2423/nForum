@@ -3,10 +3,10 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
     error404();
 }
 $filter = array();
-if (!preg_match("/^c(css)\/([^\/]+\.css)$/i", $url, $match) 
-    && !preg_match("/^c(js)\/([^\/]+\.js)$/i", $url, $match)
-    && !preg_match("/^plugins\/([^\/]+)\/c(css)\/([^\/]+\.css)/i", $url, $match) 
-    && !preg_match("/^plugins\/([^\/]+)\/c(js)\/([^\/]+\.js)/i", $url, $match)){
+if (!preg_match("/plugins\/([^\/]+)\/c(css)\/([^\/]+\.css)$/i", $url, $match) 
+    && !preg_match("/plugins\/([^\/]+)\/c(js)\/([^\/]+\.js)$/i", $url, $match)
+    && !preg_match("/c(css)\/([^\/]+\.css)$/i", $url, $match) 
+    && !preg_match("/c(js)\/([^\/]+\.js)$/i", $url, $match)){
     error404();
 }
 if(isset($match[3])){

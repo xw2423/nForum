@@ -58,6 +58,7 @@ class AppController extends Controller {
     public function beforeFilter(){
         $this->RequestHandler->enabled = false;
         $this->path = str_replace($this->base, "", $this->here);
+        $this->base = Configure::read('site.prefix');
         $this->_initPlugin();
         $this->ByrSession->setFromHost();
         $this->ByrSession->initLogin();
@@ -457,10 +458,6 @@ class AppController extends Controller {
         debug($this);
         echo '</div>';
         return ob_get_clean();
-    }
-
-    public function pack(){
-        echo 1;
     }
 }
 ?>

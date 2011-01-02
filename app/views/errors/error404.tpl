@@ -14,7 +14,7 @@ a{color:#FFF;}
 <br/ ><br/ >
 *&nbsp;&nbsp;<a href="javascript:window.opener=null;window.close();">单击此处</a> 关闭当前窗口。
 <br/ >
-*&nbsp;&nbsp;<a href="<{$domain}>/<{$base}>">单击此处</a> 返回<{$siteName}>，你将会丢失本次请求中所有没有保存的数据。
+*&nbsp;&nbsp;<a href="<{$domain}><{$base}>">单击此处</a> 返回<{$siteName}>，你将会丢失本次请求中所有没有保存的数据。
 	</div>
 	<div style="text-align:center;margin-top:30px;">
 <a href="javascript:history.go(-1);" style="text-align:center">单击此处</a> 返回&nbsp;_

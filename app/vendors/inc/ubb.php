@@ -33,8 +33,8 @@ class XUBB {
             "'(?<!>|=|\")(?:http|https|ftp|rtsp|mms):(?://|\\\\)(&(?=amp;)|[A-Za-z0-9\./=\?%\-#_~`@\[\]\':;+!])+'i"
         ),
         array(
-            "<font color=\"blue\">附件(\\2字节):</font>&nbsp;<a href=\"\\1\">\\3</a>",
-            "<img src=\"/img/ubb/\\1/\\2.gif\" style=\"display:inline;border-style:none\"/>",
+            "<font color=\"blue\">附件(\\2字节):</font>&nbsp;<a href=\"%base%\\1\">\\3</a>",
+            "<img src=\"%base%/img/ubb/\\1/\\2.gif\" style=\"display:inline;border-style:none\"/>",
             "<b>\\1</b>",
             "<i>\\1</i>",
             "<u>\\1</u>",
@@ -76,7 +76,8 @@ class XUBB {
     );
 
     public static function parse($text){
-        return preg_replace(self::$rule[0], self::$rule[1], $text);
+        $prefix = Configure::read('site.prefix');
+        return str_replace('%base%', $prefix, preg_replace(self::$rule[0], self::$rule[1], $text));
     }
 
     public static function remove($text){

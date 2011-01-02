@@ -116,9 +116,5 @@ class ForumController extends AppController {
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());
     }
-
-    public function test(){
-        $this->autoRender = false;
-    }
 }
 ?>

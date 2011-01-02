@@ -77,8 +77,6 @@
     Router::connect('/adv/:type/del', array('controller' => 'adv', 'action' => 'advDel'));
     Router::connect('/adv/:type/add', array('controller' => 'adv', 'action' => 'advAdd'));
     Router::connect('/adv/:type', array('controller' => 'adv', 'action' => 'index'));
-    Router::connect('/cngi', array('controller' => 'forum', 'action' => 'cngi'));
-    Router::connect('/test', array('controller' => 'forum', 'action' => 'test'));
 
 /********************
  * plugin vote

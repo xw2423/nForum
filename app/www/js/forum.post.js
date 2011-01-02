@@ -3,7 +3,7 @@ $(function(){
     $('#ta_content').click(function(){
         if(ubb) return true;
         $(this).ubb({
-            ubb_img_path:"/img/ubb/",
+            ubb_img_path:config.base + "/img/ubb/",
             ubb_em:$('#em_img')
         });
         ubb = true;

@@ -16,6 +16,7 @@ class AppError extends ErrorHandler {
         $this->controller->css[] = "error.css";
         $this->controller->notice[] = array("url"=>"javascript:void(0)", "text"=>"´íÎóĞÅÏ¢");
         $this->controller->jsr[] = "setInterval(function(){history.go(-1);}, {$params['time']} * 1000);";
+        $this->controller->base = Configure::read('site.prefix');
         $this->controller->set($params);
         $this->_outputMessage('error');    
     }
@@ -33,6 +34,7 @@ class AppError extends ErrorHandler {
         else
             $script = "setInterval(function(){window.location.href=\"{$this->controller->base}{$params['url']['url']}\";}, {$params['time']} * 1000);";
         $this->controller->jsr[] = $script;
+        $this->controller->base = Configure::read('site.prefix');
         $this->controller->set($params);
         $this->_outputMessage('redirect');    
     }
@@ -44,6 +46,7 @@ class AppError extends ErrorHandler {
     public function error404($params){
         $this->controller->set($params);
         $this->controller->brief = true;
+        $this->controller->base = Configure::read('site.prefix');
         parent::error404($params);
     }
 
