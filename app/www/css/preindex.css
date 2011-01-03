@@ -1,5 +1,5 @@
 #wrap{ text-align:center; }
-#preImg{ margin-top:40px;width:640px;height:400px}
+#preImg{margin:40px auto 0;width:640px;height:400px}
 #preImg img{ border:2px solid #000; }
 #login{ margin-top:10px; }
 select,input{margin-right:5px;}
