@@ -69,6 +69,8 @@ $config['redirect']['wait'] = 3;
 #描述: 操作成功时的跳转等待时间
 
 $config['cache']['second'] = 300;
+#类型: Int
+#描述: HTTP EXPIRES
 
 #if there is a proxy before server, change below true
 $config['proxy']['X_FORWARDED_FOR'] = false;
@@ -139,7 +141,7 @@ $config['user']['custom']['mailbox_prop'] = array(
 );
 
 /********* pagination config ******************/
-$config['pagination']['threads'] = 20;
+$config['pagination']['threads'] = 30;
 #类型: Int
 #描述: 版面每页显示的主题数
 
