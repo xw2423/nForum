@@ -101,6 +101,7 @@ class BoardController extends AppController {
         $this->requestLogin();
         $this->_getNotice();
         $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"Í¶Æ±");
+        App::import('Sanitize');
         if(isset($this->params['num'])){
             $num = (int) $this->params['num']; 
             $vote = $this->_board->getVote($num);
@@ -134,6 +135,11 @@ class BoardController extends AppController {
                 $this->error();
             $vote['start'] = date('Y-m-d H:i:s', $vote['start']);
             $vote['day'] .= 'Ìì';
+            $vote['title'] = Sanitize::html($vote['title']);
+            if(is_array($vote['val'])){
+                foreach($vote['val'] as &$v)
+                    $v = Sanitize::html($v);
+            }
             $this->set($vote);
             $this->render("vote_que");
             return;
@@ -142,7 +148,7 @@ class BoardController extends AppController {
         $info = array();
         foreach($votes as $k=>$v){
             $info[$k]['owner'] = $v['USERID'];
-            $info[$k]['title'] = $v['TITLE'];
+            $info[$k]['title'] = Sanitize::html($v['TITLE']);
             $info[$k]['start'] = date('Y-m-d H:i:s', $v['DATE']);
             $info[$k]['type'] = $v['TYPE'];
             $info[$k]['day'] = $v['MAXDAY'].'Ìì';
