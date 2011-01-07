@@ -14,11 +14,14 @@
         </div>
 		<div class="t-btn">
 <{if !$tmpl}>
-			<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">发表话题</a>
+			<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">新话题</a>
 <{/if}>
 			<a href="<{$base}>/article/<{$bName}>/tmpl" class="button">模版发文</a>
+<{if $hasVote}>
+			<a href="<{$base}>/board/<{$bName}>/vote" class="button">版内投票</a>
+<{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
-			<{if $islogin}><a href="javascript:favadd('<{$bName}>')" class="button">收藏本版</a><{/if}>
+			<{if $islogin}><a href="javascript:favadd('<{$bName}>')" class="button">收藏</a><{/if}>
 			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><img src="<{$static}><{$base}>/img/rss.gif" /></a>
 		</div>
     </div>

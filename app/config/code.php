@@ -54,6 +54,10 @@ $config['code']['0204'] = "您无权在本版发表文章";
 $config['code']['0205'] = "本版只可发表文章,不可回复文章";
 //BOARD_NOTHREADS
 $config['code']['0206'] = "本版不存在任何主题";
+//BOARD_VOTEFAIL
+$config['code']['0207'] = "投票失败";
+//BOARD_VOTESUCCUESS
+$config['code']['0208'] = "投票成功";
 //ARTICLE_NONE          
 $config['code']['0300'] = "指定的文章不存在或链接错误";
 //ARTICLE_NOREID        

@@ -36,6 +36,7 @@ class BoardController extends AppController {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
         $this->_getNotice();
+        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"文章列表");
 
         App::import('Sanitize');
         $pageBar = "";
@@ -87,12 +88,67 @@ class BoardController extends AppController {
         $this->set("bms", $bms);
         $this->set("bName", $this->_board->NAME);
         $this->set("tmpl", $this->_board->isTmplPost());
+        $this->set("hasVote", count($this->_board->getVotes()) != 0);
         $this->set("pageBar", $pageBar);
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
         //for elite path
         $this->set("elitePath", urlencode($this->_board->getElitePath()));
         $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u)?"true":"false") . ";";
+    }
+
+    public function vote(){
+        $this->requestLogin();
+        $this->_getNotice();
+        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"投票");
+        if(isset($this->params['num'])){
+            $num = (int) $this->params['num']; 
+            $vote = $this->_board->getVote($num);
+            if($this->RequestHandler->isPost()){
+                $v = @$this->params['form']['v'];
+                $msg = @$this->params['form']['msg'];
+                $val = 0;
+                if($vote['type'] == '数字'){
+                    $val = (int)$v;
+                }else if($vote['type'] == '复选'){
+                    if(count((array)$v) > $vote['limit'])
+                        $this->error(ECode::$BOARD_VOTEFAIL);
+                    foreach((array)$v as $k=>$v)
+                        $val += 1 << intval($k);
+                }else if($vote['type'] != '问答'){
+                    $val = 1 << intval($v);
+                }
+                if(!$this->_board->vote($num, $val, $msg))
+                    $this->error(ECode::$BOARD_VOTEFAIL);
+                $this->waitDirect(
+                    array(
+                        "text" => $this->_board->DESC, 
+                        "url" => "/board/" . $this->_board->NAME
+                    ),ECode::$BOARD_VOTESUCCESS,
+                    array(array("text" => "投票列表", "url" => '/board/' .  $this->_board->NAME . '/vote/')
+                        ,array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
+                    ));
+
+            }
+            if($vote === false)
+                $this->error();
+            $vote['start'] = date('Y-m-d H:i:s', $vote['start']);
+            $vote['day'] .= '天';
+            $this->set($vote);
+            $this->render("vote_que");
+            return;
+        }
+        $votes = $this->_board->getVotes();
+        $info = array();
+        foreach($votes as $k=>$v){
+            $info[$k]['owner'] = $v['USERID'];
+            $info[$k]['title'] = $v['TITLE'];
+            $info[$k]['start'] = date('Y-m-d H:i:s', $v['DATE']);
+            $info[$k]['type'] = $v['TYPE'];
+            $info[$k]['day'] = $v['MAXDAY'].'天';
+        }
+        $this->set("info", $info);
+        $this->set("bName", $this->_board->NAME);
     }
 
     private function _getTag($threads){
@@ -123,7 +179,6 @@ class BoardController extends AppController {
         foreach($boards as $v)
             $this->notice[] = $v;
         $this->notice[] = array("url"=>"/board/{$this->_board->NAME}", "text"=>$this->_board->DESC);
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"文章列表");
     }
 }
 ?>

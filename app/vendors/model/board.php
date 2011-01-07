@@ -346,6 +346,117 @@ class Board extends OverloadObject implements Pageable, iWidget{
         $ret = preg_replace("/^0Announce\//", "", $ret);
         return $ret;
     }
+
+    /**
+     * function getVotes get vote list of board
+     * array(
+     *     'USERID' => string 
+     *     'TITLE' => string 
+     *     'DATE' => int 
+     *     'TYPE' => string '是非' (length=4)
+     *     'MAXDAY' => int 
+     * )
+     *
+     * @return array
+     * array(
+     *     'owner' => string 
+     *     'title' => string 
+     *     'start' => int 
+     *     'type' => string '是非' (length=4)
+     *     'day' => int 
+     * )
+     * @access public
+     */
+    public function getVotes(){
+        $arr = array();
+        $num = bbs_get_votes($this->NAME, $arr);
+        if($num <= 0)
+            return array();
+        return $arr;
+    }
+    
+    /**
+     * function getVote get vote of board via num
+     * array(
+     *     'USERID' => string 
+     *     'TITLE' => string 
+     *     'DATE' => int 
+     *     'TYPE' => string '是非' (length=4)
+     *     'MAXDAY' => int 
+     *     'MAXTKT' => int 1
+     *     'DESC' => int 
+     *     'TOTALITEMS' => int 
+     *     'ITEM1' => string 
+     *     'ITEM2' => string 
+     *     'ITEM3' => string 
+     *     'ITEM4' => string 
+     *     'ITEM5' => string 
+     *     'ITEM6' => string 
+     *     'ITEM7' => string 
+     *     *'VOTED' => int 1
+     *     *'MSG1' => string 
+     *     *'MSG2' => string 
+     *     *'MSG3' => string
+     * )
+     *
+     * @param int $num
+     * @return mixed array|false
+     * array(
+     *     'owner' string
+     *     'title' string
+     *     'start' int
+     *     'type' string
+     *     'day' int
+     *     'limit' int
+     *     'desc' string
+     *     'val' array
+     * )
+     * @access public
+     */
+    public function getVote($num){
+        $arr = array();
+        $res = array();
+        $num = bbs_get_vote_from_num($this->NAME,$arr,$num,$res);
+        if($num < 0)
+            return false;
+        $ret['owner'] = $arr[0]['USERID'];
+        $ret['title'] = $arr[0]['TITLE'];
+        $ret['start'] = $arr[0]['DATE'];
+        $ret['type'] = $arr[0]['TYPE'];
+        $ret['day'] = $arr[0]['MAXDAY'];
+        $ret['limit'] = $arr[0]['MAXTKT'];
+        $ret['desc'] = @bbs_printansifile("vote/" . $this->NAME . "/desc." . $arr[0]["DATE"]);
+        $voted = isset($res[0]['VOTED']);
+        switch($arr[0]['TYPE']){
+            case '数字':
+                $ret['val'] = $voted?$res[0]['VOTED']:"";
+                break;
+            case '问答':
+                $ret['val'] = false;
+                break;
+            default:
+                foreach(range(1, $arr[0]['TOTALITEMS']) as $i){
+                    $ret['val'][] = array($arr[0]['ITEM'.$i], $voted && ($res[0]['VOTED'] & (1 << ($i - 1))) != 0);
+                }
+        }
+        $ret['msg'] = $voted?trim(join("\n", array($res[0]['MSG1'], $res[0]['MSG2'], $res[0]['MSG3']))):"";
+        return $ret;
+    }
+
+    /**
+     * function vote
+     *
+     * @param int $num
+     * @param array $val
+     * @param string msg
+     * @return boolean
+     * @access public
+     */
+    public function vote($num, $val, $msg){
+        $msg = trim(preg_replace("|^((.*?\n){3})[\s\S]*$|", "\$1", $msg));
+        $ret = bbs_vote_num($this->NAME, $num, intval($val), $msg);
+        return ($ret > 0);
+    }
     
     /**
      * function setOnBoard set current user on this board

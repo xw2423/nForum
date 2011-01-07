@@ -46,6 +46,7 @@
     Router::connect('/slist', array('controller' => 'section', 'action' => 'slist'));
     Router::connect('/flist', array('controller' => 'favor', 'action' => 'flist'));
     Router::connect('/board/:name', array('controller' => 'board', 'action' => 'index'));
+    Router::connect('/board/:name/vote/:num', array('controller' => 'board', 'action' => 'vote', 'num' => null), array('num' => '\d+'));
     Router::connect('/article/forward/:name/:id', array('controller' => 'mail', 'action' => 'send'), array('id' => '\d+'));
     Router::connect('/article/:name/:gid', array('controller' => 'article', 'action' => 'index'), array('gid' => '\d+'));
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
