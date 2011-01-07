@@ -6,16 +6,16 @@
 		<table class="m-table que">
 		<tr>
 			<th class="col5">模版<{$num}></th>
-			<td class="col6"><{$tmplTitle}></th>
+			<td class="col6"><{$tmplTitle}></td>
 		</tr>
 		<tr>
 			<th>标题</th>
-			<td><{$title|default:"<input type=\"text\" name=\"q[0]\" class=\"input-text\" style=\"width:90%\" />"}></th>
+			<td><{$title|default:"<input type=\"text\" name=\"q[0]\" class=\"input-text\" style=\"width:90%\" />"}></td>
 		</tr>
 <{foreach from=$info item=item key=k}>
 		<tr>
 			<th>问题<{$k+1}>:<{$item.text}>(长度:<{$item.len}>)</th>
-			<td><textarea name="q[<{$k+1}>]" style="width:90%"></textarea></th>
+			<td><textarea name="q[<{$k+1}>]" style="width:90%"></textarea></td>
 			</tr>
 <{/foreach}>
 			<tr class="tmpl-op">
