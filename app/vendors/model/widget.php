@@ -78,7 +78,7 @@ class Widget {
      * function wInit create widget via default
      *
      * @param User $user
-     * @return array default setting|boolean false
+     * @return array default setting
      * @static
      * @access public
      */
@@ -105,7 +105,7 @@ class Widget {
             $val = array("v"=> $arr);
             $db->insert(self::$table, $val);
         }catch(Exception $e){
-            return false;
+            return array();
         }
         return (array)$ret;
     }
@@ -152,7 +152,7 @@ class Widget {
             $res = $db->all($sql, array($uid));
             if(empty($res))
                 $res = self::wInit($user);
-            foreach($res as $v){
+            foreach((array)$res as $v){
                 try{
                     $title = self::getInstance($v['wid'])->wGetTitle();
                 }catch(WidgetNullException $e){

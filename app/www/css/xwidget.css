@@ -77,6 +77,12 @@
 #column1 .widget-placeholder { margin: 0px 0px 10 5px; }
 #column2 .widget-placeholder { margin: 0px 10px 10 10px; }
 #column3 .widget-placeholder { margin: 0px 4px 10 0px; }
+.no-widget{
+    padding:20px 0;
+    text-align:center;
+    font-size:14px;
+    border:1px solid #d9e7ff;
+}
 /*widget end*/
 
 /*widget style*/

@@ -19,6 +19,10 @@ class ForumController extends AppController {
         $u = User::getInstance();
         $ret = $w = array();
         $ret = Widget::wGet($u);
+        if(empty($ret)){
+            $this->set("widget", array());    
+            return;
+        }
         $persistent = Configure::read("widget.persistent");
         if($persistent){
             $time = (array) nforum_cache_read("widget_time");

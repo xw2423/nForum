@@ -1,5 +1,11 @@
 <{include file="header.tpl"}>
 	<div id="columns">
+<{if empty($widget)}>
+<div class="no-widget corner">
+    您不存在任何应用，请在个性化首页中添加新的应用。<br /><br />
+    如果您是初次登录，请检查Widget默认配置，确保默认Widget都有效!
+</div>
+<{else}>
 <{foreach from=$widget item=col key=kcol}>
         <ul id="column<{$kcol}>" class="column">
 <{foreach from=$col item=row key=krow}>
@@ -15,5 +21,6 @@
 <{/foreach}>
         </ul>
 <{/foreach}>
+<{/if}>
 	</div>
 <{include file="footer.tpl"}>
