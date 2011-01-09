@@ -123,6 +123,7 @@ class Widget {
         App::import('Sanitize');
         $colors = Configure::read("widget.color");
         $uid = $user->userid;
+        $ret = array();
         if($uid == 'guest'){
             $widgets = Configure::read("widget.default");
             foreach($widgets as $name=>$v){
