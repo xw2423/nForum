@@ -10,7 +10,7 @@
 <{if ($isAtt)}>
             	<li class="upload">
                 	<div class="post-m">文件上传:</div>
-					<iframe src="/att/upload/<{$bName}>/<{$eid}>" width="100%" frameborder="0" id="upload"></iframe>
+					<iframe src="<{$base}>/att/upload/<{$bName}>/<{$eid}>" width="100%" frameborder="0" id="upload"></iframe>
                 </li>
 <{/if}>
             	<li>
