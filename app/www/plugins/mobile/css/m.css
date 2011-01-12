@@ -1,4 +1,5 @@
 body,img,ul,li,form,p{margin:0; padding:0; list-style:none; border:0 none;} 
+body{word-wrap:break-word}
 /*div,li,p{line-height:1.2em}*/
 .sp,li,p{padding:3px}
 input,select,textarea{
