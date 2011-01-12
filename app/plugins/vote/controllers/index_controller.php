@@ -111,8 +111,8 @@ class IndexController extends VoteAppController {
         $u = User::getInstance();
         $db = DB::getInstance();
         if(!$u->isAdmin()){
-            $sql = "select count(*) as num from pl_vote where status=1 and start>=?";
-            $res = $db->one($sql, array(strtotime(date("Y-m-d",time()))));
+            $sql = "select count(*) as num from pl_vote where status=1 and start>=? and uid=?";
+            $res = $db->one($sql, array(strtotime(date("Y-m-d",time())), $u->userid));
             if($res !== false && $res['num'] >=2)
                 $this->error("每天你最多开启两次投票");
         }
