@@ -59,9 +59,12 @@ nForum/
 
 3.将Smarty所在的目录加入php.ini的include_path中。修改cake/console/cake.php文件581行的CURRENTFILE的值，将其改成cake.php文件所在的绝对路径(路径不要包含符号连接)。将php，cake.php所在的目录加入到环境变量PATH中，使得可以直接运行php和cake命令。
 
-4.将域名根目录指向nForum/app/www并给目录打开mod_rewrite支持，Apache配置如下
-    <Directory "/path/to/nForum/app/www">
+4.配置目录nForum支持mod_rewrite，Apache配置如下
+    <Directory "/path/to/nForum">
         AllowOverride All 
     </Directory>
 
-5.进入nForum/app/config目录，将nforum.php.example重命名为nforum.php，详细配置说明请参见此文件注释。$config['user']['face']['dir']默认设置为uploadFace，即wForum所用的头像目录。如果已使用wForum,请在app/www目录下做一个uploadFace的符号链接。将nForum/sql中的数据库文件导入进mysql，并配置$config['db']中的值。
+5.进入nForum/app/config目录，将nforum.php.example重命名为nforum.php
+    $config['user']['face']['dir']默认设置为uploadFace，即wForum所用的头像目录。如果已使用wForum,请在app/www目录下做一个uploadFace的符号链接。
+    将nForum/sql中的数据库文件导入进mysql，并配置$config['db']中的值。
+详细配置说明请参见此文件注释。

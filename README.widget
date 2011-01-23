@@ -49,3 +49,7 @@ wGetList返回数组结构:
     B=array("s"=>STYLE,"v"=>array(C+))
     STYLE=w-free|w-list-line|w-list-float
     C=array("text"=>"", "url"=>"")
+
+缓存策略
+-------------------
+参见源代码目录下的README.cache
