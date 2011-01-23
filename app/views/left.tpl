@@ -44,7 +44,7 @@
     <!--function list end-->
 	<div id="adv">
 <{foreach from=$advs item=item}>
-		<a href="<{$item.url}>"><img src="<{$base}><{$item.path}>" /></a>
+		<a href="<{$item.url}>"><img src="<{$item.path}>" /></a>
 <{/foreach}>
 	</div>
 </div>
