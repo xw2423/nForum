@@ -33,10 +33,20 @@ index b5942fd..2b366b0 100644
 \ No newline at end of file
 +?>
 diff --git a/cake/dispatcher.php b/cake/dispatcher.php
-index b208aeb..bc0a02d 100644
+index b208aeb..c6636a3 100644
 --- a/cake/dispatcher.php
 +++ b/cake/dispatcher.php
-@@ -587,13 +587,14 @@ class Dispatcher extends Object {
+@@ -352,7 +352,8 @@ class Dispatcher extends Object {
+ 			$replace = array('<', '>', '*', '\'', '"');
+ 			$base = str_replace($replace, '', dirname(env('PHP_SELF')));
+ 
+-			if ($webroot === 'webroot' && $webroot === basename($base)) {
++            //when I find this, I can't change the name of webroot.
++			if ($webroot === 'www' && $webroot === basename($base)) {
+ 				$base = dirname($base);
+ 			}
+ 			if ($dir === 'app' && $dir === basename($base)) {
+@@ -587,13 +588,14 @@ class Dispatcher extends Object {
   */
  	function cached($url) {
  		if (strpos($url, 'css/') !== false || strpos($url, 'js/') !== false || strpos($url, 'img/') !== false) {
@@ -53,7 +63,7 @@ index b208aeb..bc0a02d 100644
  			$isAsset = false;
  			$assets = array(
  				'js' => 'text/javascript', 'css' => 'text/css',
-@@ -660,6 +661,7 @@ class Dispatcher extends Object {
+@@ -660,6 +662,7 @@ class Dispatcher extends Object {
  					return true;
  				}
  			}
@@ -61,7 +71,7 @@ index b208aeb..bc0a02d 100644
  		}
  
  		if (Configure::read('Cache.check') === true) {
-@@ -691,4 +693,4 @@ class Dispatcher extends Object {
+@@ -691,4 +694,4 @@ class Dispatcher extends Object {
  		return false;
  	}
  }
