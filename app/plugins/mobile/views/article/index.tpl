@@ -17,9 +17,6 @@
 	<a href="<{$mbase}>/article/<{$bName}>/post/<{$item.id}>">回复</a>|
 <{if $islogin}>
 	<a href="<{$mbase}>/mail/send/<{$item.poster}>">发信</a>|
-<{if $item.subject}>
-	<a href="<{$mbase}>/article/<{$bName}>/focus/<{$item.id}>">推荐</a>|
-<{/if}>
 <{/if}>
 <{if $item.op}>
 	<a href="<{$mbase}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a>|

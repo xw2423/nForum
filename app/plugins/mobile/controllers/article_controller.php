@@ -254,22 +254,5 @@ class ArticleController extends MobileAppController {
         }
         $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . "?m=" . ECode::$ARTICLE_DELOK);
     }
-
-    public function focus(){
-        $focusBan = Configure::read("focus.ban");
-        if(in_array($this->_board->NAME, $focusBan)){
-            $this->error(ECode::$ARTICLE_REERROR);
-        }
-        $id = $this->params['gid'];
-        try{
-            $article = Article::getInstance($id, $this->_board);
-            if(!$article->isSubject() || !$article->postFocus())
-                $this->error(ECode::$ARTICLE_REERROR);
-
-        }catch(ArticleNullException $e){
-            $this->error(ECode::$ARTICLE_NONE);
-        }
-        $this->redirect($this->_mbase . "/article/" . $this->_board->NAME . "/{$id}?m=" . ECode::$ARTICLE_REOK);
-    }
 }
 ?>

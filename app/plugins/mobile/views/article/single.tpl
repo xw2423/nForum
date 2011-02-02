@@ -16,9 +16,6 @@
 	<br />
 	<a href="<{$mbase}>/article/<{$bName}>/post/<{$aid}>?s=1">回复</a>|
 	<a href="<{$mbase}>/mail/send/<{$poster}>">发信</a>|
-<{if $subject}>
-	<a href="<{$mbase}>/article/<{$bName}>/focus/<{$aid}>">推荐</a>|
-<{/if}>
 <{if $op}>
 	<a href="<{$mbase}>/article/<{$bName}>/edit/<{$aid}>?s=1">编辑</a>|
 	<a href="<{$mbase}>/article/<{$bName}>/delete/<{$aid}>">删除</a>|
