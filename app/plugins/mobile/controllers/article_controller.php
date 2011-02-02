@@ -145,7 +145,7 @@ class ArticleController extends MobileAppController {
                 $this->error(ECode::$TMPL_ERROR);
             $reID = 0;
         }
-        $threads = !(isset($this->params['url']['m']) || isset($this->params['form']['m']));
+        $single = (isset($this->params['url']['s']) || isset($this->params['form']['s']));
 
         if($this->RequestHandler->isPost()){
             if(!isset($this->params['form']['subject']))
@@ -170,7 +170,7 @@ class ArticleController extends MobileAppController {
             }catch(ArticlePostException $e){
                 $this->error($e->getMessage());
             }
-            $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . ($threads?"":"/0") . "?m=" . ECode::$POST_OK);
+            $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . ($single?"/0":"") . "?m=" . ECode::$POST_OK);
         }else{
             $reTitle = $reContent = "";
             if($reID != 0){
@@ -186,7 +186,7 @@ class ArticleController extends MobileAppController {
                 $this->notice = "{$this->_board->DESC}-·¢±í";
             }
         }
-        $this->set("threads", $threads);
+        $this->set("single", $single);
         $this->set("bName", $this->_board->NAME);
         $this->set("email", true);
         $this->set("anony", $this->_board->isAnony());
@@ -211,12 +211,18 @@ class ArticleController extends MobileAppController {
         }
         if(!$article->hasEditPerm(User::getInstance()))
             $this->error(ECode::$ARTICLE_NOEDIT);
+        $single = (isset($this->params['url']['s']) || isset($this->params['form']['s']));
         if($this->RequestHandler->isPost()){
             $subject = trim($this->params['form']['subject']);
             $content = trim($this->params['form']['content']);
+            if($this->encoding != Configure::read("App.encoding")){
+                $subject = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $subject);
+                $content = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $content);
+            }
+            $subject = rawurldecode($subject);
             if(!$article->update($subject, $content))
                 $this->error(ECode::$ARTICLE_EDITERROR);
-            $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . "?m=" . ECode::$ARTICLE_EDITOK);
+            $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . ($single?"/0":"") . "?m=" . ECode::$ARTICLE_EDITOK);
         }else{
             $this->notice = "{$this->_board->DESC}-±à¼­";
             $title = $article->TITLE;
@@ -228,6 +234,7 @@ class ArticleController extends MobileAppController {
         $this->set("anony", false);
         $this->set("title", $title);
         $this->set("content", $content);
+        $this->set("single", $single);
         $this->autoRender = false;
         $this->render("post");
     }

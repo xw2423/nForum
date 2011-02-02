@@ -1,7 +1,7 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
 <div class="sec nav">
 <{if $canPost}>
-	<a href="<{$mbase}>/article/<{$bName}>/post?m=1">发表</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/post?s=1">发表</a>|
 <{/if}>
 	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>">展开</a>|
 	<a href="<{$mbase}>/article/<{$bName}>/single/<{$gid}>">溯源</a>|
@@ -14,13 +14,13 @@
 	<a href="<{$mbase}>/user/query/<{$poster}>"><{$poster}></a>|
 	<a class="plant"><{$time}></a>|
 	<br />
-	<a href="<{$mbase}>/article/<{$bName}>/post/<{$aid}>?m=1">回复</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/post/<{$aid}>?s=1">回复</a>|
 	<a href="<{$mbase}>/mail/send/<{$poster}>">发信</a>|
 <{if $subject}>
 	<a href="<{$mbase}>/article/<{$bName}>/focus/<{$aid}>">推荐</a>|
 <{/if}>
 <{if $op}>
-	<a href="<{$mbase}>/article/<{$bName}>/edit/<{$aid}>">编辑</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/edit/<{$aid}>?s=1">编辑</a>|
 	<a href="<{$mbase}>/article/<{$bName}>/delete/<{$aid}>">删除</a>|
 <{/if}>
 	</div>

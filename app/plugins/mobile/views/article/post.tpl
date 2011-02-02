@@ -12,8 +12,8 @@
 </li>
 <li><input type="submit" class="btn" value="Ìá½»"/>&nbsp;<input type="button" class="btn" value="·µ»Ø" onclick="javascript:history.go(-1)" /></li>
 </ul>
-<{if !$threads}>
-<input type="hidden" name="m" value="1" />
+<{if !$single}>
+<input type="hidden" name="s" value="1" />
 <{/if}>
 </form>
 <{include file="../plugins/mobile/views/footer.tpl"}>
