@@ -1,6 +1,6 @@
 	<div class="sec sp">
 <form action="<{$mbase}>/go" method="get">
-	<span class="f">选择讨论区</span><br /><input type="text" size="18" name="name" /><input type="submit" value="GO" class="btn" />
+	<span class="f">选择讨论区</span><br /><input type="text" size="18" name="name" />&nbsp;<input type="submit" value="GO" class="btn" />
 </form>
 	</div>
 	</div>

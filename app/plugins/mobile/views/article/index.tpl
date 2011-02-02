@@ -38,7 +38,7 @@
 	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$totalPage}>">尾页</a>|
 <{/if}>
 	<a class="plant"><{$curPage}>/<{$totalPage}></a>|
-	<a class="plant">转到<input type="text" name="p" size="2" /><input type="submit" value="GO" class="btn" /></a>|
+	<a class="plant">转到&nbsp;<input type="text" name="p" size="2" />&nbsp;<input type="submit" value="GO" class="btn" /></a>|
 </form>
 </div>
 <{if $canPost}>
