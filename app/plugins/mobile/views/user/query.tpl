@@ -3,15 +3,19 @@
 <ul class="sec list">
 <li class="f">ID:&nbsp;<{$uid}></li>
 <li>昵称:&nbsp;<{$name}></li>
-<{if !($hide)}>
+<{if !($hide) || $isAdmin}>
 <li>性别:&nbsp;<{$gender}></li>
 <li>星座:&nbsp;<{$astro}></li>
 <{/if}>
 <li>等级:&nbsp;<{$level}></li>
 <li>贴数:&nbsp;<{$postNum}></li>
+<{if $me || $isAdmin}>
 <li>登陆次数:&nbsp;<{$loginNum}></li>
+<{/if}>
 <li>生命力:&nbsp;<{$life}></li>
+<{if $me || $isAdmin}>
 <li>注册时间:&nbsp;<{$first}></li>
+<{/if}>
 <li>上次登录:&nbsp;<{$lastTime}></li>
 <li>最后访问IP:&nbsp;<{$lastIP}></li>
 <li>当前状态:&nbsp;<{$status}></li>

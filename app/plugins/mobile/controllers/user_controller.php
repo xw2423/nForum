@@ -58,6 +58,7 @@ class UserController extends MobileAppController {
         );
         $this->set($info);
         $this->set("hide", ($u->getCustom("userdefine0", 29) == 0));
+        $this->set("me", $u->userid == User::getInstance()->userid);
     }
 }
 ?>

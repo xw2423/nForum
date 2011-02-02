@@ -34,8 +34,8 @@ class MobileAppController extends AppController {
     }
 
     public function beforeRender(){
+        $newNum = 0;
         if($this->ByrSession->isLogin){
-            $newNum = 0;
             App::import("vendor", "model/mail");
             try{
                 $box = new MailBox(User::getInstance(), MailBox::$IN);
@@ -43,12 +43,13 @@ class MobileAppController extends AppController {
             }catch(MailBoxNullException $e){
             }catch(UserNullException $e){
             }
-            $this->set("newNum", $newNum);
-            $this->set("islogin", true);
-            $this->set("id", User::getInstance()->userid);
-            $this->set("isAdmin", User::getInstance()->isAdmin());
+            $login = true;
+            $id = User::getInstance()->userid;
+            $isAdmin = User::getInstance()->isAdmin();
         }else{
-            $this->set("islogin", false);
+            $login = false;
+            $id = "guest";
+            $isAdmin = false;
         }
         $this->_initAsset();
         $site = Configure::read("site");
@@ -63,6 +64,10 @@ class MobileAppController extends AppController {
         $this->set("msg", ECode::msg($this->_msg));
         $this->set("pos", $this->notice);
         $this->set("css", $this->css);
+        $this->set("newNum", $newNum);
+        $this->set("islogin", $login);
+        $this->set("id", $id);
+        $this->set("isAdmin", $isAdmin);
     }
 
     public function error($code = null){
