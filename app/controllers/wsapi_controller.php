@@ -14,8 +14,6 @@
 App::import("vendor", array("inc/json"));
 class WsapiController extends AppController{
     
-    public $components = array('IpAcl');
-
     public function beforeFilter(){
         parent::beforeFilter();
         $this->autoRender = false;
