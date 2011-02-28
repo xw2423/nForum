@@ -8,11 +8,12 @@ class IpAclComponent extends Object {
 
     private $_active = false;
     public $components = array('ByrSession');
+    
     //called before Controller::beforeFilter()
     public function initialize(&$controller, $settings = array()) {
         $this->controller = $controller;
-        Configure::load("ipacl");
         if(Configure::read("ipacl.on")){
+            Configure::load("ipacl");
             $this->_active = true;
         }
     }
