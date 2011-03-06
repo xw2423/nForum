@@ -33,12 +33,39 @@
     <!--function list start -->
 	<div id="xlist" class="corner">
     	<ul>
-			<li class="has_child"> <a href="javascript:void(0);" class="xlist-a"><samp class="ico-pos-tag-off"></samp>全部讨论区</a><ul  id="list-section" class="child_list xtree"> </ul> </li>
+            <li class="slist">
+                <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">全部讨论区</a></span>
+                <ul class="x-child ajax"><li>{url:<{$base}>/slist?uid=<{$id}>&root=list-section}</li>
+                </ul>
+            </li>
 <{if $islogin}>
-            <li class="has_child"><a href="javascript:void(0);" class="xlist-a"><samp class="ico-pos-tag-off"></samp>我的收藏夹</a><ul id="list-favor" class="child_list xtree"></ul></li>
+            <li class="flist">
+                <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">我的收藏夹</a></span>
+                <ul id="list-favor" class="x-child ajax"><li>{url:<{$base}>/flist?uid=<{$id}>&root=list-favor}</li></ul>
+            </li>
 <{/if}>
-            <li class="has_child"><a href="javascript:void(0)" class="xlist-a"><samp class="ico-pos-tag-off"></samp>控制面板</a><ul class="child_list" id="list-control"><{if $islogin}><{if !$isReg}><li><a href="<{$base}>/reg/form" class="xlist-a"><samp class="ico-pos-dot"></samp>填写注册单</a></li><{/if}><li><a href="<{$base}>/user/info" class="xlist-a"><samp class="ico-pos-dot"></samp>基本资料修改</a></li><li><a href="<{$base}>/user/passwd" class="xlist-a"><samp class="ico-pos-dot"></samp>昵称密码修改</a></li><li><a href="<{$base}>/user/custom" class="xlist-a"><samp class="ico-pos-dot"></samp>用户自定义参数</a></li><li><a href="<{$base}>/friend" class="xlist-a"><samp class="ico-pos-dot"></samp>好友列表</a></li><li><a href="<{$base}>/fav" class="xlist-a"><samp class="ico-pos-dot"></samp>收藏夹管理</a></li><li><a href="<{$base}>/online" class="xlist-a"><samp class="ico-pos-dot"></samp>在线用户</a></li><{/if}><li><a href="<{$base}>/user/query" class="xlist-a"><samp class="ico-pos-dot"></samp>查询用户</a></li><li><a href="<{$base}>/s" class="xlist-a"><samp class="ico-pos-dot"></samp>搜索文章</a></li></ul></li>
-			<li class="no_child"><a href="<{$base}>/vote" class="xlist-a"><samp class="ico-pos-cdot"></samp>投票系统</a></li><li class="no_child"><a href="<{$base}>/elite/path" class="xlist-a"><samp class="ico-pos-cdot"></samp>精华区</a></li><li class="no_child"><a href="telnet://#" class="xlist-a"><samp class="ico-pos-cdot"></samp>Telnet登录</a></li><li class="no_child search"><samp class="ico-pos-cdot"></samp><input type="text" class="input-text" value="搜索讨论区" id="b_search"/></li>
+            <li class="clist">
+                <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0)">控制面板</a></span>
+                <ul class="x-child" id="list-control">
+            <{if $islogin}>
+                <{if !$isReg}>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/reg/form"><samp class="ico-pos-dot"></samp>填写注册单</a></span></li>
+                <{/if}>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/info" ><samp class="ico-pos-dot"></samp>基本资料修改</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/passwd" ><samp class="ico-pos-dot"></samp>昵称密码修改</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/custom" ><samp class="ico-pos-dot"></samp>用户自定义参数</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友列表</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏夹管理</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
+            <{/if}>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/query" ><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/s" ><samp class="ico-pos-dot"></samp>搜索文章</a></span></li>
+                </ul>
+            </li>
+			<li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/vote">投票系统</a></span></li>
+            <li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/elite/path">精华区</a></span></li>
+            <li><span class="x-leaf"><span class="toggler"></span><a href="telnet://#">Telnet登录</a></span></li>
+            <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" value="搜索讨论区" id="b_search"/></span></li>
         </ul>
     </div>
     <!--function list end-->

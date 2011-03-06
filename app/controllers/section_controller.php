@@ -91,10 +91,8 @@ class SectionController extends AppController {
                 $sections = Configure::read("section");    
                 foreach($sections as $k=>$v){
                     $ret[] = array(
-                        "text" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
-                        "id" => "sec-$k",
-                        "classes" => "xtree-dir",
-                        "hasChildren"=> true
+                        "t" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
+                        "id" => "sec-$k"
                         );
                 }
                 App::import("vendor", "inc/json");
@@ -112,12 +110,10 @@ class SectionController extends AppController {
         foreach($sections as $v){
             $tmp = array();
             if($v->isDir()){
-                $tmp['text'] = "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>";
+                $tmp['t'] = "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>";
                 $tmp['id'] = 'sec-' . $v->NAME;
-                $tmp['classes'] = "xtree-dir";
-                $tmp['hasChildren'] = true;
             }else{
-                $tmp['text'] = "<samp class=\"ico-pos-dot\"></samp><a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>";
+                $tmp['t'] = "<a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>";
             }
             $ret[] = $tmp; 
         }

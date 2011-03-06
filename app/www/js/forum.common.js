@@ -21,10 +21,6 @@ $.ajaxSetup({
             }
             return false;
         }
-        if(this.url.match(/\/xlist/)){
-            var id = this.url.match(/root=([^&]*)/)[1];
-            $('#'+id).find(".xtree-mask").text("load list error");
-        }
     } 
 });
 $.extend({

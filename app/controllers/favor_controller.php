@@ -119,14 +119,12 @@ class FavorController extends AppController {
                     //user dir
                     if($v->NAME == ""){
                         $ret[] = array(
-                            "text" => $v->DESC,
+                            "t" => "<a href=\"{$this->base}/f/{$v->NAME}\">{$v->DESC}</a>",
                             "id" => "f-" . $v->NPOS,
-                            "classes" => "xtree-dir",
-                            "hasChildren"=> true
                         );
                     }else{
                         $ret[] = array(
-                            "text" => "<samp class=\"ico-pos-dot\"></samp><a href=\"{$this->base}/".($v->isDir()?"section":"board")."/{$v->NAME}\">{$v->DESC}</a>",
+                            "t" => "<a href=\"{$this->base}/".($v->isDir()?"section":"board")."/{$v->NAME}\">{$v->DESC}</a>",
                         );
                     }
                 }

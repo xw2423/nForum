@@ -203,67 +203,117 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     *right:0;
     z-index:2;
 }
+
+/* tree */
 #xlist{
     padding:13px 8px 10px 8px;
     border:1px solid #c3d9ff;
     margin-right:3px;
     margin-top:5px;
 }
-#xlist li{
-    display:block;
-    font-size:12px;
+#xlist li ul{
+    margin-top:3px;
 }
-#xlist .xlist-a{
+.x-folder,.x-leaf{
     line-height:28px;
-    padding-left:3px;
-    _padding-top:10px;
-    _padding-bottom:6px;
-    display:block;
-    font-size:13px;
     border-bottom:1px solid #c9d7f1; 
-    clear:both;
+    display:block;
+    padding-left:3px;
+    vertical-align:middle;
+    font-size:13px;
 }
-#xlist .xlist-a:hover{
-    background:#598ede;
+.x-folder:hover,.x-leaf:hover{
+    background-color:#598ede;
+    cursor:pointer;
     -moz-border-radius: 5px;  
     -webkit-border-radius: 5px;
     -khtml-border-radius:5px;
     border-radius: 5px;
-    color:#FFF;
-    text-decoration:none;
 }
-#xlist .xlist-a samp{
-        width: 12px;
-        height: 18px;
-        *height: 15px;
+.x-folder:hover a,.x-leaf:hover a{
+    color:#fff;
+}
+.toggler{
+    float:left;
+    background-image:url(../img/ico.gif);
+    height:12px;
+    width:12px;
+    vertical-align:middle;
     margin-right:6px;
+    margin-top:8px;
+    cursor:pointer;
 }
-#xlist .child_list{
+.x-child .toggler{
+    margin-top:1px;
+    *margin-top:0px;
+}
+.folder-open > span > .toggler,
+.folder-open-last > span  > .toggler{
+    background-position:-160px -6px
+}
+.folder-close > span  > .toggler,
+.folder-close-last > span  > .toggler{
+    background-position:-172px -6px
+}
+.leaf > span  > .toggler,
+.leaf-last > span  > .toggler{
+    background-position:-375px -7px;
+    width:8px;
+}
+
+.folder-open .toggler,
+.folder-open-last .toggler{
+    _background-position:-160px -6px
+}
+.folder-close .toggler,
+.folder-close-last .toggler{
+    _background-position:-172px -6px
+}
+.leaf .toggler,
+.leaf-last .toggler{
+    _background-position:-375px -7px;
+    _width:8px;
+}
+
+.x-leaf .toggler{
+    background-position:-184px -6px
+}
+.x-child{
     display:none;
-    margin-left:10px;
 }
-#xlist .child_list a{border-style:none;}
-#xlist .child_list .xlist-a samp{
-        width:8px;
-        height:18px;
-        *height:16px;
+.x-child li{
+    padding:2px 1px 1px 8px;
 }
-#xlist .search{
-    display:block;
-    font-size:13px;
+.x-child li > span{
+    height:1.2em;
+    display:inline-block;
+    overflow:hidden;
+}
+.x-child a {
+    font-weight:bold;
+}
+.x-child .leaf a,.x-child .leaf-last a{
+    font-weight:normal;
+}
+.leaf-last samp,.leaf samp{
+    display:inline-block;
+    height:12px;
+    width:8px;
+    margin-left:2px;
+    margin-right:5px;
+    float:left;
+}
+.x-search{
     padding-top:3px;
-    padding-left:3px;
+    padding-bottom:3px
 }
-#xlist .search samp{
-    width: 12px;
-    height: 14px;
-    margin-right:4px;
-}
-#xlist .search input{
+.x-search input{
+    font-size:13px;
     color:#999;
     width:100px;
     height: 14px;
 }
+/* tree end */
 #adv, #radio{margin-top:8px;text-align:center;}
 #adv img{margin:auto;margin-bottom:8px}
 /*menu end*/
@@ -466,8 +516,8 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .ico-pos-rss-blue{background-position:-347px -5px;}
 .ico-pos-edit{background-position:-232px -3px;}
 .ico-pos-del{background-position:-305px -3px;}
-.ico-pos-show{background-position:-126px -21px;}
 .ico-pos-hide{background-position:-112px -21px;}
+.ico-pos-show{background-position:-126px -21px;}
 .ico-pos-star{background-position:-208px -4px;}
 /* ico postion end*/
 
@@ -480,74 +530,6 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .rc-head .rc1, .rc-bottom .rc1{background-color:#bdcad8;}
 .rc-head b,.rc-bottom b{background-color:#FFF}
 /*corner default end*/
-
-/*jquery treeview*/
-.treeview, .treeview ul { 
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-.treeview ul {
-    background-color:#ECF4FD;
-    margin-top: 4px;
-}
-.treeview .hitarea {
-    background: url(../img/treeview-default.gif) -64px -25px no-repeat;
-    height: 16px;
-    width: 16px;
-    margin-left: -16px;
-    float: left;
-    cursor: pointer;
-}
-/* fix for IE6 */
-* html .hitarea {
-    display: inline;
-    float:none;
-}
-.treeview li { 
-    margin: 0;
-    padding: 3px 0pt 3px 16px;
-}
-.treeview a.selected {
-    background-color: #eee;
-}
-#treecontrol { margin: 1em 0; display: none; }
-.treeview .hover { color: red; cursor: pointer; }
-.treeview li { background: url(../img/treeview-default-line.gif) 0 0 no-repeat; }
-.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
-.treeview .expandable-hitarea { background-position: -80px -3px; }
-.treeview li.last { background-position: 0 -1766px }
-.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url(../img/treeview-default.gif); }  
-.treeview li.lastCollapsable { background-position: 0 -111px }
-.treeview li.lastExpandable { background-position: -32px -67px }
-.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0; }
-
-.xtree {
-    padding-top:5px;
-}
-.xtree li{padding:2px;padding-left:10px;background-image: url(../img/tree/xtree-line.gif);}
-.xtree .hitarea, .xtree li.lastCollapsable, .xtree li.lastExpandable { background-image: url(../img/tree/xtree.gif); } 
-.xtree samp{
-    float:left;
-    height:11px;
-    margin-left:-13px;
-    width:8px;
-}
-.xtree a{
-    display:inline-block;
-    height:1.1em; 
-    overflow:hidden; 
-    _overflow:hidden;
-}
-.xtree .xtree-dir a{
-    font-weight:bold;
-}
-.xtree .hover{
-    color:#598EDE;
-}
-.xtree .lastExpandable-hitarea ,.xtree .lastCollapsable-hitarea{margin-left:-10px}
-.treeview li.lastExpandable, .treeview li.lastCollapsable{ margin-left:-6px;}
-/*jquery treeview end*/
 
 /*other*/
 .bg-even{}
