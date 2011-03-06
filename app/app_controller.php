@@ -316,9 +316,21 @@ class AppController extends Controller {
         if(!$this->ByrSession->isLogin){
             if($this->RequestHandler->isAjax())
                 $this->error(ECode::$SYS_NOLOGIN);
-            if(is_null($from))
-                $from = $this->path;
-            $this->redirect("/login?from=" . $from);
+            if(is_null($from)){
+                $query = array();
+                foreach($this->params['url'] as $k=>$v){
+                    if($k == 'url')
+                        continue;
+                    $query[] = $k . '=' . $v;
+                }
+                if(empty($query)){
+                    $from = $this->path;
+                }else{
+                    $query = join('&', $query);
+                    $from = $this->path . '?'. $query;
+                }
+            }
+            $this->redirect("/login?from=" . urlencode($from));
         }
     }
 

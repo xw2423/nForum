@@ -16,7 +16,7 @@ class UserController extends AppController {
         $from = null;
         if(isset($this->params['url']['from'])){
             $from = trim($this->params['url']['from']);
-            $this->set("from", $from);
+            $this->set("from", urlencode($from));
         }
 
         if(isset($this->params['form']['id'])
