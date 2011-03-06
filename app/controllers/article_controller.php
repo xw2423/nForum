@@ -410,6 +410,8 @@ class ArticleController extends AppController {
         }
 
         if(!$this->_board->hasReadPerm(User::getInstance())){
+            if(!$this->ByrSession->isLogin)
+                $this->requestLogin();
             $this->error(ECode::$BOARD_NOPERM);
         }
         $this->_board->setOnBoard();

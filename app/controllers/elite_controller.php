@@ -26,6 +26,8 @@ class EliteController extends AppController {
         $ret = bbs_read_ann_dir($path,$boardName,$path_tmp,$articles);
         switch ($ret) {
             case -1:
+                if(!$this->ByrSession->isLogin)
+                    $this->requestLogin();
                 $this->error(ECode::$ELITE_NODIR);
             case -2:
                 $this->error(ECode::$ELITE_DIRERROR);
@@ -51,6 +53,8 @@ class EliteController extends AppController {
                 $this->error(ECode::$ELITE_NODIR);
             }
             if (!$brd->hasReadPerm($u)){
+                if(!$this->ByrSession->isLogin)
+                    $this->requestLogin();
                 $this->error(ECode::$ELITE_NODIR);
             }
             $brd->setOnBoard();
@@ -99,6 +103,8 @@ class EliteController extends AppController {
 
         $u = User::getInstance();
         if(bbs_ann_traverse_check($path, $u->userid) < 0 ) {
+            if(!$this->ByrSession->isLogin)
+                $this->requestLogin();
             $this->error(ECode::$ELITE_NODIR);
         }
         $up_dirs = array();
@@ -110,6 +116,11 @@ class EliteController extends AppController {
         try{
             $brd = Board::getInstance($boardName);
         }catch(BoardNullException $e){
+            $this->error(ECode::$ELITE_NODIR);
+        }
+        if (!$brd->hasReadPerm($u)){
+            if(!$this->ByrSession->isLogin)
+                $this->requestLogin();
             $this->error(ECode::$ELITE_NODIR);
         }
         $e = new Elite($path);
