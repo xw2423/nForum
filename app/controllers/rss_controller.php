@@ -19,7 +19,7 @@ class RssController extends AppController {
     public function board(){
         try{
             $brd = Board::getInstance($this->params['name']);
-            if(!$brd->hasReadPerm(User::getInstance()) || $brd->isDir())
+            if(!$brd->isNormal() || $brd->isDir())
                 $this->_stop();
             $mTime = @filemtime('boards/' . $brd->NAME . '/.ORIGIN');
             $this->cache(true, $mTime);
