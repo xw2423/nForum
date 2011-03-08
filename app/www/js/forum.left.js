@@ -24,7 +24,7 @@ $(function(){
             $(this).children('.toggler').click();
         return false;
     });
-    $("#xlist .x-leaf").click(function(e){
+    $("#xlist .x-leaf").not('.x-search').click(function(e){
         window.location.href = $(this).children('a').attr('href');
         return false;
     });
