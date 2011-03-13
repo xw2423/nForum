@@ -49,7 +49,7 @@ class IndexController extends MobileAppController {
         $s = Configure::read("section");
         $secs["topTen"] = "十大";
         $secs["focus"] = "推荐";
-        $secs["commend"] = "活动";
+        $secs["recommend"] = "活动";
         foreach($s as $k=>$v){
             if($k === 0)
                 continue;
