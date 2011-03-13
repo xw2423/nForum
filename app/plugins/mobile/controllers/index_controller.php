@@ -16,11 +16,21 @@ class IndexController extends MobileAppController {
     public function hot(){
         $this->notice = "热点推荐";
         $selected = $type = "topTen";
+
+        $s = Configure::read("section");
+        $secs["topTen"] = "十大";
+        $secs["recommend"] = "活动";
+        foreach($s as $k=>$v){
+            if($k === 0)
+                continue;
+            $secs[$k] = $v[0];    
+        }
+
         if(isset($this->params['t'])){
             $selected = trim($this->params['t']);
-            if(strcmp($selected, 0) === 0)
+            if(!in_array($selected, array_keys($secs)))
                 $this->error(ECode::$SEC_NOSECTION);
-            if(preg_match("|\d+|", $selected))
+            if(!isset($selected[1]))
                 $type = "section-" . $selected; 
             else
                 $type = $selected;
@@ -29,13 +39,15 @@ class IndexController extends MobileAppController {
             $w = Widget::getInstance($type);
             $res = $w->wGetList();
             $res = (isset($res[0]['v']['v']))?$res[0]['v']['v']:$res['v'];
-            if(preg_match("|\d+|", $selected)){
+            if(!isset($selected[1])){
                 foreach($res as $k=>$v){
                     $text = $v["text"];
                     $text = preg_replace("|\[.*?\]|", "", $text, 1);
-                    preg_match("|href=\"(.*?)\"|", $text, $url);
+                    if(preg_match("|href=\"(.*?)\"|", $text, $url))
+                        $url = str_replace($this->base . "/article", "/article", $url[1]);
+                    else
+                        $url = "";
                     $text = trim(preg_replace("|<[^>]*?>|", "", $text));
-                    $url = str_replace($this->base . "/article", "/article", $url[1]);
                     $res[$k] = array(
                         "text" => $text,
                         "url" => $url
@@ -45,15 +57,6 @@ class IndexController extends MobileAppController {
             $this->set("hot", $res);
         }catch(WidgetNullException $e){
             $this->error(ECode::$SEC_NOSECTION);
-        }
-        $s = Configure::read("section");
-        $secs["topTen"] = "十大";
-        $secs["focus"] = "推荐";
-        $secs["recommend"] = "活动";
-        foreach($s as $k=>$v){
-            if($k === 0)
-                continue;
-            $secs[$k] = $v[0];    
         }
         $this->set("secs", $secs);
         $this->set("selected", $selected);
