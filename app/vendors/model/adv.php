@@ -38,7 +38,7 @@ class Adv implements Pageable {
         return $ret;
     }
 
-    public function update($aid, $url, $sTime, $eTime, $switch, $weight, $privilege, $remark){
+    public function update($aid, $url, $sTime, $eTime, $switch, $weight, $privilege, $home, $remark){
         $val = array(
             "url" => $url,
             "sTime" => $sTime,
@@ -46,6 +46,7 @@ class Adv implements Pageable {
             "switch" => $switch,
             "weight" => $weight,
             "privilege" => $privilege,
+            "home" => $home,
             "remark" => $remark
         );
         $where = "where aid='$aid'";
@@ -61,9 +62,9 @@ class Adv implements Pageable {
         return $ret['file'];
     }
 
-    public function add($type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $remark){
-        $key = array("type", "file", "url", "sTime", "eTime", "switch", "weight", "privilege", "remark");
-        $val = array(array($type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $remark));
+    public function add($type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $home, $remark){
+        $key = array("type", "file", "url", "sTime", "eTime", "switch", "weight", "privilege", "home", "remark");
+        $val = array(array($type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $home, $remark));
         $db = DB::getInstance();
         $db->insert($this->_table, array("k"=>$key, "v"=>$val));
     }

@@ -38,6 +38,9 @@
 			<th class="ui-state-default c_4">启用</th>
 			<th class="ui-state-default c_5">顺序</th>
 <{/if}>
+<{if ($thome)}>
+			<th class="ui-state-default c_9">首页</th>
+<{/if}>
 			<th class="ui-state-default c_8">备注</th>
 			<th class="ui-state-default c_7">操作</th>
 		</tr>
@@ -55,6 +58,9 @@
 			<td class="c_4"><{if $item.switch == 1}>是<{else}>否<{/if}></td>
 			<td class="c_5"><{$item.weight}></td>
 <{/if}>
+<{if ($thome)}>
+			<td class="c_9"><{if $item.home == 1}>是<{else}>否<{/if}></td>
+<{/if}>
 			<td class="c_8"><{$item.remark|default:"&nbsp;"}></td>
 			<td class="c_7">
 				<input type="button" class="button b_pre" value="预览" onclick="$('#preview').dialog('open').find('img').attr('src', '<{$base}>/<{$aPath}>/<{$item.file}>');"/>
@@ -65,10 +71,12 @@
 <{/foreach}>
 <{else}>
 		<tr class="ui-widget-content">
-<{if ($type)}>
-			<td colspan="8">没有文件</td>
-<{else}>
+<{if ($type && $thome)}>
+			<td colspan="9">没有文件</td>
+<{elseif !($type || $thome)}>
 			<td colspan="7">没有文件</td>
+<{else}>
+			<td colspan="8">没有文件</td>
 <{/if}>
 		</tr>
 <{/if}>
@@ -85,6 +93,9 @@
 <{else}>
 	<li><span>开启:</span><input type="checkbox" name="switch" /></li>
 	<li><span>顺序:</span><input type="text" name="weight" class="input-text"/></li>
+<{/if}>
+<{if ($thome)}>
+	<li><span>首页:</span><input type="checkbox" name="home" /></li>
 <{/if}>
 	<li><span>备注:</span><input type="text" name="remark" class="input-text"/></li>
 	<li><input type="submit" class="submit" value="提交修改"/></li>
@@ -110,6 +121,9 @@
 <{else}>
 	<li><span>开启:</span><input type="checkbox" name="switch" /></li>
 	<li><span>顺序:</span><input type="text" name="weight" class="input-text"/></li>
+<{/if}>
+<{if ($thome)}>
+	<li><span>首页:</span><input type="checkbox" name="home" /></li>
 <{/if}>
 	<li><span>备注:</span><input type="text" name="remark" class="input-text"/></li>
 	<li><input type="submit" class="submit" value="添加"/></li>

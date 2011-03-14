@@ -41,6 +41,7 @@ $(function(){
                 form.find('input[name="sTime"]').val(item.find('.c_4').text());
                 form.find('input[name="eTime"]').val(item.find('.c_5').text());
                 form.find('input[name="privilege"]').attr("checked", (item.find('.c_6').text() == "是"));
+                form.find('input[name="home"]').attr("checked", (item.find('.c_9').text() == "是"));
                 form.find('input[name="remark"]').val(item.find('.c_8').text());
                 $('#modifyform').dialog('open');
             }
@@ -52,6 +53,7 @@ $(function(){
                 form.find('input[name="url"]').val($.trim(item.find('.c_3').text()));
                 form.find('input[name="switch"]').attr("checked", (item.find('.c_4').text() == "是"));
                 form.find('input[name="weight"]').val(item.find('.c_5').text());
+                form.find('input[name="home"]').attr("checked", (item.find('.c_9').text() == "是"));
                 form.find('input[name="remark"]').val(item.find('.c_8').text());
                 $('#modifyform').dialog('open');
             }

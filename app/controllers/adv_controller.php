@@ -48,6 +48,7 @@ class AdvController extends AppController {
         $this->set($ret);
         $this->set("dir", Configure::read('adv.path'));
         $this->set("type", ($this->_type == 1 || $this->_type == 2)?true:false);
+        $this->set("thome", ($this->_type == 2 || $this->_type == 4)?true:false);
         $this->set("advType", $this->_type);
     }
 
@@ -57,7 +58,7 @@ class AdvController extends AppController {
             $p = $this->params['form']['p'];
 
         $url = $sTime = $eTime = $remark = "";
-        $privilege = $weight = $switch = 0;
+        $privilege = $weight = $switch = $home = 0;
         if(!isset($this->params['form']['aid']))
             $this->redirect("/adv/{$this->_type}?p=$p");
         $aid = $this->params['form']['aid'];
@@ -69,6 +70,8 @@ class AdvController extends AppController {
             $eTime = $this->params['form']['eTime'];
         if(isset($this->params['form']['privilege']))
             $privilege = 1;
+        if(isset($this->params['form']['home']))
+            $home = 1;
         if(isset($this->params['form']['switch']))
             $switch = 1;
         if(isset($this->params['form']['weight']))
@@ -77,7 +80,7 @@ class AdvController extends AppController {
             $remark = $this->params['form']['remark'];
         $adv = new Adv();    
         $adv->type = $this->_type;
-        $adv->update($aid, $url, $sTime, $eTime, $switch, $weight, $privilege, $remark);
+        $adv->update($aid, $url, $sTime, $eTime, $switch, $weight, $privilege, $home, $remark);
 
         $this->redirect("/adv/{$this->_type}?p=$p");
     }
@@ -103,7 +106,7 @@ class AdvController extends AppController {
             $p = $this->params['form']['p'];
 
         $url = $sTime = $eTime = $remark = "";
-        $privilege = $weight = $switch = 0;
+        $privilege = $weight = $switch = $home = 0;
         if (isset($this->params['form']['img'])) {
             $errno = $this->params['form']['img']['error'];
         } else {
@@ -155,6 +158,8 @@ class AdvController extends AppController {
             $eTime = $this->params['form']['eTime'];
         if(isset($this->params['form']['privilege']))
             $privilege = 1;
+        if(isset($this->params['form']['home']))
+            $home = 1;
         if(isset($this->params['form']['switch']))
             $switch = 1;
         if(isset($this->params['form']['weight']))
@@ -163,7 +168,7 @@ class AdvController extends AppController {
             $remark = $this->params['form']['remark'];
         $adv = new Adv();    
         $adv->type = $this->_type;
-        $adv->add($this->_type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $remark);
+        $adv->add($this->_type, $file, $url, $sTime, $eTime, $switch, $weight, $privilege, $home, $remark);
 
         $this->redirect("/adv/{$this->_type}?p=$p");
     }

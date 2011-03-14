@@ -54,6 +54,7 @@ CREATE TABLE `adv` (
   `switch` tinyint(4) NOT NULL default '1' COMMENT '小图标开关',
   `weight` tinyint(4) NOT NULL default '1' COMMENT 'type为3,4的顺序',
   `privilege` tinyint(4) NOT NULL default '0' COMMENT 'banner特权显示',
+  `home` tinyint(4) NOT NULL default '0' COMMENT '首页可见',
   `remark` varchar(50) NOT NULL COMMENT '备注',
   PRIMARY KEY  (`aid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;

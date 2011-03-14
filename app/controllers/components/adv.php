@@ -18,10 +18,11 @@ class AdvComponent extends Object {
 
     public function getParams(){
         $db = DB::getInstance();
-        $sql = "select url, file from adv where type='2' and privilege=1 order by aid";
+        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
+        $sql = "select url, file, home from adv where type='2' and privilege=1 $where order by aid";
         $res = $db->all($sql);
         if(empty($res)){
-            $sql = "select url, file from adv where type='2' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE order by aid";
+            $sql = "select url, file, home from adv where type='2' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE $where order by aid";
             $res = $db->all($sql);
         }
         $url = $path = array();
@@ -40,7 +41,8 @@ class AdvComponent extends Object {
 
     public function getLeft(){
         $db = DB::getInstance();
-        $sql = "select url, file from adv where type='4' and switch='1' order by weight,aid";
+        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
+        $sql = "select url, file from adv where type='4' and switch='1' $where order by weight,aid";
         $res = array();
         $aPath = Configure::read("adv.path");
         $base = Configure::read("site.prefix");
@@ -58,7 +60,8 @@ class AdvComponent extends Object {
 
     public function getPreImg(){
         $db = DB::getInstance();
-        $sql = "select url,file from adv where type='1' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE";
+        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
+        $sql = "select url,file from adv where type='1' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE $where";
         $res = $db->all($sql);
         if(empty($res))
             return array();
@@ -72,7 +75,8 @@ class AdvComponent extends Object {
 
     public function getPreAdv(){
         $db = DB::getInstance();
-        $sql = "select url,file from adv where type='3' and switch=1";
+        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
+        $sql = "select url,file from adv where type='3' and switch=1 $where";
         $res = $db->all($sql);
         if(empty($res))
             return array();
