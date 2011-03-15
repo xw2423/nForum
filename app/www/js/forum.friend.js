@@ -1,12 +1,12 @@
 $(function(){
-    $('.b_select').click(function(){
+    $('.b-select').click(function(){
         var val = $(this).attr("checked");
-        $(".b_select").attr("checked", val);
-        $(".b_friend").attr("checked", val);
+        $(".b-select").attr("checked", val);
+        $(".b-friend").attr("checked", val);
     });
-    $('.b_del').click(function(){
+    $('.b-del').click(function(){
         var enable = false;
-        $(".b_friend").each(function(){
+        $(".b-friend").each(function(){
             if($(this).attr("checked")){
                 enable = true;
                 return false;

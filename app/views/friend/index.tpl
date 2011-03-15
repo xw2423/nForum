@@ -44,7 +44,7 @@
 <{if isset($friends)}>
 <{foreach from=$friends item=item}>
                 	<tr>
-                    	<td class="title_1"><input type="checkbox" name="f_<{$item.fid}>" class="b_friend"/></td>
+                    	<td class="title_1"><input type="checkbox" name="f_<{$item.fid}>" class="b-friend"/></td>
 						<td class="title_2"><a href="<{$base}>/user/query/<{$item.fid}>"><{$item.fid}></a></td>
                         <td class="title_3"><{$item.desc|default:"&nbsp;"}></td>
                         <td class="title_6"><a href="<{$base}>/mail/send?id=<{$item.fid}>">∑¢–≈Œ ∫Ú</a></td>
