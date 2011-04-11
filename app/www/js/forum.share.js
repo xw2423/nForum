@@ -13,7 +13,7 @@
        }
        ,{
            "title":"分享到人人网"
-           ,"url":"http://share.renren.com/share/buttonshare.do?link=%url%&title=%content%"
+           ,"url":"http://www.connect.renren.com/share/sharer?url=%url%&title=%content%"
            ,"img":'<img align="absmiddle" src="http://wiki.dev.renren.com/mediawiki/images/b/bd/Logo16.png">'
        }
        ,{
