@@ -180,17 +180,23 @@ class AppController extends Controller {
      * @param $one string or array
      */
     public function clear($one){
-        if(!is_array($one) && !is_string($one))
-            return;
-        $this->Smarty->clear_assign($one);
+        if(is_array($one)){
+            foreach($one as $k => $v){
+                unset($this->viewVars[$k]);
+            }
+        }
+        if(is_string($one)){
+            unset($this->viewVars[$one]);
+        }
     }
 
     /**
      * get variable of templete
      * @param $name string
+     * @return value|null
      */
     public function get($name = null) {
-        return $this->Smarty->get_template_vars($name);
+        return isset($this->viewVars[$name])?$this->viewVars[$name]:null;
     }
 
     /**
