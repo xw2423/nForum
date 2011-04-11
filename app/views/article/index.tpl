@@ -15,8 +15,9 @@
             <a href="javascript:void(0)" id="goToReply" class="button">快捷回复</a>
         </div>
     </div>
-	<{capture name=n_left}>文章主题:&nbsp;<{$title}><span style="padding-left:15px;color:#eee;font-weight:normal;font-size:12px;" id="a_share" _u='<{$domain}><{$base}>/article/<{$bName}>/<{$reid}>' _c='<{$title}>'>分享到:</span><{/capture}>
-	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right="推荐本帖给好友"}>
+	<{capture name=n_left}>文章主题:&nbsp;<{$title}><{/capture}>
+	<{capture name=n_right}><span style="color:#eee;display:inline-block;vertical-align:bottom" id="a_share" _u='<{$domain}><{$base}>/article/<{$bName}>/<{$gid}>' _c='<{$title}>'>分享到:</span><{/capture}>
+	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right=$smarty.capture.n_right}>
     	<div class="b-content corner">
 <{foreach from=$info item=item}>
 	<a name="a<{$item.pos}>"></a>

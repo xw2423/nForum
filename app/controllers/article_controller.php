@@ -98,6 +98,7 @@ class ArticleController extends AppController {
         $link = "?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("bName", $this->_board->NAME);
+        $this->set("gid", $gid);
         $this->set("anony", $this->_board->isAnony());
         $this->set("tmpl", $this->_board->isTmplPost());
         $this->set("info", $info);

@@ -31,14 +31,5 @@ $(function(){
     $('#b_post').click(validLogin);
     $('.a-post').click(validLogin);
     
-    $('.b-head div').click(function(){
-        if(window.clipboardData){
-            window.clipboardData.setData("Text",window.location.href);
-            alert("本页链接已经复制到剪切板");
-        }else{
-            alert("您的浏览器不支持此功能，请手动复制");
-        }
-    });
-    
-    BShare.init($('#a_share').attr('_u'), $('#a_share').attr('_c'))
+    BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'))
 });
