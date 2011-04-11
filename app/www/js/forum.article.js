@@ -39,4 +39,6 @@ $(function(){
             alert("您的浏览器不支持此功能，请手动复制");
         }
     });
+    
+    BShare.init($('#a_share').attr('_u'), $('#a_share').attr('_c'))
 });

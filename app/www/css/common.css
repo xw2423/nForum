@@ -343,8 +343,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 .b-head{
     background:#598ede;
-    padding:4px 10px 2px;
-    *padding-top:4px;
+    padding:0 10px;
     margin-top:3px;
     font-size:13px;
     font-weight:bold;
@@ -354,11 +353,14 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     -webkit-border-radius:5px 5px 0 0;
     border-radius:5px 5px 0 0;
 }
-.b-head span{}
-.b-head div{
+.b-head .n-left{
+    display:inline-block;
+    padding:5px 0 2px;
+}
+.b-head .n-right{
     float:right; 
     font-size:12px;
-    margin-top:1px;
+    margin-top:5px;
 }
 .b-content{
     border:1px solid #d9e7ff;

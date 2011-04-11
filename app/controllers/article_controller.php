@@ -20,6 +20,7 @@ class ArticleController extends AppController {
         $this->css[] = "article.css";
         $this->css[] = "ansi.css";
         $this->js[] = "forum.xubb.js";
+        $this->js[] = "forum.share.js";
         $this->js[] = "forum.article.js";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"тд╤андуб");
