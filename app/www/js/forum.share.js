@@ -27,7 +27,7 @@
            ,"img":'<img align="absmiddle" src="http://img2.douban.com/pics/fw2douban_s.png">'
        }
     ]
-    ,template:'<span style="margin-left:5px;cursor:pointer" title="%title%">%img%</a>'
+    ,template:'<span style="margin-left:5px;cursor:pointer" title="%title%">%img%</span>'
     ,init:function(url, content){
         $(this.sites).each(function(i,e){
             var template = BShare.template;
