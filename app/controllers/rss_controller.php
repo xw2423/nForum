@@ -24,7 +24,7 @@ class RssController extends AppController {
             $mTime = @filemtime('boards/' . $brd->NAME . '/.ORIGIN');
             $this->cache(true, $mTime);
             $this->header("Content-Type: text/xml; charset=" . $this->encoding);
-            $this->header("Content-Disposition: inline;filename=rss.xml");
+            $this->header("Content-Disposition: inline;filename=board-{$brd->NAME}.xml");
             $channel = $items = array();
             $channel['title'] = $brd->DESC;
             $channel['description'] = $this->_siteName . " " . $brd->DESC . " 版面主题索引";
