@@ -22,6 +22,7 @@ class Article extends Archive{
 
     /**
      * the position in threads 
+     * start with zero
      * @var int $_pos
      */
     protected $_pos;
@@ -306,6 +307,10 @@ class Article extends Archive{
         return new Article($info[0], $this->_board);
     }
 
+    public function getBoard(){
+        return $this->_board;
+    }
+
     public function isM(){
         return (strtolower($this->FLAGS[4]) == "m");
     }
@@ -323,15 +328,15 @@ class Article extends Archive{
     }
 
     public function isU(){
-        return (strtolower($this->FLAGS[0]) == "u");
+        return $this->isM() && $this->isNoRe();
     }
 
     public function isO(){
-        return (strtolower($this->FLAGS[0]) == "o");
+        return $this->isG() && $this->isNoRe();
     }
 
     public function is8(){
-        return ($this->FLAGS[0] == "8");
+        return $this->isB() && $this->isNoRe();
     }
 
     public function isTop(){

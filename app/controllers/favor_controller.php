@@ -119,8 +119,8 @@ class FavorController extends AppController {
                     //user dir
                     if($v->NAME == ""){
                         $ret[] = array(
-                            "t" => "<a href=\"{$this->base}/f/{$v->NAME}\">{$v->DESC}</a>",
-                            "id" => "f-" . $v->NPOS,
+                            "t" => "<a href=\"javascript:void(0)\">{$v->DESC}</a>",
+                            "id" => "f-" . $v->BID,
                         );
                     }else{
                         $ret[] = array(

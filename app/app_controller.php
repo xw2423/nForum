@@ -152,9 +152,10 @@ class AppController extends Controller {
     public function render($action = null, $path = null) {
         $this->beforeRender();
         $this->Component->beforeRender($this);
-        App::import("vendor", "inc/view");
-        if(is_null($this->view))
+        if(is_null($this->view)){
+            App::import("vendor", "inc/view");
             $this->view = new SmartyView($this, Configure::read("smarty"));
+        }
         $this->output .= $this->view->render($action, $path);    
         return $this->output;
     }

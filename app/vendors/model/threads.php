@@ -11,6 +11,11 @@ App::import("vendor", array("model/article", "inc/pagination"));
  * $this->FIRST is the first Article of Threads
  * $this->LAST is the last Article of Threads
  * $this->articleNum is number of articles in Threads
+ * 
+ * if the first article is deleted, it will be the next article,
+ * but its ID  will be not threads id, and its GROUPID also will be wrong 
+ * when get from function getInstance(what a fuck)
+ * using the last article's GROUPID to find threads ID
  *
  * @extends Article
  * @implements Pageable       
@@ -155,12 +160,20 @@ class Threads extends Article implements Pageable{
     }
 
     /**
+     * function delete remove the threads
+     *
+     * @access public
+     * @override
+     */
+    public function delete(){
+        $this->deleteArticles(0, $this->articleNum);
+    }
+    /**
      * function deletedArticles delete the articles in threads
      * no exception 
      *
      * @param int $pos
      * @param int $num
-     * @return null
      * @access public
      */
     public function deleteArticles($pos, $num){

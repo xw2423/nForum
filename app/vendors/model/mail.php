@@ -259,6 +259,10 @@ class Mail extends Archive {
         return "$base/att/{$this->_box->type}/{$this->num}/$pos";
     }
 
+    public function getBox(){
+        return $this->_box;
+    }
+
     public function addAttach($file, $fileName){}
     public function delAttach($num){}
     public function isM(){

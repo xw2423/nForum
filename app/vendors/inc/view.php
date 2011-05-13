@@ -57,7 +57,7 @@ class SmartyView extends Smarty {
             $path = $this->viewPath . DS;
         $viewFileName = $path . $action . ".tpl";
         if($this->plugin && file_exists(APP . "plugins" . DS . $this->plugin . DS . "views" . DS . $viewFileName)){
-            $viewFileName = APP . DS . 'plugins' . DS . $this->plugin . DS . DS . "views" . DS . $viewFileName;
+            $viewFileName = APP . 'plugins' . DS . $this->plugin . DS . "views" . DS . $viewFileName;
         }
         $this->hasRendered = true;
         $out = $this->fetch($viewFileName);    

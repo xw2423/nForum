@@ -8,6 +8,8 @@ App::import("vendor", array("model/collection", "model/iwidget"));
 /**
  * class Favor
  * if bid is -1 the favor is dir
+ * BID is number to access
+ * NPOS is number to delete
  *
  * @extends Collection
  * @implements iWidget

@@ -106,7 +106,7 @@ class Pagination {
         if(!is_a($model ,"Pageable"))
             throw new CanNotPageableException();
         $this->_model = $model;
-        if(is_int($num))
+        if(is_int($num) && $num > 0)
             $this->_num = $num;
         $this->_total = $this->_model->getTotalNum();
         if($this->_total == 0) $this->_totalPage = 1;
@@ -182,6 +182,10 @@ class Pagination {
 
     public function getCurPage(){
         return $this->_curPage;
+    }
+
+    public function getTotalNum(){
+        return $this->_total;
     }
 
     public function getCurNum(){

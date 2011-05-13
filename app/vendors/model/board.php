@@ -194,6 +194,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * function getThreads get a range of threads
      * it will contain the top threads, the sequence will change when there is a new post
      * index start in zero
+     * this threads only has first and last article
      *
      * @param int $start
      * @param int $num
@@ -268,7 +269,8 @@ class Board extends OverloadObject implements Pageable, iWidget{
      */
     public function setMode($mode){
         $o = new ReflectionClass('Board');
-        if(in_array((int)$mode, $o->getStaticProperties())){
+        $mode = intval($mode);
+        if(in_array($mode, $o->getStaticProperties())){
             $this->_mode = $mode;
         }
     }

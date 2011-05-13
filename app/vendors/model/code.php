@@ -38,6 +38,7 @@ class ECode {
     public static $BOARD_NOTHREADS =     '0206';
     public static $BOARD_VOTEFAIL =      '0207';
     public static $BOARD_VOTESUCCESS =   '0208';
+    public static $BOARD_MODEERROR =     '0209';
     public static $ARTICLE_NONE =        '0300';
     public static $ARTICLE_NOREID =      '0301';
     public static $ARTICLE_NOREPLY =     '0302';

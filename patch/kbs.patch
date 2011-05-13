@@ -250,7 +250,7 @@ Index: php/phpbbs_board.c
 +#ifdef NFORUM
 +static void assign_favdir_zval_nforum(zval * array,struct newpostdata *brd)
 +{
-+    add_assoc_long(array, "BID", -1);
++    add_assoc_long(array, "BID", brd->tag);
 +    add_assoc_string(array, "NAME", (char *)brd->name, 1);
 +    add_assoc_string(array, "BM", (char *)brd->BM, 1);
 +    add_assoc_long(array, "FLAG", -1L);
@@ -263,7 +263,7 @@ Index: php/phpbbs_board.c
 +    add_assoc_long(array, "LASTPOST", -1);
 +    add_assoc_long(array, "ARTCNT", -1);
 +    add_assoc_long(array, "UNREAD", -1);
-+    add_assoc_long(array, "NPOS", brd->tag);
++    add_assoc_long(array, "NPOS", brd->pos);
 +}
 +#endif
  

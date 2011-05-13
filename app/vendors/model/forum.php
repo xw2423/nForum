@@ -70,7 +70,7 @@ class Forum {
      * @static
      * @access public
      */
-    public function checkPwd($id, $pwd, $md5, $log){
+    public static function checkPwd($id, $pwd, $md5, $log){
         //bbs_checkuserpasswd only check no log 
         //bbs_checkpasswd check, set current user and log error for login 
         $md5 = $md5?1:0;

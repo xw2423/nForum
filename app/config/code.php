@@ -58,6 +58,8 @@ $config['code']['0206'] = "本版不存在任何主题";
 $config['code']['0207'] = "投票失败";
 //BOARD_VOTESUCCUESS
 $config['code']['0208'] = "投票成功";
+//BOARD_MODEERROR
+$config['code']['0209'] = "文章模式错误";
 //ARTICLE_NONE          
 $config['code']['0300'] = "指定的文章不存在或链接错误";
 //ARTICLE_NOREID        
@@ -117,7 +119,7 @@ $config['code']['0509'] = "旧密码不正确";
 //MAIL_NOBOX
 $config['code']['0600'] = "错误的邮箱";
 //MAIL_NOMAIL           
-$config['code']['0601'] = "邮件数据发生错误";
+$config['code']['0601'] = "不存在该邮件";
 //MAIL_SENDERROR        
 $config['code']['0602'] = "您的信箱超容，请删除部分邮件(包含废件箱)，或您没有写信权力";
 //MAIL_ERROR            
