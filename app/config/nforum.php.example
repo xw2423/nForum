@@ -113,6 +113,7 @@ $config['plugins']['install'] = array('vote', 'mobile');
 
 $config['plugins']['vote']['base'] = "/vote";
 $config['plugins']['mobile']['base'] = "/m";
+$config['plugins']['mobile']['use_domain'] = false;
 
 /********* user config ******************/
 $config['user']['face']['size'] = 1024 * 256;

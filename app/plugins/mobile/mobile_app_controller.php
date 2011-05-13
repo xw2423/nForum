@@ -1,15 +1,5 @@
 <?php
 /**
- * if you want to use another domain on mobile version
- *
- * set $this->_mbase empty and add below to .htaccess in root
- * RewriteCond %{REQUEST_URI} ^/m(/.*)?$ [NC]
- * RewriteRule ^.*$ http://{your domain} [R,L]
- * RewriteCond %{REQUEST_URI} !^/plugins/.*$ [NC]
- * RewriteCond %{REQUEST_URI} !^/att/.*$ [NC]
- * RewriteCond %{HTTP_HOST} ^{your domain}$ [NC]
- * RewriteRule ^(.*)$ index.php?url=m/$1 [QSA]
- *
  * the resource in www directory is handler by the app not the plugin
  */
 class MobileAppController extends AppController {
@@ -20,6 +10,8 @@ class MobileAppController extends AppController {
     public function __construct(){
         parent::__construct();
         $this->encoding = "utf-8";
+        if(true === Configure::read("plugins.mobile.use_domain"))
+            Configure::write("plugins.mobile.base", "");
     }
 
     public function beforeFilter(){

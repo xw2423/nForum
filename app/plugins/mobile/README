@@ -1,0 +1,31 @@
+1. Modify the value of $config['plugins']['mobile']['base'] in app/config/nforum.php to set this plugin's basic path, using HTTP://DOMAIN/value/ to access this plugin.
+The default value is '/m'
+
+2. If you want to use another domain on mobile plugin,like HTTP://NEWDOMAIN/
+
+setup 1:
+    set $config['plugins']['mobile']['use_domain'] to true in app/config/nforum.php
+
+setup 2:
+    add below to .htaccess in app/www (assume value of $config['plugins']['mobile']['base'] is MBASE):
+
+    RewriteCond %{REQUEST_URI} ^/MBASE(/.*)?$ [NC]
+    RewriteRule ^.*$ http://NEWDOMAIN [R,L]
+    RewriteCond %{REQUEST_URI} !^/plugins/.*$ [NC]
+    RewriteCond %{REQUEST_URI} !^/att/.*$ [NC]
+    RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
+    RewriteRule ^(.*)$ index.php?url=MBASE/$1 [QSA]
+
+
+The final .htaccess file maybe:
+
+    RewriteCond %{REQUEST_URI} ^/MBASE(/.*)?$ [NC]
+    RewriteRule ^.*$ http://NEWDOMAIN [R,L]
+    RewriteCond %{REQUEST_URI} !^/plugins/.*$ [NC]
+    RewriteCond %{REQUEST_URI} !^/att/.*$ [NC]
+    RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
+    RewriteRule ^(.*)$ index.php?url=MBASE/$1 [QSA]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
