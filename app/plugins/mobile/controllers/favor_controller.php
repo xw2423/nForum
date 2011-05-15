@@ -26,7 +26,7 @@ class FavorController extends MobileAppController {
                 $ret[$k]['desc'] = $v->DESC;
                 $ret[$k]['dir'] = $v->isDir()?1:0;
                 $ret[$k]['pos'] = $v->NPOS;
-                $ret[$k]['url'] = $v->isDir()?(($v->NAME == "")?("/favor/".$v->NPOS):("/section/".$v->NAME)):"/board/".$v->NAME;
+                $ret[$k]['url'] = $v->isDir()?(($v->NAME == "")?("/favor/".$v->BID):("/section/".$v->NAME)):"/board/".$v->NAME;
             }
         }
         $parent = $fav->getParent();
