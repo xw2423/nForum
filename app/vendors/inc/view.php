@@ -82,7 +82,8 @@ class SmartyView extends Smarty {
     }
 
     private function _initFilter(){
-        $this->register_prefilter("smarty_htmlCompress");
+        if(true === Configure::read("pack.on"))
+            $this->register_prefilter("smarty_htmlCompress");
     }
 
     private function _assignVars(){

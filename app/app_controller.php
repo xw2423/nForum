@@ -399,6 +399,8 @@ class AppController extends Controller {
         App::import('vendor', 'inc/packer');
         $p = new Packer();
         $js_out = $css_out = '';
+        $js_pack = Configure::read("Asset.filter.js");
+        $css_pack = Configure::read("Asset.filter.css");
 
         /* handle js*/
         $js_filter = array('js/jquery-1.4.4.pack.js', 'js/jquery-ui-1.8.7.pack.js', 'js/forum.common.js');
@@ -418,11 +420,11 @@ class AppController extends Controller {
         //check for direct output
         foreach($this->js as $k=>$v){
             if(!in_array($v, $js_filter)){
-                $js_out .= $p->pack(WWW_ROOT . $v, 'js');
+                $js_out .= $js_pack?$p->pack(WWW_ROOT . $v, 'js'):file_get_contents(WWW_ROOT . $v);
                 unset($this->js[$k]);
             }
         }
-        if(Configure::read("Asset.filter.js")){
+        if($js_pack){
             foreach($this->js as &$js)
                 $js = str_replace("js/", "cjs/", $js);
         }
@@ -451,12 +453,12 @@ class AppController extends Controller {
         //check for direct output
         foreach($this->css as $k=>$v){
             if(!in_array($v, $css_filter)){
-                $css_out .= $p->pack(WWW_ROOT . $v, 'css');
+                $css_out .= $css_pack?$p->pack(WWW_ROOT . $v, 'css'):file_get_content(WWW_ROOT . $v);
                 unset($this->css[$k]);
             }
         }
          */
-        if(Configure::read("Asset.filter.css")){
+        if($css_pack){
             foreach($this->css as &$css)
                 $css = str_replace("css/", "ccss/", $css);
         }
