@@ -5,3 +5,21 @@
 .ubb-img-tab .selected{background-color:#598EDE;color:#FFF}
 .ubb-img{margin:3px;padding:3px;border:1px solid #598EDD;width:98%;height:auto;overflow:hidden;clear:both;display:none}
 .ubb-img img{float:left;margin:2px;cursor:pointer;}
+#map_area{
+    width:80%;
+    display:none;
+    font-size:14px;
+}
+#map_canvas{
+    height:400px;
+}
+#map_func{
+    padding-top:10px;
+}
+#map_insert{
+    margin-top:5px;
+}
+.map-map{
+    width:600px;
+    height:400px;
+}

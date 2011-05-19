@@ -1,3 +1,89 @@
+var nForumMap = {
+    _load:false,
+    map:null,
+    markers:[],
+    geocoder:null,
+    loadJs:function(name, opt){
+        var url = 'http://maps.google.com/maps/api/js?sensor=false&region=GB&callback=' + name;
+        $.getScript(url);
+        this.opt = opt;
+    },
+    parseMap:function(){
+        var option = {
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDoubleClickZoom:true
+        };
+        $('.map-map').each(function(){
+            var bound = eval('(['+$(this).attr('_bound').replace(/{/g,'[').replace(/}/g,']')+'])'),
+            marker = eval('(['+$(this).attr('_mark').replace(/{/g,'[').replace(/}/g,']')+'])');
+            bound = new google.maps.LatLngBounds(new google.maps.LatLng(bound[0][0],bound[0][1]),new google.maps.LatLng(bound[1][0],bound[1][1]));
+            option.center = bound.getCenter();
+            var map = new google.maps.Map(this, option);
+            map.fitBounds(bound);
+            for(var i in marker){
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(marker[i][0],marker[i][1]),
+                    map: map
+                });
+            }
+        });
+    },
+    init:function(){
+        if(this._load)
+            return;
+        this._load = true;
+        this.option = {
+            x:39.9042140,
+            y:116.4074130,
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDoubleClickZoom:true
+        };
+        this.option.center = new google.maps.LatLng(this.option.x, this.option.y);
+        this.map = new google.maps.Map(document.getElementById(this.opt.area), this.option);
+        google.maps.event.addListener(this.map, 'click', function(event) {
+            nForumMap.addMarker(event.latLng);
+        });
+        this.geocoder = new google.maps.Geocoder();
+        $('#map_search').click(function(){
+            nForumMap.search($('#map_txt').val());
+        });
+        $('#map_insert_btn').click(this.opt.onInsert);
+    },
+    addMarker:function(lo){
+        var marker = new google.maps.Marker({
+            position: lo,
+            map: this.map,
+            draggable:true
+        });
+        google.maps.event.addListenerOnce(marker, 'click', function(event){
+            marker.setMap(null);
+            var len = nForumMap.markers.length;
+            for(var i=0;i<len;i++){
+                if(marker == nForumMap.markers[i]){
+                    nForumMap.markers.splice(i, 1);
+                }
+            }
+
+        });
+        this.markers.push(marker);
+    },
+    search:function(address){
+       if (this.geocoder) {
+           this.geocoder.geocode( { 'address': address,'latLng':this.option.center}, function(results, status) {
+               if (status == google.maps.GeocoderStatus.OK) {
+                   var lo = results[0].geometry.location;
+                   nForumMap.map.setCenter(lo);
+                   nForumMap.map.fitBounds(results[0].geometry.viewport);
+               } else {
+                   alert("很遗憾无法定位到任何结果，请使用范围较大的关键词进行定位，如:北京市海淀区xx路");
+               }
+           });
+       }
+   }
+
+};
 (jQuery.fn.extend({
     ubb:function(config){
          var ubb_config = {
@@ -13,7 +99,8 @@
                         {id:'ubb_mail', alt:'邮件', src:'mail.gif'},
                         {id:'ubb_img', alt:'图片', src:'img.gif'},
                         {id:'ubb_swf', alt:'Flash', src:'flash.gif'},
-                        {id:'ubb_mp3', alt:'音频', src:'music.gif'}],
+                        {id:'ubb_mp3', alt:'音频', src:'music.gif'},
+                        {id:'ubb_map', alt:'地图', src:'map.gif'}],
              ubb_img_path:"",
              ubb_em : null,
              ubb_em_img : [{name:'经典', path:'em', start:1, num:74},
@@ -71,17 +158,17 @@
             this.wrap(wrap);
             $('#ubb_wrap').prepend((function(){
                 var ret = "";
-                ret += '<select id="ubb_face">';
+                ret += '字体&ensp;<select id="ubb_face">';
                 for(var i in config.ubb_face){
                     ret += '<option value="' + config.ubb_face[i] + '">' +config.ubb_face[i] + '</option>';
                 }
-                ret += '</select>&nbsp;&nbsp;';
-                ret += '<select id="ubb_size" >';
+                ret += '</select>&emsp;';
+                ret += '字号&ensp;<select id="ubb_size" >';
                 for(var i in config.ubb_size){
                     ret += '<option value="' + config.ubb_size[i] + '">' +config.ubb_size[i] + '</option>';
                 }
-                ret += '</select>&nbsp;&nbsp;';
-                ret += '<select id="ubb_color" >';
+                ret += '</select>&emsp;';
+                ret += '颜色&ensp;<select id="ubb_color" >';
                 for(var i in config.ubb_color){
                     ret += '<option style="background-color:' +config.ubb_color[i] + ';color:' +config.ubb_color[i] + '"value="' + config.ubb_color[i] + '">' +config.ubb_color[i] + '</option>';
                 }
@@ -162,6 +249,32 @@
                     return false;
                 }
                 textarea._makeUBB("[mp3=" + mp3 + " auto=0]%content%[/mp3]", false);
+            });
+            var pop='<div id="map_area"><div id="map_canvas"></div><div id="map_func"><label>输入一个大范围关键词定位&nbsp;&nbsp;</label><input class="input-text" id="map_txt" type="textbox" value="" />&nbsp;&nbsp;<input class="submit" id="map_search" type="button" value="定位" /><div id="map_insert"><label>单击地图添加一个可移动标记，单击标记删除</label>&nbsp;&nbsp;<input class="submit" id="map_insert_btn" type="button" value="插入所有标记" /></div></div></div>';
+            $('body').after(pop);
+            $('#ubb_map').click(function(e){
+                nForumMap.loadJs('nForumMap.init',{'area':'map_canvas','onInsert':function(){
+                    var m = nForumMap.markers,out=[],bound=nForumMap.map.getBounds(),b=[];
+                    b.push('{'+bound.getSouthWest().lat()+','+bound.getSouthWest().lng()+'}');
+                    b.push('{'+bound.getNorthEast().lat()+','+bound.getNorthEast().lng()+'}');
+                    for(var i in m){
+                        out.push('{'+m[i].getPosition().lat()+','+m[i].getPosition().lng()+'}');
+                    }
+                    if(out.length > 0){
+                        textarea._makeUBB("[map="+b.join(',')+" mark=" + out.join(',') + "][/map]", false);
+                        $('#map_area').dialog('close');
+                    }else
+                        alert('请至少添加一个标记');
+                }});
+                $('#map_area').dialog({
+                    modal:true,
+                    resizable:false,
+                    autoOpen:true,
+                    title:"地图",
+                    width:600,
+                    zIndex:2,
+                    bgiframe:true
+                });
             });
         }
 

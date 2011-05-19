@@ -30,6 +30,7 @@ class XUBB {
             "'\[img=((?:http|https)[^\[\]]*?)\](?:\s*?)\[/img\]'i",
             "'\[swf=((?:http|https)[^\[\]]*?)\](?:\s*?)\[/swf\]'i",
             "'\[mp3=((?:http|https)[^\[\]]*?) auto=([01])\](?:\s*?)\[/mp3\]'i",
+            "'\[map=([0-9,.{}]*?) mark=([0-9,.{}]*?)\](?:\s*?)\[/map\]'i",
             "'(?<!>|=|\")(?:http|https|ftp|rtsp|mms):(?://|\\\\)(&(?=amp;)|[A-Za-z0-9\./=\?%\-#_~`@\[\]\':;+!])+'i"
         ),
         array(
@@ -51,6 +52,7 @@ class XUBB {
             "<a target=\"_blank\" href=\"\\1\"><img border=\"0\" title=\"单击此在新窗口浏览图片\" src=\"\\1\" class=\"resizeable\" /></a>",
             "<object class=\"resizeable\"classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0\" width=\"560px\" height=\"420px\"><param name=\"allowScriptAccess\" value=\"never\" /><param name=\"allowFullScreen\" value=\"true\" /><param name=\"movie\" value=\"\\1\" /><param name=\"quality\" value=\"high\" /><embed src=\"\\1\" quality=\"high\" allowScriptAccess=\"never\" allowFullScreen=\"true\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" width=\"560px\" height=\"420px\"/></object>",
             "<EMBED src=\"\\1\" width=\"560px\" height=\"45px\" type=\"audio/x-ms-wma\" nojava=\"true\" controls=\"ImageWindow,ControlPanel,StatusBar\" mute=\"false\" autostart=\"\\2\">",
+            "<div _bound=\"\\1\"_mark=\"\\2\" class=\"map-map\"></div>",
             "<a target=\"_blank\" href=\"\\0\">\\0</a>"
         ),
         array(
@@ -68,6 +70,7 @@ class XUBB {
             "\\1",
             "\\2",
             "\\2",
+            "",
             "",
             "",
             "",

@@ -31,5 +31,7 @@ $(function(){
     $('#b_post').click(validLogin);
     $('.a-post').click(validLogin);
     
-    BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'))
+    BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'));
+
+    nForumMap.loadJs('nForumMap.parseMap', null);
 });

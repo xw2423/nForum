@@ -164,8 +164,10 @@ class ArticleController extends AppController {
                 ));
         }
 
+        $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js[] = "forum.xubb.js";
         $this->js[] = "forum.post.js";
+        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "post.css";
         $this->css[] = "ubb.css";
         $this->_getNotice();
@@ -260,8 +262,10 @@ class ArticleController extends AppController {
                 ));
         }
 
+        $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js[] = "forum.xubb.js";
         $this->js[] = "forum.post.js";
+        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "post.css";
         $this->css[] = "ubb.css";
         $this->_getNotice();
