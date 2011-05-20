@@ -27,9 +27,9 @@
     </div>
 	<{capture name=n_left}>本版当前共有<{$curNum}>人在线&nbsp;&nbsp;今日帖子<{$todayNum}><{/capture}>
 	<{capture name=n_right}>
-	本版版主：
+	版主:
 		<{foreach from=$bms item=bm}>
-			<{if $bm[1]}><a href="<{$base}>/user/query/<{$bm[0]}>"><{$bm[0]}></a><{else}><{$bm[0]}><{/if}>
+			&ensp;<{if $bm[1]}><a href="<{$base}>/user/query/<{$bm[0]}>"><{$bm[0]}></a><{else}><{$bm[0]}><{/if}>
 		<{/foreach}>
 	<{/capture}>
 

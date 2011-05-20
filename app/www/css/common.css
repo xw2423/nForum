@@ -362,6 +362,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     font-size:12px;
     margin-top:4px;
 }
+.n-right a{
+    color:#ddd;
+}
 .b-content{
     border:1px solid #d9e7ff;
     background:#FFF;
