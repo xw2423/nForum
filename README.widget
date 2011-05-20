@@ -41,7 +41,7 @@ nForum 允许用户扩展新的widget，假设我们扩展一个名为test的widget，步骤如下：
 2.编辑test.php导入iwidget.php文件，App::import('vendor', 'model/iwidget');
 3.编辑test.php添加类testWidget并继承WidgetAdapter类
 4.完善testWidget类的wGetTitle，wGetList，wGetTime方法
-5.在app/config.nforum.php文件中修改$config['widget']['ext']['1']数组的值，添加'test'
+5.在app/config/nforum.php文件中修改$config['widget']['ext']['1']数组的值，添加'test'
 
 wGetList返回数组结构:
 数组的结构形如A，定义如下

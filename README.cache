@@ -21,6 +21,14 @@ Widget
 1.直接输出采用文件缓存，缓存的widget内容在app/tmp/cache/nforum中，缓存文件命名为widget_WIDGETNAME，系统会自动记录widget的更新时间，以便在widget更新后即使更新缓存文件。当修改widget文件或系统参数(如:site.prefix)请手动删除widget缓存文件用以生成新的缓存。
 2.Ajax输出采用http缓存
 
+HTML
+--------------------
+在Smarty编译模版时可以选择是否压缩HTML，在app/config/nforum.php文件中设置
+$config['pack']['on'] = true;
+#类型: Boolean
+#描述: 是否压缩html
+注意:如果Smarty中设置compile_check和force_compile为false,则需要手动清除已编译的模版文件
+
 Javascript & CSS
 --------------------
 javascript和css文件默认会被压缩并缓存，缓存的文件在app/tmp/cache/asset中
