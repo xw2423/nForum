@@ -15,8 +15,13 @@ var nForumMap = {
             disableDoubleClickZoom:true
         };
         $('.map-map').each(function(){
-            var bound = eval('(['+$(this).attr('_bound').replace(/{/g,'[').replace(/}/g,']')+'])'),
-            marker = eval('(['+$(this).attr('_mark').replace(/{/g,'[').replace(/}/g,']')+'])');
+            var bound,marker; 
+            try{
+                bound = eval('(['+$(this).attr('_bound').replace(/{/g,'[').replace(/}/g,']')+'])');
+                marker = eval('(['+$(this).attr('_mark').replace(/{/g,'[').replace(/}/g,']')+'])');
+            }catch(e){
+                return;
+            }
             bound = new google.maps.LatLngBounds(new google.maps.LatLng(bound[0][0],bound[0][1]),new google.maps.LatLng(bound[1][0],bound[1][1]));
             option.center = bound.getCenter();
             var map = new google.maps.Map(this, option);
