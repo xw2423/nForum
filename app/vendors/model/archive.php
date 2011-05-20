@@ -90,9 +90,8 @@ abstract class Archive extends OverloadObject{
             for($i = 1; $i <= $num; $i++){
                 $upload[] = "/\[upload=$i\]\[\/upload\]|(?![\s\S])/";
             }
-            return preg_replace($upload, $attList, $content, 1);
+            $content =  preg_replace($upload, $attList, $content, 1);
         }
-        //return $content;
         $content = preg_replace("/&nbsp;/", " ", $content);
         return preg_replace("/  /", "&nbsp;&nbsp;", $content);
     }
