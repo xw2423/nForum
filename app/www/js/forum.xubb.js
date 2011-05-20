@@ -136,6 +136,7 @@ var nForumMap = {
             var doc = this.get(0).document;
             var t = template.replace(/%content%/, txt);
             if (doc) {
+                this.get(0).focus();
                 var range = doc.selection.createRange();
                 if(range.text == ""){
                     this.get(0).value += t;
