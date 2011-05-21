@@ -50,10 +50,10 @@ nForum/
 
 1.将Cakephp解压缩，把源码中的cake目录(cake核心库)复制到nForum源码根目录下，进入到nForum目录运行
     chmod +x install.sh
-    ./install.sh cake BBS_SOURCE
-其中BBS_SOURCE为KBS源代码目录，nForum会在KBS源码上打上一些必要的补丁。在编译前，请在site.h中加上以下宏定义用以启用nForum的补丁:
+    ./install.sh cake
+nForum会在Cakephp上打上一些必要的补丁。在编译前，请在site.h中加上以下宏定义用以启用kbs中nForum的功能:
     #define NFORUM 1    
-如果已经安装KBS，请打完补丁，添加宏定义后重新编译安装KBS的PHP模块。
+如果已经安装KBS，请添加宏定义后重新编译安装KBS的PHP模块。
 
 2.安装KBS，Apache，PHP，MYSQL。有关KBS的详细安装步骤请参见http://trac.kcn.cn/kbs/wiki/Installation。安装Apache时请附加mod_rewrite模块。安装PHP时请附加GD库(--with-gd)，pdo-mysql(--with-pdo-mysql=PATH)，exif库(--enable-exif)。
 

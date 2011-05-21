@@ -1,7 +1,7 @@
 #!/bin/bash
-if [ $# -ne 2 ]
+if [ $# -ne 1 ]
 then
-	echo "usage: $0 CAKELIB KBS_SOURCE"
+	echo "usage: $0 CAKELIB"
 	exit
 fi
 cakelib="$1"
@@ -12,13 +12,13 @@ then
 fi
 patch -s -d $cakelib -p 2 < patch/cake.patch
 
-kbslib="$2"
-if [ ! -d "$kbslib/php" ]
-then
-    echo "error:kbs source directory wrong"
-    exit
-fi
-patch -s -d $kbslib -p 0 < patch/kbs.patch
+#kbslib="$2"
+#if [ ! -d "$kbslib/php" ]
+#then
+#    echo "error:kbs source directory wrong"
+#    exit
+#fi
+#patch -s -d $kbslib -p 0 < patch/kbs.patch
 
 tmpdir="tmp/cache tmp/cache/models tmp/cache/persistent tmp/cache/asset tmp/cache/nforum tmp/compile tmp/logs www/files/adv www/uploadFace"
 for dir in $tmpdir
