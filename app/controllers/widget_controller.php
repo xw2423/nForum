@@ -140,7 +140,6 @@ class WidgetController extends AppController {
             $this->error();
         }
 
-        $my = array();
         foreach($widgets as $v){
             $my[] = $v["name"];
         }
@@ -213,6 +212,7 @@ class WidgetController extends AppController {
 
         try{
             $widgets = Widget::wGet(User::getInstance());
+            $my = array();
             foreach($widgets as $v){
                 $my[] = $v["name"];
             }
