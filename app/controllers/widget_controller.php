@@ -140,6 +140,7 @@ class WidgetController extends AppController {
             $this->error();
         }
 
+        $my = array();
         foreach($widgets as $v){
             $my[] = $v["name"];
         }
