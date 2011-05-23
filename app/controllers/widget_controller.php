@@ -140,10 +140,6 @@ class WidgetController extends AppController {
             $this->error();
         }
 
-        foreach($widgets as $v){
-            $my[] = $v["name"];
-        }
-
         switch($type){
             case 'board':
                 $secs = Configure::read('section');
