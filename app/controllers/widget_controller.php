@@ -140,10 +140,6 @@ class WidgetController extends AppController {
             $this->error();
         }
 
-        foreach($widgets as $v){
-            $my[] = $v["name"];
-        }
-
         switch($type){
             case 'board':
                 $secs = Configure::read('section');
@@ -212,6 +208,7 @@ class WidgetController extends AppController {
 
         try{
             $widgets = Widget::wGet(User::getInstance());
+            $my = array();
             foreach($widgets as $v){
                 $my[] = $v["name"];
             }
