@@ -2,6 +2,7 @@
 #columns .column {
     float: left;
     width: 33.3%;
+    min-height: 100px;
 }
 .widget {*overflow:hidden;}
 #column1 .widget { margin: 0px 0px 6px 0px;}  
