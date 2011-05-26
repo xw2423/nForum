@@ -104,7 +104,7 @@
  * plugin api
  *******************/
     $base = Configure::read('plugins.api.base');
-    Router::parseExtensions();
+    Router::parseExtensions('json', 'xml');
     Router::connect($base . '/article/:name/:action/:id', array('controller' => 'article', 'plugin'=>'api'), array("id"=>"\d+"));
     Router::connect($base . '/article/:name/:action', array('controller' => 'article', 'plugin'=>'api'));
     Router::connect($base . '/threads/:name/:id', array('controller' => 'article', 'action' => 'threads', 'plugin'=>'api'));
