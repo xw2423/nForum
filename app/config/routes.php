@@ -100,4 +100,26 @@
     Router::connect($base . '/favor/:num', array('controller' => 'favor', 'plugin'=>'mobile', 'action' => 'index'), array("num"=>"\d+"));
     Router::connect($base . '/:controller/:action/*', array('plugin'=>'mobile'));
 
+/********************
+ * plugin api
+ *******************/
+    $base = Configure::read('plugins.api.base');
+    Router::parseExtensions();
+    Router::connect($base . '/article/:name/:action/:id', array('controller' => 'article', 'plugin'=>'api'), array("id"=>"\d+"));
+    Router::connect($base . '/article/:name/:action', array('controller' => 'article', 'plugin'=>'api'));
+    Router::connect($base . '/threads/:name/:id', array('controller' => 'article', 'action' => 'threads', 'plugin'=>'api'));
+    Router::connect($base . '/user/login', array('controller' => 'user', 'action' => 'login', 'plugin'=>'api'));
+    Router::connect($base . '/user/logout', array('controller' => 'user', 'action' => 'logout', 'plugin'=>'api'));
+    Router::connect($base . '/user/:action/:id', array('controller' => 'user', 'plugin'=>'api'), array("id"=>"\w+"));
+    Router::connect($base . '/board/:action/:name', array('controller' => 'board', 'plugin'=>'api'), array("name"=>"\w+"));
+    Router::connect($base . '/section/:action/:name', array('controller' => 'section', 'plugin'=>'api'), array("name"=>"\w+"));
+    Router::connect($base . '/attachment/:name/:id/:pos', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download'), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+'));
+    Router::connect($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'plugin'=>'api'), array("id"=>"\d+"));
+    Router::connect($base . '/attachment/:name/:action', array('controller' => 'attachment', 'plugin'=>'api'));
+    Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'api'), array("num"=>"\d+"));
+    Router::connect($base . '/mail/send', array('controller' => 'mail', 'plugin'=>'api', 'action'=>'send'));
+    Router::connect($base . '/mail/:type', array('controller' => 'mail', 'action'=>'box', 'plugin'=>'api'));
+    Router::connect($base . '/favorite/:action/:num', array('controller' => 'favorite', 'plugin'=>'api'), array("num"=>"\d+"));
+    Router::connect($base . '/favorite/:action', array('controller' => 'favorite', 'plugin'=>'api'));
+    Router::connect($base . '/*', array('controller' => 'ApiApp', 'action' => 'errorAPI', 'plugin'=>'api'));
 ?>

@@ -49,7 +49,7 @@ abstract class Archive extends OverloadObject{
         $file = $this->getFileName();    
         if(!file_exists($file))
             throw new ArchiveFileNullException("can't find file:$file");
-        return file_get_contents($file);
+        return bbs_originfile($file);
     }
 
     /**

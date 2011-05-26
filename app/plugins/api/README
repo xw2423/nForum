@@ -1,0 +1,32 @@
+1. Modify the value of $config['plugins']['api']['base'] in app/config/nforum.php to set this plugin's basic path, using HTTP://DOMAIN/value/ to access this plugin.
+The default value is '/api'
+
+2. If you want to use another domain on api plugin,like HTTP://NEWDOMAIN/
+
+setup 1:
+    set $config['plugins']['api']['use_domain'] to true in app/config/nforum.php
+
+setup 2:
+    add below to .htaccess in app/www (assume value of $config['plugins']['api']['base'] without first / is ABASE):
+
+    RewriteCond %{REQUEST_URI} ^/ABASE(/.*)?$ [NC]
+    RewriteRule ^.*$ http://NEWDOMAIN [R,L]
+    RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?url=ABASE/$1 [QSA]
+
+
+The final .htaccess file maybe:
+
+    RewriteCond %{REQUEST_URI} ^/ABASE(/.*)?$ [NC]
+    RewriteRule ^.*$ http://NEWDOMAIN [R,L]
+    RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?url=ABASE/$1 [QSA]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+3.import pl_api.sql in plugin directory to the database
+
+4. The document is in http://xw2423.byr.edu.cn/blog/nForum-api/
