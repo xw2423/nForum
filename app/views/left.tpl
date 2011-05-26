@@ -38,6 +38,13 @@
                 <ul class="x-child ajax"><li>{url:<{$base}>/slist?uid=<{$id}>&root=list-section}</li>
                 </ul>
             </li>
+            <!--
+            <li class="nlist">
+                <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">新分类讨论区</a></span>
+                <ul class="x-child ajax"><li>{url:<{$base}>/nlist?uid=<{$id}>&root=list-favor}</li>
+                </ul>
+            </li>
+            -->
 <{if $islogin}>
             <li class="flist">
                 <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">我的收藏夹</a></span>

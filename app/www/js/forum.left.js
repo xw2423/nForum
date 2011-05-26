@@ -13,6 +13,7 @@ $(function(){
         });
     } 
     $('.slist').SimpleTree({autoclose: true, persist:true, cookie:"left-index", ajax:config.base + "/slist?uid=" + uid + "&root=%id%"});
+    $('.nlist').SimpleTree({autoclose: true,ajax:config.base + "/nlist?uid=" + uid + "&root=%id%"});
     $('.clist').SimpleTree({autoclose: true});
     if(uid != "guest")
         $('.flist').SimpleTree({autoclose: true,ajax:config.base + "/flist?uid=" + uid + "&root=%id%"});
