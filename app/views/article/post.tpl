@@ -39,7 +39,7 @@
 		   <input type="hidden" name="reid" value="<{$reID}>" />
            <div class="post-su"><input type="submit" class="button" value="发表帖子" /><input class="button" type="button" value="预览(无附件)" id="b_preview"/></div>
            </form>
-		   <form id="f_preview" action="/article/<{$bName}>/preview" method="post" target="_blank">
+		   <form id="f_preview" action="<{$base}>/article/<{$bName}>/preview" method="post" target="_blank">
 		   		<input type="hidden" name="title" id="pre_t"/><input type="hidden" name="content" id="pre_c"/>
 		   </form>
     	</div>

@@ -270,7 +270,7 @@ $.fn.SimpleTree = function(opt){
         var TREE = this,ROOT = $(this);
         TREE.option = {
             ajax: "tree_load.php?tree_id=%id%",
-            persisit: false,
+            persist: false,
             cookie:'',
             animate: false,        // this parameter has a value "true/false" (enable/disable animation for expanding/collapsing menu items) 
             autoclose: false,    // this parameter has a value "true/false" (enable/disable collapse of neighbor branches)

@@ -4,7 +4,7 @@
  *
  * @author xw
  */
-App::import("vendor", array("model/favor"));
+App::import("vendor", array("model/favor", "model/section"));
 class FavorController extends AppController {
 
     public function beforeFilter(){
@@ -106,9 +106,14 @@ class FavorController extends AppController {
             $this->_stop();
         $root = $this->params['url']['root'];
         try{
+            $sec = (substr($root,0,2) == "s-"?1:0);
             $root = ($root == "list-favor")?0:substr($root,2);
             try{
-                $fav = Favor::getInstance($root);
+                if ($sec) {
+                    $fav = Section::getInstance($root, Section::$NORMAL);
+                } else {
+                    $fav = Favor::getInstance($root);
+                }
             }catch(FavorNullException $e){
                 $this->_stop();
             }
@@ -122,9 +127,14 @@ class FavorController extends AppController {
                             "t" => "<a href=\"javascript:void(0)\">{$v->DESC}</a>",
                             "id" => "f-" . $v->BID,
                         );
+                    }elseif($v->isDir()){
+                        $ret[] = array(
+                            "t" => "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>",
+                            "id" => "s-" . $v->NAME,
+                        );
                     }else{
                         $ret[] = array(
-                            "t" => "<a href=\"{$this->base}/".($v->isDir()?"section":"board")."/{$v->NAME}\">{$v->DESC}</a>",
+                            "t" => "<a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>",
                         );
                     }
                 }
