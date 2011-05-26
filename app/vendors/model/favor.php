@@ -51,7 +51,7 @@ class Favor extends Collection implements iWidget {
     }
 
     public function wGetTitle(){
-        return array("text"=>"个人制定区", "url"=>"/favor");
+        return array("text"=>"个人定制区", "url"=>"/favor");
     }
 
     public function wGetList(){
