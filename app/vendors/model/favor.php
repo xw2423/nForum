@@ -32,11 +32,12 @@ class Favor extends Collection implements iWidget {
      * @access public
      * @throws FavorNullException
      */
-    public static function getInstance($level = 0){
+    public static function getInstance($level = 0, $mode = 1){
         //1 is for normal what about 2?
-        if(bbs_load_favboard($level, 1) == -1)
+        //2 is for 新分类讨论区 and 3 is for Web分类讨论区 which is not yet used...
+        if(bbs_load_favboard($level, $mode) == -1)
             throw new FavorNullException();
-        $info = bbs_fav_boards_nforum($level, 1);
+        $info = bbs_fav_boards_nforum($level, $mode);
         if(!$info)
             throw new FavorNullException();
         try{

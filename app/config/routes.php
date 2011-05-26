@@ -44,6 +44,7 @@
     Router::connect('/widget/list', array('controller' => 'widget', 'action' => 'wlist'));
     Router::connect('/widget/:name', array('controller' => 'widget', 'action' => 'widget'));
     Router::connect('/slist', array('controller' => 'section', 'action' => 'slist'));
+    Router::connect('/nlist', array('controller' => 'section', 'action' => 'nlist'));
     Router::connect('/flist', array('controller' => 'favor', 'action' => 'flist'));
     Router::connect('/board/:name', array('controller' => 'board', 'action' => 'index'));
     Router::connect('/board/:name/vote/:num', array('controller' => 'board', 'action' => 'vote', 'num' => null), array('num' => '\d+'));

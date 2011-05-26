@@ -4,7 +4,7 @@
  *
  * @author xw
  */
-App::import("vendor", array("model/board", "model/section"));
+App::import("vendor", array("model/board", "model/section", "model/favor"));
 class SectionController extends AppController {
 
     private $_sec;
@@ -121,5 +121,56 @@ class SectionController extends AppController {
         echo BYRJSON::encode($ret);
         $this->_stop();
     }
+
+    public function nlist(){
+        $this->initAjax();
+
+        $ret = array();
+        if(!isset($this->params['url']['root']))
+            $this->_stop();
+        $root = $this->params['url']['root'];
+        try{
+            $sec = (substr($root,0,2) == "s-"?1:0);
+            $root = ($root == "list-favor")?0:substr($root,2);
+            try{
+                if ($sec) {
+                    $fav = Section::getInstance($root, Section::$NORMAL);
+                } else {
+                    $fav = Favor::getInstance($root, 2);
+                }
+            }catch(FavorNullException $e){
+                $this->_stop();
+            }
+            $ret = array();
+            if(!$fav->isNull()){
+                $brds = $fav->getAll();
+                foreach($brds as $v){
+                    //user dir
+                    if($v->NAME == ""){
+                        $ret[] = array(
+                            "t" => "<a href=\"javascript:void(0)\">{$v->DESC}</a>",
+                            "id" => "f-" . $v->BID,
+                        );
+                    }elseif($v->isDir()){
+                        $ret[] = array(
+                            "t" => "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>",
+                            "id" => "s-" . $v->NAME,
+                        );
+                    }else{
+                        $ret[] = array(
+                            "t" => "<a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>",
+                        );
+                    }
+                }
+            }
+            $this->cache(true, $fav->wGetTime(), 10);
+            App::import("vendor", "inc/json");
+            echo BYRJSON::encode($ret);
+            $this->_stop();
+        }catch(FavorNullException $e){
+            $this->_stop();
+        }
+    }
+
 }
 ?>
