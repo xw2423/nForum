@@ -24,13 +24,13 @@
                     <li>
 						<div class="post-m">收件人：</div>
 <{if !isset($rid)}>
-						<input class="input-text post-title" type="text" name="id" id="id" value=""/>  
+						<input class="input-text post-title" type="text" name="id" id="id" style="width:300px" value=""/>  
 						<select class="post-select" onchange="$('#id').val($(this).val())">
 							<option>选择</option>
 							<{html_options options=$friends}>
 						</select>
 <{else}>
-						<input class="input-text post-title" type="text" id="id" value="<{$rid}>" disabled="true"/>  
+						<input class="input-text post-title" type="text" id="id" style="width:300px" value="<{$rid}>" disabled="true"/>  
 						<input type="hidden" name="id" value="<{$rid}>" />
 <{/if}>
 					</li>

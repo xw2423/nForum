@@ -50,35 +50,7 @@ class AttachmentController extends AppController {
     public function index(){
         $this->_attOpInit();
         $this->brief = true;
-        $u = User::getInstance();
-        if(isset($this->params['id'])){
-            $id = $this->params['id'];
-            try{
-                $article = Article::getInstance($id, $this->_board);
-                if(!$article->hasEditPerm($u))
-                    $this->error(ECode::$XW_JOKE);
-                $atts = $article->getAttList();
-                $this->set("postUrl", "/{$article->ID}");
-            }catch(Exception $e){
-                $this->error(ECode::$XW_JOKE);
-            }
-        }else{
-            $atts = Forum::listAttach();
-        }
-        $num = count($atts);
-        $size = 0;
-        foreach($atts as &$v){
-            $size += intval($v['size']);
-            $v['size'] = nforum_size_format($v['size']);
-        }
-        $upload = Configure::read("article");
-        if($num >= intval($upload['att_num']) || $size >= intval($upload['att_size']))
-            $this->set("disable", true);
-        $this->set("atts", $atts);
-        $this->set("size", nforum_size_format($size));
-        $this->set("num", $num);
-        $this->set("maxNum", $upload['att_num']);
-        $this->set("maxSize", nforum_size_format($upload['att_size']));
+        $this->_attList();
     }
 
     public function add(){
@@ -138,7 +110,7 @@ class AttachmentController extends AppController {
                         $article->addAttach($tmpFile, $tmpName);
                     else
                         Forum::addAttach($tmpFile, $tmpName);
-                    $this->set("num", $num + 1);
+                    $this->set("new", $num + 1);
                     if($exif !== false)
                         $this->set("exif", $exif);
                     $msg = ECode::$ATT_ADDOK;
@@ -160,6 +132,8 @@ class AttachmentController extends AppController {
                 $msg = ECode::$SYS_ERROR;
         }
         $this->set("msg", ECode::msg($msg));
+        $this->_attList();
+        $this->render("index");
     }
     
     public function delete(){
@@ -195,11 +169,11 @@ class AttachmentController extends AppController {
                 $this->error(ECode::$XW_JOKE);
             }
         }else{
-                $msg = ECode::$ATT_NAMEERROR;
+            $msg = ECode::$ATT_NAMEERROR;
         }
         $this->set("msg", ECode::msg($msg));
-        $this->autoRender = false;
-        $this->render("add");
+        $this->_attList();
+        $this->render("index");
     }
 
     private function _attOpInit(){
@@ -218,6 +192,38 @@ class AttachmentController extends AppController {
         }
         $this->_board = $brd;
         $this->set("bName", $this->_board->NAME);
+    }
+
+    private function _attList(){
+        $u = User::getInstance();
+        if(isset($this->params['id'])){
+            $id = $this->params['id'];
+            try{
+                $article = Article::getInstance($id, $this->_board);
+                if(!$article->hasEditPerm($u))
+                    $this->error(ECode::$XW_JOKE);
+                $atts = $article->getAttList();
+                $this->set("postUrl", "/{$article->ID}");
+            }catch(Exception $e){
+                $this->error(ECode::$XW_JOKE);
+            }
+        }else{
+            $atts = Forum::listAttach();
+        }
+        $num = count($atts);
+        $size = 0;
+        foreach($atts as &$v){
+            $size += intval($v['size']);
+            $v['size'] = nforum_size_format($v['size']);
+        }
+        $upload = Configure::read("article");
+        if($num >= intval($upload['att_num']) || $size >= intval($upload['att_size']))
+            $this->set("disable", true);
+        $this->set("atts", $atts);
+        $this->set("size", nforum_size_format($size));
+        $this->set("num", $num);
+        $this->set("maxNum", $upload['att_num']);
+        $this->set("maxSize", nforum_size_format($upload['att_size']));
     }
 }
 ?>
