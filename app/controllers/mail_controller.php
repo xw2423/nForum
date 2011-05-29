@@ -91,9 +91,6 @@ class MailController extends AppController {
         App::import("Sanitize");
         $this->set("num", $mail->num);
         $this->set("type", $box->type);
-        $this->set("title", Sanitize::html($mail->TITLE));
-        $this->set("sender", $mail->OWNER);
-        $this->set("time", date("Y-m-d H:i:s", $mail->POSTTIME));
         $this->set("content", $content);
         $this->notice[] = array("url"=>"/mail/$type", "text"=>$box->desc);
     }

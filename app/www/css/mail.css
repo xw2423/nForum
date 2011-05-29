@@ -48,7 +48,7 @@
 .mail{ padding:10px 17px;font-family:ËÎÌו,Arial,Verdana; }
 .mail-title{color:#598ede; font-weight:bold; }
 .mail-title span{ font-weight:normal; }
-.mail-content{ display:block; margin-top:10px; }
+.mail-content{ display:block;line-height:1.4;font-size:13px}
 /* mail detail end*/
 
 /*friend start*/

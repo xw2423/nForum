@@ -29,11 +29,6 @@
 					</ul>
                 </div>
                 <div class="mail">
-                	<ul>
-                    	<li class="mail-title"><span>标&emsp;题:&ensp;</span><{$title}></li>
-                    	<li>寄信人:&ensp;<{$sender}></li>
-                        <li>时&emsp;间:&ensp;<{$time}></li>
-                    </ul>
                 	<p class="mail-content">
 					<{$content}>
                     </p> 
@@ -47,6 +42,5 @@
 					</ul>
                 </div>
             </div>
-				
     	</div>
 <{include file="footer.tpl"}>
