@@ -2,7 +2,7 @@
     <div class="t-pre">
         <div class="page">
             <ul class="pagination">
-			  <li class="page-pre">主题数:<i><{$totalNum}></i>&nbsp;&nbsp;分页:</li>
+			  <li class="page-pre">主题数:<i><{$totalNum}></i>&emsp;分页:</li>
               <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
 			  <li class="page-suf"></li>	
             </ul>
@@ -15,7 +15,7 @@
             <a href="javascript:void(0)" id="goToReply" class="button">快捷回复</a>
         </div>
     </div>
-	<{capture name=n_left}>文章主题:&nbsp;<{$title}><{/capture}>
+	<{capture name=n_left}>文章主题:&ensp;<{$title}><{/capture}>
 	<{capture name=n_right}><span style="color:#eee;display:inline-block;vertical-align:bottom" id="a_share" _u='<{$domain}><{$base}>/article/<{$bName}>/<{$gid}>' _c='<{$title}>'>分享到:</span><{/capture}>
 	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right=$smarty.capture.n_right}>
     	<div class="b-content corner">
@@ -109,7 +109,7 @@
     <div class="t-pre-bottom">
         <div class="page">
             <ul class="pagination">
-			  <li class="page-pre">主题数:<i><{$totalNum}></i>&nbsp;&nbsp;分页:</li>
+			  <li class="page-pre">主题数:<i><{$totalNum}></i>&emsp;分页:</li>
               <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
 			  <li class="page-suf"></li>	
             </ul>

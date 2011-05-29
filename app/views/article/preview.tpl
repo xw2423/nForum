@@ -6,7 +6,7 @@
 		<tr class="a-head">
 			<td class="a-no-bottom a-no-top">
 				<ul class="a-func">
-					<li>标题:&nbsp;<{$title}></li>
+					<li>标题:&ensp;<{$title}></li>
 				</ul>
 			</td>
 		</tr>

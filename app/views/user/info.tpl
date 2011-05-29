@@ -15,12 +15,12 @@
                 <h6>基本信息</h6>
                 <ul>
                     <li>
-						<span class="b-left-m">性别：</span>
-						<input type="radio" name="gender" <{if $gender=="1"}>checked="true"<{/if}> value="1" />&nbsp;男&nbsp;
-						<input type="radio" name="gender" <{if $gender=="2"}>checked="true"<{/if}> value="2" />&nbsp;女
+						<span class="b-left-m">性别:&ensp;</span>
+						<input type="radio" name="gender" <{if $gender=="1"}>checked="true"<{/if}> value="1" />&ensp;男&emsp;
+						<input type="radio" name="gender" <{if $gender=="2"}>checked="true"<{/if}> value="2" />&ensp;女
 					</li>
                     <li>
-						<span class="b-left-m">出生日期：</span>
+						<span class="b-left-m">出生日期:&ensp;</span>
 						<input class="input-text" size="3" type="text" name="year" value="<{$year}>" />年
 						<input size="2" class="input-text" type="text" name="month" value="<{$month}>" />月
 						<input size="2" class="input-text" size="2" type="text" name="day" value="<{$day}>" />日
@@ -29,14 +29,14 @@
                 <h6>头像设置</h6>
                 <ul>
                     <li class="def">
-						<span class="b-left-m">自定义头像：</span>
+						<span class="b-left-m">自定义头像:&ensp;</span>
 						<iframe src="<{$base}>/user/face" width="420px" frameborder="0" id="upload"></iframe>
 					</li>
                     <li class="def">
                     	<div class="u-img-d">
-                    		<div><span>图像位置:</span><input type="text" class="input-text" value="<{$myface_url}>" id="furl" name="furl"/></div>
-							<div><span>宽度:</span><input type="text" class="input-text" value="<{$myface_w}>" id="fwidth" name="fwidth"/></div>
-							<div><span>高度:</span><input type="text" class="input-text" value="<{$myface_h}>" id="fheight" name="fheight"/></div>
+                    		<div><span>头像位置:</span><input type="text" class="input-text" value="<{$myface_url}>" id="furl" name="furl"/></div>
+							<div><span>宽&emsp;&emsp;度:</span><input type="text" class="input-text" value="<{$myface_w}>" id="fwidth" name="fwidth"/></div>
+							<div><span>高&emsp;&emsp;度:</span><input type="text" class="input-text" value="<{$myface_h}>" id="fheight" name="fheight"/></div>
                     	</div>
                         <div class="u-img-show">
 							<div class="imgss">
@@ -48,11 +48,11 @@
                 </ul>
                 <h6>联系信息</h6>
                 <ul>
-                    <li><span class="b-left-m">OICQ号码：</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ地址，方便与他人的联系</span></li>
-                    <li><span class="b-left-m">MSN：</span><input class="input-text" type="text" name="msn" value="<{$msn}>" /><span class="b-right-m">填写您的MSN地址，方便与他人的联系</span></li>
-                    <li><span class="b-left-m">主页：</span><input class="input-text" type="text" name="homepage" value="<{$homepage}>" /><span class="b-right-m">填写您的个人主页地址，展示您的网上风采</span></li>
-                    <li><span class="b-left-m">Email：</span><input class="input-text" type="text" name="email" value="<{$email}>"/><span class="b-right-m">您的有效电子邮件地址</span></li>
-                    <li><span class="b-left-m">签名档：</span><textarea class="input-text b-textarea" name="signature"><{$sig}></textarea></li>
+                    <li><span class="b-left-m">OICQ号码:&ensp;</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ地址，方便与他人的联系</span></li>
+                    <li><span class="b-left-m">MSN:&ensp;</span><input class="input-text" type="text" name="msn" value="<{$msn}>" /><span class="b-right-m">填写您的MSN地址，方便与他人的联系</span></li>
+                    <li><span class="b-left-m">主页:&ensp;</span><input class="input-text" type="text" name="homepage" value="<{$homepage}>" /><span class="b-right-m">填写您的个人主页地址，展示您的网上风采</span></li>
+                    <li><span class="b-left-m">Email:&ensp;</span><input class="input-text" type="text" name="email" value="<{$email}>"/><span class="b-right-m">您的有效电子邮件地址</span></li>
+                    <li><span class="b-left-m">签名档:&ensp;</span><textarea class="input-text b-textarea" name="signature"><{$sig}></textarea></li>
                 </ul>
                 <div class="b-op"><input type="submit" class="button" value="提交修改" /><input class="button" type="reset" value="重写" /></div>
                 </form>

@@ -43,7 +43,7 @@
 						<textarea id="a_content" class="c-textarea" name="content"><{$content|default:""}></textarea>
 					</li>
                     <li>
-						<div class="post-m">选项:&nbsp;</div>
+						<div class="post-m">选项:</div>
 						<div class="post-op">
 						签名档:<select class="post-select" name="signature">
 						<{html_options options=$sigOption selected=$sigNow}>

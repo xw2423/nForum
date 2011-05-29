@@ -24,7 +24,7 @@
                     </div>
                     <div class="page">
                         <ul class="pagination" title="分页列表">
-                          <li class="page-pre">在线用户:<i><{$totalNum}></i>&nbsp;&nbsp;分页:</li>
+                          <li class="page-pre">在线用户:<i><{$totalNum}></i>&emsp;分页:</li>
 						  <li>
 							  <ol title="分页列表" class="page-main">
 								<{$pageBar}>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="page">
 					<ul class="pagination" title="分页列表">
-					  <li class="page-pre">在线用户:<i><{$totalNum}></i>&nbsp;&nbsp;分页:</li>
+					  <li class="page-pre">在线用户:<i><{$totalNum}></i>&emsp;分页:</li>
 					  <li>
 						  <ol title="分页列表" class="page-main">
 							<{$pageBar}>

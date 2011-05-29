@@ -93,7 +93,7 @@ abstract class Archive extends OverloadObject{
             $content =  preg_replace($upload, $attList, $content, 1);
         }
         $content = preg_replace("/&nbsp;/", " ", $content);
-        return preg_replace("/  /", "&nbsp;&nbsp;", $content);
+        return preg_replace("/  /", "&emsp;", $content);
     }
 
     /**

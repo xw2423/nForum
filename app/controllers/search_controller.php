@@ -78,8 +78,8 @@ class SearchController extends AppController {
         foreach($threads as $v){
             $tabs = ceil($v->articleNum / $pageArticle);
             $last = $v->LAST;
-            $postTime = ($curTime > $v->POSTTIME)?date("Y-m-d", $v->POSTTIME):(date("H:i:s", $v->POSTTIME)."&nbsp;&nbsp;");
-            $replyTime = ($curTime > $last->POSTTIME)?date("Y-m-d", $last->POSTTIME):(date("H:i:s", $last->POSTTIME)."&nbsp;&nbsp;");
+            $postTime = ($curTime > $v->POSTTIME)?date("Y-m-d", $v->POSTTIME):(date("H:i:s", $v->POSTTIME)."&emsp;");
+            $replyTime = ($curTime > $last->POSTTIME)?date("Y-m-d", $last->POSTTIME):(date("H:i:s", $last->POSTTIME)."&emsp;");
             $info[] = array(
                 "title" => Sanitize::html($v->TITLE),
                 "poster" => $v->isSubject()?$v->OWNER:"т╜лШряи╬ЁЩ",

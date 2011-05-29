@@ -15,7 +15,7 @@
                 <table id="d_user" width="100%" cellpadding="0" cellspacing="0" border="0">
 <{foreach from=$custom item=item}>
                     <tr>
-                    	<td class="u-title-1"><span><{$item.name}>:&nbsp;</span><{$item.desc}></td>
+                    	<td class="u-title-1"><span><{$item.name}>:</span><{$item.desc}></td>
                         <td class="u-title-2">
 							<input type="radio" <{if $item.val == 1}>checked="true"<{/if}> name="<{$item.id}>" value="1" /><{$item.yes}>
 							<input type="radio" <{if $item.val == 0}>checked="true"<{/if}> name="<{$item.id}>" value="0" /><{$item.no}></td>

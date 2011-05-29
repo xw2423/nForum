@@ -23,18 +23,18 @@
                 </li>
             </ul>
 <{if isset($search)}>
-            <div class="w-search"><span>搜索应用:&nbsp;</span><input class="input-text" type="text" id="w_search_txt" value="输入应用名称" /><input class="button" type="button" id="w_search_btn" value="搜  索" /></div>
+            <div class="w-search"><span>搜索应用:&ensp;</span><input class="input-text" type="text" id="w_search_txt" value="输入应用名称" /><input class="button" type="button" id="w_search_btn" value="搜  索" /></div>
 <{/if}>
     	</div>
 	<div id="addform" style="display:none">
 			<ul>
-        	<li><span>标题:&nbsp;</span><input type="text" id="title" size="20" class="input-text"/></li>
-            <li><span>颜色:&nbsp;</span><select id="color">
+        	<li><span>标题:&ensp;</span><input type="text" id="title" size="20" class="input-text"/></li>
+            <li><span>颜色:&ensp;</span><select id="color">
 					<{html_options options=$colors selected=$color}>
 				</select>
 			</li>
         	<li>
-				<span>列:&nbsp;&nbsp;&nbsp;&nbsp;</span><select id="col">
+				<span>列:&emsp;&ensp;</span><select id="col">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<{if $line3}>

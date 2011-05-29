@@ -11,7 +11,7 @@
 <{/if}>
                     </ul>
 <{if isset($list)}>
-            	<h5>您还可以去:&nbsp;</h5>
+            	<h5>您还可以去:</h5>
                 	<ul>
 <{foreach from=$list item=item}>
 						<li><samp class="ico-pos-dot"></samp><a href="<{$base}><{$item.url}>"><{$item.text}></a></li>

@@ -17,9 +17,9 @@
 	</ul>
 	<div id="page">
 	<ul class="pagination" >
-		<li class="page-pre">总数:<{$total}>&nbsp;&nbsp;分页:</li>
+		<li class="page-pre">总数:<{$total}>&emsp;分页:</li>
 		<li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-		<li class="page-suf">&nbsp;&nbsp;当前页:<{$page}>&nbsp;/&nbsp;<{$totalPage}></li>
+		<li class="page-suf">当前页:&ensp;<{$page}>/<{$totalPage}></li>
 		<li id="add"><input type="button" class="button" value="增加" id="b_add"/></li>
 	</ul>
 	</div>

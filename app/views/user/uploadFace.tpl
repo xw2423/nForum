@@ -9,10 +9,10 @@ body{ font-family:Arial,Verdana,Sans-Serif; font-size:0.8em; }
 <{if $upload}>
 <form method="post" ENCTYPE="multipart/form-data" action="<{$base}>/user/face"> 
 <input type="file" name="myface" size="20" />
-<input type="submit" class="submit" value="上传" /> &nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" class="submit" value="上传" /> &emsp;&emsp;
 </form>
 <{else}>
-<{$msg}>,&nbsp;<a href="javascript:window.location.href='<{$base}>/user/face'" >点击此重新上传</a>
+<{$msg}>,&ensp;<a href="javascript:window.location.href='<{$base}>/user/face'" >点击此重新上传</a>
 <{if isset($img)}>
 <script type="text/javascript">
 	var img = parent.document.getElementById("fpreview"),

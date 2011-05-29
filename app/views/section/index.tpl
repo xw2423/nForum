@@ -28,7 +28,7 @@
 <{if $item.type == "board"}>
                     <td class="title_3">
 						<a href="<{if $item.last.id != ""}><{$base}>/article/<{$item.name}>/<{$item.last.id}><{else}>javascript:void(0);<{/if}>"><{$item.last.title}></a><br />  
-						发贴人:&nbsp;<{$item.last.owner}> 日期:&nbsp;<{$item.last.date}>
+						发贴人:&ensp;<{$item.last.owner}> 日期:&ensp;<{$item.last.date}>
 					</td>
                     <td class="title_4 middle c63f"><{$item.curNum}></td>
                     <td class="title_5 middle c09f"><{$item.todayNum}></td>

@@ -46,7 +46,7 @@
 .m-func li.m-del samp{ width: 14px; height: 18px; }
 .m-func_info{ margin-left:0px;}
 .mail{ padding:10px 17px;font-family:ËÎÌו,Arial,Verdana; }
-.mail-title{ font-size:14px; color:#598ede; font-weight:bold; }
+.mail-title{color:#598ede; font-weight:bold; }
 .mail-title span{ font-weight:normal; }
 .mail-content{ display:block; margin-top:10px; }
 /* mail detail end*/

@@ -14,7 +14,7 @@
                     </tr>
                     <tr>
                     	<td class="r_cell_1"><span>性别</span>请选择您的性别</td>
-                        <td class="r_cell_2"><input type="radio" name="gender" checked value="1"/><samp class="ico-pos-online-man"></samp>男&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="2"/><samp class="ico-pos-online-woman" ></samp>女</td>
+                        <td class="r_cell_2"><input type="radio" name="gender" checked value="1"/><samp class="ico-pos-online-man"></samp>男&emsp;&emsp;<input type="radio" name="gender" value="2"/><samp class="ico-pos-online-woman" ></samp>女</td>
                     </tr>
                     <tr>
                     	<td class="r_cell_1"><span>学校系级或工作单位</span>在读生请填写学校\年级\专业\班级<br />社会人士请填写单位全称\部门</td>
@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                     	<td class="r_cell_1"><span>生日</span>生日格式为XXXX-XX-XX</td>
-                        <td class="r_cell_2"><input type="text" class="input-text" name="year" id="t_year" size="4"/>年&nbsp;&nbsp;<input type="text" class="input-text" name="month" id="t_month" size="2"/>月&nbsp;&nbsp;<input type="text" class="input-text" name="day" id="t_day" size="2"/>日</td>
+                        <td class="r_cell_2"><input type="text" class="input-text" name="year" id="t_year" size="4"/>年&emsp;<input type="text" class="input-text" name="month" id="t_month" size="2"/>月&emsp;<input type="text" class="input-text" name="day" id="t_day" size="2"/>日</td>
                     </tr>
                     <tr>
                     	<td class="r_cell_1"><span>联系电话</span>请填写您的方式</td>

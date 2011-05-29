@@ -15,7 +15,7 @@
 				<input id="pLevel" type="button" class="button" value="上一层" />
 			</div>
 			<div id="f_add">
-				添加版面:&nbsp;<input type="text" id="ab_txt"  class="input-text" /><input type="button" id="board_btn"  class="button"value="增加" />&nbsp;&nbsp;&nbsp;&nbsp;添加目录:&nbsp;<input type="text" id="ad_txt" class="input-text"/><input type="button" id="dir_btn"  class="button" value="增加" />
+				添加版面:&ensp;<input type="text" id="ab_txt"  class="input-text" /><input type="button" id="board_btn"  class="button"value="增加" />&emsp;&emsp;添加目录:&ensp;<input type="text" id="ad_txt" class="input-text"/><input type="button" id="dir_btn"  class="button" value="增加" />
 			</div>
 			<table class="board-title" cellpadding="0" cellspacing="0">
                 <tr>
@@ -41,7 +41,7 @@
 					</td>
                     <td class="title_3">
 						<a href="<{$base}>/article/%0%/%3%">%4%</a><br />  
-						回复:&nbsp;%5% 日期:&nbsp;%6%
+						回复:&ensp;%5% 日期:&ensp;%6%
 					</td>
                     <td class="title_4 middle">%7%</td>
                     <td class="title_5 middle">%8%</td>

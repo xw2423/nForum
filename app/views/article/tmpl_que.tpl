@@ -19,7 +19,7 @@
 			</tr>
 <{/foreach}>
 			<tr class="tmpl-op">
-				<td colspan="2"><input type="submit" class="button" value="提交发文" onclick="$('#h_pre').val('0');$('#f_tmpl').attr('target','_self')"/>&nbsp;<input type="submit" class="button" value="预览" onclick="$('#h_pre').val('1');$('#f_tmpl').attr('target','_blank')"/>&nbsp;<input type="button" class="button" value="返回"/><input type="hidden" value="0" name="pre" id="h_pre"/></td>
+				<td colspan="2"><input type="submit" class="button" value="提交发文" onclick="$('#h_pre').val('0');$('#f_tmpl').attr('target','_self')"/>&ensp;<input type="submit" class="button" value="预览" onclick="$('#h_pre').val('1');$('#f_tmpl').attr('target','_blank')"/>&ensp;<input type="button" class="button" value="返回"/><input type="hidden" value="0" name="pre" id="h_pre"/></td>
 			</tr>
 			</table>
 			</form>

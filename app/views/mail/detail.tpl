@@ -30,9 +30,9 @@
                 </div>
                 <div class="mail">
                 	<ul>
-                    	<li class="mail-title"><span>标&nbsp;&nbsp;题:&nbsp;</span><{$title}></li>
-                    	<li>寄信人:&nbsp;<{$sender}></li>
-                        <li>时&nbsp;&nbsp;间:&nbsp;<{$time}></li>
+                    	<li class="mail-title"><span>标&emsp;题:&ensp;</span><{$title}></li>
+                    	<li>寄信人:&ensp;<{$sender}></li>
+                        <li>时&emsp;间:&ensp;<{$time}></li>
                     </ul>
                 	<p class="mail-content">
 					<{$content}>

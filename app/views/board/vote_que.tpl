@@ -63,7 +63,7 @@
 			<td><textarea name="msg" style="width:90%" rows="3"><{$msg}></textarea></td>
         </tr>
         <tr class="tmpl-op">
-				<td colspan="2" style="padding:4px 0"><input type="submit" class="button" value="提交" />&nbsp;&nbsp;<input type="button" class="button" value="返回" onclick="javascript:history.go(-1)" /></td>
+				<td colspan="2" style="padding:4px 0"><input type="submit" class="button" value="提交" />&emsp;<input type="button" class="button" value="返回" onclick="javascript:history.go(-1)" /></td>
 			</tr>
 			</table>
 			</form>

@@ -51,8 +51,8 @@
 <div id="main">
 	<!--notice start-->
 	<div id="notice" class="corner">
-		<div id="time">服务器时间:&nbsp;<{$serverTime}></div>
-    	<div id="nav"><a href="<{$base}><{$notice[0].url}>"><{$notice[0].text}></a><{section loop=$notice name=key start=1}>&nbsp;>>&nbsp;<a href="<{if $notice[key].url != ""}><{$base}><{$notice[key].url}><{else}>javascript:void(0)<{/if}>"><{$notice[key].text}></a><{/section}></div>
+		<div id="time">服务器时间:&ensp;<{$serverTime}></div>
+    	<div id="nav"><a href="<{$base}><{$notice[0].url}>"><{$notice[0].text}></a><{section loop=$notice name=key start=1}>&ensp;>>&ensp;<a href="<{if $notice[key].url != ""}><{$base}><{$notice[key].url}><{else}>javascript:void(0)<{/if}>"><{$notice[key].text}></a><{/section}></div>
     </div>
     <!--notice end-->
 	<div id="body" class="corner">
