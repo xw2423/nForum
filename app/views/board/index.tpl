@@ -48,14 +48,14 @@
 <{if ($info)}>
 <{foreach from=$info item=item}>
 				<tr <{if $item.tag == "T"}>class="top"<{/if}>>
-					<td class="title_8"><samp class="tag 
+					<td class="title_8"><a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题"><samp class="tag 
 					<{if $item.tag == "N"}> ico-pos-article-normal
 					<{elseif $item.tag == "L"}> ico-pos-article-light
 					<{elseif $item.tag == "T"}> ico-pos-article-top
 					<{elseif $item.tag == "M"}> ico-pos-article-m
 					<{elseif $item.tag == "G"}> ico-pos-article-g
 					<{else}> ico-pos-article-lock
-					<{/if}>"></samp></td>
+					<{/if}>"></samp></a></td>
 					<td class="title_9">
 						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>"><{$item.title}></a>
 		<{if $item.page>7}>
@@ -66,7 +66,7 @@
 					</td>
 					<td class="title_10"><{$item.postTime}>&nbsp;|&nbsp;<a href="<{$base}>/user/query/<{$item.poster}>" class="c63f"><{$item.poster}></a></td>
 					<td class="title_11 middle"><{$item.num}></td>
-					<td class="title_12"><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>#a<{$item.num}>"><{$item.replyTime}></a>&nbsp;|&nbsp;<a href="<{$base}>/user/query/<{$item.last}>" class="c09f"><{$item.last}></a></td>
+					<td class="title_12"><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>#a<{$item.num}>" title="跳转至最后回复"><{$item.replyTime}></a>&nbsp;|&nbsp;<a href="<{$base}>/user/query/<{$item.last}>" class="c09f"><{$item.last}></a></td>
 				</tr>
 <{/foreach}>
 			</table>
