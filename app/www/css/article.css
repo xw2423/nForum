@@ -1,10 +1,10 @@
 .t-btn a{
     display:inline-block;
     text-align:center;
-    padding:2px 6px;
     font-size:14px;
     margin-right:4px;
-    *padding-top:4px;
+    padding:3px 6px 0;
+    height:18px;
 }
 .t-btn a:hover{color:#FFF}
 .t-btn .input{color:#999;font-size:12px;margin-right:5px}
