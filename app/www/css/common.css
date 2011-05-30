@@ -215,12 +215,15 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     margin-top:3px;
 }
 .x-folder,.x-leaf{
-    line-height:28px;
+    height:28px;
     border-bottom:1px solid #c9d7f1; 
     display:block;
     padding-left:3px;
-    vertical-align:middle;
     font-size:13px;
+}
+.x-folder a,.x-leaf a{
+    float:left;
+    padding-top:7px;
 }
 .x-folder:hover,.x-leaf:hover{
     background-color:#598ede;
@@ -238,14 +241,12 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     background-image:url(../img/ico.gif);
     height:12px;
     width:12px;
-    vertical-align:middle;
     margin-right:6px;
     margin-top:8px;
     cursor:pointer;
 }
 .x-child .toggler{
-    margin-top:1px;
-    *margin-top:0px;
+    margin-top:0px;
 }
 .folder-open > span > .toggler,
 .folder-open-last > span  > .toggler{
