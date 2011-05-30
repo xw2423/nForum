@@ -305,14 +305,14 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     float:left;
 }
 .x-search{
-    padding-top:3px;
-    padding-bottom:3px
+    padding-top:1px;
+    padding-bottom:1px
 }
 .x-search input{
-    font-size:13px;
     color:#999;
     width:100px;
-    height: 14px;
+    height: 12px;
+    margin-top:4px;
 }
 /* tree end */
 #adv, #radio{margin-top:8px;text-align:center;}
