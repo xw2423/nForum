@@ -56,7 +56,9 @@ CREATE TABLE `adv` (
   `privilege` tinyint(4) NOT NULL default '0' COMMENT 'banner特权显示',
   `home` tinyint(4) NOT NULL default '0' COMMENT '首页可见',
   `remark` varchar(50) NOT NULL COMMENT '备注',
-  PRIMARY KEY  (`aid`)
+  PRIMARY KEY  (`aid`),
+  KEY `type` (`type`,`switch`),
+  KEY `type_2` (`type`,`privilege`,`home`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

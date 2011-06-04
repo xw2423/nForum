@@ -22,7 +22,8 @@ class AdvComponent extends Object {
         $sql = "select url, file, home from adv where type='2' and privilege=1 $where order by aid";
         $res = $db->all($sql);
         if(empty($res)){
-            $sql = "select url, file, home from adv where type='2' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE $where order by aid";
+            $date = date('Y-m-d');
+            $sql = "select url, file, home from adv where type='2' and sTime<='$date' and eTime>='$date' $where order by aid";
             $res = $db->all($sql);
         }
         $url = $path = array();
@@ -61,7 +62,8 @@ class AdvComponent extends Object {
     public function getPreImg(){
         $db = DB::getInstance();
         $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
-        $sql = "select url,file from adv where type='1' and sTime<=CURRENT_DATE and eTime>=CURRENT_DATE $where";
+        $date = date('Y-m-d');
+        $sql = "select url,file from adv where type='1' and sTime<='$date' and eTime>='$date' $where";
         $res = $db->all($sql);
         if(empty($res))
             return array();
