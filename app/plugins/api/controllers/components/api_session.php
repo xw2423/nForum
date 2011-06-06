@@ -54,7 +54,7 @@ class ApiSessionComponent extends Object{
         if(Configure::read('proxy.X_FORWARDED_FOR')){
             @$fullfrom = $_SERVER["HTTP_X_FORWARDED_FOR"];
             if($fullfrom != ""){
-                $ips = explode(",", $fullfromhost);
+                $ips = explode(",", $fullfrom);
                 $this->from = array_pop($ips);
             }
         }
