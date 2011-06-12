@@ -41,7 +41,7 @@
 /**
  * Application wide charset encoding
  */
-    Configure::write('App.encoding', 'GB2312');
+    Configure::write('App.encoding', 'GBK');
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
  * use CakePHP pretty URLs, remove these .htaccess
