@@ -1,3 +1,23 @@
+diff --git a/cake/basics.php b/cake/basics.php
+index 8a35e00..837085e 100644
+--- a/cake/basics.php
++++ b/cake/basics.php
+@@ -203,6 +203,8 @@ if (!function_exists('array_combine')) {
+ 		if (empty($charset)) {
+ 			$charset = 'UTF-8';
+ 		}
++        //I want to use gbk,but htmlspecialchars is not supported
++        $charset = (strtolower($charset) === 'gbk')?'GB2312':$charset;
+ 		return htmlspecialchars($text, ENT_QUOTES, $charset);
+ 	}
+ /**
+@@ -936,4 +938,4 @@ if (!function_exists('file_put_contents')) {
+ 		}
+ 		return $val2;
+ 	}
+-?>
+\ No newline at end of file
++?>
 diff --git a/cake/console/cake.php b/cake/console/cake.php
 index b5942fd..2b366b0 100644
 --- a/cake/console/cake.php
