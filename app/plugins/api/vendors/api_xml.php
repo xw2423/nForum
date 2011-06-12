@@ -34,14 +34,12 @@ class ApiXml {
                 break;
 
             case 'array':
+                $child = ($dep === 0)?$xml:$xml->addChild($tag);
                 if (is_array($var) && count($var) && (array_keys($var) !== range(0, count($var) - 1))) {
-                    $child = ($dep == 0)?$xml:$xml->addChild($tag);
                     foreach($var as $k => $v){
                         self::_encode($v, $k, $child, $dep + 1);
                     }
                 }else{
-                    if($dep !== 0)
-                        $child = $xml->addChild($tag);
                     foreach($var as $v){
                         self::_encode($v, 'item', $child, $dep + 1);
                     }
