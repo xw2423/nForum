@@ -83,7 +83,7 @@ class RegController extends AppController{
             $this->waitDirect(
                 array(
                     "text" => 'ÂÛÌ³µÇÂ¼', 
-                    "url" => $this->base . '/login'
+                    "url" => '/login'
                 ), ECode::$REG_OK);
         }
     }
