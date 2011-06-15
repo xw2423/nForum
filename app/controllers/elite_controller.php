@@ -58,7 +58,7 @@ class EliteController extends AppController {
                 $this->error(ECode::$ELITE_NODIR);
             }
             $brd->setOnBoard();
-            if (!$brd->isNormal())
+            if ($brd->isNormal())
                 $this->cache(true, filemtime($path));
             $secs = Configure::read("section");
             $this->notice[] = array("url"=>"/section/{$brd->SECNUM}", "text"=>$secs[$brd->SECNUM][0]);
@@ -128,7 +128,7 @@ class EliteController extends AppController {
             $pos = intval($this->params['url']['pos']);
             if($pos == 0)
                 $this->_stop();
-            if(!$brd->isNormal())
+            if($brd->isNormal())
                 $this->cache(true, filemtime($path));
             $e->getAttach($pos); 
             $this->_stop();
