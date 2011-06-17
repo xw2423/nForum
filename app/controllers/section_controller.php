@@ -75,7 +75,7 @@ class SectionController extends AppController {
             $this->notice[] = array("url"=>"/section/{$parent->getName()}", "text"=>$parent->getDesc());
         }
         $this->notice[] = array("url"=>"/section/{$this->_sec->getName()}", "text"=>$this->_sec->getDesc());
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>$this->_sec->isRoot()?"分区列表":"目录列表");
+        $this->notice[] = array("url"=>"", "text"=>$this->_sec->isRoot()?"分区列表":"目录列表");
     }
 
     public function slist(){

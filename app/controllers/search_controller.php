@@ -10,7 +10,7 @@ class SearchController extends AppController {
     public function search(){
         $this->js[] = "forum.search.js";
         $this->css[] = "search.css";
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"ËÑË÷ÎÄÕÂ");
+        $this->notice[] = array("url"=>"", "text"=>"ËÑË÷ÎÄÕÂ");
 
         $secs = Configure::read("section");
         foreach($secs as $k=>&$v){
@@ -26,7 +26,7 @@ class SearchController extends AppController {
     public function doSearch(){
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"ËÑË÷½á¹û");
+        $this->notice[] = array("url"=>"", "text"=>"ËÑË÷½á¹û");
 
         App::import('Sanitize');
         $day = $title1 = $title2 = $title3 = $author = $t = "";
@@ -111,7 +111,7 @@ class SearchController extends AppController {
     public function board(){
         $this->css[] = "board.css";
         $this->js[] = "forum.board.js";
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"ËÑË÷½á¹û");
+        $this->notice[] = array("url"=>"", "text"=>"ËÑË÷½á¹û");
 
         App::import('Sanitize');
         $b = isset($this->params['url']['b'])?$this->params['url']['b']:"";

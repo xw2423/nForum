@@ -38,7 +38,7 @@ class BoardController extends AppController {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
         $this->_getNotice();
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"文章列表");
+        $this->notice[] = array("url"=>"", "text"=>"文章列表");
 
         App::import('Sanitize');
         $pageBar = "";
@@ -102,7 +102,7 @@ class BoardController extends AppController {
     public function vote(){
         $this->requestLogin();
         $this->_getNotice();
-        $this->notice[] = array("url"=>"javascript:void(0);", "text"=>"投票");
+        $this->notice[] = array("url"=>"", "text"=>"投票");
         App::import('Sanitize');
         if(isset($this->params['num'])){
             $num = (int) $this->params['num']; 

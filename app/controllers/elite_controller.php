@@ -87,7 +87,7 @@ class EliteController extends AppController {
         }
         $this->set("start", $start);
         $this->set("info", $info);
-        $this->notice[] = array("url" => "javascript:void(0)", "text" => "精华区列表");
+        $this->notice[] = array("url" => "", "text" => "精华区列表");
     }
 
     public function file(){
@@ -140,7 +140,7 @@ class EliteController extends AppController {
             $content = XUBB::parse($content);
         }
         $this->set("content", $content);
-        $this->notice[] = array("url" => "javascript:void(0)", "text" => "精华区阅读");
+        $this->notice[] = array("url" => "", "text" => "精华区阅读");
     }
 
     //copy from wForum

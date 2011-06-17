@@ -67,7 +67,7 @@ class ForumController extends AppController {
 
     public function flink(){
         $this->css[] = "flink.css";
-        $this->notice[] = array("url"=>"javascript:void(0)", "text"=>"友情链接");
+        $this->notice[] = array("url"=>"", "text"=>"友情链接");
         $file = BBS_HOME . '/etc/friend_link';
         $plant = $img = array();
         if(file_exists($file)){

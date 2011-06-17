@@ -24,7 +24,7 @@ class RegController extends AppController{
     public function index(){
         $this->js[] = "forum.reg.js";
         $this->css[] = "register.css";
-        $this->notice[] = array("url" => "javascript:void(0)", "text" => "ÓÃ»§×¢²á");
+        $this->notice[] = array("url" => "", "text" => "ÓÃ»§×¢²á");
         if($this->RequestHandler->isPost()){
             $IDLEN = BBS_IDLEN;
             //it's defined in bbs.h but no constant for php
@@ -92,7 +92,7 @@ class RegController extends AppController{
         $this->requestLogin();
         $this->js[] = "forum.reg.js";
         $this->css[] = "register.css";
-        $this->notice[] = array("url" => "javascript:void(0)", "text" => "ÌîÐ´×¢²áµ¥");
+        $this->notice[] = array("url" => "", "text" => "ÌîÐ´×¢²áµ¥");
         if($this->RequestHandler->isPost()){
             @$auth = $this->params['form']['auth'];
             @$phone = trim($this->params['form']['phone']);
