@@ -110,10 +110,10 @@ class SectionController extends AppController {
         foreach($sections as $v){
             $tmp = array();
             if($v->isDir()){
-                $tmp['t'] = "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>";
+                $tmp['t'] = "<a href=\"{$this->base}/section/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
                 $tmp['id'] = 'sec-' . $v->NAME;
             }else{
-                $tmp['t'] = "<a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>";
+                $tmp['t'] = "<a href=\"{$this->base}/board/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
             }
             $ret[] = $tmp; 
         }

@@ -124,17 +124,17 @@ class FavorController extends AppController {
                     //user dir
                     if($v->NAME == ""){
                         $ret[] = array(
-                            "t" => "<a href=\"javascript:void(0)\">{$v->DESC}</a>",
+                            "t" => "<a href=\"javascript:void(0)\" title=\"{$v->DESC}\">{$v->DESC}</a>",
                             "id" => "f-" . $v->BID,
                         );
                     }elseif($v->isDir()){
                         $ret[] = array(
-                            "t" => "<a href=\"{$this->base}/section/{$v->NAME}\">{$v->DESC}</a>",
+                            "t" => "<a href=\"{$this->base}/section/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>",
                             "id" => "s-" . $v->NAME,
                         );
                     }else{
                         $ret[] = array(
-                            "t" => "<a href=\"{$this->base}/board/{$v->NAME}\">{$v->DESC}</a>",
+                            "t" => "<a href=\"{$this->base}/board/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>",
                         );
                     }
                 }
