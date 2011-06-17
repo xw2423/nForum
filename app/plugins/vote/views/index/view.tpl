@@ -79,7 +79,7 @@
 					<div class="widget-content">
 						<div class="w-free">
 <{if $furl}>
-						<img src="<{$furl}>" <{if $fwidth != ""}>width="<{$fwidth}>px"<{/if}> <{if $fheight != ""}>height="<{$fheight}>px"<{/if}> />
+						<img src="<{$base}><{$furl}>" <{if $fwidth != ""}>width="<{$fwidth}>px"<{/if}> <{if $fheight != ""}>height="<{$fheight}>px"<{/if}> />
 <{/if}>
 						<span>ID:<{$info.uid}></span>
 

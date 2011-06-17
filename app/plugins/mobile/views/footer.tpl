@@ -11,7 +11,8 @@
 <{if $islogin}>
 	<a href="<{$mbase}>/favor" accesskey="4">收藏</a>|
 	<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $newNum != 0}>(<{$newNum}>新)<{/if}></a>|
-	<a href="<{$mbase}>/user/logout" accesskey="6">注销(<{$id}>)</a>|
+	<a href="<{$mbase}>/friend/online" accesskey="6">好友</a>|
+	<a href="<{$mbase}>/user/logout" accesskey="7">注销(<{$id}>)</a>|
 <{/if}>
 	</div>
 	<div class="logo sp">BYR-Team&copy;2010</div>

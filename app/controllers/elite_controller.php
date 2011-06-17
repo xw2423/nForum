@@ -59,12 +59,10 @@ class EliteController extends AppController {
             }
             $brd->setOnBoard();
             if ($brd->isNormal())
-                $this->cache(true, filemtime($path));
+                $this->cache(true, @filemtime($path));
             $secs = Configure::read("section");
             $this->notice[] = array("url"=>"/section/{$brd->SECNUM}", "text"=>$secs[$brd->SECNUM][0]);
             $this->notice[] = array("url"=>"/board/{$brd->NAME}", "text"=>$brd->DESC);
-        }else{
-            $boardID = 0;
         }
         if(count($articles) == 0)
             $info = false;
@@ -113,15 +111,17 @@ class EliteController extends AppController {
             $parent = $up_dirs[$up_cnt - 2];
             $this->set("parent", urlencode($parent));
         }
-        try{
-            $brd = Board::getInstance($boardName);
-        }catch(BoardNullException $e){
-            $this->error(ECode::$ELITE_NODIR);
-        }
-        if (!$brd->hasReadPerm($u)){
-            if(!$this->ByrSession->isLogin)
-                $this->requestLogin();
-            $this->error(ECode::$ELITE_NODIR);
+        if ($boardName){
+            try{
+                $brd = Board::getInstance($boardName);
+            }catch(BoardNullException $e){
+                $this->error(ECode::$ELITE_NODIR);
+            }
+            if (!$brd->hasReadPerm($u)){
+                if(!$this->ByrSession->isLogin)
+                    $this->requestLogin();
+                $this->error(ECode::$ELITE_NODIR);
+            }
         }
         $e = new Elite($path);
         if(isset($this->params['url']['pos'])){
@@ -129,7 +129,7 @@ class EliteController extends AppController {
             if($pos == 0)
                 $this->_stop();
             if($brd->isNormal())
-                $this->cache(true, filemtime($path));
+                $this->cache(true, @filemtime($path));
             $e->getAttach($pos); 
             $this->_stop();
         }
