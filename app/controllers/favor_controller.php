@@ -33,17 +33,20 @@ class FavorController extends AppController {
         $ret = array();
         if(!$fav->isNull()){
             $brds = $fav->getAll();
+            $u = User::getInstance();
             foreach($brds as $k=>$v){
-                $threads = $v->getLastThreads();
-                if(!is_null($threads)){
-                    $last = array(
-                        "id" => $threads->ID,
-                        "title" => Sanitize::html($threads->TITLE),
-                        "owner" => $threads->isSubject()?$threads->OWNER:"原帖已删除",
-                        "date" => date("Y-m-d H:i:s", $threads->LAST->POSTTIME)
-                    );
-                }else{
-                    $last["id"] = $last["title"] = $last["owner"] = $last["date"] = "无";
+                $last = array();
+                $last["id"] = $last["title"] = $last["owner"] = $last["date"] = "无";
+                if($v->hasReadPerm($u)){
+                    $threads = $v->getLastThreads();
+                    if(!is_null($threads)){
+                        $last = array(
+                            "id" => $threads->ID,
+                            "title" => Sanitize::html($threads->TITLE),
+                            "owner" => $threads->isSubject()?$threads->OWNER:"原帖已删除",
+                            "date" => date("Y-m-d H:i:s", $threads->LAST->POSTTIME)
+                        );
+                    }
                 }
                 $ret[$k]['name'] = $v->NAME;
                 $ret[$k]['desc'] = $v->DESC;

@@ -32,19 +32,22 @@ class SectionController extends AppController {
         $secs = $this->_sec->getAll();
         $ret = false;
         if(!$this->_sec->isNull()){
+            $u = User::getInstance();
             foreach($secs as $brd){
-                $threads = $brd->getTypeArticles(0, 1, Board::$ORIGIN);
-                if(!empty($threads)){
-                    $threads = $threads[0];
-                    $last = array(
-                        "id" => $threads->ID,
-                        "title" => Sanitize::html($threads->TITLE),
-                        "owner" => $threads->isSubject()?$threads->OWNER:"原帖已删除",
-                        "date" => date("Y-m-d H:i:s", $threads->POSTTIME)
-                    );
-                }else{
-                    $last["id"] = "";
-                    $last["title"] = $last["owner"] = $last["date"] = "无";
+                $last = array();
+                $last["id"] = "";
+                $last["title"] = $last["owner"] = $last["date"] = "无";
+                if($brd->hasReadPerm($u)){
+                    $threads = $brd->getTypeArticles(0, 1, Board::$ORIGIN);
+                    if(!empty($threads)){
+                        $threads = $threads[0];
+                        $last = array(
+                            "id" => $threads->ID,
+                            "title" => Sanitize::html($threads->TITLE),
+                            "owner" => $threads->isSubject()?$threads->OWNER:"原帖已删除",
+                            "date" => date("Y-m-d H:i:s", $threads->POSTTIME)
+                        );
+                    }
                 }
                 $bms = split(" ", $brd->BM);
                 foreach($bms as &$bm){
