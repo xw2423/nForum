@@ -19,7 +19,7 @@ $(function(){
             $('#f_post').submit();
             return false;
         }
-    }).ubb({enable:false, ubb_img_path:"/img/ubb/", ubb_em:$('#em_img')});
+    }).ubb({enable:false, ubb_img_path:config.base + "/img/ubb/", ubb_em:$('#em_img')});
         
     var validLogin = function(){
         if(!user_post && !user_login){
