@@ -1,7 +1,7 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
 <div class="sec nav">
 <{if $canPost}>
-	<a href="<{$mbase}>/article/<{$bName}>/post<{if !$threads}>?m=1<{/if}>">发表</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/post<{if !$threads}>?s=1<{/if}>">发表</a>|
 <{/if}>
 <{if $threads}>
 	<a href="<{$mbase}>/board/<{$bName}>/0">经典</a>|

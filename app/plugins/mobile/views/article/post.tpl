@@ -1,5 +1,5 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
-<form action="" method="post">
+<form action="<{$mbase}>/article/<{$bName}>/post" method="post">
 <ul class="sec list">
 <li>标题:<br /><input type="text" name="subject" value="<{$title}>" style="width:100%" /></li>
 <li>内容:<br /><textarea name="content" style="width:100%" rows="8"/><{$content}></textarea></li>
@@ -12,7 +12,7 @@
 </li>
 <li><input type="submit" class="btn" value="提交"/>&nbsp;<input type="button" class="btn" value="返回" onclick="javascript:history.go(-1)" /></li>
 </ul>
-<{if !$single}>
+<{if $single}>
 <input type="hidden" name="s" value="1" />
 <{/if}>
 </form>
