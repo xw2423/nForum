@@ -11,8 +11,7 @@ setup 2:
 
     RewriteCond %{REQUEST_URI} ^/MBASE(/.*)?$ [NC]
     RewriteRule ^.*$ http://NEWDOMAIN [R,L]
-    RewriteCond %{REQUEST_URI} !^/plugins/.*$ [NC]
-    RewriteCond %{REQUEST_URI} !^/att/.*$ [NC]
+    RewriteCond %{REQUEST_URI} !^/(plugins|att|img)/.*$ [NC]
     RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
     RewriteRule ^(.*)$ index.php?url=MBASE/$1 [QSA]
 
@@ -21,8 +20,7 @@ The final .htaccess file maybe:
 
     RewriteCond %{REQUEST_URI} ^/MBASE(/.*)?$ [NC]
     RewriteRule ^.*$ http://NEWDOMAIN [R,L]
-    RewriteCond %{REQUEST_URI} !^/plugins/.*$ [NC]
-    RewriteCond %{REQUEST_URI} !^/att/.*$ [NC]
+    RewriteCond %{REQUEST_URI} !^/(plugins|att|img)/.*$ [NC]
     RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
     RewriteRule ^(.*)$ index.php?url=MBASE/$1 [QSA]
     RewriteCond %{REQUEST_FILENAME} !-d
