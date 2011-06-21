@@ -17,12 +17,13 @@ class WeatherShell extends Shell {
             xml_parse_into_struct($xml_parser, $data, $vals);
             xml_parser_free($xml_parser);
             //print_r($vals);
+            $encoding = Configure::read("App.encoding");
             for($i=0;$i<=count($vals)-1;$i++){
                 if($vals[$i]['tag'] == "status1" && $vals[$i]['type'] == "complete"){
-                    $curStatB = iconv("utf-8","gb2312",$vals[$i]['value']);
+                    $curStatB = @iconv("utf-8",$encoding,$vals[$i]['value']);
                 }
                 if($vals[$i]['tag'] == "status2" && $vals[$i]['type'] == "complete"){
-                    $curStatE = iconv("utf-8","gb2312",$vals[$i]['value']);
+                    $curStatE = @iconv("utf-8",$encoding,$vals[$i]['value']);
                 }
                 if($vals[$i]['tag'] == "temperature1" && $vals[$i]['type'] == "complete"){
                     $curTemp1 = $vals[$i]['value'];
@@ -31,13 +32,13 @@ class WeatherShell extends Shell {
                     $curTemp2 = $vals[$i]['value'];
                 }
                 if($vals[$i]['tag'] == "power1" && $vals[$i]['type'] == "complete"){
-                    $curWind1 = iconv("utf-8","gb2312",$vals[$i]['value']);
+                    $curWind1 = @iconv("utf-8",$encoding,$vals[$i]['value']);
                 }
                 if($vals[$i]['tag'] == "power2" && $vals[$i]['type'] == "complete"){
-                    $curWind2 = iconv("utf-8","gb2312",$vals[$i]['value']);
+                    $curWind2 = @iconv("utf-8",$encoding,$vals[$i]['value']);
                 }
                 if($vals[$i]['tag'] == "zwx_l" && $vals[$i]['type'] == "complete"){
-                    $zwx = iconv("utf-8","gb2312",$vals[$i]['value']);
+                    $zwx = @iconv("utf-8",$encoding,$vals[$i]['value']);
                 }
                 if($vals[$i]['tag'] == "Weather" && $vals[$i]['type'] == "open"){
                     $curDate = "";

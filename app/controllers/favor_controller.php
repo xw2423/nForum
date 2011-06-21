@@ -86,7 +86,7 @@ class FavorController extends AppController {
                     $this->error();
                 break;
             case "ad":
-                if(!$fav->add(iconv("utf-8", "gbk//TRANSLIT", $val), Favor::$DIR))
+                if(!$fav->add(@iconv("utf-8", $this->encoding . "//TRANSLIT", $val), Favor::$DIR))
                     $this->error();
                 break;
             case "db":

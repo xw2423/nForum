@@ -62,7 +62,7 @@ class SmartyView extends Smarty {
         $this->hasRendered = true;
         $out = $this->fetch($viewFileName);    
         if($this->encoding != Configure::read("App.encoding")){
-            $out = iconv(Configure::read("App.encoding"),"{$this->encoding}//IGNORE", $out);
+            $out = @iconv(Configure::read("App.encoding"),"{$this->encoding}//IGNORE", $out);
         }
         return $out;
     }
