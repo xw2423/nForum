@@ -27,3 +27,7 @@ The final .htaccess file maybe:
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 
+setup 3:
+    add crontab below to clear api session automatically,the detail of crontab configure is in crontab.example
+#clear api session
+0 */1 * * * /PATH/TO/NFORUM/cake/console/cake -app /PATH/TO/NFORUM/app sessionclean 

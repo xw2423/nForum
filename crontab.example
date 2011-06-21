@@ -1,0 +1,7 @@
+#以下crontab请使用与kbs crontab相同的账户运行并替换其中相应的目录.
+#注意:请确保/PATH/TO/NFORUM/cake/console/cake.php文件中CURRENTFILE的值设置正确,php在crontab用户的命令行环境下可以正常调用
+
+#每小时从新浪获得天气信息
+9 * * * * /PATH/TO/NFORUM/cake/console/cake -app /PATH/TO/NFORUM/app weather
+#每小时刷新投票排行榜
+9 * * * * /PATH/TO/NFORUM/cake/console/cake -app /PATH/TO/NFORUM/app statistics

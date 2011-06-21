@@ -68,3 +68,5 @@ nForum»áÔÚCakephpÉÏ´òÉÏÒ»Ğ©±ØÒªµÄ²¹¶¡¡£ÔÚ±àÒëÇ°£¬ÇëÔÚsite.hÖĞ¼ÓÉÏÒÔÏÂºê¶¨ÒåÓÃÒÔÆ
     $config['user']['face']['dir']Ä¬ÈÏÉèÖÃÎªuploadFace£¬¼´wForumËùÓÃµÄÍ·ÏñÄ¿Â¼¡£Èç¹ûÒÑÊ¹ÓÃwForum,ÇëÔÚapp/wwwÄ¿Â¼ÏÂ×öÒ»¸öuploadFaceµÄ·ûºÅÁ´½Ó¡£
     ½«nForum/sqlÖĞµÄÊı¾İ¿âÎÄ¼şµ¼Èë½ømysql£¬²¢ÅäÖÃ$config['db']ÖĞµÄÖµ¡£
 ÏêÏ¸ÅäÖÃËµÃ÷Çë²Î¼û´ËÎÄ¼ş×¢ÊÍ¡£
+
+6.ÉèÖÃÏà¹Øcrontab£¬²Î¼ûcrontab.example
