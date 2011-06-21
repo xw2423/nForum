@@ -39,7 +39,7 @@ class DB extends PDO{
         if (!is_array($dbConfig)) {
             $dbConfig = Configure::read("db");
         }
-        if(isset(self::$_db) && self::$_db == $dbConfig)
+        if(isset(self::$_db) && self::$_config == $dbConfig)
             return self::$_db;
         self::_initConfig($dbConfig);
         if (!class_exists('PDO')) 
