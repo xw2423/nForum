@@ -42,6 +42,9 @@ class Pagination {
     public static $OMIT = "...";
     public static $LINK = "#";
 
+    /* must be a odd*/
+    public static $MIDNUM = 7;
+
     /**
      * object to be paged
      * @var Pageable $_model
@@ -193,19 +196,19 @@ class Pagination {
     }
 
     private function _getTags($mid) {
-        if($this->_totalPage <= 11) 
+        if($this->_totalPage <= self::$MIDNUM + 2) 
             return range(1, $this->_totalPage);
-        if($mid < 6) 
-            $mid = 6;
-        if($mid > $this->_totalPage - 5) 
-            $mid = $this->_totalPage - 5;
-        $range = range($mid - 4, $mid + 4);
+        if($mid < (self::$MIDNUM + 3) / 2) 
+            $mid = (self::$MIDNUM + 3) / 2;
+        if($mid > $this->_totalPage - (self::$MIDNUM + 1) / 2) 
+            $mid = $this->_totalPage - (self::$MIDNUM + 1) / 2;
+        $range = range($mid - (self::$MIDNUM - 1) / 2, $mid + (self::$MIDNUM - 1) / 2);
         $ret = array(1);
-        if($mid != 6){
+        if($mid != (self::$MIDNUM + 3) / 2){
             $ret[] = $this->_omit;
         }
         $ret = array_merge($ret, $range);
-        if($mid != $this->_totalPage - 5){
+        if($mid != $this->_totalPage - (self::$MIDNUM + 1) / 2){
             $ret[] = $this->_omit;
         }
         $ret[] = $this->_totalPage;
