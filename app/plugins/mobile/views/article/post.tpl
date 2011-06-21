@@ -1,5 +1,5 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
-<form action="<{$mbase}>/article/<{$bName}>/post" method="post">
+<form action="<{$mbase}>/article/<{$bName}>/post<{if $reid!=0}>/<{$reid}><{/if}>" method="post">
 <ul class="sec list">
 <li>±êÌâ:<br /><input type="text" name="subject" value="<{$title}>" style="width:100%" /></li>
 <li>ÄÚÈİ:<br /><textarea name="content" style="width:100%" rows="8"/><{$content}></textarea></li>

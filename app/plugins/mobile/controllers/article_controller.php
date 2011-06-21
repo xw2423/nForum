@@ -192,6 +192,7 @@ class ArticleController extends MobileAppController {
         $this->set("anony", $this->_board->isAnony());
         $this->set("title", (string)$reTitle);
         $this->set("content", (string)$reContent);
+        $this->set("reid", $reID);
     }
 
     public function edit(){
