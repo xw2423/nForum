@@ -82,21 +82,20 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 /*pagination start*/
 .pagination{
-   overflow:hidden;
    padding:3px 0px;
    *padding:2px 0 0;
 }
 .pagination i{ padding-right:1px; }
-.pagination li{margin:0 3px; display:inline-block;*display:inline;*zoom:1}
+.pagination li{margin-left:2px; display:inline-block;*display:inline;*zoom:1}
 .page-pre,.page-suf{*height:16px;}
-.page-main li{margin:0 1px;}
-.page-main a{padding:0 2px;*padding-top:1px;text-decoration:none;*zoom:1}
+.page-main li{}
+.page-main a{padding:2px 3px 1px 4px;*padding-bottom:0;text-decoration:none;text-align:center;*zoom:1}
 .page-main a:hover{text-decoration:none;}
 .page-normal a{ border:3px double #fff; *border-color:#eee; background:#eee; color:#06f; }
 .page-normal a:hover{ border-color:#fff; *border-color:#598ede; background:#598ede; color:#fff;}
 .page-select a{ border:3px double #fff; *border-color:#598ede; background:#598ede; color:#fff; }
 .page-select a:hover{cursor:default;}
-.page-main .page-omit {margin:0;}
+.page-main .page-omit {}
 /*pagination end*/
 /*header start*/
 #header{

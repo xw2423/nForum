@@ -14,7 +14,7 @@
 .t-btn a:hover{color:#FFF}
 .t-btn .input{color:#999;font-size:12px;margin-right:5px}
 .t-btn .rss{padding:0;vertical-align:bottom}
-.page{float:right;padding-top:2px}
+.page{float:right;padding-top:2px;*padding-top:0}
 
 .b-head div a{ color:#f0d97f; padding-right:5px;}
 .b-head div a:hover{color:#efdb8d;}
