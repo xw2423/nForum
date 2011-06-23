@@ -132,7 +132,8 @@ abstract class Archive extends OverloadObject{
      * @access public
      */
     public function getAttList(){
-        return bbs_file_attachment_list($this->getFileName());
+        $res = bbs_file_attachment_list($this->getFileName());
+        return is_array($res)?$res:array();
     }
 
     /**
