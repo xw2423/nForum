@@ -326,7 +326,7 @@ class AppController extends Controller {
             if(is_null($from)){
                 $query = array();
                 foreach($this->params['url'] as $k=>$v){
-                    if($k == 'url')
+                    if($k === 'url' || $k === 'ext')
                         continue;
                     $query[] = $k . '=' . $v;
                 }
