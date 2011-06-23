@@ -37,12 +37,13 @@ class AttachmentController extends AppController {
                 if(!$board->hasReadPerm(User::getInstance()))
                     $this->error(ECode::$SYS_NOFILE);
                 $archive = Article::getInstance($id, $board);
+                $file = $archive->getFileName();
+                if($board->isNormal())
+                    $this->cache(true, @filemtime($file));
             }
         }catch(Exception $e){
             $this->error(ECode::$SYS_NOFILE);
         }
-        $file = $archive->getFileName();
-        $this->cache(true, @filemtime($file));
         $archive->getAttach($pos);
         $this->_stop();
     }
