@@ -190,7 +190,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .u-login-info ul span{
     color:#f00;
 }
-#left-line{}
+#left-line{width:100%;*height:0;_overflow:hidden}
 #left-line samp{
     float:right;
     width:14px;
