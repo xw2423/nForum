@@ -59,6 +59,7 @@ class DB extends PDO{
         $configs = self::$_config;
         try {
             parent::__construct($configs['dsn'], $configs['user'], $configs['pwd']);
+            $this->setAttribute(self::ATTR_ERRMODE, self::ERRMODE_EXCEPTION);  
         } catch (PDOException $e) {
             throw new DBException($e->getMessage());
         }
@@ -250,6 +251,8 @@ class DB extends PDO{
 
     private function _query($sql, $param = null){
         $stm = $this->prepare($sql);
+        if($stm === false)
+            throw new DBException($sql);
         $ret = is_null($param)?$stm->execute():$stm->execute($param);
         if($ret === false)
             throw new DBException($sql);
