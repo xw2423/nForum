@@ -236,6 +236,8 @@ class ArticleController extends MobileAppController {
         $this->set("title", $title);
         $this->set("content", $content);
         $this->set("single", $single);
+        $this->set("reid", $id);
+        $this->set("edit", true);
         $this->autoRender = false;
         $this->render("post");
     }
