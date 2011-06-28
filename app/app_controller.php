@@ -114,9 +114,9 @@ class AppController extends Controller {
             $this->notice= array_merge(array(array("url" => $site['home'], "text" => $site['name'])), $this->notice);
 
         /* handle jsr end*/
-        $cookie = Configure::read("cookie.domain");
+        $cookie = Configure::read("cookie");
         $jsr = Configure::read("jsr");
-        $jsr = "var config={domain:'{$cookie}',base:'{$this->base}',mWidth:{$jsr['mWidth']},iframe:'{$jsr['iframe']}',allowFrame:'{$jsr['allowFrame']}'},user_login=".($this->ByrSession->isLogin?"true":"false").",uid='". $uid . "';";
+        $jsr = "var config={domain:'{$cookie['domain']}',base:'{$this->base}',prefix:'{$cookie['prefix']}',mWidth:{$jsr['mWidth']},iframe:'{$jsr['iframe']}',allowFrame:'{$jsr['allowFrame']}'};";
         $this->jsr = array_merge(array($jsr), $this->jsr);
         /* handle jsr end*/
 

@@ -1,6 +1,7 @@
 var config_default = {
     domain: window.location.host,
     base: "",
+    prefix: "nforum",
     mWidth: 1000,
     iframe:true,
     allowFrame:"/att/.*|/user/face",
@@ -10,6 +11,7 @@ var config_default = {
     }
 };
 config = $.extend(config_default, config);
+var uid = $.cookie(config.prefix + '[UTMPUSERID]') || 'guest',user_login = (uid !== 'guest');
 $.ajaxSetup({
     timeout: 20000, 
     error: function(xhr, st, et){
