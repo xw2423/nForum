@@ -23,12 +23,13 @@ $(function(){
         
     var validLogin = function(){
         if(!user_post && !user_login){
-            alert('ÇëÏÈµÇÂ¼!');
+            alert('·¢ÌûÇëÏÈµÇÂ¼!');
             return false;
         }
     };
     $('#f_post').submit(validLogin);
     $('#b_post').click(validLogin);
+    $('#b_tmpl').click(validLogin);
     $('.a-post').click(validLogin);
     
     BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'));

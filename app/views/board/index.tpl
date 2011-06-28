@@ -16,7 +16,7 @@
 <{if !$tmpl}>
 			<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">新话题</a>
 <{/if}>
-			<a href="<{$base}>/article/<{$bName}>/tmpl" class="button">模版发文</a>
+			<a href="<{$base}>/article/<{$bName}>/tmpl" id="b_tmpl" class="button">模版发文</a>
 <{if $hasVote}>
 			<a href="<{$base}>/board/<{$bName}>/vote" class="button">版内投票</a>
 <{/if}>

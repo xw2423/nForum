@@ -11,7 +11,7 @@
 <{if !$tmpl}>
         	<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">新话题</a>
 <{/if}>
-        	<a href="<{$base}>/article/<{$bName}>/tmpl" class="button">模版发文</a>
+        	<a href="<{$base}>/article/<{$bName}>/tmpl" id="b_tmpl" class="button">模版发文</a>
             <a href="javascript:void(0)" id="goToReply" class="button">快捷回复</a>
         </div>
     </div>

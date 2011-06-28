@@ -9,12 +9,14 @@ function init(){
     $('#t_search').mouseover(function(){
         $(this).select();
     });
-    $('#b_post').click(function(){
+    var validLogin = function(){
         if(!user_post && !user_login){
             alert('·¢ÌûÇëÏÈµÇÂ¼!');
             return false;
         }
-    });
+    };
+    $('#b_post').click(validLogin);
+    $('#b_tmpl').click(validLogin);
 }
 function favadd(name){
     var url = config.base + "/fav/op/0";
