@@ -11,7 +11,7 @@ function init(){
     });
     var validLogin = function(){
         if(!user_post && !user_login){
-            alert('·¢ÌûÇëÏÈµÇÂ¼!');
+            alert('ÇëÏÈµÇÂ¼!');
             return false;
         }
     };
