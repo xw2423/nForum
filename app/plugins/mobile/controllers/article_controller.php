@@ -40,7 +40,9 @@ class ArticleController extends MobileAppController {
         $bm = $u->isBM($this->_board) || $u->isAdmin();
         $info = array();
         foreach($articles as $v){
-            $content = $v->getHtml();
+            $content = $v->getPlant();
+            $content = preg_replace("/&nbsp;/", " ", $content);
+            $content = preg_replace("/  /", "&nbsp;&nbsp;", $content);
             preg_match("|※ 修改:·([\S]+) .*?FROM:[\s]*([0-9a-zA-Z.:*]+)|", $content, $m);
             preg_match("|※ 来源:.*FROM:[\s]*([0-9a-zA-Z.:*]+)|", $content, $f);
             $m = empty($m)?"":"<br />修改:{$m[1]} FROM {$m[2]}";
@@ -48,6 +50,7 @@ class ArticleController extends MobileAppController {
             $s = (($pos = strpos($content, "<br/><br/>")) === false)?0:$pos + 10;
             $e = (($pos = strpos($content, "<br/>--<br/>")) === false)?strlen($content):$pos + 7;
             $content = substr($content, $s, $e - $s) . $m . $f;
+            $content = $v->parseAtt($content);
             if(Configure::read("ubb.parse")){
                 $content = XUBB::parse($content);
             }
@@ -92,7 +95,9 @@ class ArticleController extends MobileAppController {
         $u = User::getInstance();
         $bm = $u->isBM($this->_board) || $u->isAdmin();
         $info = array();
-        $content = $article->getHtml();
+        $content = $article->getPlant();
+        $content = preg_replace("/&nbsp;/", " ", $content);
+        $content = preg_replace("/  /", "&nbsp;&nbsp;", $content);
         preg_match("|※ 修改:·([\S]+) .*?FROM:[\s]*([0-9a-zA-Z.:*]+)|", $content, $m);
         preg_match("|※ 来源:.*FROM:[\s]*([0-9a-zA-Z.:*]+)|", $content, $f);
         $m = empty($m)?"":"<br />修改:{$m[1]} FROM {$m[2]}";
@@ -100,6 +105,7 @@ class ArticleController extends MobileAppController {
         $s = (($pos = strpos($content, "<br/><br/>")) === false)?0:$pos + 10;
         $e = (($pos = strpos($content, "<br/>--<br/>")) === false)?strlen($content):$pos + 7;
         $content = substr($content, $s, $e - $s) . $m . $f;
+        $content = $article->parseAtt($content);
         if(Configure::read("ubb.parse")){
             $content = XUBB::parse($content);
         }

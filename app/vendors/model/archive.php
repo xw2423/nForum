@@ -84,16 +84,9 @@ abstract class Archive extends OverloadObject{
      */
     public function getHtml($color = false){
         $content = $this->getPlant($color);
-        $attList = $this->getAttHtml();
-        $num = count($attList);
-        if($num > 0){
-            for($i = 1; $i <= $num; $i++){
-                $upload[] = "/\[upload=$i\]\[\/upload\]|(?![\s\S])/";
-            }
-            $content =  preg_replace($upload, $attList, $content, 1);
-        }
         $content = preg_replace("/&nbsp;/", " ", $content);
-        return preg_replace("/  /", "&nbsp;&nbsp;", $content);
+        $content = preg_replace("/  /", "&nbsp;&nbsp;", $content);
+        return $this->parseAtt($content);
     }
 
     /**
@@ -167,6 +160,25 @@ abstract class Archive extends OverloadObject{
             }
         }
         return $ret;
+    }
+
+    /**
+     * function parseAtt parse the "[upload][/upload]" tag in content
+     *
+     * @param string $content
+     * @return string 
+     * @access public
+     */
+    public function parseAtt($content){
+        $attList = $this->getAttHtml();
+        $num = count($attList);
+        if($num > 0){
+            for($i = 1; $i <= $num; $i++){
+                $upload[] = "/\[upload=$i\]\[\/upload\]|(?![\s\S])/";
+            }
+            $content =  preg_replace($upload, $attList, $content, 1);
+        }
+        return $content;
     }
 
     public function hasAttach(){
