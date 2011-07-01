@@ -493,11 +493,15 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 /* ico postion*/
 .ico-pos-article-normal{background-position: -16px -21px}
 .ico-pos-article-light{background-position: 0px -21px}
+.ico-pos-article-fire{background-position: -156px -21px}
+.ico-pos-article-huo{background-position: -172px -21px}
 .ico-pos-article-g{background-position: -64px -21px}
 .ico-pos-article-m{background-position: -48px -21px}
+.ico-pos-article-b{background-position: -140px -21px}
 .ico-pos-article-top{background-position: -80px -21px}
 .ico-pos-article-lock{background-position:-32px -21px}
 .ico-pos-article-dir{background-position:-96px -21px}
+.ico-pos-article-attach{background-position:-189px -22px}
 .ico-pos-w-collapse-on{background-position:-52px -1px}
 .ico-pos-w-collapse-off{background-position:-38px -1px}
 .ico-pos-w-rss{background-position:-361px -3px}

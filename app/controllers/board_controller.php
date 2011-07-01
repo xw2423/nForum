@@ -65,7 +65,8 @@ class BoardController extends AppController {
                 "replyTime" => $replyTime,
                 "num" => $v->articleNum - 1,
                 "page" => $page,
-                "del" => $bm?1:0
+                "del" => $bm?1:0,
+                "att" => $v->hasAttach()
             );
         }
         $this->set("info", $info);
@@ -163,7 +164,10 @@ class BoardController extends AppController {
         if($threads->isTop()){
             return "T";
         }
-        if($threads->isM() || $threads->isB()){
+        if($threads->isB()){
+            return "B";
+        }
+        if($threads->isM()){
             return "M";
         }
         if($threads->isNoRe()){
@@ -171,6 +175,12 @@ class BoardController extends AppController {
         }
         if($threads->isG()){
             return "G";
+        }
+        if($threads->articleNum > 1000){
+            return "L3";
+        }
+        if($threads->articleNum > 100){
+            return "L2";
         }
         if($threads->articleNum > 10)
             return "L";

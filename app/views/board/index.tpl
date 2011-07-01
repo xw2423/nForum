@@ -51,13 +51,17 @@
 					<td class="title_8"><a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题"><samp class="tag 
 					<{if $item.tag == "N"}> ico-pos-article-normal
 					<{elseif $item.tag == "L"}> ico-pos-article-light
+                    <{elseif $item.tag == "L2"}> ico-pos-article-fire
+                    <{elseif $item.tag == "L3"}> ico-pos-article-huo
 					<{elseif $item.tag == "T"}> ico-pos-article-top
+                    <{elseif $item.tag == "B"}> ico-pos-article-b
 					<{elseif $item.tag == "M"}> ico-pos-article-m
 					<{elseif $item.tag == "G"}> ico-pos-article-g
 					<{else}> ico-pos-article-lock
 					<{/if}>"></samp></a></td>
 					<td class="title_9">
 						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>"><{$item.title}></a>
+                    <{if $item.att}><samp class="tag-att ico-pos-article-attach"></samp><{/if}>
 		<{if $item.page>7}>
 		<span class="threads-tab">[<{section name=temp loop=7 start=2}><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>..<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>"><{$item.page}></a>]</span>
 		<{elseif $item.page>1}>

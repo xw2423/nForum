@@ -61,7 +61,6 @@
     margin-top:5px;
 }
 .board-list tr{
-    vertical-align:bottom;
 }
 .board-list .top .title_9 a{
     color:red;
@@ -80,6 +79,11 @@
     width: 16px;
     height: 17px;
 }
-.board-list .threads-tab{ font-weight:bold; }
+.board-list .tag-att{
+    width:8px;
+    height: 17px;
+    margin-left:4px;
+}
+.board-list .threads-tab{ font-weight:bold; padding-left:4px;}
 .board-list .threads-tab a{margin:0 3px}
 .tiz td{padding-top:8px;}
