@@ -117,6 +117,8 @@ class FavorController extends AppController {
                 } else {
                     $fav = Favor::getInstance($root);
                 }
+            }catch (SectionNullException $e) {
+                $this->_stop();
             }catch(FavorNullException $e){
                 $this->_stop();
             }
