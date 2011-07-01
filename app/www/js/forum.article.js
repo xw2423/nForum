@@ -26,8 +26,17 @@ $(function(){
             alert('请先登录!');
             return false;
         }
+        return true;
+    },
+    validPost = function(){
+        if(!validLogin())
+            return false;
+        if($.trim($('#text_a').val()) == ''){
+            alert('不要回复空内容嘛!');
+            return false;
+        }
     };
-    $('#f_post').submit(validLogin);
+    $('#f_post').submit(validPost);
     $('#b_post').click(validLogin);
     $('#b_tmpl').click(validLogin);
     $('.a-post').click(validLogin);
