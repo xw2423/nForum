@@ -32,7 +32,7 @@ class Adv implements Pageable {
     }
 
     public function getRecord($start, $num){
-        $sql = "select * from {$this->_table} where type='{$this->type}' order by switch desc,weight,aid desc limit " . ($start - 1). ",$num";
+        $sql = "select * from {$this->_table} where type='{$this->type}' order by switch desc,weight,sTime desc,aid desc limit " . ($start - 1). ",$num";
         $db = DB::getInstance();
         $ret = $db->all($sql);
         return $ret;
