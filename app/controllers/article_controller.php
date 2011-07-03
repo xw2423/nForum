@@ -281,31 +281,6 @@ class ArticleController extends AppController {
         $this->set("eid", $id);
     }
 
-    public function focus(){
-        $focusBan = Configure::read("focus.ban");
-        if(in_array($this->_board->NAME, $focusBan)){
-            $this->error(ECode::$ARTICLE_REERROR);
-        }
-        $id = $this->params['id'];
-        try{
-            $article = Article::getInstance($id, $this->_board);
-            if(!$article->isSubject() || !$article->postFocus())
-                $this->error(ECode::$ARTICLE_REERROR);
-
-        }catch(ArticleNullException $e){
-            $this->error(ECode::$ARTICLE_NONE);
-        }
-        $this->waitDirect(
-            array(
-                "text" => $this->_board->DESC, 
-                "url" => "/board/" . $this->_board->NAME
-            ),ECode::$ARTICLE_REOK,
-            array(
-                array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-            ));
-        
-    }
-
     public function preview(){
         $this->css[] = "article.css";
         $this->css[] = "ansi.css";
