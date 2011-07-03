@@ -44,8 +44,13 @@ class EliteController extends AppController {
 
         $up_dirs = array();
         $up_cnt = $this->_getUpdir($path,$boardName,$up_dirs);
+        $start = 0;
         if ($up_cnt >= 2)
             $parent = $up_dirs[$up_cnt - 2];
+        elseif ($up_cnt == 1) {
+            $this->set("parent", "");
+            $start = 1;
+        }
         if ($boardName){
             try{
                 $brd = Board::getInstance($boardName);
@@ -78,7 +83,6 @@ class EliteController extends AppController {
                 );
             }
         }
-        $start = 0;
         if($parent != ""){
             $this->set("parent", urlencode($parent));
             $start = 1;
@@ -110,6 +114,8 @@ class EliteController extends AppController {
         if ($up_cnt >= 2){
             $parent = $up_dirs[$up_cnt - 2];
             $this->set("parent", urlencode($parent));
+        } elseif ($up_cnt == 1) {
+            $this->set("parent","");
         }
         if ($boardName){
             try{

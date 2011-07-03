@@ -16,7 +16,7 @@
 					<td class="title_13">0.</td>
 					<td class="title_14"><samp class="tag ico-pos-article-top"></samp></td>
 					<td class="title_15">
-						<a href="<{$base}>/elite/path?v=<{$parent}>">上级目录</a>
+                        <a href="<{$base}>/elite/path<{if !empty($parent)}>?v=<{$parent}><{/if}>">上级目录</a>
 					</td>
 					<td class="title_16">&nbsp;</td>
 					<td class="title_17">&nbsp;</td>
