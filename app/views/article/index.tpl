@@ -46,12 +46,12 @@
 			</td>
 			<td class="a-no-bottom a-no-top">
 				<ul class="a-func">
-					<li class="a-reply"><samp class="ico-pos-reply"></samp><a href="<{$base}>/article/<{$bName}>/post/<{$item.id}>" class="a-post">回复</a></li>
-					<li class="a-message"><samp class="ico-pos-mess"></samp><a href="<{$base}>/article/forward/<{$bName}>/<{$item.id}>" class="a-post">转寄</a></li>
-					<li class="a-search"><samp class="ico-pos-smile"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
+					<li><samp class="ico-pos-reply"></samp><a href="<{$base}>/article/<{$bName}>/post/<{$item.id}>" class="a-post">回复</a></li>
+					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/forward/<{$bName}>/<{$item.id}>" class="a-post">转寄</a></li>
+					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 				<{if $item.op == "1"}>
-					<li class="a-edit"><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
-					<li class="a-del"><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/delete/<{$item.id}>" onclick="return confirm('确认删除？')">删除</a></li>
+					<li><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
+					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/delete/<{$item.id}>" onclick="return confirm('确认删除？')">删除</a></li>
 				<{/if}>
 				</ul>
 				<span class="a-pos">
@@ -94,9 +94,9 @@
 				&nbsp;
 <{else}>
 				<ul class="a-func a-func-info">
-					<li class="a-reply"><samp class="ico-pos-reply"></samp><a href="<{$base}>/user/query/<{$item.owner.id}>">查看</a></li>
-					<li class="a-message"><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/reply/<{$bName}>/<{$item.id}>?id=<{$item.owner.id}>" class="a-post">发信</a></li>
-					<li class="a-search"><samp class="ico-pos-smile"></samp><a href="<{$base}>/friend/add?id=<{$item.owner.id}>" class="a-post">加好友</a></li>
+					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/user/query/<{$item.owner.id}>">查看</a></li>
+					<li><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/reply/<{$bName}>/<{$item.id}>?id=<{$item.owner.id}>" class="a-post">发信</a></li>
+					<li><samp class="ico-pos-friend"></samp><a href="<{$base}>/friend/add?id=<{$item.owner.id}>" class="a-post">加好友</a></li>
 				</ul>
 <{/if}>
 			</td>

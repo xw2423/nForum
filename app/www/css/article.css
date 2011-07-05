@@ -36,45 +36,50 @@
 .article .a-no-top{ border-top:0 none;}
 .article .a-no-bottom{ border-bottom:0 none; }
 .a-left{ width:170px; }
-.a-func{}
+.a-func{
+    float:left;
+}
 .a-func li{ 
     margin-left:10px; 
-    float:left; 
-    *margin-top:2px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
 }
-.a-func li a{ font-size:12px; color:#2244bb;}
+.a-func li a{
+    font-size:12px;
+    color:#2244bb;
+    vertical-align:middle;
+    padding-top:2px;
+    *zoom:1;
+}
 .a-func li samp{
     margin-right:4px;
+    width:16px;
+    height:16px;
 }
-.a-func li.a-reply samp{width:10px;height:14px;*height:12px;}
-.a-func li.a-message samp{width:12px;height:12px;*height:12px;}
-.a-func li.a-search samp{width:12px;height:17px;*height:14px;}
-.a-func li.a-rss samp{width:12px;height:16px;*height:15px;}
-.a-func li.a-edit samp{width:14px;height:16px;*height:15px;}
-.a-func li.a-del samp{width:14px;height:17px;*height:15px;}
-.a-func-info li{margin-bottom:-1px;margin-left:5px;*margin-top:0} 
+.a-func-info li{margin-left:6px} 
 /* article common */
 
 /* article head */
-.a-head{height:20px;}
+.a-head{height:19px}
 .a-head td{vertical-align:top}
 .u-name{
     float:left; 
     margin-left:15px;
-    margin-top:3px;
     font-weight:bold;
+    padding-top:2px;
 }
 .u-sex{ float:right; margin-right:8px }
 .u-sex samp{
     width: 15px;
-    height: 18px;
+    height: 17px;
 }
 .a-pos{ 
     float:right; 
     font-size:12px; 
     color:#2244bb; 
     padding-right:5px;
-    *padding-top:3px;
+    padding-top:2px;
 }
 /* article head */
 
@@ -116,9 +121,9 @@
 
 /* article bottom */
 .a-bottom{
-    height:20px; 
     color:#2244bb; 
     font-size:12px; 
+    height:20px;
 }
 .a-bottom td{ vertical-align:bottom; }
 .a-back{float:right;padding-right:5px}

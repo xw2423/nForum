@@ -22,10 +22,10 @@
             <div class="mail-list">
                 <div class="m-op">
                     <ul class="m-func"> 
-                        <li class="m-reply"><samp class="ico-pos-reply"></samp><a href="<{$base}>/mail/reply/<{$type}>/<{$num}>">»Ø¸´</a></li> 
-                        <li class="m-message"><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/forward/<{$type}>/<{$num}>">×ª¼Ä</a></li> 
-                        <li class="m-del"><samp class="ico-pos-del"></samp><a href="<{$base}>/mail/delete/<{$type}>/<{$num}>">É¾³ý</a></li> 
-                        <li class="m-edit"><samp class="ico-pos-edit"></samp><a href="<{$base}>/mail/send">×«Ð´</a></li> 
+                        <li><samp class="ico-pos-reply"></samp><a href="<{$base}>/mail/reply/<{$type}>/<{$num}>">»Ø¸´</a></li> 
+                        <li><samp class="ico-pos-forward"></samp><a href="<{$base}>/mail/forward/<{$type}>/<{$num}>">×ª¼Ä</a></li> 
+                        <li><samp class="ico-pos-del"></samp><a href="<{$base}>/mail/delete/<{$type}>/<{$num}>">É¾³ý</a></li> 
+                        <li><samp class="ico-pos-edit"></samp><a href="<{$base}>/mail/send">×«Ð´</a></li> 
 					</ul>
                 </div>
                 <div class="mail">
@@ -35,10 +35,10 @@
                 </div>
                 <div class="m-op">
                     <ul class="m-func"> 
-                        <li class="m-reply"><samp class="ico-pos-reply"></samp><a href="<{$base}>/mail/reply/<{$type}>/<{$num}>">»Ø¸´</a></li> 
-                        <li class="m-message"><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/forward/<{$type}>/<{$num}>">×ª¼Ä</a></li> 
-                        <li class="m-del"><samp class="ico-pos-del"></samp><a href="<{$base}>/mail/delete/<{$type}>/<{$num}>">É¾³ý</a></li> 
-                        <li class="m-edit"><samp class="ico-pos-edit"></samp><a href="<{$base}>/mail/send">×«Ð´</a></li> 
+                        <li><samp class="ico-pos-reply"></samp><a href="<{$base}>/mail/reply/<{$type}>/<{$num}>">»Ø¸´</a></li> 
+                        <li><samp class="ico-pos-forward"></samp><a href="<{$base}>/mail/forward/<{$type}>/<{$num}>">×ª¼Ä</a></li> 
+                        <li><samp class="ico-pos-del"></samp><a href="<{$base}>/mail/delete/<{$type}>/<{$num}>">É¾³ý</a></li> 
+                        <li><samp class="ico-pos-edit"></samp><a href="<{$base}>/mail/send">×«Ð´</a></li> 
 					</ul>
                 </div>
             </div>

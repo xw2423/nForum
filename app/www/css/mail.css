@@ -28,23 +28,26 @@
 /* mail list end*/
 
 /* mail detail start*/
-.m-op{ height:18px;background:#f5f8fb;_background:#f5f8fb;}
-.m-func{ height:16px; padding-top:2px;}
+.m-op{padding:3px;background:#f5f8fb}
+.m-func{ }
 .m-func li{ 
     margin-left:10px; 
-    *margin-left:4px; 
-    float:left; 
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
 }
-.m-func li a{ font-size:12px; color:#2244bb;}
+.m-func li a{
+    font-size:12px;
+    color:#2244bb;
+    vertical-align:middle;
+    padding-top:2px;
+    *zoom:1;
+}
 .m-func li samp{
     margin-right:4px;
-    _margin-right:2px;
+    width:16px;
+    height:16px;
 }
-.m-func li.m-reply samp{ width:10px; height:18px;*margin-top:-1px}
-.m-func li.m-message samp{ width: 12px; height: 18px;*margin-top:-1px }
-.m-func li.m-edit samp{width:14px; height: 18px; *margin-top:-1px}
-.m-func li.m-del samp{ width: 14px; height: 18px; }
-.m-func_info{ margin-left:0px;}
 .mail{ padding:10px 17px;font-family:ËÎÌו,Arial,Verdana; }
 .mail-title{color:#598ede; font-weight:bold; }
 .mail-title span{ font-weight:normal; }
