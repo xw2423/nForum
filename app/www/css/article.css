@@ -38,6 +38,7 @@
 .a-left{ width:170px; }
 .a-func{
     float:left;
+    font-size:0px;
 }
 .a-func li{ 
     margin-left:10px; 

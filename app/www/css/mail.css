@@ -29,7 +29,7 @@
 
 /* mail detail start*/
 .m-op{padding:3px;background:#f5f8fb}
-.m-func{ }
+.m-func{font-size:0px}
 .m-func li{ 
     margin-left:10px; 
     display:inline-block;
