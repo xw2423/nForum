@@ -81,7 +81,9 @@ class ArticleController extends AppController {
             //$content = preg_replace($pattern, "", $content);
             if(Configure::read("ubb.parse")){
                 //remove ubb of nickname in first and title second line
-                $content = preg_replace("'^(.*?<br \/>.*?<br \/>)'e", "XUBB::remove('\\1')", $content);
+                preg_match("'^(.*?<br \/>.*?<br \/>)'", $content, $res);
+                $content = preg_replace("'(^.*?<br \/>.*?<br \/>)'", '', $content);
+                $content = XUBB::remove($res[1]) . $content;
                 $content = XUBB::parse($content);
             }
             $info[] = array(
@@ -272,8 +274,9 @@ class ArticleController extends AppController {
         $this->notice[] = array("url"=>"", "text"=>"±à¼­ÎÄÕÂ");
 
         $article = Article::getInstance($id, $this->_board);
-        $title = $article->TITLE;
-        $content = $article->getContent();
+        App::import('Sanitize');
+        $title = Sanitize::html($article->TITLE);
+        $content = Sanitize::html($article->getContent());
         $this->set("bName", $this->_board->NAME);
         $this->set("isAtt", $this->_board->isAttach());
         $this->set("title", $title);
