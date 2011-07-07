@@ -8,6 +8,14 @@
 <{else}>
 	<a href="<{$mbase}>/board/<{$bName}>">同主题</a>|
 <{/if}>
+	<a href="<{$mbase}>/board/<{$bName}>/1">文摘</a>|
+	<a href="<{$mbase}>/board/<{$bName}>/3">保留</a>|
+<{if $isBM || $isAdmin}>
+	<a href="<{$mbase}>/board/<{$bName}>/4">回收站</a>|
+<{/if}>
+<{if $isAdmin}>
+	<a href="<{$mbase}>/board/<{$bName}>/5">垃圾箱</a>|
+<{/if}>
 </div>
 <ul class="list sec">
 <{if $info}>
@@ -18,7 +26,7 @@
 		<{$item.postTime}>&nbsp;<a href="<{$mbase}>/user/query/<{$item.poster}>"><{$item.poster}></a>|
 		<{$item.replyTime}>&nbsp;<a href="<{$mbase}>/user/query/<{$item.last}>"><{$item.last}></a>
 <{else}>
-		<a href="<{$mbase}>/article/<{$bName}>/single/<{$item.gid}>"<{if $item.tag}> class="<{$item.tag}>"<{/if}>><{if $item.subject}>●&nbsp;<{/if}><{$item.title}></a><{if $threads}>(<{$item.num}>)<{/if}><br />
+		<a href="<{$mbase}>/article/<{$bName}>/single/<{if $sort}><{$item.gid}><{else}><{$item.pos}><{/if}>/<{$mode}>"<{if $item.tag}> class="<{$item.tag}>"<{/if}>><{if $item.subject}>●&nbsp;<{/if}><{$item.title}></a><{if $threads}>(<{$item.num}>)<{/if}><br />
 		<{if $item.top}>[提示]<{else}><{$item.pos}><{/if}>&nbsp;<{$item.postTime}>&nbsp;<a href="<{$mbase}>/user/query/<{$item.poster}>"><{$item.poster}></a>
 <{/if}>
 </li>

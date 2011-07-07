@@ -5,7 +5,7 @@
 <{/if}>
 	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>">展开</a>|
 	<a href="<{$mbase}>/article/<{$bName}>/single/<{$gid}>">溯源</a>|
-	<a href="<{$mbase}>/board/<{$bName}>/0">返回</a>|
+	<a href="<{$mbase}>/board/<{$bName}>/<{$mode}>">返回</a>|
 </div>
 <ul class="list sec">
 <li class="f">主题:<{$title}></li>
@@ -18,7 +18,7 @@
 	<a href="<{$mbase}>/mail/send/<{$poster}>">发信</a>|
 <{if $op}>
 	<a href="<{$mbase}>/article/<{$bName}>/edit/<{$aid}>?s=1">编辑</a>|
-	<a href="<{$mbase}>/article/<{$bName}>/delete/<{$aid}>">删除</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/delete/<{$aid}>?s=1">删除</a>|
 <{/if}>
 	</div>
 	<div class="sp"><{$content}></div>

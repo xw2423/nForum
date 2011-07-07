@@ -86,7 +86,7 @@ class BoardController extends AppController {
         $this->set("totalPage", $pagination->getTotalPage());
         $this->set("todayNum", $this->_board->getTodayNum());
         $this->set("curNum", $this->_board->CURRENTUSERS);
-        $this->set("totalNum", $this->_board->threadsNum);
+        $this->set("totalNum", $this->_board->getThreadsNum());
         $this->set("curPage", $pagination->getCurPage());
         $this->set("bms", $bms);
         $this->set("bName", $this->_board->NAME);

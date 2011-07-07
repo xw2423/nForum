@@ -38,13 +38,14 @@ class FavorController extends AppController {
                 $last = array();
                 $last["id"] = $last["title"] = $last["owner"] = $last["date"] = "ÎÞ";
                 if($v->hasReadPerm($u)){
-                    $threads = $v->getLastThreads();
-                    if(!is_null($threads)){
+                    $threads = $v->getTypeArticles(0, 1, Board::$ORIGIN);
+                    if(!empty($threads)){
+                        $threads = $threads[0];
                         $last = array(
                             "id" => $threads->ID,
                             "title" => Sanitize::html($threads->TITLE),
                             "owner" => $threads->isSubject()?$threads->OWNER:"Ô­ÌûÒÑÉ¾³ý",
-                            "date" => date("Y-m-d H:i:s", $threads->LAST->POSTTIME)
+                            "date" => date("Y-m-d H:i:s", $threads->POSTTIME)
                         );
                     }
                 }
@@ -58,7 +59,7 @@ class FavorController extends AppController {
                 $ret[$k]['num'] = $v->ARTCNT; //article num
                 $ret[$k]['pnum'] = $v->CURRENTUSERS;//online
                 $ret[$k]['tnum'] = $v->getTodayNum(); //totay article num
-                $ret[$k]['thnum'] = $v->threadsNum; //threads num
+                $ret[$k]['thnum'] = $v->getThreadsNum(); //threads num
                 $ret[$k]['last'] = $last; //last post
                 $ret[$k]['link'] = ($v->isDir()?"/fav/":"/board/") . $v->BID;
             }

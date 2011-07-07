@@ -20,6 +20,10 @@ class BoardController extends MobileAppController {
             $this->error(ECode::$BOARD_NONE);
         }
 
+        if(isset($this->params['mode'])){
+            $mode = (int)trim($this->params['mode']);
+            $this->_board->setMode($mode);
+        }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPERM);
         }
@@ -28,13 +32,6 @@ class BoardController extends MobileAppController {
 
     public function index(){
         $u = User::getInstance();
-        if(isset($this->params['mode'])){
-            $mode = (int)trim($this->params['mode']);
-            $u = User::getInstance();
-            if(!$u->isAdmin() && !$u->isBM($this->_board))
-                $mode = Board::$NORMAL;
-            $this->_board->setMode($mode);
-        }
         try{
             App::import('Sanitize');
             $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
@@ -87,6 +84,9 @@ class BoardController extends MobileAppController {
             $this->set("bName", $this->_board->NAME);
             $this->set("canPost", $this->_board->hasPostPerm($u)?1:0);
             $this->set("mode", $this->_board->getMode());
+            $this->set("sort", $this->_board->isSortMode());
+            $this->set("isBM", $u->isBM($this->_board));
+            $this->set("isAdmin", $u->isAdmin());
         }catch(BoardNullException $e){
             $this->error(Board::$BOARD_NONE);
         }

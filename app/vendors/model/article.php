@@ -21,8 +21,10 @@ class Article extends Archive{
     protected $_board;
 
     /**
-     * the position in threads 
-     * start with zero
+     * in threads mode:
+     *      the position in threads & start with zero
+     * in non-sort mode:
+     *      the position in list in current mode
      * @var int $_pos
      */
     protected $_pos;
@@ -30,6 +32,8 @@ class Article extends Archive{
     /**
      * function getInstance get a Article object via $board & $id
      * suggest using this method to get a ref of article
+     * it will check the board mode to decide use which method to get article
+     * if board is in non-sort mode ,article is got by its position
      *
      * @param int $id
      * @param Board $board
@@ -39,13 +43,19 @@ class Article extends Archive{
      * @throws ArticleNullException
      */
     public static function getInstance($id, $board){
-        $info = array();
-        //0 for normal dir mode
-        $num = bbs_get_records_from_id($board->NAME, $id, 0, $info);
-        if($num == 0){
-            throw new ArticleNullException();
+        if($board->isSortMode()){
+            $info = array();
+            $num = bbs_get_records_from_id($board->NAME, $id, 0, $info);
+            if($num == 0)
+                throw new ArticleNullException();
+            $info = $info[1];
+        }else{
+            $info = bbs_getarticles($board->NAME, $id, 1, $board->getMode());
+            if(!is_array($info))
+                throw new ArticleNullException();
+            $info = $info[0];
         }
-        return new Article($info[1], $board);
+        return new Article($info, $board);
     }
 
     /**

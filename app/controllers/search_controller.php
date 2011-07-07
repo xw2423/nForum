@@ -148,7 +148,7 @@ class SearchController extends AppController {
                 "bms" => $bms,
                 "curNum" => $brd->CURRENTUSERS,
                 "todayNum" => $brd->getTodayNum(),
-                "threadsNum" => $brd->threadsNum,
+                "threadsNum" => $brd->getThreadsNum(),
                 "articleNum" => $brd->ARTCNT,
                 "last" => $last
             );

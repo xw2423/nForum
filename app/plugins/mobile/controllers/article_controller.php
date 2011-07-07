@@ -15,6 +15,10 @@ class ArticleController extends MobileAppController {
         }catch(BoardNullException $e){
             $this->error(ECode::$BOARD_UNKNOW);
         }
+        if(isset($this->params['mode'])){
+            $mode = (int)trim($this->params['mode']);
+            $this->_board->setMode($mode);
+        }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPERM);
         }
@@ -123,6 +127,7 @@ class ArticleController extends MobileAppController {
             "tNext" =>($a = $article->tNext())?$a->ID:false
         );
         $this->set("bName", $this->_board->NAME);
+        $this->set("mode", $this->_board->getMode());
         $this->set("canPost", $this->_board->hasPostPerm($u));
         $this->set("title", Sanitize::html($article->TITLE));
         $this->set($info);
@@ -261,7 +266,8 @@ class ArticleController extends MobileAppController {
                 $this->error(ECode::$ARTICLE_NONE);
             }
         }
-        $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . "?m=" . ECode::$ARTICLE_DELOK);
+        $single = (isset($this->params['url']['s']) || isset($this->params['form']['s']));
+        $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . ($single?"/0":"") . "?m=" . ECode::$ARTICLE_DELOK);
     }
 }
 ?>

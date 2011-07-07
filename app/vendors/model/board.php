@@ -54,7 +54,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * number of threads in board
      * @var int $threadsNum
      */
-    public $threadsNum = 0;
+    public $_threadsNum = null;
 
     /**
      * board mode
@@ -119,9 +119,6 @@ class Board extends OverloadObject implements Pageable, iWidget{
         if(!is_array($info))
             throw new BoardNullException();
         $this->_info = $info;
-        $this->threadsNum = bbs_getthreadnum($this->BID);
-        if($this->threadsNum < 0)
-             $this->threadsNum = 0;
     }
 
     public function __get($name){
@@ -148,7 +145,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
 
     public function getTotalNum(){
         if($this->_mode === self::$THREAD)
-            return $this->threadsNum;
+            return $this->getThreadsNum();
         else
             return $this->getTypeNum($this->_mode);
     }
@@ -202,7 +199,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * @access public
      */
     public function getThreads($start,$num){
-        if($this->threadsNum == 0)
+        if($this->getThreadsNum() == 0)
             return array();
         $arr = bbs_getthreads($this->NAME, $start, $num, 1);
         if(!is_array($arr))
@@ -211,6 +208,20 @@ class Board extends OverloadObject implements Pageable, iWidget{
             $v = new Threads($v, $this);
         }
         return $arr;
+    }
+
+    /**
+     * function getThreadsNum get number of threads which is only for Threads mode
+     *
+     * @return int
+     */
+    public function getThreadsNum(){
+        if(null === $this->_threadsNum){
+            $this->_threadsNum = bbs_getthreadnum($this->BID);
+            if($this->_threadsNum < 0)
+                 $this->_threadsNum = 0;
+        }
+        return $this->_threadsNum;
     }
 
     /**
@@ -240,7 +251,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * $ORIGIN same threads mode
      * $ZHIDING top articles
      *
-     * @param int $start
+     * @param int $start start with zero
      * @param int $num
      * @param int $type
      * @return array
@@ -258,6 +269,47 @@ class Board extends OverloadObject implements Pageable, iWidget{
             $v = new Article($v, $this, $k + $start);
         }
         return $ret;
+    }
+
+    /**
+     * function getTypeNum get the article number of $type
+     *
+     * @param int $type
+     * @return int
+     * @access public
+     */
+    public function getTypeNum($type = null){
+        if(is_null($type))
+            $type = self::$NORMAL;
+        return bbs_countarticles($this->BID, $type);
+    }
+
+    /**
+     * function isSortMode show the mode(default current mode) whether article is accessed by position
+     * if return false ,the articles in this mode can only be accessed via its position
+     *
+     * @param int mode
+     * @return boolean
+     * @access public
+     */
+    public function isSortMode($mode = null){
+        if(null === $mode)
+            $mode = $this->_mode;
+        return ($mode == BOARD::$THREAD || $mode == BOARD::$NORMAL || $mode == BOARD::$ORIGIN);
+    }
+
+    /**
+     * function isValidMode show ths mode(default current mode) can be accessed or not
+     *
+     * @param int mode
+     * @return boolean
+     * @access public
+     */
+    public function isValidMode($mode = null){
+        if(null === $mode)
+            $mode = $this->_mode;
+        $modes = array(Board::$NORMAL,Board::$DIGEST,Board::$THREAD,Board::$MARK,Board::$DELETED,Board::$JUNK);
+        return in_array($mode, $modes);
     }
 
     /**
@@ -287,12 +339,20 @@ class Board extends OverloadObject implements Pageable, iWidget{
 
     /**
      * function hasReadPerm whether board can read 
+     * it also check the current mode can be read
      *
      * @param User $user
      * @return boolean true|false
      * @access public
      */
     public function hasReadPerm($user){
+        if(!$this->isValidMode())
+            return false;
+        if($this->_mode === Board::$DELETED && !$user->isBM($this) && !$user->isAdmin())
+            return false;
+        if($this->_mode === Board::$JUNK && !$user->isAdmin())
+                return false;
+
         if(bbs_checkreadperm($user->uid, $this->BID) == 0)
             return false;
         return true;
@@ -320,19 +380,6 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public function getTodayNum(){
         $num = bbs_get_today_article_num($this->NAME);
         return ($num >= 0)?$num : 0;
-    }
-
-    /**
-     * function getTypeNum get the article number of $type
-     *
-     * @param int $type
-     * @return int
-     * @access public
-     */
-    public function getTypeNum($type = null){
-        if(is_null($type))
-            $type = self::$NORMAL;
-        return bbs_countarticles($this->BID, $type);
     }
 
     /**

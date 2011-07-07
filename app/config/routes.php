@@ -93,7 +93,7 @@
     Router::connect($base . '/hot/:t', array('controller' => 'index', 'plugin'=>'mobile', 'action' => 'hot'));
     Router::connect($base . '/go', array('controller' => 'index', 'plugin'=>'mobile', 'action' => 'searchBoard'));
     Router::connect($base . '/article/:name/:gid', array('controller' => 'article', 'plugin'=>'mobile'), array("gid"=>"\d+"));
-    Router::connect($base . '/article/:name/:action/:gid', array('controller' => 'article', 'plugin'=>'mobile'));
+    Router::connect($base . '/article/:name/:action/:gid/:mode', array('controller' => 'article', 'plugin'=>'mobile'));
     Router::connect($base . '/board/:name/:mode', array('controller' => 'board', 'plugin'=>'mobile'));
     Router::connect($base . '/section/:name', array('controller' => 'section', 'plugin'=>'mobile'));
     Router::connect($base . '/mail/:num', array('controller' => 'mail', 'plugin'=>'mobile', 'action' => 'show'), array("num"=>"\d+"));

@@ -24,6 +24,7 @@ class Wrapper {
         $ret['group_id'] = $article->GROUPID;
         $ret['reply_id'] = $article->REID;
         $ret['flag'] = $this->_article_get_flag($article);
+        $ret['position'] = $article->getPos();
         $ret['is_top'] = $article->isTop();
         $ret['is_subject'] = $article->isSubject();
         $ret['has_attachment'] = $article->hasAttach();
