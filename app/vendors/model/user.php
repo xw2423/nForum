@@ -380,7 +380,7 @@ class User extends OverloadObject{
                 throw new UserRegException(ECode::$REG_HAVAFORM);    
                 break;
             case 4:
-                throw new UserRegException(ECode::$Reg_REGED);    
+                throw new UserRegException(ECode::$REG_REGED);    
                 break;
             default:
                 throw new UserRegException(ECode::$SYS_ERROR);    
