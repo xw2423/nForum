@@ -7,7 +7,7 @@
 	<a class="plant"><{$time}></a>|
 	<a href="<{$mbase}>/mail/send/<{$num}>?a=r">»Ø¸´</a>|
 	<a href="<{$mbase}>/mail/send/<{$num}>?a=f">×ª·¢</a>|
-	<a href="<{$mbase}>/mail/delete/<{$num}>">É¾³ý</a>|
+	<a href="<{$mbase}>/mail/delete/<{$num}>">É¾³ý</a>
 	</div>
 	<div class="sp"><{$content}></div>
 </li>

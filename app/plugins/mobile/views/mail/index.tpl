@@ -2,6 +2,20 @@
 <div class="sec nav">
 	<a href="<{$mbase}>/mail/send">写信</a>
 </div>
+<div class="sec nav">
+<form action="<{$mbase}>/mail" method="get">
+<{if $curPage != 1}>
+	<a href="<{$mbase}>/mail?p=1">首页</a>|
+	<a href="<{$mbase}>/mail?p=<{$curPage-1}>">上页</a>|
+<{/if}>
+<{if $curPage != $totalPage}>
+	<a href="<{$mbase}>/mail?p=<{$curPage+1}>">下页</a>|
+	<a href="<{$mbase}>/mail?p=<{$totalPage}>">尾页</a>|
+<{/if}>
+	<a class="plant"><{$curPage}>/<{$totalPage}></a>|
+	<a class="plant">转到&nbsp;<input type="text" name="p" size="2" />&nbsp;<input type="submit" value="GO" class="btn" /></a>
+</form>
+</div>
 <ul class="list sec">
 <{if $info}>
 <{foreach from=$info item=item key=k}>
@@ -25,7 +39,7 @@
 	<a href="<{$mbase}>/mail?p=<{$totalPage}>">尾页</a>|
 <{/if}>
 	<a class="plant"><{$curPage}>/<{$totalPage}></a>|
-	<a class="plant">转到<input type="text" name="p" size="2" /><input type="submit" value="GO" class="btn" /></a>|
+	<a class="plant">转到&nbsp;<input type="text" name="p" size="2" />&nbsp;<input type="submit" value="GO" class="btn" /></a>
 </form>
 </div>
 <{include file="../plugins/mobile/views/footer.tpl"}>
