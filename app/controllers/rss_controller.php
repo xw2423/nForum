@@ -9,6 +9,7 @@ class RssController extends AppController {
 
     private $_domain;
     private $_siteName;
+    private $_time;
 
     public function beforeFilter(){
         parent::beforeFilter();
@@ -25,6 +26,7 @@ class RssController extends AppController {
             $this->cache(true, $mTime);
             $this->header("Content-Type: text/xml; charset=" . $this->encoding);
             $this->header("Content-Disposition: inline;filename=board-{$brd->NAME}.xml");
+            $this->_cache_read('board-' . $brd->NAME, $mTime);
             $channel = $items = array();
             $channel['title'] = $brd->DESC;
             $channel['description'] = $this->_siteName . " " . $brd->DESC . " 版面主题索引";
@@ -52,7 +54,9 @@ class RssController extends AppController {
                 $items[] = $item;
             }
             $rss = new Rss($channel, $items);
-            echo $rss->getRss();
+            $out = $rss->getRss();
+            $this->_cache_write('board-' . $brd->NAME, $mTime, $out);
+            echo $out;
             $this->_stop();
         }catch(Exception $e){
             $this->_stop();
@@ -68,6 +72,7 @@ class RssController extends AppController {
         $this->cache(true, $mTime, 3600);
         $this->header("Content-Type: text/xml; charset=" . $this->encoding);
         $this->header("Content-Disposition: inline;filename=topten.xml");
+        $this->_cache_read('topten', $mTime);
         $channel = $items = array();
         $channel['title'] = "十大热门话题";
         $channel['description'] = $this->_siteName . " 十大热门话题";
@@ -98,7 +103,9 @@ class RssController extends AppController {
             $items[] = $item;
         }
         $rss = new Rss($channel, $items);
-        echo $rss->getRss();
+        $out = $rss->getRss();
+        $this->_cache_write('topten', $mTime, $out);
+        echo $out;
         $this->_stop();
     }
 
@@ -120,6 +127,7 @@ class RssController extends AppController {
         $this->cache(true, $mTime);
         $this->header("Content-Type: text/xml; charset=" . $this->encoding);
         $this->header("Content-Disposition: inline;filename=$key.xml");
+        $this->_cache_read($key, $mTime);
         $channel = $items = array();
         $channel['title'] = $map[$key][1];
         $channel['description'] = $this->_siteName . $map[$key][1];
@@ -152,8 +160,24 @@ class RssController extends AppController {
             $items[] = $item;
         }
         $rss = new Rss($channel, $items);
-        echo $rss->getRss();
+        $out = $rss->getRss();
+        $this->_cache_write($key, $mTime, $out);
+        echo $out;
         $this->_stop();
+    }
+
+    private function _cache_read($name, $modify){
+        $this->_time = (array) nforum_cache_read("rss_time");
+        if(isset($this->_time[$name]) && $this->_time[$name] >= $modify && false !== ($rss = nforum_cache_read('rss_' . $name))){
+            echo $rss;
+            $this->_stop();
+        }
+    }
+
+    private function _cache_write($name, $modify, $content){
+        nforum_cache_write('rss_' . $name, $content);
+        $this->_time[$name] = $modify;
+        nforum_cache_write('rss_time', $this->_time);
     }
 }
 ?>
