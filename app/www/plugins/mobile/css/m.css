@@ -12,7 +12,7 @@ a:hover{ color:#000; text-decoration:none;}
 a.top{color:#f00}
 a.m{color:#f60}
 .nav{padding:3px 0}
-.nav a{padding:0 3px;}
+.nav a{padding:0 1px;}
 .nav a.plant{color:#000}
 .hl{
     background-color:#ebf5ff;
