@@ -1,7 +1,7 @@
 <!-- CSS -->
 <{if !empty($css)}>
-<{foreach from=$css item=css}>
-<link rel="stylesheet" type="text/css" href="<{$static}><{$base}>/<{$css}>" />
+<{foreach from=$css item=item}>
+<link rel="stylesheet" type="text/css" href="<{$static}><{$base}>/<{$item}>" />
 <{/foreach}>
 <{/if}>
 <{if !empty($css_out)}>
