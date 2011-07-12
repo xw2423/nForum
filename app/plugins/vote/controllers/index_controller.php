@@ -244,7 +244,7 @@ class IndexController extends VoteAppController {
         $this->set("board", $this->_board);
         $this->set("admin", $u->userid === $vote->uid || $u->isAdmin());
         $this->set("info", $info);
-        $this->set("item", $item);
+        $this->set("items", $item);
 
         try{
             $u = User::getInstance($vote->uid);

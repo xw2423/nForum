@@ -25,7 +25,7 @@
 				<h3><{$info.desc}></h3>
 <{/if}>
 				<table id="vote_table" cellpadding="0" cellspacing="0" _limit="<{$info.limit}>">
-<{foreach from=$item item=item}>
+<{foreach from=$items item=item}>
 					<tr>
 						<td class="col1"><{$item.label}>:</td>
 						<td class="col2"><div class="vote-scroll corner"><span class="corner" style="width:<{$item.percent}>%"></span></div></td>
