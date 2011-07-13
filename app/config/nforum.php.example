@@ -256,6 +256,7 @@ $config['ipacl']['on'] = false;
 $config['uaacl']['on'] = false;
 
 /********* jsr config ******************/
+$config['jsr']['home'] = $config['site']['home'];
 $config['jsr']['mWidth'] = 1000;
 #page in iframe
 $config['jsr']['iframe'] = false;

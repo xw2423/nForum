@@ -1,6 +1,7 @@
 var config_default = {
     domain: window.location.host,
     base: "",
+    home: "/default",
     prefix: "nforum",
     mWidth: 1000,
     iframe:true,

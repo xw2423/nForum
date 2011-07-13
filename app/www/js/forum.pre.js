@@ -1,5 +1,5 @@
 var login = ["/login"],
-home = ["/default"];
+home = [config.home];
 $(function(){
     $('#id').focus();
     $('#f_login').submit(function(){

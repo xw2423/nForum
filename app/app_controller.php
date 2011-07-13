@@ -116,7 +116,8 @@ class AppController extends Controller {
         /* handle jsr end*/
         $cookie = Configure::read("cookie");
         $jsr = Configure::read("jsr");
-        $jsr = "var config={domain:'{$cookie['domain']}',base:'{$this->base}',prefix:'{$cookie['prefix']}',mWidth:{$jsr['mWidth']},iframe:'{$jsr['iframe']}',allowFrame:'{$jsr['allowFrame']}'};";
+        $jsr['iframe'] = $jsr['iframe']?'true':'false';
+        $jsr = "var config={domain:'{$cookie['domain']}',base:'{$this->base}',prefix:'{$cookie['prefix']}',home:'{$jsr['home']}',mWidth:{$jsr['mWidth']},iframe:{$jsr['iframe']},allowFrame:'{$jsr['allowFrame']}'};";
         $this->jsr = array_merge(array($jsr), $this->jsr);
         /* handle jsr end*/
 

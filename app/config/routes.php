@@ -31,9 +31,10 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
+    $home = Configure::read('site.home');
     Router::connect('', array('controller' => 'forum', 'action' => 'preIndex'));
     Router::connect('/', array('controller' => 'forum', 'action' => 'preIndex'));
-    Router::connect('/default', array('controller' => 'forum', 'action' => 'index'));
+    Router::connect($home, array('controller' => 'forum', 'action' => 'index'));
     Router::connect('/rss/board-:name', array('controller' => 'rss', 'action' => 'board'));
     Router::connect('/rss/topten', array('controller' => 'rss', 'action' => 'topten'));
     Router::connect('/rss/:file', array('controller' => 'rss', 'action' => 'classic'));
