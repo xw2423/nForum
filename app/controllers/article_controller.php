@@ -126,7 +126,7 @@ class ArticleController extends AppController {
         $this->_postInit();
         if($this->RequestHandler->isPost()){
             if(isset($this->params['form']['reid'])){
-                $reID = $this->params['form']['reid'];
+                $reID = intval($this->params['form']['reid']);
             }else{
                 if($this->_board->isTmplPost()){
                     $this->redirect("/article/" . $this->_board->NAME . "/tmpl");
@@ -309,6 +309,9 @@ class ArticleController extends AppController {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"Ä£°æ·¢ÎÄ");
 
+        $reid = 0;
+        if(isset($this->params['url']['reid']))
+            $reid = intval($this->params['url']['reid']);
         if(isset($this->params['id'])){
             $id = trim($this->params['id']);
             try{
@@ -317,6 +320,8 @@ class ArticleController extends AppController {
                 $this->error(ECode::$TMPL_ERROR);
             }
             if($this->RequestHandler->isPost() ){
+                if(isset($this->params['post']['reid']))
+                    $reid = intval($this->params['post']['reid']);
                 $val = $this->params['form']['q'];
                 $pre = $t->getPreview($val);
                 $title = $pre[0];
@@ -325,7 +330,7 @@ class ArticleController extends AppController {
                 if($this->params['form']['pre'] == "0"){
                     $u = User::getInstance();
                     try{
-                        Article::post($this->_board, $title, $content, $u->signature, 0, 0);
+                        Article::post($this->_board, $title, $content, $u->signature, $reid, 0);
                     }catch(ArticlePostException $e){
                         $this->error($e->getMessage());
                     }
@@ -342,6 +347,7 @@ class ArticleController extends AppController {
                         $content = XUBB::parse($content);
                     $this->set("title", $title);
                     $this->set("content", $preview);
+                    $this->set("reid", $reid);
                     array_pop($this->css);
                     $this->css[] = "article.css";
                     $this->css[] = "ansi.css";
@@ -361,6 +367,7 @@ class ArticleController extends AppController {
                 $this->set("num", $t->NUM);
                 $this->set("tmplTitle", Sanitize::html($t->TITLE));
                 $this->set("title", $t->TITLE_TMPL);
+                $this->set("reid", $reid);
                 $this->render("tmpl_que");
             }
         }else{
@@ -376,6 +383,7 @@ class ArticleController extends AppController {
             }
             $this->set("info", $info);
             $this->set("bName", $this->_board->NAME);
+            $this->set("reid", $reid);
         }
     }
 
@@ -409,22 +417,23 @@ class ArticleController extends AppController {
         if(!$this->_board->hasPostPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPOST);
         }
-        if(isset($this->params['form']['reid']) || isset($this->params['url']['reid'])){
-            @$reID = intval($this->params['url']['reid']);
-            if($reID == "")
-                $reID = intval($this->params['form']['reid']);
-            if($reID == "0")
-                return;
-            if($this->_board->isNoReply())
-                $this->error(ECode::$BOARD_NOREPLY);
-            try{
-                $reArticle = Article::getInstance($reID, $this->_board);
-            }catch(ArticleNullException $e){
-                $this->error(ECode::$ARTICLE_NOREID);
-            }
-            if($reArticle->isNoRe())
-                $this->error(ECode::$ARTICLE_NOREPLY);
+        if(isset($this->params['form']['reid']))
+            $reID = intval($this->params['form']['reid']);
+        else if(isset($this->params['url']['reid']))
+            $reID = intval($this->params['url']['reid']);
+        else
+            return;
+        if($reID == 0)
+            return;
+        if($this->_board->isNoReply())
+            $this->error(ECode::$BOARD_NOREPLY);
+        try{
+            $reArticle = Article::getInstance($reID, $this->_board);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NOREID);
         }
+        if($reArticle->isNoRe())
+            $this->error(ECode::$ARTICLE_NOREPLY);
     }
 
     private function _editInit(){

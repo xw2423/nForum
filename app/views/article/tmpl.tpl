@@ -19,7 +19,7 @@
 				<td><{$k+1}></td>
 				<td><{$item.name}></td>
 				<td><{$item.num}></td>
-				<td><a href="<{$base}>/article/<{$bName}>/tmpl/<{$k+1}>">我要发文</a></td>
+				<td><a href="<{$base}>/article/<{$bName}>/tmpl/<{$k+1}>?reid=<{$reid}>">我要发文</a></td>
 			</tr>
 <{/foreach}>
 <{/if}>

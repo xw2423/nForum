@@ -47,6 +47,9 @@
 			<td class="a-no-bottom a-no-top">
 				<ul class="a-func">
 					<li><samp class="ico-pos-reply"></samp><a href="<{$base}>/article/<{$bName}>/post/<{$item.id}>" class="a-post">回复</a></li>
+<{if $item.subject}>
+					<li><samp class="ico-pos-template"></samp><a href="<{$base}>/article/<{$bName}>/tmpl?reid=<{$item.id}>" class="a-post">模版回复</a></li>
+<{/if}>
 					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/forward/<{$bName}>/<{$item.id}>" class="a-post">转寄</a></li>
 					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 				<{if $item.op == "1"}>

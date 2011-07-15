@@ -348,10 +348,6 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     font-size:13px;
     font-weight:bold;
     color:#FFF;
-    -moz-border-radius:5px 5px 0 0;
-    -khtml-border-radius:5px 5px 0 0;
-    -webkit-border-radius:5px 5px 0 0;
-    border-radius:5px 5px 0 0;
 }
 .b-head .n-left{
     display:inline-block;
@@ -528,8 +524,10 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .ico-pos-del{background-position:-292px -2px;}
 .ico-pos-recomend{background-position:-308px -2px;}
 .ico-pos-search{background-position:-324px -2px;}
+.ico-pos-template{background-position:-340px -2px;}
 .ico-pos-hide{background-position:-112px -21px;}
 .ico-pos-show{background-position:-126px -21px;}
+.ico-pos-rss{background-position:-197px -21px;}
 /* ico postion end*/
 
 /*corner default*/

@@ -22,7 +22,7 @@
 <{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
 			<{if $islogin}><a href="javascript:favadd('<{$bName}>')" class="button">收藏</a><{/if}>
-			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><img src="<{$static}><{$base}>/img/rss.gif" /></a>
+			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
 	<{capture name=n_left}>本版当前共有<{$curNum}>人在线&emsp;今日帖子<{$todayNum}><{/capture}>
