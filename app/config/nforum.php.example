@@ -37,7 +37,7 @@ $config['site']['prefix'] = "";
 $config['site']['home'] = "/default";
 
 $config['site']['notice']['text'] = "公告:&nbsp;啦啦啦，这是一个公告";
-$config['site']['notice']['url'] = "javascript:void(0)";
+$config['site']['notice']['url'] = "";
 #类型: String
 #描述: nForum首页导航公告&链接
 

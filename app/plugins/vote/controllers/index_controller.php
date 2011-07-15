@@ -6,7 +6,7 @@ class IndexController extends VoteAppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->notice[] = array("url" => Configure::read("site.prefix")."/vote", "text" => "投票");
+        $this->notice[] = array("url" => "/vote", "text" => "投票");
     }
     public function index(){
         $this->css[] = "xwidget.css";
@@ -87,7 +87,7 @@ class IndexController extends VoteAppController {
         $this->set("info", $info);
         $this->set("category", $category);
         $this->set("voteTitle", $title);
-        $this->notice[] = array("url" => "javascript:void(0);", "text" => $title);
+        $this->notice[] = array("url" => "", "text" => $title);
 
         /* right rank*/
         $week = nforum_cache_read("vote_week");
@@ -105,7 +105,7 @@ class IndexController extends VoteAppController {
         $this->css['plugin']['vote'][] = "vote.css";
         $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js['plugin']['vote'][] = "vote.js";
-        $this->notice[] = array("url" => "javascript:void(0);", "text" => "新投票");
+        $this->notice[] = array("url" => "", "text" => "新投票");
         $this->cache(false);
         
         $u = User::getInstance();
@@ -168,7 +168,7 @@ class IndexController extends VoteAppController {
         $this->css[] = "xwidget.css";
         $this->css['plugin']['vote'][] = "vote.css";
         $this->js['plugin']['vote'][] = "vote.js";
-        $this->notice[] = array("url" => "javascript:void(0);", "text" => "查看投票");
+        $this->notice[] = array("url" => "", "text" => "查看投票");
         $this->cache(false);
         if(!isset($this->params['vid']))
             $this->error("未知的投票");

@@ -14,7 +14,7 @@ class AppError extends ErrorHandler {
     public function error($params) {
         $this->controller->brief = true;
         $this->controller->css[] = "error.css";
-        $this->controller->notice[] = array("url"=>"javascript:void(0)", "text"=>"错误信息");
+        $this->controller->notice[] = array("url"=>"", "text"=>"错误信息");
         $this->controller->jsr[] = "setInterval(function(){history.go(-1);}, {$params['time']} * 1000);";
         $this->controller->base = Configure::read('site.prefix');
         $this->controller->set($params);
@@ -28,7 +28,7 @@ class AppError extends ErrorHandler {
     public function redirect($params){
         $this->controller->brief = true;
         $this->controller->css[] = "error.css";
-        $this->controller->notice[] = array("url"=>"javascript:void(0);", "text"=>"提示信息");
+        $this->controller->notice[] = array("url"=>"", "text"=>"提示信息");
         if(empty($params['url']['url']))
             $script = "setInterval(function(){history.go(-1);}, {$params['time']} * 1000);";
         else
