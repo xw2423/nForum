@@ -1,8 +1,9 @@
 <!--menu start-->
 <div id="menu" class="m-hide">
     <!--login start-->
+    <div id="u_login_wrap">
 <{if !($islogin)}>
-	<div class="u-login corner">
+	<div class="u-login">
 		<form class="user_login_form" action="<{$base}>/login<{if isset($from)}>?from=<{$from}><{/if}>" method="post">
 		<div><span>帐号:</span><input type="text" id="id" class="input-text input" name="id"/></div>
 		<div><span>密码:</span><input type="password" id="pwd" class="input-text input" name="passwd"/></div>
@@ -14,7 +15,7 @@
     </div>
 <{else}><{if $newNum != 0}>
 	<bgsound src="<{$base}>/files/audio/mail.wav" /><{/if}>
-    <div class="u-login-info corner">
+    <div class="u-login-info">
     	<div><samp class="ico-pos-cdot"></samp>欢迎<a href="<{$base}>/user/query/<{$id}>" title="<{$id}>"><{$id|truncate:11:"..."}></a></div>
         <ul>
         	<li><a href="<{$base}>/mail">我的收件箱<{if $newNum != 0}><span class="new_mail">(<{$newNum}>新)</span><{/if}></a></li>
@@ -26,12 +27,14 @@
         </ul>
     </div>
 <{/if}>
+    </div>
     <!--login end-->
 	<div id="left-line">
 		<samp class="ico-pos-hide"></samp>
 	</div>
     <!--function list start -->
-	<div id="xlist" class="corner">
+    <div id="xlist_wrap">
+	<div id="xlist">
     	<ul>
             <li class="slist">
                 <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">全部讨论区</a></span>
@@ -67,6 +70,7 @@
             <li><span class="x-leaf"><span class="toggler"></span><a href="telnet://#">Telnet登录</a></span></li>
             <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" value="搜索讨论区" id="b_search"/></span></li>
         </ul>
+    </div>
     </div>
     <!--function list end-->
 	<div id="adv">

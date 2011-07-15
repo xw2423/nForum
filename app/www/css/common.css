@@ -128,17 +128,14 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 #menu{
     float:left;
     width:156px;
-    margin-top:2px;
-    margin-left:6px;
-    *margin-left:6px;
-    _margin-left:3px;
+    margin:2px 0 0 3px;
 }
 .u-login,.u-login-info{
     border:1px solid #c3d9ff;
     background-color:#FFF;
     padding:8px 0 5px;
-    margin-right:3px;
     overflow:hidden;
+    border-width:0 1px;
 }
 .u-login div{
     padding:3px 0;
@@ -190,25 +187,22 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .u-login-info ul span{
     color:#f00;
 }
-#left-line{width:100%;*height:0;_overflow:hidden}
+#left-line{position:relative;width:100%;height:3px;_zoom:1}
 #left-line samp{
-    float:right;
     width:14px;
     height:15px;
     cursor:pointer;
-    position:relative;
+    position:absolute;
     top:-7px;
     right:-7px;
-    *right:0;
     z-index:2;
 }
 
 /* tree */
 #xlist{
-    padding:13px 8px 10px 8px;
+    padding:10px 8px;
     border:1px solid #c3d9ff;
-    margin-right:3px;
-    margin-top:5px;
+    border-width:0 1px;
 }
 #xlist li ul{
     margin-top:3px;
@@ -319,7 +313,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 /*menu end*/
 
 /* middle */
-#main_wrap{ margin:2px 5px 0 162px;}
+#main_wrap{ margin:2px 3px 0 162px;}
 #main{
     border:0 solid #c3d9ff;
     border-width:0 1px;
@@ -331,15 +325,15 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 #notice{
     border:1px solid #d9e7ff;
     background:#f2f6f9;
-    padding:4px 0 4px 5px;
+    padding:4px 5px;
     line-height:14px;
     *padding-bottom:1px;
 }
 #nav {display:inline-block;}
-#time { float:right;padding-right:8px;font-size:11px}
+#time { float:right;font-size:11px}
 #body{
+    width:100%;
     overflow:hidden;
-    width:99.8%;
 }
 .b-head{
     background:#598ede;
