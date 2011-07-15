@@ -32,7 +32,9 @@ class AppError extends ErrorHandler {
         if(empty($params['url']['url']))
             $script = "setInterval(function(){history.go(-1);}, {$params['time']} * 1000);";
         else
-            $script = "setInterval(function(){window.location.href=\"{$this->controller->base}{$params['url']['url']}\";}, {$params['time']} * 1000);";
+            $script = <<<JS
+var url='{$this->controller->base}{$params['url']['url']}',re=[[/&amp;/,'&'],[/&#37;/,'%'],[/&lt;/,'<'],[/&gt;/,'>'],[/&quot;/,'"'],[/&#39;/,'\''],[/&#40;/,'('],[/&#41;/,')'],[/&#43;/,'+'],[/&#45;/,'-']];for(var i=re.length-1;i>=0;i--)url=url.replace(re[i][0],re[i][1]);setInterval(function(){window.location=url;},{$params['time']}*1000);
+JS;
         $this->controller->jsr[] = $script;
         $this->controller->base = Configure::read('site.prefix');
         $this->controller->set($params);
