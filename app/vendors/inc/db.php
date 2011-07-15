@@ -250,6 +250,9 @@ class DB extends PDO{
     }
 
     private function _query($sql, $param = null){
+        //fix "General error: 2050" in some mysql version
+        $this->free();
+
         $stm = $this->prepare($sql);
         if($stm === false)
             throw new DBException($sql);
