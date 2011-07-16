@@ -38,20 +38,23 @@
 .a-left{ width:170px; }
 .a-func{
     float:left;
-    font-size:0px;
+    font-size:0;
 }
 .a-func li{ 
-    font-size:12px;
     margin-left:10px; 
     display:inline-block;
     *display:inline;
     *zoom:1;
 }
 .a-func li a{
+    font-size:12px;
     color:#2244bb;
     vertical-align:middle;
     padding-top:2px;
     *zoom:1;
+}
+.a-func li span{
+    font-size:12px;
 }
 .a-func li samp{
     margin-right:4px;
