@@ -23,10 +23,11 @@ class Adv implements Pageable {
     private $_sql = null;
 
     public function getTotalNum(){
-        $sql = "select * from {$this->_table} where type='{$this->type}'";
+        $sql = "select count(*) as num from {$this->_table} where type='{$this->type}'";
         if(is_null($this->_num) || $sql !== $this->_sql){
             $db = DB::getInstance();
-            $this->_num = $db->query($sql)->rowCount();
+            $this->_num = $db->one($sql);
+            $this->_num = $this->_num['num'];
         }
         return $this->_num;
     }
