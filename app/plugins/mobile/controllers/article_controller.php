@@ -88,6 +88,8 @@ class ArticleController extends MobileAppController {
     public function single(){
         $this->notice = "°æÃæ-{$this->_board->DESC}({$this->_board->NAME})";
 
+        if($this->_board->getMode() == BOARD::$THREAD)
+            $this->_board->setMode(BOARD::$NORMAL);
         App::import('Sanitize');
         try{
             $gid = $this->params['gid'];
