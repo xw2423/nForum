@@ -19,11 +19,11 @@ class AdvComponent extends Object {
     public function getParams(){
         $db = DB::getInstance();
         $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
-        $sql = "select url, file, home from adv where type='2' and privilege=1 $where order by aid";
+        $sql = "select url, file, home from adv where type='2' and privilege=1 $where";
         $res = $db->all($sql);
         if(empty($res)){
             $date = date('Y-m-d');
-            $sql = "select url, file, home from adv where type='2' and sTime<='$date' and eTime>='$date' $where order by aid";
+            $sql = "select url, file, home from adv where type='2' and sTime<='$date' and eTime>='$date' $where";
             $res = $db->all($sql);
         }
         $url = $path = array();
@@ -61,24 +61,28 @@ class AdvComponent extends Object {
 
     public function getPreImg(){
         $db = DB::getInstance();
-        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
-        $date = date('Y-m-d');
-        $sql = "select url,file from adv where type='1' and sTime<='$date' and eTime>='$date' $where";
+        $sql = "select url, file, home from adv where type='1' and privilege=1 ";
         $res = $db->all($sql);
+        if(empty($res)){
+            $date = date('Y-m-d');
+            $sql = "select url,file from adv where type='1' and sTime<='$date' and eTime>='$date'";
+            $res = $db->all($sql);
+        }
         if(empty($res))
             return array();
         $ret = $res[array_rand($res)];
         $aPath = Configure::read("adv.path");
-        $ret['file'] = '/' . $aPath . "/" . $ret['file'];
+        $base = Configure::read("site.prefix");
+        $static = Configure::read("site.static");
+        $ret['file'] = $static . $base . '/' . $aPath . "/" . $ret['file'];
         if($ret['url'] == "")
-            $ret['url'] = Configure::read("site.home");
+            $ret['url'] = $base . Configure::read("site.home");
         return $ret;
     }
 
     public function getPreAdv(){
         $db = DB::getInstance();
-        $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
-        $sql = "select url,file from adv where type='3' and switch=1 $where";
+        $sql = "select url,file from adv where type='3' and switch=1";
         $res = $db->all($sql);
         if(empty($res))
             return array();
@@ -88,9 +92,10 @@ class AdvComponent extends Object {
             $select = range(0, count($res) - 1);
         $aPath = Configure::read("adv.path");
         $base = Configure::read("site.prefix");
+        $static = Configure::read("site.static");
         foreach($select as $k){
             $tmp = $res[$k];
-            $tmp['file'] = $base . '/' . $aPath . "/" . $tmp['file'];
+            $tmp['file'] = $static . $base . '/' . $aPath . "/" . $tmp['file'];
             if($tmp['url'] == "")
                 $tmp['url'] = "javascript:void(0);";
             $ret[] = $tmp;

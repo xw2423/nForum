@@ -13,7 +13,7 @@
 <div id="wrap">
 <div id="preImg">
 <{if !empty($preimg)}>
-<a href="<{$preimg.url}>" ><img src="<{$static}><{$base}><{$preimg.file}>" alt="点击进入<{$siteName}>"/></a>
+<a href="<{$preimg.url}>" ><img src="<{$preimg.file}>" alt="点击进入<{$siteName}>"/></a>
 <{/if}>
 </div>
 
