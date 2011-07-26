@@ -26,18 +26,18 @@ class MobileAppController extends AppController {
     }
 
     public function beforeRender(){
-        $newNum = 0;
         if($this->ByrSession->isLogin){
             App::import("vendor", "model/mail");
             try{
                 $box = new MailBox(User::getInstance(), MailBox::$IN);
-                $newNum = $box->getNewNum();
+                $info = $box->getInfo();
             }catch(MailBoxNullException $e){
             }catch(UserNullException $e){
             }
             $login = true;
             $id = User::getInstance()->userid;
             $isAdmin = User::getInstance()->isAdmin();
+            $this->set("mailInfo", $info);
         }else{
             $login = false;
             $id = "guest";
@@ -56,7 +56,6 @@ class MobileAppController extends AppController {
         $this->set("msg", ECode::msg($this->_msg));
         $this->set("pos", $this->notice);
         $this->set("css", $this->css);
-        $this->set("newNum", $newNum);
         $this->set("islogin", $login);
         $this->set("id", $id);
         $this->set("isAdmin", $isAdmin);

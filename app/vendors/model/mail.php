@@ -104,6 +104,10 @@ class MailBox implements Pageable{
         }
         return $num;
     }
+
+    public function getInfo(){
+        return bbs_mail_get_num($this->user->userid);
+    }
     
     public function getSpace(){
         return bbs_getmailusedspace();

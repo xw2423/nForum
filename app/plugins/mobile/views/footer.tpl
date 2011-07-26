@@ -10,7 +10,7 @@
 	|<a href="<{$mbase}>/hot" accesskey="3">热推</a>
 <{if $islogin}>
 	|<a href="<{$mbase}>/favor" accesskey="4">收藏</a>
-	|<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $newNum != 0}>(<{$newNum}>新)<{/if}></a>
+	|<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $mailInfo.full}>(满)<{elseif $mailInfo.newmail}>(新)<{/if}></a>
 	|<a href="<{$mbase}>/friend/online" accesskey="6">好友</a>
 	|<a href="<{$mbase}>/user/logout" accesskey="7">注销(<{$id}>)</a>
 <{/if}>

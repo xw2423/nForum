@@ -377,15 +377,14 @@ class AppController extends Controller {
         $this->set("secs", $secs);
         $this->set("from", $this->path);
         if($this->ByrSession->isLogin){
-            $newNum = 0;
             App::import("vendor", "model/mail");
             try{
                 $box = new MailBox(User::getInstance(), MailBox::$IN);
-                $newNum = $box->getNewNum();
+                $info = $box->getInfo();
             }catch(MailBoxNullException $e){
             }catch(UserNullException $e){
             }
-            $this->set("newNum", $newNum);
+            $this->set("mailInfo", $info);
         }
     }
 

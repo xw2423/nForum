@@ -13,12 +13,12 @@
 		</div>
         </form>  
     </div>
-<{else}><{if $newNum != 0}>
+<{else}><{if $mailInfo.newmail}>
 	<bgsound src="<{$base}>/files/audio/mail.wav" /><{/if}>
     <div class="u-login-info">
     	<div><samp class="ico-pos-cdot"></samp>欢迎<a href="<{$base}>/user/query/<{$id}>" title="<{$id}>"><{$id|truncate:11:"..."}></a></div>
         <ul>
-        	<li><a href="<{$base}>/mail">我的收件箱<{if $newNum != 0}><span class="new_mail">(<{$newNum}>新)</span><{/if}></a></li>
+            <li><a href="<{$base}>/mail">我的收件箱<{if $mailInfo.full}><span class="new_mail">(满!)</span><{elseif $mailInfo.newmail}><span class="new_mail">(新)</span><{/if}></a></li>
             <!--<li><a href="#">我的个人博客</a></li>-->
             <li><a href="<{$base}>/fav">我的收藏夹</a></li>
         	<li><a href="<{$base}>/widget/add">个性首页设置</a></li>
