@@ -73,7 +73,6 @@ class ArticleController extends AppController {
                 $user = false;
             }
 
-            $this->title = Sanitize::html($this->_threads->TITLE);
             $content = $v->getHtml(true);
             //hard to match all the format of ip
             //$pattern = '/<font class="f[0-9]+">¡ù( |&nbsp;)À´Ô´:¡¤.+?\[FROM:( |&nbsp;)[0-9a-zA-Z.:*]+\]<\/font><font class="f000">( +<br \/>)+ +<\/font>/';
@@ -97,6 +96,7 @@ class ArticleController extends AppController {
                 //"from" => isset($match[0])?preg_replace("/<br \/>/", "", $match[count($match)-1]):""
             );
         }
+        $this->title = Sanitize::html($this->_threads->TITLE);
         $link = "?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("bName", $this->_board->NAME);
@@ -105,7 +105,7 @@ class ArticleController extends AppController {
         $this->set("tmpl", $this->_board->isTmplPost());
         $this->set("info", $info);
         $this->set("pageBar", $pageBar);
-        $this->set("title", Sanitize::html($this->_threads->TITLE));
+        $this->set("title", $this->title);
         $this->set("totalNum", $this->_threads->getTotalNum());
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());

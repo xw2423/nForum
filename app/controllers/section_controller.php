@@ -77,6 +77,7 @@ class SectionController extends AppController {
             $parent = $this->_sec->getParent();
             $this->notice[] = array("url"=>"/section/{$parent->getName()}", "text"=>$parent->getDesc());
         }
+        $this->title = Configure::read('site.name') . '-' . $this->_sec->getDesc();
         $this->notice[] = array("url"=>"/section/{$this->_sec->getName()}", "text"=>$this->_sec->getDesc());
         $this->notice[] = array("url"=>"", "text"=>$this->_sec->isRoot()?"分区列表":"目录列表");
     }

@@ -69,6 +69,7 @@ class BoardController extends AppController {
                 "att" => $v->hasAttach()
             );
         }
+        $this->title = Configure::read('site.name').'-'.$this->_board->DESC;
         $this->set("info", $info);
         $this->set("noThreads", ECode::msg(ECode::$BOARD_NOTHREADS));
         $link = "?p=%page%";
