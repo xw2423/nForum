@@ -58,7 +58,8 @@ function nforum_cache_write($file, $obj, $serialize = true){
     $file = $dir . DS . $file;
     if(!file_exists($dir) || !is_writeable($dir))
         return false;
-    file_put_contents($file, serialize($obj));
+    file_put_contents($file . 'tmp', serialize($obj));
+    rename($file . 'tmp', $file);
 }
 function nforum_cache_read($file, $serialize = true){
     $file = CACHE . "nforum" . DS . $file;
