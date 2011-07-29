@@ -20,11 +20,16 @@ td{overflow:hidden;word-wrap:break-word}
 samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico.gif);background-repeat:no-repeat;outline: none;}
 .input-text,select,textarea{
     border:1px solid #7F9DB9;
+    background:-moz-linear-gradient(top , #eee, #fff 8px);
+    background:-webkit-gradient(linear,0% 0%, 0% 30%, from(#eee), to(#fff))
 }
 .input-text{
 }
 .input-text:focus,textarea:focus,.ie-input-focus{
-    border:1px solid #FC7E00;
+    border:1px solid #FD8000;
+    -moz-box-shadow:0px 0px 2px #FD8000;
+    -webkit-box-shadow:0px 0px 2px #FD8000;
+    box-shadow:0px 0px 2px #FD8000;
 }
 .submit{
     -moz-border-radius: 5px;  
@@ -37,7 +42,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     cursor:pointer;
     padding:2px 3px;
     *padding:3px 3px 0;
-    overflow:visible
+    overflow:visible;
+    background:-moz-linear-gradient(center top, #EEF6FF,#E1EAF2);
+    background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#EEF6FF), to(#E1EAF2))
 }
 .submit:hover{
     border-color:#FC7E00;
@@ -53,7 +60,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     cursor:pointer;
     padding:2px 3px;
     *padding:3px 3px 0;
-    overflow:visible
+    overflow:visible;
+    background:-moz-linear-gradient(center top, #5F97ED,#5080C7);
+    background:-webkit-gradient(linear,0% 0%, 0% 100%,  from(#5F97ED), to(#5080C7))
 }
 .corner{
     -moz-border-radius: 5px;

@@ -94,6 +94,9 @@
      display:block;
      width:100%;
      overflow:hidden;
+     white-space:nowrap;
+     text-overflow:ellipsis;
+     -o-text-overflow:ellipsis;
 }
 .w-list-line li a{ }
 .w-list-line li a:hover{ background:#f2f6f9; }
