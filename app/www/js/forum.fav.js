@@ -55,7 +55,7 @@ var Fav = {
                 var content = Fav.template;
                 if(json[i]['name'] == ""){
                     link = 'javascript:Fav.update(' + json[i]['bid'] + ');';
-                content = content.replace(/<td class="title_3[\s\S]*?<\/td>/i, '<td class="title_3">&nbsp;</td>')
+                content = content.replace(/<td class="?title_3[\s\S]*?<\/td>/i, '<td class="title_3">&nbsp;</td>')
                     .replace(/%7%/, "&nbsp;")
                     .replace(/%8%/, "&nbsp;")
                     .replace(/%9%/, "&nbsp;")
