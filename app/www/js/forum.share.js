@@ -11,6 +11,11 @@
            ,"img":'http://v.t.qq.com/share/images/s/weiboicon16.png'
        }
        ,{
+           "title":"分享到搜狐微博"
+           ,"url":"http://t.sohu.com/third/post.jsp?url=%url%&title=%content%&content=utf-8"
+           ,"img":'http://s2.cr.itc.cn/img/t/152.png'
+       }
+       ,{
            "title":"分享到人人网"
            ,"url":"http://www.connect.renren.com/share/sharer?url=%url%&title=%content%"
            ,"img":'http://wiki.dev.renren.com/mediawiki/images/b/bd/Logo16.png'
