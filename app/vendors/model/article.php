@@ -197,9 +197,7 @@ class Article extends Archive{
      * @override
      */
     public function update($title, $content){
-        if(($ret = bbs_edittitle($this->_board->NAME, $this->ID, $title, 0)) < 0)
-            return false;
-        if(($ret =bbs_updatearticle($this->_board->NAME, $this->FILENAME, $content)) < 0)
+        if(($ret = bbs_updatearticle2($this->_board->NAME, $this->ID, $title, $content, 0)) < 0)
             return false;
         return true;
     }
