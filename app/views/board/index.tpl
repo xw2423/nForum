@@ -96,6 +96,10 @@
     	<div class="t-btn">
         	<form method="get" action="<{$base}>/s/article">
         		<input id="t_search" type="text" class="input-text input" name="t1" value="输入关键字" />
+                <input type="checkbox" name="m" id="c_m"/>
+                <label for="c_m">精华帖</label>
+                <input type="checkbox" name="a" id="c_a"/>
+                <label for="c_a">带附件</label>
                 <input type="submit" class="button" value="搜索" />
 				<input type="hidden" name="b" value="<{$bName}>" />
             </form>

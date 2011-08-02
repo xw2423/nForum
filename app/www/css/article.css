@@ -9,6 +9,7 @@
 .t-btn a:hover{color:#FFF}
 .t-btn .input{color:#999;font-size:12px;margin-right:5px}
 .t-btn .rss{padding:0;vertical-align:bottom}
+.t-btn label{margin-right:5px; margin-left:2px;vertical-align:middle}
 .page{float:right;padding-top:2px;*padding-top:0}
 .t-pre, .t-pre-bottom {
     margin-top:4px;

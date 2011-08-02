@@ -15,6 +15,7 @@
 .t-btn .input{color:#999;font-size:12px;margin-right:5px}
 .t-btn .rss{padding:0;vertical-align:middle}
 .t-btn .rss samp{width:27px;height:15px}
+.t-btn label{margin-right:5px; margin-left:2px;vertical-align:middle}
 .page{float:right;padding-top:2px;*padding-top:0}
 
 .b-head div a{ color:#f0d97f; padding-right:5px;}
