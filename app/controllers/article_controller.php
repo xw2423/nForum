@@ -155,6 +155,8 @@ class ArticleController extends AppController {
                 $gid = $gid->GROUPID;
             }catch(ArticlePostException $e){
                 $this->error($e->getMessage());
+            }catch(ArticleNullException $e){
+                $this->error(ECode::$ARTICLE_NONE);
             }
             $this->waitDirect(
                 array(
