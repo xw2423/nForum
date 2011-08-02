@@ -44,7 +44,8 @@ function validpwd(){
         $(this).nextAll().remove();
         if(pwd!= $('#t_pwd1').val()){
             $(this).after('<font color="red">两次密码不一样</font>');
-            $(this).select();
+        }else{
+            $(this).after('<font color="green">两次密码一样</font>');
         }
     });
 }
