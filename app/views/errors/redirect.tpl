@@ -10,7 +10,7 @@
 						<li><samp class="ico-pos-dot"></samp><a href="<{$base}><{$url.url}>"><{$url.text}></a></li>
 <{/if}>
                     </ul>
-<{if isset($list)}>
+<{if !empty($list)}>
             	<h5>您还可以去:</h5>
                 	<ul>
 <{foreach from=$list item=item}>

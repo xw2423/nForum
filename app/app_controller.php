@@ -206,12 +206,16 @@ class AppController extends Controller {
      * @param array $url array("url"=>, "text"=>) if url is null go back
      * @param mixed $code
      * @param array $list array(array("url"=>, "text"=>), array())
+     * @param array $args
      */
-    public function waitDirect($url, $code, $list = null){
+    public function waitDirect($url, $code, $list = array(), $args = array()){
         $time = Configure::read("redirect.wait");
+        $msg = ECode::msg($code);
+        if(!empty($args))
+            $msg = vsprintf($msg, $args);
         $params = array(
             "url" => $url,
-            "msg" => ECode::msg($code),
+            "msg" => $msg,
             "list" => $list,
             "time" => $time
         );
@@ -220,15 +224,19 @@ class AppController extends Controller {
 
     /**
      * ajax request ok
-     * @param $code
-     * @param $param value for return
+     * @param int $code
+     * @param mixed $param value for return
+     * @param array $args
      */
-    public function success($code = null, $params = null){
+    public function success($code = null, $params = null, $args = array()){
         $this->initAjax();
         if(is_null($code)){
             $code = ECode::$SYS_AJAXOK;
         }
-        $ret = array("st" => "success", "code" => $code, "msg" => ECode::msg($code), "v" => $params);
+        $msg = ECode::msg($code);
+        if(!empty($args))
+            $msg = vsprintf($msg, $args);
+        $ret = array("st" => "success", "code" => $code, "msg" => $msg, "v" => $params);
         App::import("vendor", "inc/json");
         echo BYRJSON::encode($ret);
         $this->_stop();
@@ -237,17 +245,19 @@ class AppController extends Controller {
     /**
      * redirect to the error page
      * handle normal request & ajax request
-     * @param $code
-     * @param $msg
+     * @param int $code
+     * @param array $args
      */
-    public function error($code = null){
+    public function error($code = null, $args = array()){
         if($this->RequestHandler->isAjax()){
             $this->initAjax();
             if(is_null($code)){
                 $code = ECode::$SYS_AJAXERROR;
             }
-            $ret = array("st" => "error", "code"=> $code, 
-                    "msg" => ECode::msg($code));
+            $msg = ECode::msg($code);
+            if(!empty($args))
+                $msg = vsprintf($msg, $args);
+            $ret = array("st" => "error", "code"=> $code, "msg" => $msg);
             App::import("vendor", "inc/json");
             echo BYRJSON::encode($ret);
             $this->_stop();
@@ -256,8 +266,11 @@ class AppController extends Controller {
                 $code = ECode::$SYS_ERROR;
             }
             $time = Configure::read("redirect.error");
+            $msg = ECode::msg($code);
+            if(!empty($args))
+                $msg = vsprintf($msg, $args);
             $params = array(
-                "msg" => ECode::msg($code),
+                "msg" => $msg,
                 "time" => $time
             );
             $this->cakeError("error", $params);
