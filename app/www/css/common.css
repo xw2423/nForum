@@ -318,7 +318,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 /* tree end */
 #adv, #radio{margin-top:8px;text-align:center;}
-#adv a{margin-bottom:8px}
+#adv a{margin-bottom:8px;display:inline-block}
 #adv img{margin:auto}
 /*menu end*/
 
