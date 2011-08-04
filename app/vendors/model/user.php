@@ -325,7 +325,7 @@ class User extends OverloadObject{
     }
 
     public function setInfo($gender, $year, $month, $day, $email, $qq, $msn, $homepage, $uface, $furl, $fwidth, $fheight, $tname = null, $address = null, $phone = null){
-        $tname = empty($tname)?$this->username:$tname;
+        $tname = empty($tname)?$this->realname:$tname;
         $address = empty($address)?$this->address:$address;
         $phone = empty($phone)?$this->telephone:$phone;
         $ret = bbs_saveuserdata(
