@@ -13,7 +13,7 @@
 <div id="wrap">
 <div id="preImg">
 <{if !empty($preimg)}>
-<a href="<{$preimg.url}>" ><img src="<{$preimg.file}>" alt="点击进入<{$siteName}>"/></a>
+<a href="<{$preimg.url}>" ><img src="<{$static}><{$base}><{$preimg.file}>" alt="点击进入<{$siteName}>"/></a>
 <{/if}>
 </div>
 
@@ -40,7 +40,11 @@
 <div id="b_adv">
 <ul>
 <{foreach from=$preadv item=item}>
-<li><a href="<{$item.url}>"><img src="<{$item.file}>"></a></li>
+<{if empty($item.url)}>
+<li><a href="javascript:void(0);"><img src="<{$static}><{$base}><{$item.file}>"></a></li>
+<{else}>
+<li><a href="<{$item.url}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>"></a></li>
+<{/if}>
 <{/foreach}>
 </ul>
 </div>
@@ -48,7 +52,7 @@
 <!--footer start-->
 <div id="footer">
 	<p class="footer_message">
-    	<img src="<{$base}>/img/logo_footer.gif" />
+    	<img src="<{$static}><{$base}>/img/logo_footer.gif" />
         当前论坛上总共有<span class="c-total"><{$webTotal}></span>人在线，其中注册用户<span class="c-user"><{$webUser}></span>人，访客<span class="c-guest"><{$webGuest}></span>人。<br />
         powered by BYR-Team&copy;2009.<br />
         all rights reserved

@@ -43,20 +43,15 @@ class AdvComponent extends Object {
     public function getLeft(){
         $db = DB::getInstance();
         $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
-        $sql = "select url, file from adv where type='4' and switch='1' $where order by weight,aid";
-        $res = array();
+        $sql = "select url, file from adv where type='4' and switch='1' $where order by weight,aid desc";
         $aPath = Configure::read("adv.path");
-        $base = Configure::read("site.prefix");
-        $static = Configure::read("site.static");
         $ret = $db->all($sql);
         if(empty($ret))
             return array();
-        foreach($ret as $v){
-            if($v['url'] == "")
-                $v['url'] = "javascript:void(0);";
-            $res[] = array('url' => $v['url'], 'path' => $static . $base . '/' . $aPath . "/" . $v['file']);
+        foreach($ret as &$v){
+            $v['file'] = '/' . $aPath . "/" . $v['file'];
         }
-        return $res;
+        return $ret;
     }
 
     public function getPreImg(){
@@ -73,8 +68,7 @@ class AdvComponent extends Object {
         $ret = $res[array_rand($res)];
         $aPath = Configure::read("adv.path");
         $base = Configure::read("site.prefix");
-        $static = Configure::read("site.static");
-        $ret['file'] = $static . $base . '/' . $aPath . "/" . $ret['file'];
+        $ret['file'] = '/' . $aPath . "/" . $ret['file'];
         if($ret['url'] == "")
             $ret['url'] = $base . Configure::read("site.home");
         return $ret;
@@ -82,23 +76,13 @@ class AdvComponent extends Object {
 
     public function getPreAdv(){
         $db = DB::getInstance();
-        $sql = "select url,file from adv where type='3' and switch=1";
-        $res = $db->all($sql);
-        if(empty($res))
+        $sql = "select url,file from adv where type='3' and switch=1 order by weight,aid desc limit 5";
+        $ret = $db->all($sql);
+        if(empty($ret))
             return array();
-        if(count($res) > 4)
-            $select = array_rand($res, 4);
-        else
-            $select = range(0, count($res) - 1);
         $aPath = Configure::read("adv.path");
-        $base = Configure::read("site.prefix");
-        $static = Configure::read("site.static");
-        foreach($select as $k){
-            $tmp = $res[$k];
-            $tmp['file'] = $static . $base . '/' . $aPath . "/" . $tmp['file'];
-            if($tmp['url'] == "")
-                $tmp['url'] = "javascript:void(0);";
-            $ret[] = $tmp;
+        foreach($ret as &$v){
+            $v['file'] = '/' . $aPath . "/" . $v['file'];
         }
         return $ret;
     }

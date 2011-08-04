@@ -75,7 +75,11 @@
     <!--function list end-->
 	<div id="adv">
 <{foreach from=$advs item=item}>
-		<a href="<{$item.url}>"><img src="<{$item.path}>" /></a>
+<{if empty($item.url)}>
+		<a href="javascript:void(0);"><img src="<{$static}><{$base}><{$item.file}>" /></a>
+<{else}>
+		<a href="<{$item.url}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" /></a>
+<{/if}>
 <{/foreach}>
 	</div>
 </div>
