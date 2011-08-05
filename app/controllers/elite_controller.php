@@ -128,14 +128,14 @@ class EliteController extends AppController {
                     $this->requestLogin();
                 $this->error(ECode::$ELITE_NODIR);
             }
+            if($brd->isNormal())
+                $this->cache(true, @filemtime($path));
         }
         $e = new Elite($path);
         if(isset($this->params['url']['pos'])){
             $pos = intval($this->params['url']['pos']);
             if($pos == 0)
                 $this->_stop();
-            if($brd->isNormal())
-                $this->cache(true, @filemtime($path));
             $e->getAttach($pos); 
             $this->_stop();
         }
