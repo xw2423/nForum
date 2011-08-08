@@ -20,6 +20,7 @@ class FriendController extends AppController {
             $this->error();
         }
         if($f->getTotalNum() > 0){
+            $info = array();
             foreach($friends as $v){
                 $info[] = array(
                     "fid" => $v->userid,
