@@ -7,7 +7,7 @@ class BasicAuth{
             exit();
         }
         $id = trim($_SERVER['PHP_AUTH_USER']);
-        $pwd = trim($_SERVER['PHP_AUTH_PW']);
+        $pwd = $_SERVER['PHP_AUTH_PW'];
         if($id === 'guest' || Forum::checkPwd($id, $pwd, false, true))
             return $id;
         return false;

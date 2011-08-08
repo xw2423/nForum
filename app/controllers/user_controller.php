@@ -23,7 +23,7 @@ class UserController extends AppController {
              && $this->params['form']['id'] != ""
              && isset($this->params['form']['passwd'])){
             $id = trim($this->params['form']['id']);
-            $pwd = trim($this->params['form']['passwd']);
+            $pwd = $this->params['form']['passwd'];
             $cookieDate = 0;
             if(isset($this->params['form']['CookieDate']))
                 $cookieDate = (int) $this->params['form']['CookieDate'];

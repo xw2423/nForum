@@ -5,8 +5,8 @@ class UserController extends MobileAppController {
             if(!isset($this->params['form']['id']))
                 $this->error(ECode::$LOGIN_NOID);
             $id = trim($this->params['form']['id']);
-            $pwd="";$cookieDate = 0;
-            @$pwd = trim($this->params['form']['passwd']);
+            @$pwd = $this->params['form']['passwd'];
+            $cookieDate = 0;
             if(isset($this->params['form']['save']))
                 $time = 31536000;
             else
