@@ -31,7 +31,7 @@
            ,"img":'http://img2.douban.com/pics/fw2douban_s.png'
        }
     ]
-    ,template:'<img style="margin-left:5px;cursor:pointer;vertical-align:bottom" title="%title%" src="%img%" />'
+    ,template:'<img style="margin-left:5px;cursor:pointer;vertical-align:bottom;width:16px;height:16px;" title="%title%" src="%img%" />'
     ,init:function(area, url, content){
         $(this.sites).each(function(i,e){
             var template = BShare.template;
