@@ -1,4 +1,8 @@
-1. Modify the value of $config['plugins']['api']['base'] in app/config/nforum.php to set this plugin's basic path, using HTTP://DOMAIN/value/ to access this plugin.
+0. Maybe nForum is not at the root of website,assume access nForum using the url HTTP://DOMAIN/BASE.
+BASE is also the value of $config['site']['prefix'] in app/config/nforum.php.you can set it '/nforum' that access nForum via HTTP://DOMAIN/nforum
+The default value is '' that means nForum is at root
+
+1. Modify the ABASE that is the value of $config['plugins']['api']['base'] in app/config/nforum.php to set this plugin's basic path, using HTTP://DOMAIN/BASE/ABASE to access this plugin.
 The default value is '/api'
 
 2. If you want to use another domain on api plugin,like HTTP://NEWDOMAIN/
@@ -7,9 +11,12 @@ setup 1:
     set $config['plugins']['api']['use_domain'] to true in app/config/nforum.php
 
 setup 2:
-    add below to .htaccess in app/www (assume value of $config['plugins']['api']['base'] without first / is ABASE):
+    set the directory of nForum as your NEWDOMAIN's DocumentRoot in httpd.conf
 
-    RewriteCond %{REQUEST_URI} ^/ABASE(/.*)?$ [NC]
+setup 3:
+    add below to .htaccess in app/www (there is '/' in front of BASE and ABASE,but here remove it):
+
+    RewriteCond %{REQUEST_URI} ^/BASE(/app)?(/www)?/ABASE(/.*)?$ [NC]
     RewriteRule ^.*$ http://NEWDOMAIN [R,L]
     RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -18,7 +25,7 @@ setup 2:
 
 The final .htaccess file maybe:
 
-    RewriteCond %{REQUEST_URI} ^/ABASE(/.*)?$ [NC]
+    RewriteCond %{REQUEST_URI} ^/BASE(/app)?(/www)?/ABASE(/.*)?$ [NC]
     RewriteRule ^.*$ http://NEWDOMAIN [R,L]
     RewriteCond %{HTTP_HOST} ^NEWDOMAIN$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -26,6 +33,11 @@ The final .htaccess file maybe:
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+setup 4:
+    add crontab below to clear api session automatically,the detail of crontab configure is in crontab.example
+#clear api session
+0 */1 * * * /PATH/TO/NFORUM/cake/console/cake -app /PATH/TO/NFORUM/app sessionclean 
 
 3.import pl_api.sql in plugin directory to the database
 

@@ -9,8 +9,10 @@ class ApiAppController extends AppController {
     public function __construct(){
         parent::__construct();
         $this->encoding = "utf-8";
-        if(true === Configure::read('plugins.api.use_domain'))
+        if(true === Configure::read('plugins.api.use_domain')){
             Configure::write('plugins.api.base', '');
+            Configure::write('site.prefix', '');
+        }
     }
 
     public function beforeFilter(){

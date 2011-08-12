@@ -10,8 +10,10 @@ class MobileAppController extends AppController {
     public function __construct(){
         parent::__construct();
         $this->encoding = "utf-8";
-        if(true === Configure::read("plugins.mobile.use_domain"))
+        if(true === Configure::read("plugins.mobile.use_domain")){
             Configure::write("plugins.mobile.base", "");
+            Configure::write('site.prefix', '');
+        }
     }
 
     public function beforeFilter(){
