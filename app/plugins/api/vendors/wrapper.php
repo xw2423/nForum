@@ -62,12 +62,13 @@ class Wrapper {
 
     public function user($user){
         $static = Configure::read('site.static');
+        $base = Configure::read('site.prefix');
         $u = User::getInstance();
         $hide = ($user->getCustom('userdefine0', 29) == 0);
         $ret = array();
         $ret['id'] = $user->userid;
         $ret['user_name'] = $user->username;
-        $ret['face_url'] = $static . $user->getFace();
+        $ret['face_url'] = $static . $base . $user->getFace();
         $ret['face_width'] = $user->userface_width;
         $ret['face_height'] = $user->userface_height;
         if($hide){
