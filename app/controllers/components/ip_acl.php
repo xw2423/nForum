@@ -24,7 +24,16 @@ class IpAclComponent extends Object {
             return;
         if(!$this->check($this->ByrSession->from, Configure::read("ipacl.global")))
             $this->controller->error(ECode::$SYS_IPBAN);
-        if(!$this->check($this->ByrSession->from, Configure::read("ipacl.{$this->controller->params['controller']}.{$this->controller->params['action']}")))
+        if(null !== $this->controller->params['plugin']){
+            $acl = Configure::read("ipacl.{$this->controller->params['plugin']}.{$this->controller->params['controller']}");
+            if(isset($acl[$this->controller->params['action']]))
+                $acl = $acl[$this->controller->params['action']];
+            else
+                $acl = array();
+        }else{
+            $acl = Configure::read("ipacl.{$this->controller->params['controller']}.{$this->controller->params['action']}");
+        }
+        if(!$this->check($this->ByrSession->from, $acl))
             $this->controller->error(ECode::$SYS_IPBAN);
     }
 

@@ -20,7 +20,16 @@ class UaAclComponent extends Object {
         $ua = @env("HTTP_USER_AGENT");
         if(!$this->check(Configure::read("uaacl.global"), $ua))
             $this->controller->error(ECode::$XW_JOKE);
-        if(!$this->check(Configure::read("uaacl.{$this->controller->params['controller']}.{$this->controller->params['action']}"), $ua))
+        if(null !== $this->controller->params['plugin']){
+            $acl = Configure::read("uaacl.{$this->controller->params['plugin']}.{$this->controller->params['controller']}");
+            if(isset($acl[$this->controller->params['action']]))
+                $acl = $acl[$this->controller->params['action']];
+            else
+                $acl = array();
+        }else{
+            $acl = Configure::read("uaacl.{$this->controller->params['controller']}.{$this->controller->params['action']}");
+        }
+        if(!$this->check($acl, $ua))
             $this->controller->error(ECode::$XW_JOKE);
     }
 
