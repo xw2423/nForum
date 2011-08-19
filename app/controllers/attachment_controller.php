@@ -178,6 +178,7 @@ class AttachmentController extends AppController {
     }
 
     private function _attOpInit(){
+        $this->cache(false);
         $this->js[] = "forum.autofix.js";
         if(!isset($this->params['name'])){
             $this->error(ECode::$XW_JOKE);

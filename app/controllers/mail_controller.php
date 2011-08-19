@@ -64,6 +64,7 @@ class MailController extends AppController {
     }
 
     public function detail(){
+        $this->cache(false);
         $this->css[] = "mail.css";
         $this->css[] = "ansi.css";
         $this->js[] = "forum.mail.js";
@@ -214,6 +215,7 @@ class MailController extends AppController {
     }
 
     public function delete(){
+        $this->cache(false);
         if(!isset($this->params['type'])){
             $this->error(ECode::$MAIL_NOBOX);
         }
