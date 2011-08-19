@@ -137,7 +137,7 @@ class Wrapper {
         $domain = Configure::read('site.domain');
         $abase = Configure::read('plugins.api.base');
         if(!is_array($archive)){
-            $list = $archive->getAttList();
+            $list = $archive->getAttList(false);
             if(is_a($archive, 'Article')){
                 $url_prefix = $domain  . $abase . '/attachment/' . $archive->getBoard()->NAME . '/' . $archive->ID . '/';
             }else if(is_a($archive, 'Mail')){

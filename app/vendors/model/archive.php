@@ -31,6 +31,8 @@ App::import("vendor", array("model/overload"));
  */
 abstract class Archive extends OverloadObject{
 
+    private $_att = null;
+
     public function __construct($info){
         if(!is_array($info))
             throw new ArchiveNullException();
@@ -66,10 +68,13 @@ abstract class Archive extends OverloadObject{
         $fullName = $this->getFileName();    
         if(!file_exists($fullName))
             throw new ArchiveFileNullException();
-        $ret = ($color)?bbs_printansifile_noatt($fullName):bbs2_readfile_text($fullName, $len, $escape);
-        if(!is_string($ret))
-            $ret = "";
-        return (string)$ret;
+        $ret = ($color)?bbs_printansifile_nforum($fullName):bbs2_readfile_nforum($fullName, $len, $escape);
+        if(is_array($ret)){
+            $this->_att = $ret['attachment'];
+            $ret = $ret['content'];
+        }else
+            $ret = '';
+        return $ret;
     }
 
     /**
@@ -121,12 +126,19 @@ abstract class Archive extends OverloadObject{
     /**
      * function getAttList get list of attachments
      *
+     * @param boolean $limit
      * @return array
      * @access public
      */
-    public function getAttList(){
-        $res = bbs_file_attachment_list($this->getFileName());
-        return is_array($res)?$res:array();
+    public function getAttList($limit = true){
+        if($limit){
+            $res = bbs_file_attachment_list($this->getFileName());
+            return is_array($res)?$res:array();
+        }
+        //no att limit for display archvie
+        if(null === $this->_att)
+            $this->getPlant(false, 1, false);
+        return is_array($this->_att)?$this->_att:array();
     }
 
     /**
@@ -137,7 +149,7 @@ abstract class Archive extends OverloadObject{
      * @access public
      */
     public function getAttHtml(){
-        $list = $this->getAttList();
+        $list = $this->getAttList(false);
         $ret = array();
         foreach($list as $v){
             $v['size'] = nforum_size_format($v['size']);
