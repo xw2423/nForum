@@ -43,5 +43,6 @@ $(function(){
     
     BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'));
 
-    nForumMap.loadJs('nForumMap.parseMap', null);
+    if($('.map-map').length > 0)
+        nForumMap.loadJs('nForumMap.parseMap', null);
 });
