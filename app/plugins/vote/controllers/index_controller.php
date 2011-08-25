@@ -168,6 +168,7 @@ class IndexController extends VoteAppController {
         $this->css[] = "xwidget.css";
         $this->css['plugin']['vote'][] = "vote.css";
         $this->js['plugin']['vote'][] = "vote.js";
+        $this->js[] = "forum.share.js";
         $this->notice[] = array("url" => "", "text" => "�鿴ͶƱ");
         $this->cache(false);
         if(!isset($this->params['vid']))

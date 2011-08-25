@@ -16,7 +16,7 @@
         </div>
     </div>
 	<{capture name=n_left}>文章主题:&ensp;<{$title}><{/capture}>
-	<{capture name=n_right}><span style="color:#eee;display:inline-block;vertical-align:bottom" id="a_share" _u='<{$domain}><{$base}>/article/<{$bName}>/<{$gid}>' _c='<{$title}>'>分享到:</span><{/capture}>
+	<{capture name=n_right}><span style="color:#eee;display:inline-block;vertical-align:bottom" id="a_share" _u="<{$domain}><{$base}>/article/<{$bName}>/<{$gid}>" _c="<{$title}>">分享到:</span><{/capture}>
 	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right=$smarty.capture.n_right}>
     	<div class="b-content corner">
 <{foreach from=$info item=item}>

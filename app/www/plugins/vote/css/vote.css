@@ -32,6 +32,7 @@
 .widget-head .widget-title{font-weight:bold;text-align:center; padding-left:18px;}
 .w-list-line li{width:100%;}
 .w-free {text-align:center;}
+.vote-share{background:url('../images/chart_bar.gif') no-repeat center left}
 .vote-hot{background:url('../images/color_swatch.gif') no-repeat center left}
 .vote-user{background:url('../images/user.gif') no-repeat center left}
 /*vote add*/

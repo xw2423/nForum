@@ -77,4 +77,7 @@ $(function(){
             });
         }
     }
+    if($('#vote_share').length>0){
+        BShare.init($('#vote_share'), $('#vote_share').attr('_u'), $('#vote_share').attr('_c'));
+    }
 });

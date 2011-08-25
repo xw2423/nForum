@@ -16,7 +16,7 @@
         </div>
 		<div class="b-content vote-main">
 			<div class="vote-title">查看投票</div>
-			<div id="vote_view" class="vote-left">
+			<div id="vote_view" class="vote-left corner">
 				<div class="view-wrap">
 				<form action="" method="post">
 				<h1><{$info.title}><span>(<{$info.limitMsg}>)</span></h1>
@@ -55,7 +55,7 @@
 			</div>
 			<div id="vote_info" class="vote-right">
 <{if !$info.isDel}>
-				<li class="widget color-white">  
+				<li class="widget color-default">  
 					<div class="widget-head">
 						<span class="widget-title vote-hot">操作列表</span>	
 					</div>
@@ -71,6 +71,14 @@
 						</ul>
 					</div>
 				</li>
+                <li class="widget color-default">
+                    <div class="widget-head">
+                        <span class="widget-title vote-share">投票分享</span>	
+                    </div>
+                    <div class="widget-content">
+                        <div id="vote_share" _u="<{$domain}><{$base}>/vote/view/<{$info.vid}>" _c="#投票# <{$info.title}>"></div>
+                    </div>
+                </li>
 <{/if}>
 				<li class="widget color-default">  
 					<div class="widget-head">
