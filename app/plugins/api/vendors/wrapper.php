@@ -117,6 +117,7 @@ class Wrapper {
             $ret['is_no_reply'] = $board->isNoReply();
             $ret['allow_attachment'] = $board->isAttach();
             $ret['allow_anonymous'] = $board->isAnony();
+            $ret['allow_outgo'] = $board->isOutgo();
             $ret['allow_post'] = $board->hasPostPerm($u);
         }
 

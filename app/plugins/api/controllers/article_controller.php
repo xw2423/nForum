@@ -120,15 +120,17 @@ class ArticleController extends ApiAppController {
         if(strlen($title) > 60)
             $title = nforum_fix_gbk(substr($title,0,60));
         $sig = User::getInstance()->signature;
-        $email = 0;$anony = null;
+        $email = 0;$anony = null;$outgo = 0;
         if(isset($this->params['form']['signature']))
             $sig = intval($this->params['form']['signature']);
         if(isset($this->params['form']['email']) && $this->params['form']['email'] == '1')
             $email = 1;
-        if(isset($this->params['form']['anonymous']) && $this->params['form']['anonymous'] == '1')
+        if(isset($this->params['form']['anonymous']) && $this->params['form']['anonymous'] == '1' && $this->_board->isAnony())
             $anony = 1;
+        if(isset($this->params['form']['outgo']) && $this->params['form']['outgo'] == '1' && $this->_board->isOutgo())
+            $outgo = 1;
         try{
-            $id = Article::post($this->_board, $title, $content, $sig, $reID, $email, $anony);
+            $id = Article::post($this->_board, $title, $content, $sig, $reID, $email, $anony, $outgo);
             $new = Article::getInstance($id, $this->_board);
             App::import('vendor', 'api.wrapper');
             $wrapper = Wrapper::getInstance();

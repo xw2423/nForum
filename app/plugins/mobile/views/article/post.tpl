@@ -9,6 +9,9 @@
 <{if $anony}>
 &nbsp;<input type="checkbox" name="anony" checked="true"/>匿名
 <{/if}>
+<{if $outgo}>
+&nbsp;<input type="checkbox" name="outgo" checked="true"/>转信
+<{/if}>
 </li>
 <li><input type="submit" class="btn" value="提交"/>&nbsp;<input type="button" class="btn" value="返回" onclick="javascript:history.go(-1)" /></li>
 </ul>

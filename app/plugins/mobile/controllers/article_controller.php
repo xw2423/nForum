@@ -173,13 +173,15 @@ class ArticleController extends MobileAppController {
             }
             $subject = rawurldecode($subject);
             $sig = User::getInstance()->signature;
-            $email = 0;$anony = null;
+            $email = 0;$anony = null;$outgo = 0;
             if(isset($this->params['form']['email']))
                 $email = 1;
-            if(isset($this->params['form']['anony']))
+            if(isset($this->params['form']['anony']) && $this->_board->isAnony())
                 $anony = 1;
+            if(isset($this->params['form']['outgo']) && $this->_board->isOutgo())
+                $outgo = 1;
             try{
-                Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony);
+                Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
             }catch(ArticlePostException $e){
                 $this->error($e->getMessage());
             }
@@ -203,6 +205,7 @@ class ArticleController extends MobileAppController {
         $this->set("bName", $this->_board->NAME);
         $this->set("email", true);
         $this->set("anony", $this->_board->isAnony());
+        $this->set("outgo", $this->_board->isOutgo());
         $this->set("title", (string)$reTitle);
         $this->set("content", (string)$reContent);
         $this->set("reid", $reID);

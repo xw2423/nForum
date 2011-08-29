@@ -150,9 +150,9 @@ class ArticleController extends AppController {
                 $sig = intval($this->params['form']['signature']);
             if(isset($this->params['form']['email']))
                 $email = 1;
-            if(isset($this->params['form']['anony']))
+            if(isset($this->params['form']['anony']) && $this->_board->isAnony())
                 $anony = 1;
-            if(isset($this->params['form']['anony']))
+            if(isset($this->params['form']['outgo']) && $this->_board->isOutgo())
                 $outgo = 1;
             try{
                 $id = Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
