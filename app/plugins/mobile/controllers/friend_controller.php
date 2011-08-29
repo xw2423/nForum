@@ -2,7 +2,8 @@
 class friendController extends MobileAppController {
 
     public function online(){
-		$this->notice = "在线好友";
+        $this->cache(false);
+        $this->notice = "在线好友";
         App::import('Sanitize');
         $u = User::getInstance();
         $online = $u->getOnlineFriends();

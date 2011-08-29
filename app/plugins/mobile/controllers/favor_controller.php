@@ -10,6 +10,7 @@ class FavorController extends MobileAppController {
     }
 
     public function index(){
+        $this->cache(false);
         $this->notice = "ÊÕ²Ø¼Ğ";
         App::import('Sanitize');
         $level = (int)$this->params['num'];

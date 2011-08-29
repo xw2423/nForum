@@ -2,6 +2,7 @@
 App::import("vendor", "model/widget");
 class IndexController extends MobileAppController {
     public function index(){
+        $this->cache(false);
         $top = Widget::getInstance("topTen");
         $res = $top->wGetList();
         $res = $res['v'];
@@ -58,6 +59,7 @@ class IndexController extends MobileAppController {
         }catch(WidgetNullException $e){
             $this->error(ECode::$SEC_NOSECTION);
         }
+        $this->cache(true, $w->wGetTime());
         $this->set("secs", $secs);
         $this->set("selected", $selected);
     }

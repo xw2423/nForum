@@ -46,6 +46,7 @@ class MailController extends MobileAppController {
     }
 
     public function show(){
+        $this->cache(false);
         $this->notice = "ÔÄ¶ÁÓÊ¼þ";
         if(!isset($this->params['num'])){
             $this->error(ECode::$MAIL_NOMAIL);
@@ -135,6 +136,7 @@ class MailController extends MobileAppController {
     }
 
     public function delete(){
+        $this->cache(false);
         $type = MailBox::$IN;
         try{
             $box = new MailBox(User::getInstance(), $type);

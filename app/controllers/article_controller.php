@@ -16,6 +16,7 @@ class ArticleController extends AppController {
     }
 
     public function index(){
+        $this->cache(false);
         $this->css[] = "ubb.css";
         $this->css[] = "article.css";
         $this->css[] = "ansi.css";
@@ -25,7 +26,6 @@ class ArticleController extends AppController {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"тд╤андуб");
 
-        $this->cache(false);
         App::import('Sanitize');
         App::import('vendor', array("inc/pagination", "inc/astro"));
         try{
