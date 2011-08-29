@@ -28,6 +28,9 @@ class ArticleController extends AppController {
 
         App::import('Sanitize');
         App::import('vendor', array("inc/pagination", "inc/astro"));
+
+        if(!isset($this->params['gid']) || $this->params['gid'] == '0')
+            $this->error(ECode::$ARTICLE_NONE);
         try{
             $gid = $this->params['gid'];
             $this->_threads = Threads::getInstance($gid, $this->_board);
