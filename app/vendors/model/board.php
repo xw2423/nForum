@@ -533,6 +533,10 @@ class Board extends OverloadObject implements Pageable, iWidget{
         return $this->_checkFlag(BBS_BOARD_ANNONY);
     }
 
+    public function isOutgo(){
+        return $this->_checkFlag(BBS_BOARD_OUTFLAG);
+    }
+
     public function isTmplPost(){
         return $this->_checkFlag(BBS_BOARD_TMP_POST);
     }

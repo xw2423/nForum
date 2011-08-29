@@ -142,15 +142,17 @@ class ArticleController extends AppController {
                 $subject = nforum_fix_gbk(substr($subject,0,60));
             $content = trim($this->params['form']['content']);
             $sig = User::getInstance()->signature;
-            $email = 0;$anony = null;
+            $email = 0;$anony = null;$outgo = 0;
             if(isset($this->params['form']['signature']))
                 $sig = intval($this->params['form']['signature']);
             if(isset($this->params['form']['email']))
                 $email = 1;
             if(isset($this->params['form']['anony']))
                 $anony = 1;
+            if(isset($this->params['form']['anony']))
+                $outgo = 1;
             try{
-                $id = Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony);
+                $id = Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
                 $gid = Article::getInstance($id, $this->_board);
                 $gid = $gid->GROUPID;
             }catch(ArticlePostException $e){
@@ -209,6 +211,7 @@ class ArticleController extends AppController {
         $sigOption["-1"] = "使用随机签名档";
         $this->set("bName", $this->_board->NAME);
         $this->set("anony", $this->_board->isAnony());
+        $this->set("outgo", $this->_board->isOutgo());
         $this->set("isAtt", $this->_board->isAttach());
         $this->set("reTitle", $reTitle);
         $this->set("reContent", $reContent);

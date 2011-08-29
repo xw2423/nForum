@@ -68,7 +68,7 @@ class Article extends Archive{
      * @param int $reID 0:new threads
      * @param int $email 1:mail when has reply 0:no mail
      * @param int $anony 1:post with anonymous
-     * @param int $outgo no use 
+     * @param int $outgo 1:outgo post
      * @param int $tex no use
      * @return int new article id
      * @static

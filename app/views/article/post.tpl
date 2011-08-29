@@ -34,6 +34,9 @@
 					<{if $anony}>
                     <span class="post-op"><input type="checkbox" checked="true" value="1" name="anony"/><span>ÄäÃû</span></span>
 					<{/if}>
+					<{if $outgo}>
+                    <span class="post-op"><input type="checkbox" checked="true" value="1" name="outgo"/><span>×ªÐÅ</span></span>
+					<{/if}>
                 </li>
            </ul>
 		   <input type="hidden" name="reid" value="<{$reID}>" />
