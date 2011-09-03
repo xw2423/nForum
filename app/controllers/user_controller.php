@@ -197,9 +197,9 @@ class UserController extends AppController {
             }else if(isset($this->params['form']['pold'])
                 && isset($this->params['form']['pnew1'])
                 && isset($this->params['form']['pnew2'])){
-                    $old = trim($this->params['form']['pold']);
-                    $new1 = trim($this->params['form']['pnew1']);
-                    $new2 = trim($this->params['form']['pnew2']);
+                    $old = $this->params['form']['pold'];
+                    $new1 = $this->params['form']['pnew1'];
+                    $new2 = $this->params['form']['pnew2'];
                     if($new1 !== $new2){
                         $this->error(ECode::$USER_PWDERROR);
                     }
