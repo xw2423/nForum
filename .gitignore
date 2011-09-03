@@ -1,0 +1,7 @@
+*.swp
+app/tmp/*
+app/www/files/adv/*
+app/www/uploadFace/*
+app/www/img/app/icon/*
+cake
+app/config/nforum.php
