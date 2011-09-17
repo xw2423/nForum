@@ -17,6 +17,8 @@
 	</div>
 	<div class="logo sp">BYR-Team&copy;2010</div>
 </div>
+<script>
+        window.scrollTo(0,0); 
+</script> 
 </body>
 </html>
-
