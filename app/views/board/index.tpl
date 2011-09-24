@@ -25,7 +25,7 @@
 			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
-	<{capture name=n_left}>本版当前共有<{$curNum}>人在线&emsp;今日帖子<{$todayNum}><{/capture}>
+	<{capture name=n_left}>本版当前共有<{$curNum}>人在线<span title="发生于<{$maxTime}>">[最高<{$maxNum}>人]</span>&emsp;今日帖数<{$todayNum}><{/capture}>
 	<{capture name=n_right}>
 	版主:
 		<{foreach from=$bms item=bm}>
