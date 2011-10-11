@@ -98,7 +98,6 @@ class ByrSessionComponent extends Object {
             $this->Cookie->write("UTMPUSERID", $u->userid, false);
         $this->Cookie->write("UTMPKEY", $utmpkey, false);
         $this->Cookie->write("UTMPNUM", $u->index, false);
-        $this->Cookie->write("LOGINTIME", $u->logintime, false);
     }
 
     public function login($id, $pwd, $md5 = true, $cookieTime = null){
@@ -134,7 +133,6 @@ class ByrSessionComponent extends Object {
         $this->Cookie->write("UTMPUSERID", $u->userid, false, $cookieTime);
         $this->Cookie->write("UTMPKEY", $utmpkey, false);
         $this->Cookie->write("UTMPNUM", $u->index, false);
-        $this->Cookie->write("LOGINTIME", $u->logintime, false);
         $this->Cookie->write("PASSWORD", $pass, false, $cookieTime);
     }
 
@@ -146,7 +144,6 @@ class ByrSessionComponent extends Object {
         $this->Cookie->write("UTMPUSERID", "", false, $time);
         $this->Cookie->write("UTMPKEY", "", false, $time);
         $this->Cookie->write("UTMPNUM", "", false, $time);
-        $this->Cookie->write("LOGINTIME", "", false, $time);
         $this->Cookie->write("PASSWORD", "", false, $time);
     }
 
