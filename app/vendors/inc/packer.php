@@ -53,12 +53,14 @@ class Packer{
             ,"/\s*([{}:;,])\s*/"
             ,"/;}/"
             ,"/ +/"
+            ,"/(?<![\d])0px/"
         );
         $replace = array("" 
             ,"" 
             ,"\\1"
             ,"}"
             ," "
+            ,"0"
         );
         return preg_replace($pattern, $replace, $content);
     }
