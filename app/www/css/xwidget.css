@@ -4,10 +4,6 @@
     width: 33.3%;
     min-height: 100px;
 }
-.widget {*overflow:hidden;}
-#column1 .widget { margin: 0px 0px 6px 0px;}  
-#column2 .widget { margin: 0px 8px 6px 8px; }
-#column3 .widget { margin: 0px 0px 6px 0px; }
 
 /*color define*/
 .widget, .widget .rc-head .rc2,.widget.rc-head.rc3{background-color:#d4e6fc;}
@@ -21,7 +17,17 @@
 .color-white,.color-white .rc-head .rc2,.color-white .rc-head .rc3  {background-color:#dfdfdf;}  
 .color-yellow .widget-title,.color-red .widget-title,.color-green .widget-title,.color-blue .widget-title,.color-orange .widget-title,.color-yellow .widget-title a,.color-red .widget-title a,.color-green .widget-title a,.color-blue .widget-title a,.color-orange .widget-title a{color:#fff;}
 /*color end*/
+
 /*widget*/
+.widget {*overflow:hidden;}
+#column1 .widget{ margin:0 4px 6px 0;}
+#column2 .widget{ margin:0 2px 6px 2px;}
+#column3 .widget{ margin:0 0 6px 4px;}
+.widget-placeholder { border: 2px dashed #999;;*height:0;_overflow:hidden}
+#column1 .widget-placeholder{ margin:0 4px 2px 0;}
+#column2 .widget-placeholder{ margin:0 2px 2px 2px;}
+#column3 .widget-placeholder{ margin:0 0 2px 4px;}
+
 .widget-head {  
     color: #000;  
     height: 20px;
@@ -74,10 +80,6 @@
     border-width:0 1px;
     overflow: hidden; 
 } 
-.widget-placeholder { border: 2px dashed #999; margin: 10px 10px 0 10px;}
-#column1 .widget-placeholder { margin: 0px 0px 10 5px; }
-#column2 .widget-placeholder { margin: 0px 10px 10 10px; }
-#column3 .widget-placeholder { margin: 0px 4px 10 0px; }
 .no-widget{
     padding:20px 0;
     text-align:center;
