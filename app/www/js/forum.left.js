@@ -25,7 +25,8 @@ $(function(){
         return false;
     });
     $("#xlist .x-leaf").not('.x-search').click(function(e){
-        window.location.href = $(this).children('a').attr('href');
+        var ca = $(this).children('a');
+        window.open(ca.attr('href'), ca.attr('target') || '_self');
         return false;
     });
     /* fix end */
