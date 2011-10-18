@@ -67,7 +67,7 @@
 			</td>
 		</tr>
 		<tr class="a-body">
-			<td class="a-left a-info a-no-bottom a-no-top">
+			<td class="a-left a-no-bottom a-no-top">
 <{if !($item.owner)}>
 				&nbsp;
 <{else}>

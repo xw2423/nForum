@@ -90,18 +90,18 @@
 
 /* article body */
 .a-body{ background:#FFF}
-.a-info{padding-left:15px;}
-.u-img{padding:6px;padding-left:0}
+.u-img{width:124px;margin:8px auto;}
 .u-img img{
     display:block; 
     border:1px solid #CCC; 
     padding:2px;
 }
-.u-uid{color:#000;width:140px;}
-.u-info{overflow:hidden;padding:6px 0}
+.u-uid,.u-info{width:120px;margin:auto;margin-bottom:8px;}
+.u-uid{color:#000}
+.u-info{overflow:hidden}
 .u-info dt,.u-info dd{color:#666;line-height:1.4em;float:left;height:1.4em;overflow:hidden;}
-.u-info dt{width:60px;}
-.u-info dd{width:80px;color:#000;}
+.u-info dt{width:50px;}
+.u-info dd{width:70px;color:#000;}
 .a-content{padding:10px}
 .a-content img{
     display:inline; 
