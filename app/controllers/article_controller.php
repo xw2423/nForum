@@ -211,6 +211,9 @@ class ArticleController extends AppController {
             else
                 $sigOption["$v"] = "使用第{$v}个";
         }
+        App::import('Sanitize');
+        $reTitle = Sanitize::html($reTitle);
+        $reContent = Sanitize::html($reContent);
         $sigOption["-1"] = "使用随机签名档";
         $this->set("bName", $this->_board->NAME);
         $this->set("anony", $this->_board->isAnony());

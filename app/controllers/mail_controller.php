@@ -208,6 +208,9 @@ class MailController extends AppController {
                 $sigOption["$v"] = "使用第{$v}个";
         }
         $sigOption["-1"] = "使用随机签名档";
+        App::import('Sanitize');
+        $title = Sanitize::html($title);
+        $content = Sanitize::html($content);
         $this->set("title", $title);
         $this->set("content", $content);
         $this->set("sigOption", $sigOption);
