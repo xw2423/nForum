@@ -152,12 +152,17 @@ class MailController extends AppController {
             try{
                 $mail = MAIL::getInstance($num, new MailBox(User::getInstance(),$type));
             }catch(UserNullException $e){
-                $this->error(ECode::$MAIL_NOMAIL);
+                $this->error(ECode::$USER_NOID);
             }catch(Exception $e){
                 try{
-                    $mail = Article::getInstance($num, Board::getInstance($type));
+                    $b = Board::getInstance($type);
+                    if(!$b->hasReadPerm(User::getInstance()))
+                        $this->error(ECode::$BOARD_NOPERM);
+                    $mail = Article::getInstance($num, $b);
+                }catch(BoardNullException $e){
+                    $this->error(ECode::$BOARD_UNKNOW);
                 }catch(Exception $e){
-                    $this->error(ECode::$ARTICLE_NOREPLY);
+                    $this->error(ECode::$ARTICLE_NONE);
                 }
             }
             if(!strncmp($mail->TITLE, "Re: ", 4))
@@ -190,11 +195,14 @@ class MailController extends AppController {
             $brd = $this->params['name'];
             $id = $this->params['id'];
             try{
-                $article = Article::getInstance($id, Board::getInstance($brd));
+                $b = Board::getInstance($brd);
+                if(!$b->hasReadPerm(User::getInstance()))
+                    $this->error(ECode::$BOARD_NOPERM);
+                $article = Article::getInstance($id, $b);
             }catch(BoardNullException $e){
-                $this->error(ECode::$ARTICLE_NONE);
+                $this->error(ECode::$BOARD_UNKNOW);
             }catch(ArticleNullException $e){
-                $this->error(ECode::$BOARD_NONE);
+                $this->error(ECode::$ARTICLE_NONE);
             }
             $title = $article->TITLE . "(转寄)";
             $content = preg_replace("/^发信人[^\n]*\n|^寄信人[^\n]*\n/", "", $article->getContent());
