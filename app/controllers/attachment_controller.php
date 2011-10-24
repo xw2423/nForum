@@ -85,53 +85,69 @@ class AttachmentController extends AppController {
             return;
         }
 
-        if (isset($this->params['form']['attachfile'])) {
-            $errno=$this->params['form']['attachfile']['error'];
-        } else {
-            $errno = UPLOAD_ERR_PARTIAL;
-        }
-        switch($errno){
-            case UPLOAD_ERR_OK:
-                $tmpFile = $this->params['form']['attachfile']['tmp_name'];
-                $tmpName = $this->params['form']['attachfile']['name'];
-                if (!is_uploaded_file($tmpFile)) {
-                    $msg = ECode::$ATT_NLIMIT;
+        $new = $exif = array();
+        $msg = ECode::$ATT_SLIMIT;
+        $jump = false;
+        foreach((array)$this->params['form'] as $name=>$file){
+            if(0 !== strpos($name, 'attachfile')){
+                $msg = ECode::$ATT_NONE;
+                continue;
+            }
+            $errno = isset($file['error'])?$file['error']:UPLOAD_ERR_NO_FILE;
+            switch($errno){
+                case UPLOAD_ERR_OK:
+                    $tmpFile = $file['tmp_name'];
+                    $tmpName = $file['name'];
+                    if (!is_uploaded_file($tmpFile)) {
+                        $msg = ECode::$ATT_NONE;
+                        continue;
+                    }
+                    if($num >= intval($upload['att_num'])){ 
+                        $msg = ECode::$ATT_NLIMIT;
+                        $jump = true;
+                        break;
+                    }
+
+                    if(($size + filesize($tmpFile)) > intval($upload['att_size'])){
+                        $msg = ECode::$ATT_SLIMIT;
+                        $jump = true;
+                        break;
+                    }
+                    if(is_array(Configure::read("exif")) && in_array($this->_board->NAME, Configure::read("exif")) && exif_imagetype($tmpFile) === 2){
+                        $exif[] = $this->Exif->format($tmpFile);
+                    }
+                    try{
+                        if($isFile)
+                            $article->addAttach($tmpFile, $tmpName);
+                        else
+                            Forum::addAttach($tmpFile, $tmpName);
+                        $size += filesize($tmpFile);
+                        $new[] = ++$num;
+                        $msg = ECode::$ATT_ADDOK;
+                    }catch(ArchiveAttException $e){
+                        $msg = $e->getMessage();
+                    }catch(AttException $e){
+                        $msg = $e->getMessage();
+                    }
                     break;
-                }
-                if(($size + filesize($tmpFile)) > intval($upload['att_size'])){
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                case UPLOAD_ERR_PARTIAL:
                     $msg = ECode::$ATT_SLIMIT;
                     break;
-                }
-                $exif = false;
-                if(is_array(Configure::read("exif")) && in_array($this->_board->NAME, Configure::read("exif")) && exif_imagetype($tmpFile) === 2){
-                    $exif = $this->Exif->format($tmpFile);
-                }
-                try{
-                    if($isFile)
-                        $article->addAttach($tmpFile, $tmpName);
-                    else
-                        Forum::addAttach($tmpFile, $tmpName);
-                    $this->set("new", $num + 1);
-                    if($exif !== false)
-                        $this->set("exif", $exif);
-                    $msg = ECode::$ATT_ADDOK;
-                }catch(ArchiveAttException $e){
-                    $msg = $e->getMessage();
-                }catch(AttException $e){
-                    $msg = $e->getMessage();
-                }
+                case UPLOAD_ERR_NO_FILE:
+                    $msg = ECode::$ATT_NONE;
+                    break;
+                default:
+                    $msg = ECode::$SYS_ERROR;
+            }
+            if($jump)
                 break;
-            case UPLOAD_ERR_INI_SIZE:
-            case UPLOAD_ERR_FORM_SIZE:
-            case UPLOAD_ERR_PARTIAL:
-                $msg = ECode::$ATT_SLIMIT;
-                break;
-            case UPLOAD_ERR_NO_FILE:
-                $msg = ECode::$ATT_NONE;
-                break;
-            default:
-                $msg = ECode::$SYS_ERROR;
         }
+        if(!empty($exif))
+            $this->set("exif", $exif);
+        if(!empty($new))
+            $this->set("new", $new);
         $this->set("msg", ECode::msg($msg));
         $this->_attList();
         $this->render("index");
