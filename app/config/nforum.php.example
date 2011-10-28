@@ -142,6 +142,7 @@ $config['user']['custom']['userdefine1'] = array(
 $config['user']['custom']['mailbox_prop'] = array(
         array(0,"发信时保存信件到发件箱", "是否发信时自动选择保存到发件箱","保存","不保存"),
         array(1,"删除信件时不保存到垃圾箱", "是否删除信件时不保存到垃圾箱","不保存","保存"),
+        array(3,"自动清除过期垃圾邮件", "是否自动清除过期垃圾邮件","是","否"),
 );
 
 /********* pagination config ******************/
