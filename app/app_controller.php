@@ -42,6 +42,7 @@ class AppController extends Controller {
     public $path;
 
     public $view = null;
+    public $hasRendered = false;
 
     //ajax mode for check
     private $_chAjax = false;
@@ -151,6 +152,8 @@ class AppController extends Controller {
      * @override method
      */
     public function render($action = null, $path = null) {
+        if($this->hasRendered)
+            return $this->output;
         $this->beforeRender();
         $this->Component->beforeRender($this);
         if(is_null($this->view)){
@@ -158,6 +161,7 @@ class AppController extends Controller {
             $this->view = new SmartyView($this, Configure::read("smarty"));
         }
         $this->output .= $this->view->render($action, $path);    
+        $this->hasRendered = true;
         return $this->output;
     }
 
