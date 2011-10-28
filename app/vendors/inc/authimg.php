@@ -69,7 +69,7 @@ class AuthImg{
     private $_format = 'png';
 
     public function __destruct(){
-        if(!is_null($_img))
+        if(!is_null($this->_img))
             imagedestroy($this->_img);
     }
 
