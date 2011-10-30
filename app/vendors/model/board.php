@@ -372,6 +372,17 @@ class Board extends OverloadObject implements Pageable, iWidget{
     }
 
     /**
+     * function isDeny check whether board deny user
+     *
+     * @param User $user
+     * @return boolean true|false
+     * @access public
+     */
+    public function isDeny($user){
+        return (bbs_deny_me($user->userid, $this->NAME) != 0);
+    }
+
+    /**
      * function getTodayNum get the number that post today
      *
      * @return int

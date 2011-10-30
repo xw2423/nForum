@@ -122,7 +122,7 @@ class ArticleController extends AppController {
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
         $this->set("searchDay", Configure::read("search.day"));
-        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u)?"true":"false") . ";";
+        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
     }
 
     public function post(){
@@ -427,6 +427,9 @@ class ArticleController extends AppController {
         }
         if(!$this->_board->hasPostPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPOST);
+        }
+        if($this->_board->isDeny(User::getInstance())){
+            $this->error(ECode::$POST_BAN);
         }
         if(isset($this->params['form']['reid']))
             $reID = intval($this->params['form']['reid']);

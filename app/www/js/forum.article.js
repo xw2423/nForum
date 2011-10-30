@@ -21,25 +21,22 @@ $(function(){
         }
     }).ubb({enable:false, ubb_img_path:config.base + "/img/ubb/", ubb_em:$('#em_img')});
         
-    var validLogin = function(){
-        if(!user_post && !user_login){
-            alert('请先登录!');
+    var validPost = function(){
+        if(!user_post){
+            alert(user_login?'您没有发文权限!':'请先登录!');
             return false;
         }
-        return true;
-    },
-    validPost = function(){
-        if(!validLogin())
-            return false;
+    };
+    $('#f_post').submit(function(){
         if($.trim($('#text_a').val()) == ''){
             alert('不要回复空内容嘛!');
             return false;
         }
-    };
-    $('#f_post').submit(validPost);
-    $('#b_post').click(validLogin);
-    $('#b_tmpl').click(validLogin);
-    $('.a-post').click(validLogin);
+        return validPost();
+    });
+    $('#b_post').click(validPost);
+    $('#b_tmpl').click(validPost);
+    $('.a-post').click(validPost);
     
     BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'));
 

@@ -100,7 +100,7 @@ class BoardController extends AppController {
         $this->set("searchDay", Configure::read("search.day"));
         //for elite path
         $this->set("elitePath", urlencode($this->_board->getElitePath()));
-        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u)?"true":"false") . ";";
+        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
     }
 
     public function vote(){

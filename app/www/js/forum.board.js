@@ -9,14 +9,14 @@ function init(){
     $('#t_search').mouseover(function(){
         $(this).select();
     });
-    var validLogin = function(){
-        if(!user_post && !user_login){
-            alert('请先登录!');
+    var validPost = function(){
+        if(!user_post){
+            alert(user_login?'您没有发文权限!':'请先登录!');
             return false;
         }
     };
-    $('#b_post').click(validLogin);
-    $('#b_tmpl').click(validLogin);
+    $('#b_post').click(validPost);
+    $('#b_tmpl').click(validPost);
 }
 function favadd(name){
     var url = config.base + "/fav/op/0";
