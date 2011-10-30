@@ -56,7 +56,7 @@ class Threads extends Article implements Pageable{
         $arr = array();
         $haveprev = null;
         $gid = intval($gid);
-        $ret = bbs_get_threads_from_gid($board->BID, $gid, $gid, $arr, $haveprev);
+        $ret = bbs_get_threads_from_gid($board->BID, $gid, $gid, $arr, $haveprev, 1);
         if($ret == 0 || count($arr) == 0)
             throw new ThreadsNullException();
         $num = count($arr);
