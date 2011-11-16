@@ -53,7 +53,7 @@ class Section extends collection implements iWidget{
      */
     public static function getInstance($mixed, $mode = 4){
         $info = array();
-        if(is_a($mixed, "Board") && $mixed->isDir()){
+        if(is_object($mixed) && is_a($mixed, "Board") && $mixed->isDir()){
             $info = bbs_getboards_nforum($mixed->SECNUM, $mixed->BID, $mode);
             $desc = $mixed->DESC;
             $root = false;
