@@ -8,13 +8,13 @@
 /*color define*/
 .widget .widget-title,.widget .widget-title a{color:#224499;}
 .color-default,.color-default .widget-head{background-color:#d4e6fc;}
-.color-red,.color-red .widget-head{background-color:#dd0000;}  
-.color-orange,.color-orange .widget-head{background-color:#f70;}  
-.color-yellow,.color-yellow .widget-head{background-color:#B5AC00;}  
-.color-green,.color-green .widget-head{background-color:#6c0;}  
+.color-red,.color-red .widget-head{background-color:#dd0000;}
+.color-orange,.color-orange .widget-head{background-color:#f70;}
+.color-yellow,.color-yellow .widget-head{background-color:#B5AC00;}
+.color-green,.color-green .widget-head{background-color:#6c0;}
 .color-blue,.color-blue .widget-head{background-color:#148ea4;}
-.color-white,.color-white .widget-head{background-color:#dfdfdf;}  
-.color-yellow,.color-yellow .widget-title,.color-red .widget-title,.color-green .widget-title,.color-blue .widget-title,.color-orange .widget-title,.color-yellow .widget-title a,.color-red .widget-title a,.color-green .widget-title a,.color-blue .widget-title a,.color-orange .widget-title a{color:#fff;}
+.color-white,.color-white .widget-head{background-color:#dfdfdf;}
+.color-yellow .widget-title,.color-red .widget-title,.color-green .widget-title,.color-blue .widget-title,.color-orange .widget-title,.color-yellow .widget-title a,.color-red .widget-title a,.color-green .widget-title a,.color-blue .widget-title a,.color-orange .widget-title a{color:#fff;}
 /*color end*/
 
 /*widget*/
@@ -30,17 +30,17 @@
 #column2 .widget-placeholder{ margin:0 2px 2px 2px;}
 #column3 .widget-placeholder{ margin:0 0 2px 4px;}
 
-.widget-head {  
-    color: #000;  
+.widget-head {
+    color: #000;
     height: 20px;
     padding-top:4px;
-    overflow:hidden;  
-    border:1px solid #bdcad8; 
+    overflow:hidden;
+    border:1px solid #bdcad8;
     border-bottom-width:0;
     -moz-border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
     border-radius: 4px 4px 0 0;
-}  
+}
 .widget-head .widget-title {display:inline-block;padding-left:4px;font-size:13px;font-weight:bold}
 .widget-head a{margin-right:4px;cursor:pointer;}
 .widget-head .widget-op{ float:right;}
@@ -53,7 +53,7 @@
 .edit-box {
     padding: 5px 0;
     background-color: #d4e6fc;
-    border:1px solid #bdcad8; 
+    border:1px solid #bdcad8;
 }
 .edit-box .item {
     padding:3px 0 3px 20px;
@@ -78,16 +78,16 @@
     border:1px #666 solid;
     width:135px;
 }
-.widget-content {  
-    background: #FFFFFF;  
+.widget-content {
+    background: #FFFFFF;
     padding: 6px 9px;
-    overflow: hidden; 
-    border:1px solid #bdcad8; 
+    overflow: hidden;
+    border:1px solid #bdcad8;
     border-top-width:0;
     -webkit-border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     border-radius: 0 0 4px 4px;
-} 
+}
 .no-widget{
     padding:20px 0;
     text-align:center;
