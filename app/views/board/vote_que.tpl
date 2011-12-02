@@ -1,8 +1,7 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="版内投票"}>
 	<div class="b-content corner">
 	<div style="padding:10px;">
-		<form action="" method="post">
+		<form action="<{$base}>/board/<{$bName}>/ajax_vote/<{$num}>.json" method="post">
 		<table class="m-table" style="text-align:center">
 		<tr>
 			<th style="width:180px">标题</th>
@@ -64,9 +63,18 @@
         </tr>
         <tr class="tmpl-op">
 				<td colspan="2" style="padding:4px 0"><input type="submit" class="button" value="提交" />&emsp;<input type="button" class="button" value="返回" onclick="javascript:history.go(-1)" /></td>
-			</tr>
-			</table>
-			</form>
-		</div>
-    	</div>
-<{include file="footer.tpl"}>
+        </tr>
+        </table>
+        </form>
+    </div>
+    </div>
+<script>
+$(function(){
+    $('#body form').submit(function(){
+        $.post($(this).attr('action'), $(this).getPostData(), function(json){
+            DIALOG.ajaxDialog(json);
+        }, 'json');
+        return false;
+    });
+})
+</script>

@@ -47,8 +47,7 @@
     Router::connect('/widget/:name', array('controller' => 'widget', 'action' => 'ajax_widget'));
     Router::connect('/slist', array('controller' => 'section', 'action' => 'ajax_list'));
     Router::connect('/flist', array('controller' => 'favor', 'action' => 'ajax_list'));
-    Router::connect('/board/:name', array('controller' => 'board', 'action' => 'index'));
-    Router::connect('/board/:name/vote/:num', array('controller' => 'board', 'action' => 'vote', 'num' => null), array('num' => '\d+'));
+    Router::connect('/board/:name/:action/:num', array('controller' => 'board', 'num' => null), array('num' => '\d+'));
     Router::connect('/article/:name/:gid', array('controller' => 'article', 'action' => 'index'), array('gid' => '\d+'));
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
     Router::connect('/att/:name/:id/:pos', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+'));

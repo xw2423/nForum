@@ -114,32 +114,6 @@ class BoardController extends AppController {
         if(isset($this->params['num'])){
             $num = (int) $this->params['num']; 
             $vote = $this->_board->getVote($num);
-            if($this->RequestHandler->isPost()){
-                $v = @$this->params['form']['v'];
-                $msg = @$this->params['form']['msg'];
-                $val = 0;
-                if($vote['type'] == '数字'){
-                    $val = (int)$v;
-                }else if($vote['type'] == '复选'){
-                    if(count((array)$v) > $vote['limit'])
-                        $this->error(ECode::$BOARD_VOTEFAIL);
-                    foreach((array)$v as $k=>$v)
-                        $val += 1 << intval($k);
-                }else if($vote['type'] != '问答'){
-                    $val = 1 << intval($v);
-                }
-                if(!$this->_board->vote($num, $val, $msg))
-                    $this->error(ECode::$BOARD_VOTEFAIL);
-                $this->waitDirect(
-                    array(
-                        "text" => $this->_board->DESC, 
-                        "url" => "/board/" . $this->_board->NAME
-                    ),ECode::$BOARD_VOTESUCCESS,
-                    array(array("text" => "投票列表", "url" => '/board/' .  $this->_board->NAME . '/vote/')
-                        ,array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-                    ));
-
-            }
             if($vote === false)
                 $this->error();
             $vote['start'] = date('Y-m-d H:i:s', $vote['start']);
@@ -150,6 +124,8 @@ class BoardController extends AppController {
                     $v = Sanitize::html($v);
             }
             $this->set($vote);
+            $this->set("num", $num);
+            $this->set("bName", $this->_board->NAME);
             $this->render("vote_que");
             return;
         }
@@ -164,6 +140,43 @@ class BoardController extends AppController {
         }
         $this->set("info", $info);
         $this->set("bName", $this->_board->NAME);
+    }
+
+    public function ajax_vote(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+
+        if(!isset($this->params['num']))
+            $this->error(ECode::$BOARD_VOTEFAIL);
+
+        $num = (int) $this->params['num']; 
+        $vote = $this->_board->getVote($num);
+        if($vote === false)
+            $this->error(ECode::$BOARD_VOTEFAIL);
+
+        $v = @$this->params['form']['v'];
+        $msg = @$this->params['form']['msg'];
+        $val = 0;
+        if($vote['type'] == '数字'){
+            $val = (int)$v;
+        }else if($vote['type'] == '复选'){
+            if(count((array)$v) > $vote['limit'])
+                $this->error(ECode::$BOARD_VOTEFAIL);
+            foreach((array)$v as $k=>$v)
+                $val += 1 << intval($k);
+        }else if($vote['type'] != '问答'){
+            $val = 1 << intval($v);
+        }
+        if(!$this->_board->vote($num, $val, $msg))
+            $this->error(ECode::$BOARD_VOTEFAIL);
+
+        $ret['ajax_code'] = ECode::$BOARD_VOTESUCCESS;
+        $ret['default'] = '/board/' .  $this->_board->NAME;
+        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        $ret['list'][] = array("text" => '投票列表', "url" => '/board/' .  $this->_board->NAME . '/vote/');
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
     }
 
     private function _getTag($threads){
