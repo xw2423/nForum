@@ -20,7 +20,7 @@
 <{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
 			<{if $islogin}><a href="javascript:void(0)" id="b_fav" class="button" _b="<{$bName}>">收藏</a><{/if}>
-			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><samp class="ico-pos-rss"></samp></a>
+			<a href="<{$base}>/rss/board-<{$bName}>" class="rss" target="_blank"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
 	<{capture name=n_left}>本版当前共有<{$curNum}>人在线<span title="发生于<{$maxTime}>">[最高<{$maxNum}>人]</span>&emsp;今日帖数<{$todayNum}><{/capture}>

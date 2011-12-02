@@ -41,8 +41,6 @@
     Router::connect('/rss/board-:name', array('controller' => 'rss', 'action' => 'board'));
     Router::connect('/rss/topten', array('controller' => 'rss', 'action' => 'topten'));
     Router::connect('/rss/:file', array('controller' => 'rss', 'action' => 'classic'));
-    #Router::connect('/login', array('controller' => 'user', 'action' => 'login'));
-    #Router::connect('/logout', array('controller' => 'user', 'action' => 'logout'));
     Router::connect('/widget/set', array('controller' => 'widget', 'action' => 'ajax_set'));
     Router::connect('/widget/add', array('controller' => 'widget', 'action' => 'add'));
     Router::connect('/widget/list', array('controller' => 'widget', 'action' => 'ajax_list'));
