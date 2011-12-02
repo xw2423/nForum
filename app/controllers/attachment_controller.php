@@ -11,10 +11,34 @@ class AttachmentController extends AppController {
     public function __construct(){
         parent::__construct();
         $this->components[] = "Exif";
+        $this->front = true;
+    }
+
+    public function beforeFilter(){
+        //flash mode will post cookie data, so parse to system cookie first
+        if ($this->RequestHandler->isFlash()) {
+            if (isset($this->params['form']['cookie'])) {
+                $cookie = $this->params['form']['cookie'];
+                $prefix = Configure::read('cookie.prefix');
+                $cookie = explode('; ', $cookie);
+                foreach ($cookie as $c) {
+                    list($name, $content) = split('=', $c);
+                    if (preg_match("/^$prefix\[(.*)\]$/", $name, $matches)) {
+                        $_COOKIE[$prefix][$matches[1]] = $content;
+                    } else {
+                        $_COOKIE[$name] = $content;
+                    }
+                }
+            }
+            if (isset($this->params['form']['emulate_ajax'])) {
+                putenv('HTTP_X_REQUESTED_WITH=XMLHttpRequest');
+            }
+        }
+        parent::beforeFilter();
     }
 
     public function download(){
-        if(!isset($this->params['name']) 
+        if(!isset($this->params['name'])
         || !isset($this->params['id'])
         || !isset($this->params['pos']))
             $this->error(ECode::$SYS_NOFILE);
@@ -31,7 +55,7 @@ class AttachmentController extends AppController {
             if(in_array($name, get_class_vars("MailBox"))){
                 $this->requestLogin();
                     $box = new MailBox(User::getInstance(), $name);
-                    $archive = Mail::getInstance($id, $box);    
+                    $archive = Mail::getInstance($id, $box);
             }else{
                 $board = Board::getInstance($name);
                 if(!$board->hasReadPerm(User::getInstance()))
@@ -48,117 +72,121 @@ class AttachmentController extends AppController {
         $this->_stop();
     }
 
-    public function index(){
+    public function ajax_list(){
         $this->_attOpInit();
-        $this->brief = true;
-        $this->_attList();
+        $atts = $this->_attList();
+        $this->set('no_html_data',$atts);
+        $this->set('no_ajax_info',true);
     }
 
-    public function add(){
+    public function ajax_add(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
         $this->_attOpInit();
-        $this->brief = true;
-        $isFile = false;
         $u = User::getInstance();
+
+        //get current file
+        $isFile = false;
         if(isset($this->params['id'])){
             $id = $this->params['id'];
             try{
                 $article = Article::getInstance($id, $this->_board);
                 if(!$article->hasEditPerm($u))
-                    $this->error(ECode::$XW_JOKE);
+                    $this->error(ECode::$ARTICLE_NOEDIT);
                 $atts = $article->getAttList();
-                $this->set("postUrl", "/{$article->ID}");
                 $isFile = true;
             }catch(Exception $e){
-                $this->error(ECode::$XW_JOKE);
+                $this->error(ECode::$ARTICLE_NONE);
             }
         }else{
             $atts = Forum::listAttach();
         }
-        $num = count($atts);
-        $size = 0;
-        foreach($atts as $v){
-            $size += intval($v['size']);
-        }
         $upload = Configure::read("article");
-        if($num >= intval($upload['att_num'])){ 
-            $this->set("msg", ECode::msg(ECode::$ATT_NLIMIT));
-            return;
+        $num = count($atts);$ret = array();$exif = '';
+        if($num >= intval($upload['att_num']))
+            $this->error(ECode::$ATT_NLIMIT);
+
+        //init upload file
+        if(isset($this->params['url']['name'])){
+            //html5 mode
+            $tmp_name = tempnam(CACHE, "upload_");
+            file_put_contents($tmp_name, file_get_contents('php://input'));
+            $file = array(
+                'tmp_name' => $tmp_name,
+                'name' => @iconv('utf-8', $this->encoding . "//TRANSLIT",$this->params['url']['name']),
+                'size' => filesize($tmp_name),
+                'error' => 0
+            );
+        }else if(isset($this->params['form']['file'])
+            && is_array($this->params['form']['file'])){
+            //flash mode
+            $file = $this->params['form']['file'];
+            $file['name'] = @iconv('utf-8', $this->encoding . "//TRANSLIT",$file['name']);
+        }else{
+            $this->error(ECode::$ATT_NONE);
         }
 
-        $new = $exif = array();
-        $msg = ECode::$ATT_SLIMIT;
-        $jump = false;
-        foreach((array)$this->params['form'] as $name=>$file){
-            if(0 !== strpos($name, 'attachfile')){
-                $msg = ECode::$ATT_NONE;
-                continue;
-            }
-            $errno = isset($file['error'])?$file['error']:UPLOAD_ERR_NO_FILE;
-            switch($errno){
-                case UPLOAD_ERR_OK:
-                    $tmpFile = $file['tmp_name'];
-                    $tmpName = $file['name'];
-                    if (!is_uploaded_file($tmpFile)) {
-                        $msg = ECode::$ATT_NONE;
-                        continue;
-                    }
-                    if($num >= intval($upload['att_num'])){ 
-                        $msg = ECode::$ATT_NLIMIT;
-                        $jump = true;
-                        break;
-                    }
+        //check upload file
+        $errno = isset($file['error'])?$file['error']:UPLOAD_ERR_NO_FILE;
+        switch($errno){
+            case UPLOAD_ERR_OK:
+                $tmpFile = $file['tmp_name'];
+                $tmpName = $file['name'];
+                if (!isset($tmp_name) && !is_uploaded_file($tmpFile))
+                    $this->error(ECode::$ATT_NONE);
 
-                    if(($size + filesize($tmpFile)) > intval($upload['att_size'])){
-                        $msg = ECode::$ATT_SLIMIT;
-                        $jump = true;
-                        break;
-                    }
-                    if(is_array(Configure::read("exif")) && in_array($this->_board->NAME, Configure::read("exif")) && exif_imagetype($tmpFile) === 2){
-                        $exif[] = $this->Exif->format($tmpFile);
-                    }
-                    try{
-                        if($isFile)
-                            $article->addAttach($tmpFile, $tmpName);
-                        else
-                            Forum::addAttach($tmpFile, $tmpName);
-                        $size += filesize($tmpFile);
-                        $new[] = ++$num;
-                        $msg = ECode::$ATT_ADDOK;
-                    }catch(ArchiveAttException $e){
-                        $msg = $e->getMessage();
-                    }catch(AttException $e){
-                        $msg = $e->getMessage();
-                    }
-                    break;
-                case UPLOAD_ERR_INI_SIZE:
-                case UPLOAD_ERR_FORM_SIZE:
-                case UPLOAD_ERR_PARTIAL:
-                    $msg = ECode::$ATT_SLIMIT;
-                    break;
-                case UPLOAD_ERR_NO_FILE:
-                    $msg = ECode::$ATT_NONE;
-                    break;
-                default:
-                    $msg = ECode::$SYS_ERROR;
-            }
-            if($jump)
+                $size = $file['size'];
+                foreach($atts as $v){
+                    if($v['name'] == $tmpName)
+                        $this->error(ECode::$ATT_SAMENAME);
+                    $size += intval($v['size']);
+                    if($size > $upload['att_size'])
+                        $this->error(ECode::$ATT_SLIMIT);
+                }
+                if(is_array(Configure::read("exif")) && in_array($this->_board->NAME, Configure::read("exif")) && @exif_imagetype($tmpFile) === 2)
+                    $exif = $this->Exif->format($tmpFile);
+
+                try{
+                    if($isFile)
+                        $article->addAttach($tmpFile, $tmpName);
+                    else
+                        Forum::addAttach($tmpFile, $tmpName);
+                    if (isset($tmp_name))
+                        @unlink($tmp_name);
+                    $ret['no'] = $num + 1;
+                    $ret['name'] = $tmpName;
+                    $ret['size'] = $file['size'];
+                    $ret['exif'] = $exif;
+                    $this->set('no_html_data', $ret);
+                    $this->set('ajax_code', ECode::$ATT_ADDOK);
+                }catch(ArchiveAttException $e){
+                    $this->error($e->getMessage());
+                }catch(AttException $e){
+                    $this->error($e->getMessage());
+                }
                 break;
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+            case UPLOAD_ERR_PARTIAL:
+                $this->error(ECode::$ATT_SLIMIT);
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $this->error(ECode::$ATT_NONE);
+                $msg = ECode::$ATT_NONE;
+                break;
+            default:
+                $this->error(ECode::$SYS_ERROR);
         }
-        if(!empty($exif))
-            $this->set("exif", $exif);
-        if(!empty($new))
-            $this->set("new", $new);
-        $this->set("msg", ECode::msg($msg));
-        $this->_attList();
-        $this->render("index");
     }
-    
-    public function delete(){
+
+    public function ajax_delete(){
+        if(!$this->RequestHandler->isPost() && !$this->RequestHandler->isDelete())
+            $this->error(ECode::$SYS_REQUESTERROR);
         $this->_attOpInit();
         $this->brief = true;
         $u = User::getInstance();
         if (isset($this->params['url']['name'])) {
-            $attName = strval($this->params['url']['name']);
+            $attName = @iconv('utf-8', $this->encoding . "//TRANSLIT",$this->params['url']['name']);
             try{
                 if(isset($this->params['id'])){
                     $id = $this->params['id'];
@@ -177,41 +205,38 @@ class AttachmentController extends AppController {
                 }else{
                     Forum::delAttach($attName);
                 }
-                $msg = ECode::$ATT_DELOK;
+                $this->set('ajax_code', ECode::$ATT_DELOK);
             }catch(ArchiveAttException $e){
-                $msg = $e->getMessage();
+                $this->error($e->getMessage());
             }catch(AttException $e){
-                $msg = $e->getMessage();
+                $this->error($e->getMessage());
             }catch(Exception $e){
-                $this->error(ECode::$XW_JOKE);
+                $this->error(ECode::$ATT_NAMEERROR);
             }
         }else{
-            $msg = ECode::$ATT_NAMEERROR;
+            $this->error(ECode::$ATT_NAMEERROR);
         }
-        $this->set("msg", ECode::msg($msg));
-        $this->_attList();
-        $this->render("index");
     }
 
     private function _attOpInit(){
         $this->cache(false);
-        $this->js[] = "forum.autofix.js";
-        if(!isset($this->params['name'])){
-            $this->error(ECode::$XW_JOKE);
-        }
+        if(!isset($this->params['name']))
+            $this->error(ECode::$BOARD_UNKNOW);
+
         $name = $this->params['name'];
         $u = User::getInstance();
         try{
             $brd = Board::getInstance($name);
             if(!$brd->hasPostPerm($u) || !$brd->isAttach())
-                $this->error(ECode::$XW_JOKE);
+                $this->error(ECode::$BOARD_NOPERM);
         }catch(Exception $e){
-            $this->error(ECode::$XW_JOKE);
+            $this->error(ECode::$BOARD_UNKNOW);
         }
         $this->_board = $brd;
         $this->set("bName", $this->_board->NAME);
     }
 
+    //return array(array(["name"],["size"],["pos"]))
     private function _attList(){
         $u = User::getInstance();
         if(isset($this->params['id'])){
@@ -219,29 +244,16 @@ class AttachmentController extends AppController {
             try{
                 $article = Article::getInstance($id, $this->_board);
                 if(!$article->hasEditPerm($u))
-                    $this->error(ECode::$XW_JOKE);
+                    $this->error(ECode::$ARTICLE_NOEDIT);
                 $atts = $article->getAttList();
                 $this->set("postUrl", "/{$article->ID}");
             }catch(Exception $e){
-                $this->error(ECode::$XW_JOKE);
+                $this->error(ECode::$ARTICLE_NONE);
             }
         }else{
             $atts = Forum::listAttach();
         }
-        $num = count($atts);
-        $size = 0;
-        foreach($atts as &$v){
-            $size += intval($v['size']);
-            $v['size'] = nforum_size_format($v['size']);
-        }
-        $upload = Configure::read("article");
-        if($num >= intval($upload['att_num']) || $size >= intval($upload['att_size']))
-            $this->set("disable", true);
-        $this->set("atts", $atts);
-        $this->set("size", nforum_size_format($size));
-        $this->set("num", $num);
-        $this->set("maxNum", $upload['att_num']);
-        $this->set("maxSize", nforum_size_format($upload['att_size']));
+        return $atts;
     }
 }
 ?>

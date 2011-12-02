@@ -1,4 +1,4 @@
-#columns{padding-top:5px;position:relative}
+#columns{padding-top:5px;position:relative;}
 #columns .column {
     float: left;
     width: 33.3%;
@@ -6,20 +6,22 @@
 }
 
 /*color define*/
-.widget, .widget .rc-head .rc2,.widget.rc-head.rc3{background-color:#d4e6fc;}
 .widget .widget-title,.widget .widget-title a{color:#224499;}
-.color-default,.color-default .rc-head .rc2,.color-default .rc-head .rc3{background-color:#d4e6fc;}
-.color-red,.color-red .rc-head .rc2,.color-red .rc-head .rc3{background-color:#dd0000;}  
-.color-orange,.color-orange .rc-head .rc2,.color-orange .rc-head .rc3{background-color:#f70;}  
-.color-yellow,.color-yellow .rc-head .rc2,.color-yellow .rc-head .rc3{background-color:#B5AC00;}  
-.color-green,.color-green .rc-head .rc2,.color-green .rc-head .rc3{background-color:#6c0;}  
-.color-blue,.color-blue .rc-head .rc2,.color-blue .rc-head .rc3{background-color:#148ea4;}
-.color-white,.color-white .rc-head .rc2,.color-white .rc-head .rc3  {background-color:#dfdfdf;}  
-.color-yellow .widget-title,.color-red .widget-title,.color-green .widget-title,.color-blue .widget-title,.color-orange .widget-title,.color-yellow .widget-title a,.color-red .widget-title a,.color-green .widget-title a,.color-blue .widget-title a,.color-orange .widget-title a{color:#fff;}
+.color-default,.color-default .widget-head{background-color:#d4e6fc;}
+.color-red,.color-red .widget-head{background-color:#dd0000;}  
+.color-orange,.color-orange .widget-head{background-color:#f70;}  
+.color-yellow,.color-yellow .widget-head{background-color:#B5AC00;}  
+.color-green,.color-green .widget-head{background-color:#6c0;}  
+.color-blue,.color-blue .widget-head{background-color:#148ea4;}
+.color-white,.color-white .widget-head{background-color:#dfdfdf;}  
+.color-yellow,.color-yellow .widget-title,.color-red .widget-title,.color-green .widget-title,.color-blue .widget-title,.color-orange .widget-title,.color-yellow .widget-title a,.color-red .widget-title a,.color-green .widget-title a,.color-blue .widget-title a,.color-orange .widget-title a{color:#fff;}
 /*color end*/
 
 /*widget*/
-.widget {*overflow:hidden;}
+.widget {
+    background-color:#fff;
+    *overflow:hidden;
+}
 #column1 .widget{ margin:0 4px 6px 0;}
 #column2 .widget{ margin:0 2px 6px 2px;}
 #column3 .widget{ margin:0 0 6px 4px;}
@@ -31,10 +33,13 @@
 .widget-head {  
     color: #000;  
     height: 20px;
-    padding:0;
-    border:0 solid #bdcad8; 
-    border-width:0 1px;
+    padding-top:4px;
     overflow:hidden;  
+    border:1px solid #bdcad8; 
+    border-bottom-width:0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
 }  
 .widget-head .widget-title {display:inline-block;padding-left:4px;font-size:13px;font-weight:bold}
 .widget-head a{margin-right:4px;cursor:pointer;}
@@ -47,8 +52,8 @@
 .remove samp{width: 14px; height: 20px; }
 .edit-box {
     padding: 5px 0;
-    border:1px solid #bdcad8; 
     background-color: #d4e6fc;
+    border:1px solid #bdcad8; 
 }
 .edit-box .item {
     padding:3px 0 3px 20px;
@@ -76,9 +81,12 @@
 .widget-content {  
     background: #FFFFFF;  
     padding: 6px 9px;
-    border:0 solid #bdcad8; 
-    border-width:0 1px;
     overflow: hidden; 
+    border:1px solid #bdcad8; 
+    border-top-width:0;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
 } 
 .no-widget{
     padding:20px 0;
@@ -123,7 +131,7 @@
     float:left;
     margin-right:4px;
     padding:2px 10px;
-    *padding:3px 10px 0;
+    padding:3px 10px 1px\9;
 }
 .w-tab-content{border-top:1px solid #DCE9F5;padding:2px;clear:both;display:none}
 /*widget style end*/

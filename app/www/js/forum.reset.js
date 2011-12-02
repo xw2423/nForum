@@ -12,11 +12,11 @@ $(function(){
     });
     if($('#b_auth').length == 0)
         return;
-    var tmp = $('<div style="position:absolute;text-align:center;display:none"><img src="'+config.base+'/authimg" /><br /><input type="text" id="t_imgauth" class="input-text" size="6"/><input type="button" class="button" id="b_imgauth" value="确定"/></div>');
+    var tmp = $('<div style="position:absolute;text-align:center;display:none"><img src="'+SYS.base+'/authimg" /><br /><input type="text" id="t_imgauth" class="input-text" size="6"/><input type="button" class="button" id="b_imgauth" value="确定"/></div>');
     $('body').append(tmp);
     $('#b_imgauth').click(function(){
         var num = $('#t_phone').val();
-        var url = config.base + "/auph?f=" + num + "&au=" + $('#t_imgauth').val() + "&t=1&id=" + $('#t_id').val();
+        var url = SYS.base + "/auph?f=" + num + "&au=" + $('#t_imgauth').val() + "&t=1&id=" + $('#t_id').val();
         $.getJSON(url, function(json){
             alert(json.msg);
             $('#b_auth').val("获取验证码").attr("disabled", false);

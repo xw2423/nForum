@@ -5,21 +5,23 @@ $config['code']['0000'] = "系统内部错误";
 //SYS_INDEX             
 $config['code']['0001'] = "无法读取索引文件";
 //SYS_NOLOGIN           
-$config['code']['0002'] = "您未登录";
+$config['code']['0002'] = "您未登录,请登录后继续操作";
 //SYS_NOTMPFILE         
 $config['code']['0003'] = "无法创建临时文件";
 //SYS_REQUESTERROR      
 $config['code']['0004'] = "请求方式错误";
 //SYS_AJAXOK            
-$config['code']['0005'] = "success";
+$config['code']['0005'] = "操作成功";
 //SYS_AJAXERROR         
-$config['code']['0006'] = "failed";
+$config['code']['0006'] = "操作失败";
 //SYS_NOFILE
 $config['code']['0007'] = "找不到指定文件";
 //SYS_IPBAN
 $config['code']['0008'] = "您的IP地址不允许访问";
 //SYS_PLUGINBAN
 $config['code']['0009'] = "此应用已被停用";
+//SYS_404
+$config['code']['0010'] = "链接不存在";
 //LOGIN_NOID            
 $config['code']['0100'] = "请输入您的用户名";
 //LOGIN_ERROR           
@@ -80,6 +82,8 @@ $config['code']['0307'] = "删除文章成功";
 $config['code']['0308'] = "推荐文章失败";
 //ARTICLE_REOK
 $config['code']['0309'] = "推荐文章成功";
+//ARTICLE_FORWARDOK
+$config['code']['0310'] = "转寄文章成功";
 //POST_NOSUB            
 $config['code']['0400'] = "没有指定文章标题";
 //POST_NOCON            
@@ -105,7 +109,7 @@ $config['code']['0502'] = "用户自定义图像宽度错误";
 //USER_EHEIGHT            
 $config['code']['0503'] = "用户自定义图像高度错误";
 //USER_SAVEOK
-$config['code']['0504'] = "用户资料义修改成功";
+$config['code']['0504'] = "用户资料修改成功";
 //USER_NAMEOK
 $config['code']['0505'] = "用户昵称修改成功";
 //USER_NAMEERROR
@@ -140,6 +144,8 @@ $config['code']['0609'] = "邮件删除成功";
 $config['code']['0610'] = "错误的邮件回复号";
 //MAIL_NOPERM         
 $config['code']['0611'] = "您无权发信";
+//MAIL_FORWARDOK
+$config['code']['0612'] = "转寄邮件成功";
 //SEC_NOSECION         
 $config['code']['0700'] = "分区号错误";
 //SEC_NOHOT

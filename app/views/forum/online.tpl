@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li><a href="<{$base}>/user/info">基本资料修改</a></li>
@@ -78,4 +77,3 @@
              </div>
             </div>
     	</div>
-<{include file="footer.tpl"}>

@@ -15,7 +15,7 @@ App::import("vendor", array("model/article", "inc/pagination"));
  * if the first article is deleted, it will be the next article,
  * but its ID  will be not threads id, and its GROUPID also will be wrong 
  * when get from function getInstance(what a fuck)
- * using the last article's GROUPID to find threads ID
+ * using the article's GROUPID to find threads ID
  *
  * @extends Article
  * @implements Pageable       
@@ -160,6 +160,41 @@ class Threads extends Article implements Pageable{
     }
 
     /**
+     * function forward mail this thread to sb.
+     *
+     * @param string $target
+     * @param int $start
+     * @param boolean $ref
+     * @param boolean $noatt
+     * @param boolean $noansi
+     * @param boolean $big5
+     * @return null
+     * @access public
+     * @throws ArticleForwardException
+     */
+    public function forward($target, $start = 0, $noref = false, $noatt = false , $noansi = false, $big5 = false){
+        $code = null;
+        if($start == 0)
+            $start = $this->GROUPID;
+        $ret = bbs_dotforward($this->_board->NAME, $this->GROUPID, $start, $target, $big5, $noansi, $noref, $noatt);
+        switch ($ret) {
+            case -1:
+            case -10:
+            case -7:
+                $code = ECode::$SYS_ERROR;
+                break;
+            case -8:
+                $code = ECode::$USER_NOID;
+                break;
+            case -11:
+                $code = ECode::$BOARD_NONE;
+                break;
+        }
+        if(!is_null($code))
+            throw new ThreadsForwardException($code);
+    }
+
+    /**
      * function delete remove the threads
      *
      * @access public
@@ -187,4 +222,5 @@ class Threads extends Article implements Pageable{
     }
 }
 class ThreadsNullException extends Exception {}
+class ThreadsForwardException extends Exception {}
 ?>

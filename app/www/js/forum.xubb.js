@@ -1,4 +1,4 @@
-var nForumMap = {
+window.nForumMap = {
     _load:false,
     map:null,
     markers:[],
@@ -256,31 +256,35 @@ var nForumMap = {
                 }
                 textarea._makeUBB("[mp3=" + mp3 + " auto=0]%content%[/mp3]", false);
             });
-            var pop='<div id="map_area"><div id="map_canvas"></div><div id="map_func"><label>输入一个大范围关键词定位&nbsp;&nbsp;</label><input class="input-text" id="map_txt" type="textbox" value="" />&nbsp;&nbsp;<input class="submit" id="map_search" type="button" value="定位" /><div id="map_insert"><label>单击地图添加一个可移动标记，单击标记删除</label>&nbsp;&nbsp;<input class="submit" id="map_insert_btn" type="button" value="插入所有标记" /></div></div></div>';
-            $('body').after(pop);
+
             $('#ubb_map').click(function(e){
-                nForumMap.loadJs('nForumMap.init',{'area':'map_canvas','onInsert':function(){
-                    var m = nForumMap.markers,out=[],bound=nForumMap.map.getBounds(),b=[];
-                    b.push('{'+bound.getSouthWest().lat()+','+bound.getSouthWest().lng()+'}');
-                    b.push('{'+bound.getNorthEast().lat()+','+bound.getNorthEast().lng()+'}');
-                    for(var i in m){
-                        out.push('{'+m[i].getPosition().lat()+','+m[i].getPosition().lng()+'}');
-                    }
-                    if(out.length > 0){
-                        textarea._makeUBB("[map="+b.join(',')+" mark=" + out.join(',') + "][/map]", false);
-                        $('#map_area').dialog('close');
-                    }else
-                        alert('请至少添加一个标记');
-                }});
-                $('#map_area').dialog({
-                    modal:true,
-                    resizable:false,
-                    autoOpen:true,
-                    title:"地图",
-                    width:600,
-                    zIndex:2,
-                    bgiframe:true
-                });
+                if($('#map_area').length == 0){
+                    $('<div id="map_area"><div id="map_canvas"></div><div id="map_func"><label>输入一个大范围关键词定位&nbsp;&nbsp;</label><input class="input-text" id="map_txt" type="textbox" value="" />&nbsp;&nbsp;<input class="submit" id="map_search" type="button" value="定位" /><div id="map_insert"><label>单击地图添加一个可移动标记，单击标记删除</label>&nbsp;&nbsp;<input class="submit" id="map_insert_btn" type="button" value="插入所有标记" /></div></div></div>').appendTo($('#body'));
+                    nForumMap.loadJs('nForumMap.init',{'area':'map_canvas','onInsert':function(){
+                        var m = nForumMap.markers,out=[],bound=nForumMap.map.getBounds(),b=[];
+                        b.push('{'+bound.getSouthWest().lat()+','+bound.getSouthWest().lng()+'}');
+                        b.push('{'+bound.getNorthEast().lat()+','+bound.getNorthEast().lng()+'}');
+                        for(var i in m){
+                            out.push('{'+m[i].getPosition().lat()+','+m[i].getPosition().lng()+'}');
+                        }
+                        if(out.length > 0){
+                            textarea._makeUBB("[map="+b.join(',')+" mark=" + out.join(',') + "][/map]", false);
+                            $('#map_area').dialog('close');
+                        }else
+                            alert('请至少添加一个标记');
+                    }});
+                    $('#map_area').dialog({
+                        modal:true,
+                        resizable:false,
+                        autoOpen:true,
+                        title:"地图",
+                        width:600,
+                        zIndex:2,
+                        autoOpen:false,
+                        bgiframe:true
+                    });
+                }
+                $('#map_area').dialog('open');
             });
         }
 
@@ -294,6 +298,8 @@ var nForumMap = {
                 li += ('<li _index="' + i + '" _cur="0" ><div>' + file[i].name + '</div></li>');
             }
             tab.append(li);
+            em.append(tab);
+            em.append(img);
             function _img_update(n){
                 var tmp = '',
                 path = file[n].path,
@@ -304,7 +310,7 @@ var nForumMap = {
                 }
                 img.empty().append(tmp);
             }
-            tab.find('li').click(function(){
+            em.on('click','li',function(){
                 var _cur = $(this).attr('_cur');
                 if(_cur == "1"){
                     em.find('.ubb-img').toggle();
@@ -314,13 +320,10 @@ var nForumMap = {
                 tab.find("li").not($(this)).attr('_cur', "0").find('div').removeClass();
                 $(this).attr('_cur', "1").find('div').addClass('selected');
                 _img_update($(this).attr('_index'));
+            }).on("click", 'img', function(){
+                textarea._makeUBB('[' + file[tab.find('li[_cur="1"]').attr('_index')].path + $(this).attr('_val') + ']', false)
             });
-            $('.ubb-img img').live("click", function(){textarea._makeUBB('[' + file[tab.find('li[_cur="1"]').attr('_index')].path + $(this).attr('_val') + ']', false)});
-            
             //tab.find('li').eq(0).click();
-            em.append(tab);
-            em.append(img);
-
         }
         return $(this);
     }

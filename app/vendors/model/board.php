@@ -552,6 +552,8 @@ class Board extends OverloadObject implements Pageable, iWidget{
         return $this->_checkFlag(BBS_BOARD_TMP_POST);
     }
 
+    //true means: no club && (no perm || has PERM_POSTMASK|PERM_DEFAULT)
+    //see libBBS/boards.c
     public function isNormal(){
         return (bbs_normalboard($this->NAME) == 1);
     }

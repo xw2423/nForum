@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li><a href="<{$base}>/user/info">基本资料修改</a></li>
@@ -11,7 +10,7 @@
         </div>
         <div class="b-content corner">
         	<div id="c_content" class="corner">
-                <form action="" method="post">
+                <form action="<{$base}>/user/ajax_custom.json" method="post">
                 <table id="d_user" width="100%" cellpadding="0" cellspacing="0" border="0">
 <{foreach from=$custom item=item}>
                     <tr>
@@ -26,4 +25,3 @@
                 </form>
 			</div>
 		</div>  
-<{include file="footer.tpl"}>

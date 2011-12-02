@@ -9,11 +9,14 @@ class MobileAppController extends AppController {
 
     public function __construct(){
         parent::__construct();
+        //delete RedirectAcl components
+        array_pop($this->components);
         $this->encoding = "utf-8";
         if(true === Configure::read("plugins.mobile.use_domain")){
             Configure::write("plugins.mobile.base", "");
             Configure::write('site.prefix', '');
         }
+        $this->front = true;
     }
 
     public function beforeFilter(){
@@ -26,6 +29,9 @@ class MobileAppController extends AppController {
             $this->_msg = Sanitize::html(trim($this->params['url']['m']));
         }
     }
+
+    //no app_controller afterFilter
+    public function afterFilter(){}
 
     public function beforeRender(){
         if($this->ByrSession->isLogin){
@@ -45,7 +51,9 @@ class MobileAppController extends AppController {
             $id = "guest";
             $isAdmin = false;
         }
+
         $this->_initAsset();
+
         $site = Configure::read("site");
         $this->set("domain", $site['domain']);
         $this->set("static", $site['static']);

@@ -9,13 +9,6 @@ class AdvComponent extends Object {
         $this->controller = $controller;
     }
 
-    //called after Controller::beforeRender()
-    public function beforeRender(&$controller) {
-        $this->controller->set("advParam", $this->getParams());
-        if(!$this->controller->brief)
-            $this->controller->set("advs", $this->getLeft());
-    }
-
     public function getParams(){
         $db = DB::getInstance();
         $where = ($this->controller->path != Configure::read('site.home'))?' and home<>1':'';
@@ -34,10 +27,10 @@ class AdvComponent extends Object {
             return "";
         shuffle($res);
         foreach($res as $v){
-            $url[] = urlencode($v['url']);
+            $url[] = $v['url'];
             $path[] = $static . $base . '/' . $aPath . "/" . $v['file'];
         }
-        return "pics=" . join('|', $path) . "&links=" . join('|', $url);
+        return array("pics" => join('|', $path) ,"links" => join('|', $url));
     }
 
     public function getLeft(){

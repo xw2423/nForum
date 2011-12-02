@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li class="selected"><a href="javascript:void(0)">填写注册单</a></li>
@@ -6,7 +5,7 @@
         </div>
         <div class="b-content corner">
         	<div id="c_content" class="corner">
-                <form action="" method="post" id="f_reg">
+                <form action="<{$base}>/reg/ajax_form.json" method="post" id="f_reg">
                 <table id="r_table" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                     	<td class="r_cell_1"><span>真实姓名</span>请用中文, 至少2个汉字</td>
@@ -45,4 +44,3 @@
                 </form>
 			</div>
 		</div>  
-<{include file="footer.tpl"}>

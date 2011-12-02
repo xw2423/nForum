@@ -32,8 +32,14 @@ class FavoriteController extends ApiAppController {
             if(!$fav->add(iconv("utf-8", "gbk//TRANSLIT", $val), Favor::$DIR))
                 $this->error();
         }else{
-            if(!$fav->add($val, Favor::$BOARD))
-                $this->error();
+            App::import("vendor", "model/board");
+            try{
+                $val = Board::getInstance($val);
+                if(!$fav->add($val, Favor::$BOARD))
+                    $this->error();
+            }catch(BoardNullException $e){
+                $this->error(ECode::$Board_UNKNOW);
+            }
         }
         try{
             $fav = Favor::getInstance($level);
@@ -65,7 +71,7 @@ class FavoriteController extends ApiAppController {
             App::import('vendor', 'model/board');
             try{
                 $board = Board::getInstance($val);
-                if(!$fav->delete($board->BID - 1, Favor::$BOARD))
+                if(!$fav->delete($board, Favor::$BOARD))
                     $this->error();
             }catch(BoardNullException $e){
                 $this->error();
@@ -80,7 +86,7 @@ class FavoriteController extends ApiAppController {
     }
 
     private function _favor($fav){
-        App::import('vendor', array('api.wrapper', 'model/section'));
+        App::import('vendor', 'model/section');
         $wrapper = Wrapper::getInstance();
         $f = $s = $b = array();
         if(!$fav->isNull()){

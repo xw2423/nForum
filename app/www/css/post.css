@@ -1,24 +1,49 @@
 .post-list{ display:block; padding:0 30px}
-.post-list li{padding-top:15px;}
+.post-list-item {padding-top:15px;}
 .post-list .upload{}
 .post-m{color:#666; font-size:14px; font-weight:bold; padding-bottom:4px;}
 .post-m span{color:red;font-size:12px;font-weight:normal}
 .post-title{ width:680px;font-size:18px;}
-.c-textarea{ height:200px; width:680px; border:1px solid #b6c3da;}
+.post-textarea{ height:200px; width:680px; border:1px solid #b6c3da;}
 .post-op{padding-bottom:5px}
 .post-op input{margin-right:5px}
 .post-select{margin-left:5px}
 .post-su{border-top:1px solid #c9d7f1; margin:25px 15px 10px 15px; padding-top:15px;}
-.post-su .button{font-size:14px;margin-left:100px; margin-right:-70px;}
+.post-su .button{font-size:14px;margin-left:100px; margin-right:-70px;padding:3px 4px;*padding:4px 4px 0;}
 #em_img{ border:1px solid #c9d7f1;display:block;height:auto;width:610px;clear:both;overflow:hidden}
 #con_c_area{ display:block; border:1px solid #c9d7f1; padding:5px; width:680px; overflow:visible;}
-.tmpl{padding:10px 15px}
-.m-table td{text-align:center;}
-.que td{height:auto}
-.tmpl-op td{padding:4px 0}
+
+/* tmpl list */
 .col1{width:40px;}
 .col2{width:auto}
 .col3{width:70px}
 .col4{width:70px}
 .col5{width:400px}
 .col6{width:auto}
+/* tmpl list end */
+
+/* tmpl que */
+.tmpl{padding:10px 15px}
+.tmpl td{text-align:center;}
+.tmpl-op td{padding:4px 0}
+.tmpl-op input{margin-right:4px}
+/* tmpl que end */
+
+/* upload */
+#upload{
+    width:690px;
+}
+#upload_upload{
+    display:none;
+}
+#upload_op{margin:5px 0;position:relative}
+#upload_op input{margin-right:8px}
+#upload_info {font-size:14px;position:absolute;right:0;top:0;padding-top:5px}
+#upload_info span{color:red}
+#upload_info .upload-max-num{padding-right:8px;}
+#upload_result{width:100%;font-size:12px;border:1px solid #c9d7f1;}
+#upload_result tbody{display:none}
+#upload_result th,#upload_result td{border-bottom:1px solid #c9d7f1;vertical-align:center;text-align:center;height:20px}
+#upload_result th{background-color:#f5f8fb;}
+#upload_result tbody tr:hover td{background-color:#f5f8fb;}
+/* upload end */

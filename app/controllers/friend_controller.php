@@ -4,7 +4,8 @@ class FriendController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->_init();
+        $this->requestLogin();
+        $this->notice[] = array("url"=>"/friend", "text"=>"好友列表");
     }
     
     public function index(){
@@ -38,7 +39,6 @@ class FriendController extends AppController {
     }
 
     public function online(){
-        $this->js[] = "forum.friend.js";
         $this->css[] = "mail.css";
 
         App::import('Sanitize');
@@ -57,44 +57,51 @@ class FriendController extends AppController {
         }
     }
 
-    public function add(){
-        if(!isset($this->params['url']['id']))
+    public function ajax_list(){
+        $f = new Friend(User::getInstance());
+        $friends = $f->getRecord(1, $f->getTotalNum());
+        $ret = array();
+        foreach($friends as $v){
+            $ret[] = $v->userid;
+        }
+        $this->set('no_html_data', $ret);
+        $this->set('no_ajax_info', true);
+    }
+
+    public function ajax_add(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        if(!isset($this->params['form']['id']))
             $this->error(ECode::USER_NOID);
-        $id = $this->params['url']['id'];
+        $id = $this->params['form']['id'];
         try{
-            $ret = Friend::add($id);
+            Friend::add($id);
         }catch(FriendAddException $e){
             $this->error($e->getMessage());
         }
-        $this->waitDirect(
-            array(
-                "text" => "好友列表", 
-                "url" => "/friend"
-            ), ECode::$FRIEND_ADDOK);
+        $ret['ajax_code'] = ECode::$FRIEND_ADDOK;
+        $ret['default'] = "/friend";
+        $ret['list'][] = array("text" => '好友列表',"url" => "/friend");
+        $this->set('no_html_data', $ret);
     }
 
-    public function delete(){
+    public function ajax_delete(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
         foreach($this->params['form'] as $k=>$v){
             if(!preg_match("/f_/", $k))
                 continue;
             $id = split("_", $k);
             try{
-                $ret = Friend::delete($id[1]);
+                Friend::delete($id[1]);
             }catch(Exception $e){
                 continue;
             }
         }
-        $this->waitDirect(
-            array(
-                "text" => "好友列表", 
-                "url" => "/friend"
-            ), ECode::$FRIEND_DELETEOK);
+        $ret['ajax_code'] = ECode::$FRIEND_DELETEOK;
+        $ret['default'] = "/friend";
+        $ret['list'][] = array("text" => '好友列表',"url" => "/friend");
+        $this->set('no_html_data', $ret);
     }
-
-    private function _init(){
-        $this->requestLogin();
-        $this->notice[] = array("url"=>"/friend", "text"=>"好友列表");
-    }
-
 }
 ?>

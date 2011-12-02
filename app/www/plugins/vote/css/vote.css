@@ -2,12 +2,22 @@
     clear:both;
     background-color:#FFF;
     padding:10px;
-    overflow:hidden;
-    _zoom:1;
+    min-height:400px;
+    height:100%;
+    *overflow:visible;
+    _height:500px;
 }
-.vote-left, .vote-right{float:left;margin-top:8px;overflow:hidden;}
-.vote-left{width:100%;}
-.vote-right{margin-left:8px;}
+.vote-body{
+    position:relative;
+    padding-top:8px;
+    *overflow:visible;
+}
+.vote-left{margin:0 10px 0 10px;}
+.vote-right{
+    position:absolute;
+    top:8px;
+    right:0;
+}
 .vote-submit{
     margin-top:10px;
     padding-top:10px;
@@ -35,15 +45,15 @@
 .vote-share{background:url('../images/chart_bar.gif') no-repeat center left}
 .vote-hot{background:url('../images/color_swatch.gif') no-repeat center left}
 .vote-user{background:url('../images/user.gif') no-repeat center left}
+
 /*vote add*/
-.vote-add{ width:850px;overflow:hidden;padding-top:10px;}
+.vote-add{ width:850px;overflow:hidden;padding-top:10px}
 .vote-add dt,.vote-add dd{ float:left; line-height:2.2em; height:2.2em; }
 .vote-add dt{width:80px;text-align:right;margin-right:10px;font-weight:bold; color:#555;}
-.vote-add dd{ width:680px;}
+.vote-add dd{ width:680px;clear:right}
 .vote-add .input-text{width:400px;height:16px;}
 #vote_head .a-desc{height:60px;line-height:60px;}
 #vote_head .a-desc textarea{height:57px;width:400px;}
-#vote_item{display:none}
 #vote_item samp{
     width:14px;
     height:15px;
@@ -69,6 +79,7 @@
     margin-bottom:4px;
     _margin-bottom:2px;
 }
+#vote_list{margin-right:230px}
 #vote_list .page{float:right}
 #vote_rank{
     width:220px;
@@ -115,8 +126,6 @@
 /* vote list end*/
 
 /* vote view*/
-#vote_info, #vote_view{
-}
 #vote_info{
     width:150px;
 }
@@ -125,6 +134,7 @@
 #vote_info .w-list-line li{text-align:center;}
 #vote_info .w-list-line li a{font-size:13px;color:#4F7DC2;}
 #vote_view{
+    margin-right:160px;
     border:1px solid #BDCAD8;
     text-align:center;
 }

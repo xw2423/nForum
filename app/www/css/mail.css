@@ -9,15 +9,13 @@
 .title_5{ width:250px; padding-left:12px; color:#717171;}
 .title_6{ width:60px; padding-left:12px; color:#717171;}
 .title_7{ width:30px; padding-left:12px; color:#717171;}
-.no_read{color:#598ede; font-weight:bold;}
-.no_read a{ color:#598ede; font-weight:bold;}
+.no-read a{ color:#598ede; font-weight:bold;}
 .middle{text-align:center padding-left:0}
-.b_mail{z-index:1}
 
 /* mail list start*/
 .t-btn{float:left;padding-left:12px;}
 .t-btn input{margin-right:5px;}
-.t-btn .b-del{margin-left:5px;}
+.t-btn .mail-select{padding-top:0;padding-bottom:0}
 .page{float:right;}
 .t-pre, .t-pre-bottom {
     padding:2px 0;
@@ -48,15 +46,14 @@
     width:16px;
     height:16px;
 }
-.mail{ padding:10px 17px;font-family:ËÎÌו,Arial,Verdana; }
-.mail-title{color:#598ede; font-weight:bold; }
-.mail-title span{ font-weight:normal; }
+.mail{ padding:10px 17px}
 .mail-content{ display:block;line-height:1.4;font-size:13px}
 /* mail detail end*/
 
 /*friend start*/
-#f_add{padding:4px 12px;border-bottom:1px solid #c9d7f1;}
-#f_add input{margin-left:5px}
+.t-btn .friend-select{padding-top:0;padding-bottom:0}
+#friend_add{padding:4px 12px;border-bottom:1px solid #c9d7f1;}
+#friend_add input{margin-left:5px}
 /*friend end*/
 
 /*online*/

@@ -94,7 +94,7 @@ class Favor extends Collection implements iWidget {
     /**
      * function add add a board or directory to favor in current level
      *
-     * @param mixed $v board id or directory name
+     * @param mixed $v board or directory name
      * @param int $mode
      * @return boolean true|false
      * @access public
@@ -103,7 +103,7 @@ class Favor extends Collection implements iWidget {
         if($mode == self::$DIR)
             $ret = bbs_add_favboarddir($v);
         else
-            $ret = bbs_add_favboard($v);
+            $ret = bbs_add_favboard($v->NAME);
         if($ret == -1)
             return false;
         return true;
@@ -121,7 +121,7 @@ class Favor extends Collection implements iWidget {
         if($mode == self::$DIR)
             $ret = bbs_del_favboarddir($this->_level, intval($v));
         else
-            $ret = bbs_del_favboard($this->_level, intval($v));
+            $ret = bbs_del_favboard($this->_level, $v->BID - 1);
         if($ret == -1)
             return false;
         return true;

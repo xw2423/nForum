@@ -2,7 +2,7 @@
 class SearchController extends ApiAppController {
 
     public function board(){
-        App::import('vendor', array('model/board', 'api.wrapper'));
+        App::import('vendor', 'model/board');
         $b = isset($this->params['url']['board'])?$this->params['url']['board']:"";
         $boards = Board::search(trim($b));
 
@@ -20,7 +20,7 @@ class SearchController extends ApiAppController {
     }
 
     public function article(){
-        App::import('vendor', array('model/board', 'model/article', 'api.wrapper', 'inc/pagination'));
+        App::import('vendor', array('model/board', 'model/article', 'inc/pagination'));
         $day = 7;
         $title1 = $title2 = $title3 = $author = $o = '';
 
@@ -68,7 +68,7 @@ class SearchController extends ApiAppController {
     }
 
     public function threads(){
-        App::import('vendor', array('model/board', 'model/threads', 'api.wrapper', 'inc/pagination'));
+        App::import('vendor', array('model/board', 'model/threads', 'inc/pagination'));
         $day = 7;
         $title1 = $title2 = $title3 = $author = '';
 

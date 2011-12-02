@@ -20,8 +20,7 @@ class FavorController extends AppController {
         $this->notice[] = array("url"=>"/fav", "text"=>"ÊÕ²Ø¼Ð");
     }
 
-    public function show(){
-        $this->initAjax();
+    public function ajax_show(){
         App::import('Sanitize');
         $level = $this->params['num'];
         try{
@@ -31,12 +30,14 @@ class FavorController extends AppController {
         }
         $this->cache(false);
         $ret = array();
+        App::import('vendor', 'inc/wrapper');
+        $wrapper = Wrapper::getInstance();
         if(!$fav->isNull()){
             $brds = $fav->getAll();
             $u = User::getInstance();
             foreach($brds as $k=>$v){
                 $last = array();
-                $last["id"] = $last["title"] = $last["owner"] = $last["date"] = "ÎÞ";
+                $last["id"] = $last["title"] = $last["owner"] = $last["date"] = false;
                 if($v->hasReadPerm($u)){
                     $threads = $v->getTypeArticles(0, 1, Board::$ORIGIN);
                     if(!empty($threads)){
@@ -49,6 +50,20 @@ class FavorController extends AppController {
                         );
                     }
                 }
+                if($v->NAME == ''){
+                    $v = $wrapper->favorite($v);
+                    $v['type'] = 'fav';
+                    $v['name'] = $v['level'];
+                }else if($v->isDir()){
+                    $v = $wrapper->section(Section::getInstance($v));
+                    $v['type'] = 'section';
+                }else{
+                    $v = $wrapper->board($v, array('status'=>true));
+                    $v['type'] = 'board';
+                }
+                $v['last'] = $last;
+                $ret[] = $v;
+                continue;
                 $ret[$k]['name'] = $v->NAME;
                 $ret[$k]['desc'] = $v->DESC;
                 $ret[$k]['dir'] = $v->isDir()?1:0;
@@ -64,11 +79,12 @@ class FavorController extends AppController {
                 $ret[$k]['link'] = ($v->isDir()?"/fav/":"/board/") . $v->BID;
             }
         }
-        $this->success(null,$ret);
+        $this->set('no_html_data',$ret);
+        //no ajax status info
+        $this->set('no_ajax_info', true);
     }
 
-    public function change(){
-        $this->initAjax();
+    public function ajax_change(){
         if(!isset($this->params['form']['ac']) || !isset($this->params['form']['v']))
             $this->error();
         $action = $this->params['form']['ac'];
@@ -83,28 +99,35 @@ class FavorController extends AppController {
             $this->error();
         switch($action){
             case "ab":
-                if(!$fav->add($val, Favor::$BOARD))
-                    $this->error();
+                try{
+                    $val = Board::getInstance($val);
+                    if(!$fav->add($val, Favor::$BOARD))
+                        $this->error();
+                }catch(Exception $e){
+                    $this->error(ECode::$BOARD_UNKNOW);
+                }
                 break;
             case "ad":
                 if(!$fav->add(@iconv("utf-8", $this->encoding . "//TRANSLIT", $val), Favor::$DIR))
                     $this->error();
                 break;
             case "db":
-                if(!$fav->delete($val, Favor::$BOARD))
-                    $this->error();
+                try{
+                    $val = Board::getInstance($val);
+                    if(!$fav->delete($val, Favor::$BOARD))
+                        $this->error();
+                }catch(Exception $e){
+                    $this->error(ECode::$BOARD_UNKNOW);
+                }
                 break;
             case "dd":
                 if(!$fav->delete($val, Favor::$DIR))
                     $this->error();
                 break;
         }
-        $this->success(null, array("v" => $val));
     }
 
-    public function flist(){
-        $this->initAjax();
-
+    public function ajax_list(){
         $ret = array();
         if(!isset($this->params['url']['root']))
             $this->_stop();
@@ -146,9 +169,8 @@ class FavorController extends AppController {
                 }
             }
             $this->cache(true, $fav->wGetTime(), 10);
-            App::import("vendor", "inc/json");
-            echo BYRJSON::encode($ret);
-            $this->_stop();
+            $this->set('no_html_data', $ret);
+            $this->set('no_ajax_info', true);
         }catch(FavorNullException $e){
             $this->_stop();
         }

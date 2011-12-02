@@ -1,45 +1,83 @@
 $(function(){
-    $('.a-wrap').makeRC({
-        in_head_border:"#D4E6FC",
-        in_bottom_border:'#D4E6FC',
-        in_head_bg:"#F3F5FC",
-        in_bottom_bg:"#F3F5FC"
-    });
-    $('#goToReply').click(function(){
-        $('#text_a').focus();
-    });
-    $('#t_search').mouseover(function(){
-        $(this).select();
-    });
-
-    $('#text_a').mouseover(function(){
-        $(this).focus();
-    }).keydown(function(event){
-        if(event.ctrlKey && event.keyCode == 13){
-            $('#f_post').submit();
-            return false;
-        }
-    }).ubb({enable:false, ubb_img_path:config.base + "/img/ubb/", ubb_em:$('#em_img')});
+    $('#quick_text').ubb({enable:false, ubb_img_path:SYS.base + "/img/ubb/", ubb_em:$('#em_img')});
         
     var validPost = function(){
         if(!user_post){
-            alert(user_login?'您没有发文权限!':'请先登录!');
+            DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
             return false;
         }
+        return true;
     };
-    $('#f_post').submit(function(){
-        if($.trim($('#text_a').val()) == ''){
-            alert('不要回复空内容嘛!');
+    $('#quick_post').submit(function(){
+        if($.trim($('#quick_text').val()) == ''){
+            DIALOG.alertDialog(SYS.code.MSG_NULL);
             return false;
         }
-        return validPost();
+        if(validPost()){
+            $.post($('#quick_post').attr('action'), $('#quick_post').getPostData(), function(json){
+                DIALOG.ajaxDialog(json);
+            }, 'json');
+        }
+        return false;
     });
-    $('#b_post').click(validPost);
-    $('#b_tmpl').click(validPost);
-    $('.a-post').click(validPost);
-    
+    $('#body').on('click','.a-post',validPost)
+        .on('click','#a_reply',function(){
+            $('#quick_text').focus();
+        }).on('mouseover','#a_search',function(){
+            $(this).select();
+        }).on('mouseover','#quick_text',function(){
+            $(this).select();
+        }).on('keydown','#quick_text',function(event){
+            if(event.ctrlKey && event.keyCode == 13){
+                $('#quick_post').submit();
+                return false;
+            }
+        }).on('click','.a-func-del',function(){
+            var self = this;
+            DIALOG.confirmDialog('确认删除此文章?', function(){
+                $.post($(self).attr('href'), function(json){
+                    DIALOG.ajaxDialog(json);
+                }, 'json');
+            });
+            return false;
+        }).on('click','.a-back',function(){
+            $('html,body').animate({scrollTop:0}, 500)
+        });
+
     BShare.init($('#a_share').parent(), $('#a_share').attr('_u'), $('#a_share').attr('_c'));
 
     if($('.map-map').length > 0)
         nForumMap.loadJs('nForumMap.parseMap', null);
+
+    //forward
+    var friends = SYS.cache('friends');
+    $('#body').on('click','.a-func-forward',function(){
+        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {
+                 buttons:[
+                    {text:SYS.code.COM_SUBMIT,click:function(){
+                        var f = $(this).find('#a_forward');
+                        $.post(f.attr('action'), f.getPostData(), function(repo){
+                            DIALOG.ajaxDialog(repo);
+                        });
+                        $(this).dialog('close');
+                    }},
+                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                 ]
+        }).on('change', 'select', function(){
+            $(this).prev().val($(this).val());
+        });
+        if(!friends){
+            $.getJSON(SYS.ajax.friend_list, function(json){
+                if(!_.isArray(json)) return;
+                d.find('#a_forward_list').append(
+                    _.reduce(json,function(ret,item){
+                        ret += ('<option value="' + item + '">' + item + '</option>');
+                        return ret;
+                    },'')
+                );
+                SYS.cache('friends', json);
+            });
+        }
+        return false;
+    });
 });

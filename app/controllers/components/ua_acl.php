@@ -8,8 +8,8 @@ class UaAclComponent extends Object {
     private $_active = false;
     public function initialize(&$controller, $settings = array()) {
         $this->controller = $controller;    
-        Configure::load('uaacl');
         if(Configure::read("uaacl.on")){
+            Configure::load('uaacl');
             $this->_active = true;
         }
     }
@@ -19,7 +19,7 @@ class UaAclComponent extends Object {
             return;
         $ua = @env("HTTP_USER_AGENT");
         if(!$this->check(Configure::read("uaacl.global"), $ua))
-            $this->controller->error(ECode::$XW_JOKE);
+            $this->controller->error404();
         if(null !== $this->controller->params['plugin']){
             $acl = Configure::read("uaacl.{$this->controller->params['plugin']}.{$this->controller->params['controller']}");
             if(isset($acl[$this->controller->params['action']]))
@@ -30,7 +30,7 @@ class UaAclComponent extends Object {
             $acl = Configure::read("uaacl.{$this->controller->params['controller']}.{$this->controller->params['action']}");
         }
         if(!$this->check($acl, $ua))
-            $this->controller->error(ECode::$XW_JOKE);
+            $this->controller->error404();
     }
 
     //true for allow false for deny

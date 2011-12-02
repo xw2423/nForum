@@ -81,24 +81,6 @@ class WsapiController extends AppController{
             $this->_stop();
         }
     }
-    /**
-     * check id status
-     * 0 -- unused
-     * 1 -- baned
-     * 2 -- small
-     * 3 -- baned
-     * 4 -- exist
-     * 5 -- long
-     * @param String $id
-     */
-    public function u_checkid(){
-        $this->initAjax();
-        @$id = trim($this->params['url']['id']);
-        if($id == "")
-            $this->error();
-        $ret = bbs_is_invalid_id($id);
-        $this->success(null, $ret);
-    }
     
     /**
      * check whether user online
@@ -137,27 +119,6 @@ class WsapiController extends AppController{
             $ret['v'] = false;
         }
         echo BYRJSON::encode($ret);
-    }
-
-    /**
-     * get boards of a section
-     * @param int $num section num
-     */
-    public function s_boards(){
-        App::import("vendor", array("model/section"));
-        $this->initAjax();
-        @$num = trim($this->params['url']['num']);
-        if($num == "")
-            $this->error();
-        if(!in_array($num, array_keys(Configure::read('section')))){
-            $this->error();
-        }
-        $w = Section::getInstance($num, Section::$ALL);
-        $ret = array();
-        foreach($w->getList() as $brd){
-            $ret[] = array("bid" => $brd->NAME, "name" => $brd->DESC); 
-        }
-        $this->success(null, $ret);
     }
 
     /**

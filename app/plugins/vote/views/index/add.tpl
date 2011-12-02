@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li><a href="<{$base}>/vote?c=new">最新投票</a></li>
@@ -16,7 +15,7 @@
         </div>
 		<div class="b-content vote-main">
 			<div class="vote-title">新投票</div>
-			<form id="f-vote" action="" method="post">
+			<form id="f_vote" action="<{$base}>/vote/ajax_add.json" method="post">
 			<dl id="vote_head" class="vote-add">
 				<dt>标题:</dt>
 				<dd><input type="text" class="input-text" name="subject"/><span style="color:red">&nbsp;*</span></dd>
@@ -25,11 +24,12 @@
 			</dl>
 			<dl id="vote_item" class="vote-add">
 				<dt>选项:</dt>
-				<dd><input type="text" class="input-text" name="%name%"/><samp class="ico-pos-w-remove" onclick="vote.removeItem(this);"></samp></dd>
+				<dd><input type="text" class="input-text" name="%name%"/><samp class="ico-pos-w-remove"></samp></dd>
 			</dl>
+            <div class="clearfix" ></div>
 			<dl id="vote_opt" class="vote-add">
-				<dt></dt>
-				<dd class="item-more" onclick="vote.addItem();"><samp class="ico-pos-tag-off"></samp>添加选项(最多20个)</dd>
+				<dt>&nbsp;</dt>
+				<dd class="item-more"><samp class="ico-pos-tag-off"></samp>添加选项(最多20个)</dd>
 				<dt>截止日期:</dt>
 				<dd ><input type="text" name="end" class="input-text"/></dd>
 				<dt>选项类型:</dt>
@@ -43,4 +43,3 @@
 			</div>
 			</form>
 		</div>
-<{include file="footer.tpl"}>

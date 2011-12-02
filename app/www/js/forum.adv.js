@@ -1,73 +1,89 @@
 $(function(){
-    $('#addform').dialog({
-        modal:true,
-        resizable:false,
-        autoOpen:false,
-        title:"添加",
-        width:350,
-        zIndex:2,
-        bgiframe:true
-    }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
-    $('#modifyform').dialog({
-        modal:true,
-        resizable:false,
-        autoOpen:false,
-        title:"修改",
-        width:350,
-        bgiframe:true
-    }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
-;
-    $('#preview').dialog({
-        modal:true,
-        resizable:false,
-        autoOpen:false,
-        width:660,
-        title:"预览",
-        bgiframe:true
-    });
-    $(document).mousedown(function(e){
-        e.stopPropagation();    
-        if($('#preview').dialog('isOpen')) 
-            $('#preview').dialog('close');
-    });
-
+    var tmpl_adv = _.template($('#tmpl_adv').html())
+        ,tmpl_adv_preview = _.template($('#tmpl_adv_preview').html());
     $('.b_mod').click((function(type){
         if(type){
             return function(){
-                var form = $('#modifyform'),
-                item = $(this).parents('tr');
-                form.find('input[name="aid"]').val(item.find('.c_1').attr("id"));
-                form.find('input[name="url"]').val($.trim(item.find('.c_3').text()));
-                form.find('input[name="sTime"]').val(item.find('.c_4').text());
-                form.find('input[name="eTime"]').val(item.find('.c_5').text());
-                form.find('input[name="privilege"]').attr("checked", (item.find('.c_6').text() == "是"));
-                form.find('input[name="home"]').attr("checked", (item.find('.c_9').text() == "是"));
-                form.find('input[name="remark"]').val(item.find('.c_8').text());
-                $('#modifyform').dialog('open');
+                var item = $(this).parents('tr')
+                ,data = {
+                    aid:item.find('.c_1').attr("id")
+                    ,url:$.trim(item.find('.c_3').text())
+                    ,stime:item.find('.c_4').text()
+                    ,etime:item.find('.c_5').text()
+                    ,priv:item.find('.c_6').text() == "是"
+                    ,home:item.find('.c_9').text() == "是"
+                    ,remark:item.find('.c_8').text()
+                    ,ac:'set'
+                };
+                DIALOG.formDialog(tmpl_adv(data),
+                    {title:SYS.code.COM_TITLE, width:350,
+                     buttons:[
+                        {text:SYS.code.COM_SUBMIT,click:function(){
+                            $('#adv_form').submit();
+                        }},
+                        {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                     ]
+                }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
             }
         }else{
             return function(){
-                var form = $('#modifyform'),
-                item = $(this).parents('tr');
-                form.find('input[name="aid"]').val(item.find('.c_1').attr("id"));
-                form.find('input[name="url"]').val($.trim(item.find('.c_3').text()));
-                form.find('input[name="switch"]').attr("checked", (item.find('.c_4').text() == "是"));
-                form.find('input[name="weight"]').val(item.find('.c_5').text());
-                form.find('input[name="home"]').attr("checked", (item.find('.c_9').text() == "是"));
-                form.find('input[name="remark"]').val(item.find('.c_8').text());
-                $('#modifyform').dialog('open');
+                var item = $(this).parents('tr')
+                ,data = {
+                    aid:item.find('.c_1').attr("id")
+                    ,url:$.trim(item.find('.c_3').text())
+                    ,home:(item.find('.c_9').text() == "是")
+                    ,remark:item.find('.c_8').text()
+                    ,sw:(item.find('.c_4').text() == "是")
+                    ,weight:item.find('.c_5').text()
+                    ,ac:'set'
+                };
+                DIALOG.formDialog(tmpl_adv(data),
+                    {title:SYS.code.COM_TITLE, width:350,
+                     buttons:[
+                        {text:SYS.code.COM_SUBMIT,click:function(){
+                            $('#adv_form').submit();
+                        }},
+                        {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                     ]
+                }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
             }
         }
     })($('.b_mod').attr('_type')));
 
     $('.b_del').click(function(){
-        if(confirm("确认删除?")){
-            $('#delform').find('input[name="aid"]').val($(this).parents('tr').find('.c_1').attr('id'));
-            $('#delform').submit();
-        }
+        var self = this;
+        DIALOG.confirmDialog('确认删除?', function(){
+            $('#adv_form_del').find('input[name="aid"]').val($(self).parents('tr').find('.c_1').attr('id'));
+            $('#adv_form_del').submit();
+        });
+    });
+
+    $('.b_pre').click(function(){
+        DIALOG.formDialog(tmpl_adv_preview({img:$(this).parent().parent().find('.c_2 a').attr('href')}),
+            {title:SYS.code.COM_PREVIEW, width:660}
+        ); 
     });
 
     $('#b_add').click(function(){
-        $('#addform').dialog('open');
+        DIALOG.formDialog(tmpl_adv({
+                    ac:'add'
+                    ,aid:''
+                    ,url:''
+                    ,home:''
+                    ,remark:''
+                    ,sw:false
+                    ,weight:''
+                    ,stime:''
+                    ,etime:''
+                    ,priv:false
+                }),
+            {title:SYS.code.COM_TITLE, width:350,
+             buttons:[
+                {text:SYS.code.COM_SUBMIT,click:function(){
+                    $('#adv_form').submit();
+                }},
+                {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+             ]
+        }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
     });
 });

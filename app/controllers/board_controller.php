@@ -39,6 +39,7 @@ class BoardController extends AppController {
         $this->css[] = "board.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"ндубап╠М");
+        $this->cache(false);
 
         App::import('Sanitize');
         $pageBar = "";
@@ -73,6 +74,7 @@ class BoardController extends AppController {
         $this->set("info", $info);
         $this->set("noThreads", ECode::msg(ECode::$BOARD_NOTHREADS));
         $link = "?p=%page%";
+        //$link = "{$this->base}/{$}?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
 
         $bms = split(" ", $this->_board->BM);
@@ -100,7 +102,8 @@ class BoardController extends AppController {
         $this->set("searchDay", Configure::read("search.day"));
         //for elite path
         $this->set("elitePath", urlencode($this->_board->getElitePath()));
-        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
+        $this->jsr[] = "window.user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
+
     }
 
     public function vote(){

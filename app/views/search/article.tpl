@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="ËÑË÷½á¹û"}>
         <div class="b-content">
 			<table class="board-title" cellpadding="0" cellspacing="0">
@@ -16,11 +15,11 @@
 				<tr>
 					<td class="title_8"><{$k+1}>.</td>
 					<td class="title_9">
-						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>"><{$item.title}></a>
+						<a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>"><{$item.title}></a>
 		<{if $item.page>7}>
-		<span class="threads-tab">[<{section name=temp loop=7 start=2}><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>..<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>"><{$item.page}></a>]</span>
+		<span class="threads-tab">[<{section name=temp loop=7 start=2}><a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>..<a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>?p=<{$item.page}>"><{$item.page}></a>]</span>
 		<{elseif $item.page>1}>
-		<span class="threads-tab">[<{section name=temp loop=$item.page+1 start=2}><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>]</span>
+		<span class="threads-tab">[<{section name=temp loop=$item.page+1 start=2}><a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>]</span>
 		<{/if}>
 					</td>
 					<td class="title_10"><{$item.postTime}>&ensp;|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>"><{$item.poster}></a></td>
@@ -49,4 +48,3 @@
             </ul>
         </div>
     </div>  
-<{include file="footer.tpl"}>

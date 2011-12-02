@@ -1,7 +1,7 @@
-.w-filter{
+.widget-add-filter{
     text-align:center;
 }
-.w-filter li{
+.widget-add-filter li{
     padding:2px 8px;
     *padding:3px 8px 0px;
     margin:0 3px;
@@ -9,36 +9,36 @@
     *display:inline;
     *zoom:1;
 }
-.w-search{
+.widget-add-search{
     margin:auto;
     width:380px;
     line-height:20px;
 }
-.w-search span{
+.widget-add-search span{
     color:#3e6195;
     font-size:14px;
     font-weight:bold;
     vertical-align:middle;
 }
-.w-search .input-text{
+.widget-add-search .input-text{
     width:200px;
     vertical-align:middle;
 }
-.w-search .button{
+.widget-add-search .button{
     width:70px;
     margin-left:6px;
     vertical-align:middle;
 }
-.w-search select{
+.widget-add-search select{
     margin-left:10px;
 }
-#application{
+#widget_add{
     margin:10px 0;
     padding:10px 10px;
     border:1px solid #c9d7f1;
     clear:both;
 }
-#application li{
+#widget_add li{
     width:143px;
     height:143px;
     text-align:center;
@@ -46,39 +46,30 @@
     *display:inline;
     *zoom:1
 }
-#application li:hover{
+#widget_add li:hover{
     background:url(../img/app/hover.gif) no-repeat left top;
 }
-.app-title{
+.widget-add-title{
     color:#4c72ac;
     font-size:14px;
     width:130px;
     margin:10px auto 0;
-    height:20px;
+    height:18px;
+    overflow:hidden;
 }
-.app-logo{
+.widget-add-logo{
     height:73px;
     margin:0 auto;
 }
-.app-submit{
+.widget-add-submit{
     width:110px;
     height:23px;
     margin:0 auto;
     margin-top:5px;
 }
-.app-submit input{
+.widget-add-submit input{
     width:110px;
     margin:auto;
 }
-.line{
-    display:block;
-    border-bottom:1px solid #c9d7f1;
-    margin-top:10px;
-    margin-bottom:15px;
-    clear:both;
-    *zoom:1;
-}
-#addform ul{ margin: 8px auto; }
-#addform li{ margin-bottom: 8px; }
-#addform li .submit{ width:224px; }
+#widget_add_form li{ margin:4px 0; }
 /*change widget end*/

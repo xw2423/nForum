@@ -101,9 +101,7 @@ class IndexController extends VoteAppController {
 
     public function add(){
         $this->requestLogin();
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css['plugin']['vote'][] = "vote.css";
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js['plugin']['vote'][] = "vote.js";
         $this->notice[] = array("url" => "", "text" => "新投票");
         $this->cache(false);
@@ -116,52 +114,55 @@ class IndexController extends VoteAppController {
             if($res !== false && $res['num'] >=2)
                 $this->error("每天你最多开启两次投票");
         }
-        if($this->RequestHandler->isPost()){
-            $subject = @trim($this->params['form']['subject']);
-            $desc = @trim($this->params['form']['desc']);
-            $end = @trim($this->params['form']['end']);
-            $type = @trim($this->params['form']['type']);
-            $limit = @trim($this->params['form']['limit']);
-            
-            if(empty($subject) || empty($end))
-                $this->error(ECode::$XW_JOKE);
-            if($type != "0" && $type != "1")
-                $type = 0;
-            if(empty($limit) || intval($limit) < 2 || intval($limit) > 19)
-                $limit = 0;
-            if(strtotime($end) === false || !preg_match("/\d{4}(-\d{2}){2}/", $end))
-                $this->error("截止日期错误");
-            $items = array();
-            foreach($this->params['form'] as $k=>$v){
-                if(preg_match('/^i\d+$/', $k) && trim($v) != "")
-                    $items[] = trim($v);
-            }
-            $realNum = count($items);
-            if($realNum < 2 || $realNum > 20)
-                $this->error("选项数量错误，发起投票失败");
-            if($limit > $realNum)
-                $limit = $realNum;
-            $u = User::getInstance();
-            $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items);
-            $site = Configure::read("site");
-            $a_title = $subject;
-            $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n";
-            App::import("vendor", "model/article");
-            $aid = Article::autoPost($this->_board, $a_title, $a_content);
-            $db = DB::getInstance();
-            $db->update("pl_vote", array("aid"=>$aid), "where vid=?", array($vid));
-            $this->waitDirect(
-                array(
-                    "text" => "我的投票", 
-                    "url" => "/vote?c=list&u=".$u->userid
-                ), "发起投票成功",
-                array(
-                    array("text" => "热门投票", "url" => "/vote?c=hot")
-                ));
-        }
         for($i = 2;$i<=19; $i++)
             $limit[$i] = $i;
         $this->set('limit', $limit);
+    }
+
+    public function ajax_add(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        $this->requestLogin();
+        $subject = @trim($this->params['form']['subject']);
+        $desc = @trim($this->params['form']['desc']);
+        $end = @trim($this->params['form']['end']);
+        $type = @trim($this->params['form']['type']);
+        $limit = @trim($this->params['form']['limit']);
+        
+        if(empty($subject) || empty($end))
+            $this->error(ECode::$XW_JOKE);
+        if($type != "0" && $type != "1")
+            $type = 0;
+        if(empty($limit) || intval($limit) < 2 || intval($limit) > 19)
+            $limit = 0;
+        if(strtotime($end) === false || !preg_match("/\d{4}(-\d{2}){2}/", $end))
+            $this->error("截止日期错误");
+        $items = array();
+        foreach($this->params['form'] as $k=>$v){
+            if(preg_match('/^i\d+$/', $k) && trim($v) != "")
+                $items[] = trim($v);
+        }
+        $realNum = count($items);
+        if($realNum < 2 || $realNum > 20)
+            $this->error("选项数量错误，发起投票失败");
+        if($limit > $realNum)
+            $limit = $realNum;
+        $u = User::getInstance();
+        $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items);
+        $site = Configure::read("site");
+        $a_title = $subject;
+        $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n";
+        App::import("vendor", "model/article");
+        $aid = Article::autoPost($this->_board, $a_title, $a_content);
+        $db = DB::getInstance();
+        $db->update("pl_vote", array("aid"=>$aid), "where vid=?", array($vid));
+
+        $ret['ajax_code'] = "发起投票成功";
+        $ret['default'] = "/vote?c=list&u=".$u->userid;
+        $ret['list'][] = array("text" => '我的投票', "url" => "/vote?c=list&u=".$u->userid);
+        $ret['list'][] = array("text" => '热门投票', "url" => "/vote?c=hot");
+        $this->set('no_html_data', $ret);
     }
 
     public function view(){
@@ -183,35 +184,7 @@ class IndexController extends VoteAppController {
         if($vote->isDeleted() && !$u->isAdmin())
             $this->error("此投票已删除");
         $myres = $vote->getResult($u->userid);
-        //vote handler
-        if($this->RequestHandler->isPost()){
-            $this->requestLogin();
-            if($myres !== false)
-                $this->error("你已经投过票了");
-            if($vote->isDeleted())
-                $this->error("此投票已删除");
-            if($vote->isEnd())
-                $this->error("此投票已截止");
-            if($vote->type == "0"){
-                @$viid = $this->params['form']['v'.$vote->vid];
-                if(!$vote->hasItem($viid))
-                    $this->error("未知的选项，投票失败");
-                $vote->vote($u->userid, $viid);
-            }else if($vote->type == "1"){
-                $items = array_keys($this->params['form']);
-                if(count($items) > $vote->limit && $vote->limit != 0)
-                    $this->error("投票个数超过限制，投票失败");
-                $items = preg_replace("/v{$vote->vid}_/", "", $items);
-                foreach($items as $v){
-                    if(!$vote->hasItem($v))
-                        $this->error("未知的选项，投票失败");
-                }
-                $vote->vote($u->userid, $items);
-            }else{
-                $this->error("错误的投票");
-            }
-            $this->redirect("/vote/view/".$vote->vid);
-        }//vote handler end
+
         $voted = false;
         if($myres !== false){
             $voted = true;
@@ -259,7 +232,52 @@ class IndexController extends VoteAppController {
         
     }
 
-    public function delete(){
+    public function ajax_vote(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        $this->requestLogin();
+        if(!isset($this->params['vid']))
+            $this->error("未知的投票");
+        $vid = intval($this->params['vid']);
+        try{
+            $vote = new Vote($vid);
+        }catch(VoteNullException $e){
+            $this->error("未知的投票");
+        }
+        $u = User::getInstance();
+        if($vote->isDeleted() && !$u->isAdmin())
+            $this->error("此投票已删除");
+        $myres = $vote->getResult($u->userid);
+        if($myres !== false)
+            $this->error("你已经投过票了");
+        if($vote->isDeleted())
+            $this->error("此投票已删除");
+        if($vote->isEnd())
+            $this->error("此投票已截止");
+        if($vote->type == "0"){
+            @$viid = $this->params['form']['v'.$vote->vid];
+            if(!$vote->hasItem($viid))
+                $this->error("未知的选项，投票失败");
+            $vote->vote($u->userid, $viid);
+        }else if($vote->type == "1"){
+            $items = array_keys($this->params['form']);
+            if(count($items) > $vote->limit && $vote->limit != 0)
+                $this->error("投票个数超过限制，投票失败");
+            $items = preg_replace("/v{$vote->vid}_/", "", $items);
+            foreach($items as $v){
+                if(!$vote->hasItem($v))
+                    $this->error("未知的选项，投票失败");
+            }
+            $vote->vote($u->userid, $items);
+        }else{
+            $this->error("错误的投票");
+        }
+    }
+
+    public function ajax_delete(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
         $this->requestLogin();
         if(!isset($this->params['vid']))
             $this->error("未知的投票");
@@ -273,14 +291,6 @@ class IndexController extends VoteAppController {
         if(!$u->isAdmin() && $u->userid != $vote->uid)
             $this->error(ECode::$XW_JOKE);
         $vote->delete();
-        $this->waitDirect(
-            array(
-                "text" => "我的投票",
-                "url" => "/vote?c=list&u=".$u->userid,
-            ), "删除投票成功",
-            array(
-                array("text" => "热门投票", "url" => "/vote?c=hot")
-            ));
     }
 }
 ?>

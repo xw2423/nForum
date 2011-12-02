@@ -17,7 +17,6 @@ class MailController extends AppController {
         $this->js[] = "forum.mail.js";
         $this->css[] = "mail.css";
 
-        $this->cache(false);
         $type = MailBox::$IN;
         $pageBar = "";
         if(isset($this->params['type'])){
@@ -63,18 +62,12 @@ class MailController extends AppController {
         $this->set("totalPage", $pagination->getTotalPage());
     }
 
-    public function detail(){
-        $this->cache(false);
-        $this->css[] = "mail.css";
-        $this->css[] = "ansi.css";
-        $this->js[] = "forum.mail.js";
-
-        if(!isset($this->params['type'])){
+    public function ajax_detail(){
+        if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
-        }
-        if(!isset($this->params['num'])){
+        if(!isset($this->params['num']))
             $this->error(ECode::$MAIL_NOMAIL);
-        }
+
         $type = $this->params['type'];
         $num = $this->params['num'];
         try{
@@ -90,39 +83,22 @@ class MailController extends AppController {
             $content = XUBB::parse($content);
         }
         App::import("Sanitize");
-        $this->set("num", $mail->num);
-        $this->set("type", $box->type);
-        $this->set("content", $content);
-        $this->notice[] = array("url"=>"/mail/$type", "text"=>$box->desc);
+        $ret = array('num' => $mail->num
+            ,'type' => $box->type
+            ,'content' => $content
+        );
+        $this->set("no_html_data", $ret);
     }
 
     public function send(){
         $this->_sendInit();
-        if($this->RequestHandler->isPost()){
-            @$id = trim($this->params['form']['id']);
-            @$title = trim($this->params['form']['title']);
-            @$content = trim($this->params['form']['content']);
-            @$sig = intval($this->params['form']['signature']);
-            $bak = isset($this->params['form']['backup'])?1:0;
-            try{
-                Mail::send($id, $title, $content, $sig, $bak);
-            }catch(MailSendException $e){
-                $this->error($e->getMessage());
-            }
-            $this->waitDirect(
-                array(
-                    "text" => "收件箱", 
-                    "url" => "/mail/"
-                ), ECode::$MAIL_SENDOK);
-        }
-        $this->js[] = "forum.mail.js";
+        $this->js[] = "forum.post.js";
         $this->css[] = "post.css";
         $this->notice[] = array("url"=>"/mail/send", "text"=>"撰写邮件");
 
+        $u = User::getInstance();
         $title = $content = "";
 
-        //no attachment when forward
-        //I will not use kbs function which is not well to handle forwarding,article and mail should have union function to forward
         if(isset($this->params['url']['id'])){
             try{
                 $user = User::getInstance($this->params['url']['id']);
@@ -132,7 +108,7 @@ class MailController extends AppController {
             $this->set("rid", $user->userid);
         }else{
             //show my friends
-            $f = new Friend(User::getInstance());
+            $f = new Friend($u);
             $friends = $f->getRecord(1, $f->getTotalNum());
             $ret = array();
             foreach($friends as $v){
@@ -140,74 +116,6 @@ class MailController extends AppController {
             }
             $this->set("friends", $ret);
         }
-        if(preg_match("/^\/mail\/reply/", $this->path)){
-            if(!isset($this->params['type'])){
-                $this->error(ECode::$MAIL_NOBOX);
-            }
-            if(!isset($this->params['num'])){
-                $this->error(ECode::$MAIL_NOMAIL);
-            }
-            $type = $this->params['type'];
-            $num = $this->params['num'];
-            try{
-                $mail = MAIL::getInstance($num, new MailBox(User::getInstance(),$type));
-            }catch(UserNullException $e){
-                $this->error(ECode::$USER_NOID);
-            }catch(Exception $e){
-                try{
-                    $b = Board::getInstance($type);
-                    if(!$b->hasReadPerm(User::getInstance()))
-                        $this->error(ECode::$BOARD_NOPERM);
-                    $mail = Article::getInstance($num, $b);
-                }catch(BoardNullException $e){
-                    $this->error(ECode::$BOARD_UNKNOW);
-                }catch(Exception $e){
-                    $this->error(ECode::$ARTICLE_NONE);
-                }
-            }
-            if(!strncmp($mail->TITLE, "Re: ", 4))
-                $title = $mail->TITLE;
-            else
-                $title = "Re: " . $mail->TITLE;
-            $content = "\n".$mail->getRef();
-            //remove ref ubb tag
-            $content = XUBB::remove($content);
-            $this->set("rid", $mail->OWNER);
-        }else if(preg_match("/^\/mail\/forward/", $this->path)){
-            if(!isset($this->params['type'])){
-                $this->error(ECode::$MAIL_NOBOX);
-            }
-            if(!isset($this->params['num'])){
-                $this->error(ECode::$MAIL_NOMAIL);
-            }
-            $type = $this->params['type'];
-            $num = $this->params['num'];
-            try{
-                $mail = MAIL::getInstance($num, new MailBox(User::getInstance(),$type));
-            }catch(MailBoxNullException $e){
-                $this->error(ECode::$MAIL_NOBOX);
-            }catch(MailNullException $e){
-                $this->error(ECode::$MAIL_NOMAIL);
-            }
-            $title = $mail->TITLE . "(转寄)";
-            $content = preg_replace("/^发信人[^\n]*\n|^寄信人[^\n]*\n/", "", $mail->getContent());
-        }else if(preg_match("/^\/article\/forward/", $this->path)){
-            $brd = $this->params['name'];
-            $id = $this->params['id'];
-            try{
-                $b = Board::getInstance($brd);
-                if(!$b->hasReadPerm(User::getInstance()))
-                    $this->error(ECode::$BOARD_NOPERM);
-                $article = Article::getInstance($id, $b);
-            }catch(BoardNullException $e){
-                $this->error(ECode::$BOARD_UNKNOW);
-            }catch(ArticleNullException $e){
-                $this->error(ECode::$ARTICLE_NONE);
-            }
-            $title = $article->TITLE . "(转寄)";
-            $content = preg_replace("/^发信人[^\n]*\n|^寄信人[^\n]*\n/", "", $article->getContent());
-        }
-        $u = User::getInstance();
         $sigOption = array();
         foreach(range(0, $u->signum) as $v){
             if($v == 0)
@@ -223,13 +131,124 @@ class MailController extends AppController {
         $this->set("content", $content);
         $this->set("sigOption", $sigOption);
         $this->set("sigNow", $u->signature);
+        $this->set("bak", $u->getCustom("mailbox_prop", 0));
     }
 
-    public function delete(){
-        $this->cache(false);
-        if(!isset($this->params['type'])){
-            $this->error(ECode::$MAIL_NOBOX);
+    public function reply(){
+        $mail = $this->_sendInit();
+        $this->js[] = "forum.post.js";
+        $this->css[] = "post.css";
+        $this->notice[] = array("url"=>"/mail/send", "text"=>"回复邮件");
+        $u = User::getInstance();
+        if(false === $mail){
+            //reply article
+            if(!isset($this->params['type']))
+                $this->error(ECode::$MAIL_NOBOX);
+            if(!isset($this->params['num']))
+                $this->error(ECode::$MAIL_NOMAIL);
+            try{
+                $b = Board::getInstance($type);
+                if(!$b->hasReadPerm($u))
+                    $this->error(ECode::$BOARD_NOPERM);
+                $mail = Article::getInstance($num, $b);
+            }catch(Exception $e){
+                $this->error(ECode::$MAIL_NOMAIL);
+            }
         }
+
+        if(!strncmp($mail->TITLE, "Re: ", 4))
+            $title = $mail->TITLE;
+        else
+            $title = "Re: " . $mail->TITLE;
+        $content = "\n".$mail->getRef();
+        //remove ref ubb tag
+        $content = XUBB::remove($content);
+        $this->set("rid", $mail->OWNER);
+
+        $sigOption = array();
+        foreach(range(0, $u->signum) as $v){
+            if($v == 0)
+                $sigOption["$v"] = "不使用签名档";
+            else
+                $sigOption["$v"] = "使用第{$v}个";
+        }
+        $sigOption["-1"] = "使用随机签名档";
+        App::import('Sanitize');
+        $title = Sanitize::html($title);
+        $content = Sanitize::html($content);
+        $this->set("title", $title);
+        $this->set("content", $content);
+        $this->set("sigOption", $sigOption);
+        $this->set("sigNow", $u->signature);
+        $this->set("bak", $u->getCustom("mailbox_prop", 0));
+
+        $this->render('send');
+    }
+
+    public function ajax_send(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        $mail = $this->_sendInit();
+        $title = $content = '';
+        $sig = User::getInstance()->signature;
+        if(isset($this->params['form']['title']))
+            $title = trim($this->params['form']['title']);
+        if(isset($this->params['form']['content']))
+            $content = $this->params['form']['content'];
+        if(isset($this->params['form']['signature']))
+            $sig = intval($this->params['form']['signature']);
+        $bak = isset($this->params['form']['backup'])?1:0;
+        $title = iconv('UTF-8', 'GBK//TRANSLIT', $title);
+        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        try{
+            if(false === $mail){
+                //send new
+                if(!isset($this->params['form']['id']))
+                    $this->error(ECode::$POST_NOID);
+                $id = trim($this->params['form']['id']);
+                Mail::send($id, $title, $content, $sig, $bak);
+            }else{
+                //reply
+                $mail->reply($title, $content, $sig, $bak);
+            }
+        }catch(MailSendException $e){
+            $this->error($e->getMessage());
+        }
+        $ret['ajax_code'] = ECode::$MAIL_SENDOK;
+        $ret['default'] = "/mail";
+        $ret['list'][] = array("text" => "收件箱", "url" => "/mail");
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_forward(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        $mail = $this->_sendInit();
+        if(false === $mail)
+            $this->error(ECode::$MAIL_NOMAIL);
+        if(!isset($this->params['form']['id']))
+            $this->error(ECode::$POST_NOID);
+        $id = trim($this->params['form']['id']);
+        $noansi = isset($this->params['form']['noansi']);
+        $big5 = isset($this->params['form']['big5']);
+        try{
+            $mail->forward($id, $noansi, $big5);
+        }catch(MailSendException $e){
+            $this->error($e->getMessage());
+        }
+        $ret['ajax_code'] = ECode::$MAIL_FORWARDOK;
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_delete(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+
         $type = $this->params['type'];
         try{
             $box = new MailBox(User::getInstance(), $type);
@@ -237,9 +256,6 @@ class MailController extends AppController {
             $this->error(ECode::$MAIL_NOBOX);
         }
         if(!isset($this->params['num'])){
-            if(!$this->RequestHandler->isPost()){
-                $this->error(ECode::$MAIL_DELETEERROR);
-            }
             if(isset($this->params['form']['all'])){
                 //delete all
                 try{
@@ -265,6 +281,7 @@ class MailController extends AppController {
             }
         }else{
             try{
+                //delete single
                 $num = $this->params['num'];
                 $mail = Mail::getInstance($num, $box);
                 if(!$mail->delete())
@@ -273,16 +290,59 @@ class MailController extends AppController {
                 $this->error(ECode::$MAIL_DELETEERROR);
             }
         }
-        $this->waitDirect(
-            array(
-                "text" => $box->desc, 
-                "url" => "/mail/$type"
-            ), ECode::$MAIL_DELETEOK);
+        $ret['ajax_code'] = ECode::$MAIL_DELETEOK;
+        $ret['default'] = "/mail/$type";
+        $ret['list'][] = array("text" => $box->desc, "url" => "/mail/$type");
+        $this->set('no_html_data', $ret);
     }
 
+    public function ajax_preview(){
+        App::import('Sanitize');
+        if(!isset($this->params['form']['title']) || !isset($this->params['form']['content'])){
+            $this->error();
+        }
+
+        $subject = rawurldecode(trim($this->params['form']['title']));
+        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        if(strlen($subject) > 60)
+            $subject = nforum_fix_gbk(substr($subject,0,60));
+        $subject = Sanitize::html($subject);
+
+        $content = $this->params['form']['content'];
+        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = preg_replace("/\n/", "<br />", Sanitize::html($content));
+        if(Configure::read("ubb.parse"))
+            $content = XUBB::parse($content);
+        $this->set('no_html_data', array("subject"=>$subject,"content"=>$content));
+    }
+
+    //if has mail return it or false
+    //set type,num if has mail
     private function _sendInit(){
         if(!Mail::canSend())
             $this->error(ECode::$MAIL_SENDERROR);
+        $type = $num = false;
+        if(isset($this->params['type']))
+            $type = $this->params['type'];
+        if(isset($this->params['num']))
+            $num = $this->params['num'];
+        else if(isset($this->params['form']['num']))
+            $num = $this->params['form']['num'];
+        
+        if(empty($type) || empty($num))
+            return false;
+
+        try{
+            $mail = MAIL::getInstance($num, new MailBox(User::getInstance(),$type));
+            $this->set('num', $num);
+            $this->set('type', $type);
+        }catch(UserNullException $e){
+            $this->error(ECode::$USER_NOID);
+        }catch(Exception $e){
+            return false;
+        }
+
+        return $mail;
     }
 
     private function _getTag($mail){

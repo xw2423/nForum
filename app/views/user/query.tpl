@@ -1,63 +1,67 @@
-<{include file="header.tpl"}>
-	<{include file="s_nav.tpl" nav_left="用户信息"}>
-        <div class="b-content corner">
-<{if !isset($noid)}>
-        	<h5 class="u-name">
-				<{$uid}>
-				<{if $islogin}>
-				<a href="<{$base}>/mail/send?id=<{$uid}>">发问候信</a>|<a href="<{$base}>/friend/add?id=<{$uid}>">加为好友</a>
-				<{/if}>
-			</h5>
-			<h5 class="u-title">基本信息</h5>
-			<div id="u-img">
-            <img src="<{$static}><{$base}><{$furl}>" <{if $fwidth != ""}>width="<{$fwidth}>px"<{/if}> <{if $fheight != ""}>height="<{$fheight}>px"<{/if}> />
-			</div>
-            <dl class="u-info">
-            	<dt>昵 称：</dt>
-				<dd><{$name}></dd>
-<{if !($hide) || $isAdmin}>
-            	<dt>性 别：</dt>
-				<dd><{$gender}></dd>
-                <dt>星 座：</dt>
-				<dd><{$astro}></dd>
-<{/if}>
-                <dt>QQ：</dt>
-				<dd><{$qq}></dd>
-                <dt>MSN：</dt>
-				<dd><{$msn}></dd>
-                <dt>主 页：</dt>
-				<dd><{$homepage}></dd>
-            </dl>
-            <h5 class="u-title">论坛属性</h5>	
-            <dl class="u-info u-detail">
-            	<dt>论坛等级：</dt>
-				<dd><{$level}></dd>
-                <dt>帖子总数：</dt>
-				<dd><{$postNum}>篇</dd>
-<{if $me || $isAdmin}>
-                <dt>登陆次数：</dt>
-				<dd><{$loginNum}></dd>
-<{/if}>
-                <dt>生命力：</dt>
-				<dd><{$life}></dd>
-<{if $me || $isAdmin}>
-                <dt>注册时间：</dt>
-				<dd><{$first}></dd>
-<{/if}>
-                <dt>上次登录：</dt>
-				<dd><{$lastTime}></dd>
-                <dt>最后访问IP：</dt>
-				<dd><{$lastIP}></dd>
-                <dt>当前状态：</dt>
-				<dd><{$status}></dd>
-            </dl>
-<{/if}>
-            <h5 class="search_user">
-				<form method="get" action="/user/query" id="f_search" >
-				<span>查询用户：</span>
-				<input class="input_search input-text"type="text" id="s_name" value="" />
-				<input class="search_sub button" type="submit" id="s_btn" value="查询" />
-				</form>
-			</h5>
-    	</div>
-<{include file="footer.tpl"}>
+<script id="tmpl_user" type="text/template">
+<section class="u-query">
+    <%if(id){%>
+    <header class="u-name">
+        <%=id%>
+        <%if(session_login){%>
+        <a href="<{$base}>/mail/send?id=<%=id%>" id="u_query_mail">发问候信</a>|<a href="<{$base}>/friend/ajax_add" id="u_query_add">加为好友</a>
+        <%}%>
+    </header>
+    <article class="u-info">
+        <header>基本信息</header>
+        <figure>
+        <img src="<%=face_url%>"<%if(!_.isEmpty(face_width)){%> width="<%=face_width%>px"<%}%><%if(!_.isEmpty(face_height)){%> height="<%=face_height%>px"<%}%> />
+        </figure>
+        <dl>
+            <dt>昵 称：</dt>
+            <dd><%=user_name%></dd>
+        <%if(id == session_id || !is_hide || session_is_admin){%>
+            <dt>性 别：</dt>
+            <dd><%if(gender=='m'){%>男生<%}else{%>女生<%}%></dd>
+            <dt>星 座：</dt>
+            <dd><%=astro%></dd>
+        <%}%>
+            <dt>QQ：</dt>
+            <dd><%=qq%></dd>
+            <dt>MSN：</dt>
+            <dd><%=msn%></dd>
+            <dt>主 页：</dt>
+            <dd><%=home_page%></dd>
+        </dl>
+    </article>
+    <div class="clearfix"></div>
+    <article class="u-info u-detail">
+        <header>论坛属性</header>
+        <dl class="">
+            <dt>论坛等级：</dt>
+            <dd><%=level%></dd>
+            <dt>帖子总数：</dt>
+            <dd><%=post_count%>篇</dd>
+        <%if(id == session_id || session_is_admin){%>
+            <dt>登陆次数：</dt>
+            <dd><%=login_count%></dd>
+        <%}%>
+            <dt>生命力：</dt>
+            <dd><%=life%></dd>
+        <%if(id == session_id || session_is_admin){%>
+            <dt>注册时间：</dt>
+            <dd><%=first_login_time%></dd>
+        <%}%>
+            <dt>上次登录：</dt>
+            <dd><%=last_login_time%></dd>
+            <dt>最后访问IP：</dt>
+            <dd><%=last_login_ip%></dd>
+            <dt>当前状态：</dt>
+            <dd><%=status%></dd>
+        </dl>
+    </article>
+    <%}%>
+    <footer class="u-search">
+        <form method="get">
+        <label>查询用户:</label>
+        <input class="input-text" id="u_search_u"type="text" value="" />
+        <input class="button" id="u_query_search" type="submit" value="查询" />
+        </form>
+    </footer>
+</section>
+</script>

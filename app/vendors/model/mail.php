@@ -65,7 +65,7 @@ class MailBox implements Pageable{
                 $this->path = ".SENT";
                 break;
             case self::$REC:
-                $this->desc = "»ØÊÕÕ¾";
+                $this->desc = "À¬»øÏä";
                 $this->path = ".DELETED";
                 break;
             default :
@@ -239,6 +239,79 @@ class Mail extends Archive {
     }
 
     public function update($title, $content){return false;}
+
+    public function reply($title, $content, $sig, $bak){
+        $code = null;
+        $ret = bbs_postmail($this->_box->getFullPath(), $this->FILENAME, $this->num, $title, $content, $sig, $bak);
+        switch($ret){
+            case -1:
+                $code = ECode::$SYS_NOTMPFILE;
+                break;
+            case -2:
+            case -6:
+            case -7:
+                $code = ECode::$MAIL_ERROR;
+                break;
+            case -3:
+                $code = ECode::$MAIL_REJECT;
+                break;
+            case -4:
+                $code = ECode::$MAIL_FULL;
+                break;
+            case -5:
+                $code = ECode::$POST_FREQUENT;
+                break;
+            case -8:
+                $code = ECode::$MAIL_RENUMERROR;
+                break;
+            case -9:
+                $code = ECode::$MAIL_NOPERM;
+                break;
+            case -100:
+                $code = ECode::$MAIL_NOID;
+                break;
+        }
+        if(!is_null($code))
+            throw new MailSendException($code);
+    }
+
+   /**
+     * function forward mail id this mail to sb.
+     *
+     * @param string $target
+     * @param boolean $noansi
+     * @param boolean $big5
+     * @return null
+     * @access public
+     */
+    public function forward($target, $noansi = false, $big5 = false) {
+        $code = null;
+        $ret = bbs_domailforward($this->getFileName(), $this->TITLE, $target, $big5, $noansi);
+        switch ($ret) {
+            case -1:
+            case -3:
+                $code = ECode::$MAIL_FULL;
+                break;
+            case -2:
+            case -5:
+            case -6:
+                $code = ECode::$MAIL_NOPERM;
+                break;
+            case -4:
+                $code = ECode::$MAIL_REJECT;
+                break;
+            case -7:
+                $code = ECode::$MAIL_NOMAIL;
+                break;
+            case -10:
+                $code = ECode::$SYS_ERROR;
+            case -201:
+                $code = ECode::$MAIL_NOID;
+                break;
+        }
+        if (!is_null($code))
+            throw new MailSendException($code);
+    }
 
     /**
      * function delete remove single mail

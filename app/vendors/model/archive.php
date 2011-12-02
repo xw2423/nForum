@@ -57,7 +57,7 @@ abstract class Archive extends OverloadObject{
     /**
      * function getPlant get the content of archive
      *
-     * @param boolean $color
+     * @param boolean $color only true will get unlimit attachment
      * @param int $len if default get all the content $color is false avaliable
      * @param boolean $escape $color is false avaliable
      * @return string the content of archive
@@ -88,7 +88,11 @@ abstract class Archive extends OverloadObject{
      * @throws ArchiveFileNullException
      */
     public function getHtml($color = false){
-        $content = $this->getPlant($color);
+        try{
+            $content = $this->getPlant($color);
+        }catch(ArchiveFileNullException $e){
+            $content = '';
+        }
         $content = preg_replace("/&nbsp;/", " ", $content);
         $content = preg_replace("/  /", "&nbsp;&nbsp;", $content);
         return $this->parseAtt($content);
@@ -137,7 +141,7 @@ abstract class Archive extends OverloadObject{
         }
         //no att limit for display archvie
         if(null === $this->_att)
-            $this->getPlant(false, 1, false);
+            $this->getPlant(true, 1, false);
         return is_array($this->_att)?$this->_att:array();
     }
 
@@ -202,7 +206,7 @@ abstract class Archive extends OverloadObject{
     }
 
     protected function _getCommon($link, $name, $size){
-        $templete = '<br /><font color="blue">¸½¼þ(%size%)</font>&nbsp;<a href="%link%">%name%</a>';
+        $templete = '<br /><font color="blue">¸½¼þ(%size%)</font>&nbsp;<a href="%link%" target="_blank">%name%</a>';
         return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);
     }
 

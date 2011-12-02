@@ -1,25 +1,27 @@
 $(function(){
-    update($('#s_section option:selected').val());
-    $('#s_section').change(function(){
+    $('#search_section').change(function(){
         $(window).focus();
-        update($(this).find('option:selected').val());    
-    });    
-
-    function update(sec){
-        var url = config.base + config.wsapi.s_boards + '?num=' + sec;
-        $.getJSON(url,function(json){
-            if(json.st == "success"){
-                json = json.v;
-                if(json.length > 0){
-                    var append = "";
-                    append += '<option value="' + json[0].bid + '" selected="true">' + json[0].name + '</option>';
-                    for(var i = 1; i <= json.length - 1; i++){
-                        append += '<option value="' + json[i].bid + '">' + json[i].name + '</option>';
-                    }
-                    $('#s_board').empty().append(append);
-                }
-            }
+        var k='sec-' + $(this).val() + 'bo'
+            ,c = SYS.cache(k)
+            ,func = function(list){
+                $('#search_board').empty().append(_.reduce(list, function(ret, item){
+                    ret += '<option value="' + item.name + '">' + item.desc + '</option>';
+                return ret;
+                },''));
+        };
+        if(c){func(c);return;}
+        var data = {root:'sec-' + $(this).val(), uid:SESSION.get('id'), bo:1};
+        $.getJSON(SYS.ajax.section_list, data, function(list){
+            SYS.cache(k,list);
+            func(list);
         });
-    }
+    }).change();    
+
+    $('#search_form').submit(function(){
+        BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
+            return k + '=' + v;
+        }).join('&'));  
+        return false;
+    });
 });
 

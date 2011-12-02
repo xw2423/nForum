@@ -34,7 +34,8 @@
             <a href="<{$mbase}>/article/<{$bName}>/post/<{$aid}>?s=1">回复</a>
         <{/if}>
         <{if $islogin}>
-            |<a href="<{$mbase}>/mail/send/<{$poster}>">发信</a>
+            |<a href="<{$mbase}>/mail/<{$bName}>/send/<{$aid}>">发信</a>
+            |<a href="<{$mbase}>/article/<{$bName}>/forward/<{$aid}>?s=1">转寄</a>
         <{/if}>
         <{if $op}>
             |<a href="<{$mbase}>/article/<{$bName}>/edit/<{$aid}>?s=1">编辑</a>

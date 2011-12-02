@@ -1,122 +1,118 @@
-var Fav = {
-    areaSelector:"#ajaxArea",
-    level: 0,
-    pLevel: new Array(),
-    template: "",
-
-    init: function(){
-        Fav._init();
-        $('#update').bind('click', Fav.update);
-        $('#dir_btn').bind('click', {type:"ad"}, Fav.add);
-        $('#board_btn').bind('click', {type:"ab"}, Fav.add);
-        $('#pLevel').bind('click', Fav.goParent).hide();
-        Fav.update();
-    },
-
-    _init: function(){
-        Fav.template = $(Fav.areaSelector).html();    
-        $(Fav.areaSelector).empty().show();
-    },
-
-    add: function(event){
-        var type = event.data.type;
-        var url = config.base + "/fav/op/" + Fav.level;
-        var data = {ac:type, v:$('#' + type + '_txt').val()};
-        $.post(url, data, Fav.onAdd, "json");
-    },
-    
-    onAdd: function(json){
-        if(json.st == "success"){
-            Fav.update();
-        }else if(json.st == "error"){
-            alert('发生错误\ncode:' + json.code + '\n' + json.msg);
-        }
-    },
-
-    update: function(num, p){
-        if(!isNaN(num)){
-            if(p != true){
-                Fav.pLevel.push(Fav.level);
-                $('#pLevel').show();
-            }
-            Fav.level = num;
-        }
-        $(Fav.areaSelector).empty();
-        var url = config.base + "/fav/" + Fav.level + "?_v=" + Math.round(Math.random()* 10000);
-        $.getJSON(url, Fav.onUpdate);
-    },
-
-    onUpdate: function(json){
-        var ret = "",
-        json = json.v;
-        if(json.length > 0){
-            for(i in json){
-                var link = "";
-                var content = Fav.template;
-                if(json[i]['name'] == ""){
-                    link = 'javascript:Fav.update(' + json[i]['bid'] + ');';
-                content = content.replace(/<td class="?title_3[\s\S]*?<\/td>/i, '<td class="title_3">&nbsp;</td>')
-                    .replace(/%7%/, "&nbsp;")
-                    .replace(/%8%/, "&nbsp;")
-                    .replace(/%9%/, "&nbsp;")
-                    .replace(/%10%/, "&nbsp;")
-                    .replace(/%2%/, '[自定义目录]')
-                    .replace(/"[^"]*?%0%"/, link);
-                }else{
-                    content = content.replace(/%2%/, json[i]['bm'])
-                        .replace(/%3%/, json[i]['last']['id'])
-                        .replace(/%4%/, json[i]['last']['title'])
-                        .replace(/%5%/, json[i]['last']['owner'])
-                        .replace(/%6%/, json[i]['last']['date'])
-                        .replace(/%7%/, json[i]['pnum'])
-                        .replace(/%8%/, json[i]['tnum'])
-                        .replace(/%9%/, json[i]['thnum'])
-                        .replace(/%10%/, json[i]['num']);
-                    if(json[i]['last']['id'] == "无")
-                        content = content.replace(/"[^"]*\/article\/[^"]*"/, "javascript:void(0);");
-                    if(json[i]['dir'] == 1)
-                        content = content.replace(/board\/%0%/, "section/" + json[i]['name']);
-                }
-                var ac = (json[i]['name'] == "")?"dd":"db";
-                var param = '\'' + ac +'\', ' + json[i]['pos'];
-                var del = "javascript:Fav.remove(" + param + ")";
-                content = content.replace(/%0%/g, json[i]['name']);
-                content = content.replace(/%1%/, json[i]['desc']);
-                content = content.replace(/%11%/, del);
-                ret += content;
-            }
-        }else{
-            ret = Fav.template.replace(/^[\s\S]*$/, '<tr><td colspan="8" style="text-align:center;border-style:none">不存在任何版面</td></tr>');
-        }
-        $(Fav.areaSelector).append(ret);
-    },
-
-    remove: function(ac, v){
-        var url = config.base + "/fav/op/" + Fav.level;
-        var data = {ac:ac, v:v};
-        $.post(url, data, Fav.onRemove, "json");
-    },
-
-    onRemove: function(json){
-        if(json.st == "success"){
-            Fav.update();
-        }else if(json.st == "error"){
-            alert("发生错误\ncode:" + json.code + "\n" + json.msg);
-        }
-    },
-
-    goParent: function(event){
-        if(Fav.pLevel.length > 0)
-            Fav.update(Fav.pLevel.pop(), true);
-        if(Fav.pLevel.length == 0)
-            $('#pLevel').hide();
-    }
-};
 $(function(){
-    Fav.init();
-    $('#ajaxArea tr').live("mouseover",function(){
-        $(this).addClass("mouseover");
-    }).live("mouseout", function(){
-        $(this).removeClass("mouseover");
+    var FavModel = BaseModel.extend({
+        defaults : {
+            bid:0,
+            name:'',
+            manager:'',
+            description:0,
+            position:-218,
+            post_today_count:0,
+            post_threads_count:0,
+            post_all_count:0,
+            user_online_count:0
+        }
     });
+    var FavCollection = Backbone.Collection.extend({
+        level:[0],
+        model:FavModel,
+        setLevel:function(level){
+            this.level.push(level);
+            this.fetch();
+        },
+        getLevel:function(){
+            return this.level[this.level.length-1];
+        },
+        parent:function(){
+            if(this.level.length > 1){
+                this.level.pop();
+                this.fetch();
+            }
+        },
+        url:function(){
+            return ['fav/',this.level[this.level.length-1],'.json?_t=',$.random()].join('');
+        }
+    });
+    var FavAppView = Backbone.View.extend({
+        el:'#body',
+        events: {
+           'click #fav_update' : 'click_update',
+           'click #fav_up' : 'click_up',
+           'click #fav_list .fav-del' : 'click_delete',
+           'click #fav_list .fav-link' : 'click_link',
+           'click #fav_ab_btn' : 'click_ab',
+           'click #fav_ad_btn' : 'click_ad',
+           'keydown #fav_add .input-text' : 'keydown_input'
+        },
+        tmpl_fav: _.template($('#tmpl_fav').html()),
+        initialize: function() {
+            this.model.bind('reset', this.onFavUpdate, this);
+            this.model.fetch();
+        },
+        click_update:function(){
+            this.model.fetch();
+        },
+        click_up:function(){
+            this.model.parent();
+        },
+        click_delete:function(e){
+            var el = $(e.currentTarget)
+            ,url = SYS.base + "/fav/op/" + this.model.getLevel() + '.json'
+            ,data = {ac:el.attr('_ac'), v:el.attr('_npos')}
+            ,m = this.model;
+            $.post(url, data, function(json){
+                DIALOG.ajaxDialog(json);
+                if(json.ajax_st == 1) m.fetch();
+            }, "json");
+        },
+        click_link:function(e){
+            var l = $(e.currentTarget).parent().parent().attr('id').split('_');
+            this.model.setLevel(l[2]);
+            return false;
+        },
+        click_ab:function(){
+            var url = SYS.base + "/fav/op/" + this.model.getLevel() + '.json'
+            ,data = {ac:'ab', v:$('#fav_ab_txt').val()}
+            ,m = this.model;
+            $.post(url, data, function(json){
+                DIALOG.ajaxDialog(json);
+                if(json.ajax_st == 1){
+                    $('#fav_ab_txt').val('');
+                    m.fetch();
+                }
+            }, "json");
+        },
+        click_ad:function(){
+            var url = SYS.base + "/fav/op/" + this.model.getLevel() + '.json'
+            ,data = {ac:'ad', v:$('#fav_ad_txt').val()}
+            ,m = this.model;
+            $.post(url, data, function(json){
+                DIALOG.ajaxDialog(json);
+                if(json.ajax_st == 1){
+                    $('#fav_ad_txt').val('');
+                    m.fetch();
+                }
+            }, "json");
+        },
+        keydown_input:function(e){
+            if(e.keyCode == 13) $(e.currentTarget).next().click();
+        },
+        mouseover_tr:function(e){
+            $(e.currentTarget).addClass("mouseover");
+        },
+        mouseout_tr:function(e){
+            $(e.currentTarget).removeClass("mouseover");
+        },
+        onFavUpdate:function(){
+            var self = this,
+            html = this.model.reduce(function(html,fav){
+                html += self.tmpl_fav(fav.toJSON());
+                return html;
+            },''); 
+
+            this.$('#fav_list').empty().append(html)
+            .find('tr:odd td').addClass('bg-odd');
+        }
+    });
+    var favs = new FavCollection();
+    var favApp = new FavAppView({model:favs});
 });

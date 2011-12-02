@@ -23,7 +23,6 @@ class MailController extends ApiAppController {
             $this->error(ECode::$MAIL_NOMAIL);
         }
         $mail->setRead();
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         $this->set('data', $wrapper->mail($mail, array('content' => true)));
     }
@@ -50,7 +49,6 @@ class MailController extends ApiAppController {
         $pagination = new Pagination($mailBox, $count);
         $mails = $pagination->getPage($page);
 
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         $info = array();
         foreach($mails as $v){
@@ -97,28 +95,106 @@ class MailController extends ApiAppController {
         $this->set('data', $data);
     }
 
+    public function reply(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+        if(!isset($this->params['num']))
+            $this->error(ECode::$MAIL_NOMAIL);
+        $type = $this->params['type'];
+        $num = $this->params['num'];
+
+        @$title = strval(trim($this->params['form']['title']));
+        @$content = strval(trim($this->params['form']['content']));
+
+        $title = rawurldecode($title);
+        $content = rawurldecode($content);
+        if($this->encoding != Configure::read("App.encoding")){
+            $title = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $title);
+            $content = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $content);
+        }
+
+        $sig = User::getInstance()->signature;
+        $bak = $u->getCustom("mailbox_prop", 0);
+        if(isset($this->params['form']['signature']))
+            $sig = intval($this->params['form']['signature']);
+        if(isset($this->params['form']['backup']) && $this->params['form']['backup'] == 1)
+            $bak = 1;
+
+        try{
+            $box = new MailBox(User::getInstance(), $type);
+            $mail = Mail::getInstance($num, $box);
+            $mail->reply($title, $content, $sig, $bak);
+            $wrapper = Wrapper::getInstance();
+            $data = $wrapper->mail($mail);
+        }catch(MailBoxNullException $e){
+            $this->error(ECode::$MAIL_NOBOX);
+        }catch(MailNullException $e){
+            $this->error(ECode::$MAIL_NOMAIL);
+        }catch(MailSendException $e){
+            $this->error($e->getMessage());
+        }
+
+        $this->set('data', $data);
+    }
+
+    public function forward(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        if(!isset($this->params['form']['target']))
+            $this->error(ECode::$USER_NONE);
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+        if(!isset($this->params['num']))
+            $this->error(ECode::$MAIL_NOMAIL);
+        $type = $this->params['type'];
+        $num = $this->params['num'];
+        $target = trim($this->params['form']['target']);
+        $noansi = (isset($this->params['form']['noansi']) && $this->params['form']['noansi'] == 1);
+        $big5 = (isset($this->params['form']['big5']) && $this->params['form']['big5'] == 1);
+
+        try{
+            $box = new MailBox(User::getInstance(), $type);
+            $mail = Mail::getInstance($num, $box);
+            $mail->forward($target, $noansi, $big5);
+            $wrapper = Wrapper::getInstance();
+            $data = $wrapper->mail($mail);
+        }catch(MailBoxNullException $e){
+            $this->error(ECode::$MAIL_NOBOX);
+        }catch(MailNullException $e){
+            $this->error(ECode::$MAIL_NOMAIL);
+        }catch(MailSendException $e){
+            $this->error($e->getMessage());
+        }
+
+        $this->set('data', $data);
+    }
+
     public function delete(){
         if(!$this->RequestHandler->isPost())
             $this->error(ECode::$SYS_REQUESTERROR);
 
-        if(!isset($this->params['type'])){
+        if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
-        }
+        if(!isset($this->params['num']))
+            $this->error(ECode::$MAIL_NOMAIL);
+
         $type = $this->params['type'];
+        $num = $this->params['num'];
         try{
             $box = new MailBox(User::getInstance(), $type);
-        }catch(MailBoxNullException $e){
-            $this->error(ECode::$MAIL_NOBOX);
-        }
-
-        try{
-            $num = $this->params['num'];
             $mail = Mail::getInstance($num, $box);
-            App::import('vendor', 'api.wrapper');
             $wrapper = Wrapper::getInstance();
             $data = $wrapper->mail($mail);
             if(!$mail->delete())
                 $this->error(ECode::$MAIL_DELETEERROR);
+        }catch(MailBoxNullException $e){
+            $this->error(ECode::$MAIL_NOBOX);
+        }catch(MailNullException $e){
+            $this->error(ECode::$MAIL_NOMAIL);
         }catch(Exception $e){
             $this->error(ECode::$MAIL_DELETEERROR);
         }

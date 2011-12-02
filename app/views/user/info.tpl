@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li class="selected"><a href="<{$base}>/user/info">基本资料修改</a></li>
@@ -11,7 +10,7 @@
         </div>
         <div class="b-content corner">
         	<div id="c_content" class="corner">
-				<form method="post" action="">
+				<form method="post" action="<{$base}>/user/ajax_info.json">
                 <h6>基本信息</h6>
                 <ul>
                     <li>
@@ -30,19 +29,20 @@
                 <ul>
                     <li class="def">
 						<span class="b-left-m">自定义头像:&ensp;</span>
-						<iframe src="<{$base}>/user/face" width="420px" frameborder="0" id="upload"></iframe>
+                        <div id="face_upload">
+                            <input id="face_upload_select" type="button" value="选择文件" class="submit" />
+                            <span id="face_upload_info"></span>
+                        </div>
 					</li>
                     <li class="def">
+						<span class="b-left-m">&ensp;</span>
                     	<div class="u-img-d">
                     		<div><span>头像位置:</span><input type="text" class="input-text" value="<{$myface_url}>" id="furl" name="furl"/></div>
 							<div><span>宽&emsp;&emsp;度:</span><input type="text" class="input-text" value="<{$myface_w}>" id="fwidth" name="fwidth"/></div>
 							<div><span>高&emsp;&emsp;度:</span><input type="text" class="input-text" value="<{$myface_h}>" id="fheight" name="fheight"/></div>
                     	</div>
                         <div class="u-img-show">
-							<div class="imgss">
-								<img src="<{$static}><{$base}><{$myface}>" id="fpreview" <{if $myface_w != ""}>width="<{$myface_w}>px"<{/if}> <{if $myface_h != ""}>height="<{$myface_h}>px"<{/if}> />
-							</div>
-							<div class="maxDiv"></div>
+                            <img src="<{$static}><{$base}><{$myface}>" id="fpreview" <{if $myface_w != ""}>width="<{$myface_w}>px"<{/if}> <{if $myface_h != ""}>height="<{$myface_h}>px"<{/if}> />
                         </div>
                     </li>
                 </ul>
@@ -58,4 +58,3 @@
                 </form>
             </div>
     	</div>
-<{include file="footer.tpl"}>

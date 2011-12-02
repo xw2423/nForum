@@ -65,7 +65,6 @@ class Article extends Archive{
      * @param string $sub subject
      * @param string $con content
      * @param int $sig signature
-     * @param int $reID 0:new threads
      * @param int $email 1:mail when has reply 0:no mail
      * @param int $anony 1:post with anonymous
      * @param int $outgo 1:outgo post
@@ -75,9 +74,9 @@ class Article extends Archive{
      * @access public
      * @throws ArticlePostException with error code
      */
-    public static function post($board, $sub, $con, $sig, $reID, $email, $anony = null, $outgo = 0, $tex = 0){
+    public static function post($board, $sub, $con, $sig, $email = 0, $anony = 0, $outgo = 0, $tex = 0){
         $code = null;
-        $ret = bbs_postarticle($board->NAME, $sub, $con, $sig, $reID, $outgo, $anony, $email, $tex);
+        $ret = bbs_postarticle($board->NAME, $sub, $con, $sig, 0, $outgo, $anony, $email, $tex);
         switch($ret){
             case -1:
                 $code = ECode::$BOARD_UNKNOW;
@@ -203,6 +202,60 @@ class Article extends Archive{
     }
 
     /**
+     * function reply similar to Article::post
+     *
+     * @param string $sub subject
+     * @param string $con content
+     * @param int $sig signature
+     * @param int $email 1:mail when has reply 0:no mail
+     * @param int $anony 1:post with anonymous
+     * @param int $outgo 1:outgo post
+     * @param int $tex no use
+     * @return int new article id
+     * @access public
+     * @throws ArticlePostException with error code
+     */
+    public function reply($sub, $con, $sig, $email = 0, $anony = 0, $outgo = 0, $tex = 0){
+        $code = null;
+        $ret = bbs_postarticle($this->_board->NAME, $sub, $con, $sig, $this->ID, $outgo, $anony, $email, $tex);
+        switch($ret){
+            case -1:
+                $code = ECode::$BOARD_UNKNOW;
+                break;
+            case -2:
+                $code = ECode::$POST_ISBOARD;
+                break;
+            case -3:
+                $code = ECode::$POST_NOSUB;
+                break;
+            case -4:
+                $code = ECode::$BOARD_READONLY;
+                break;
+            case -5:
+                $code = ECode::$POST_BAN;
+                break;
+            case -6:
+                $code = ECode::$POST_FREQUENT;
+                break;
+            case -7:
+                $code = ECode::$SYS_INDEX;
+                break;
+            case -8:
+                $code = ECode::$ARTICLE_NOREPLY;
+                break;
+            case -9:
+                $code = ECode::$SYS_ERROR;
+                break;
+            case -10:
+                $code = ECode::$POST_WAIT;
+                break;
+        }
+        if(!is_null($code))
+            throw new ArticlePostException($code);
+        return $ret;
+    }
+
+    /**
      * function delete remove single article
      *
      * @return boolean true|false
@@ -214,6 +267,37 @@ class Article extends Archive{
         if($ret == -1 || $ret == -2)
             return false;
         return true;
+    }
+
+    /**
+     * function forward mail this article to sb.
+     *
+     * @param string $target
+     * @param boolean $noatt
+     * @param boolean $noansi
+     * @param boolean $big5
+     * @return null
+     * @access public
+     * @throws ArticleForwardException
+     */
+    public function forward($target, $noatt = false, $noansi = false, $big5 = false){
+        $code = null;
+        $ret = bbs_doforward($this->_board->NAME, $this->FILENAME, $this->TITLE, $target, $big5, $noansi, $noatt);
+        switch ($ret) {
+            case -1:
+            case -10:
+                $code = ECode::$SYS_ERROR;
+            case -7:
+                $code = ECode::$ARTICLE_NONE;
+            case -8:
+                $code = ECode::$USER_NOID;
+                break;
+            case -11:
+                $code = ECode::$BOARD_NONE;
+                break;
+        }
+        if(!is_null($code))
+            throw new ArticleForwardException($code);
     }
 
     public function getFileName(){
@@ -368,4 +452,5 @@ class Article extends Archive{
 class ArticleNullException extends Exception {}
 class ArticlePostException extends Exception {}
 class ArticleDeleteException extends Exception {}
+class ArticleForwardException extends Exception {}
 ?>

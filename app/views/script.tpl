@@ -2,7 +2,7 @@
 <{if !empty($jsr)}>
 <script type="text/javascript">
 <{foreach from=$jsr item=item}>
-<{$item}>
+<{$item}>;
 <{/foreach}>
 </script>
 <{/if}>

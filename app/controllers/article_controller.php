@@ -12,15 +12,31 @@ class ArticleController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->_init();
+        if(!isset($this->params['name'])){
+            $this->error(ECode::$BOARD_NONE);
+        }
+
+        try{
+            $boardName = $this->params['name'];
+            if(preg_match("/^\d+$/", $boardName))
+                throw new BoardNullException();
+            $this->_board = Board::getInstance($boardName);
+        }catch(BoardNullException $e){
+            $this->error(ECode::$BOARD_UNKNOW);
+        }
+
+        if(!$this->_board->hasReadPerm(User::getInstance())){
+            if(!$this->ByrSession->isLogin)
+                $this->requestLogin();
+            $this->error(ECode::$BOARD_NOPERM);
+        }
+        $this->_board->setOnBoard();
+        $this->ByrSession->Cookie->write("XWJOKE", "hoho", false);
     }
 
     public function index(){
         $this->cache(false);
-        $this->css[] = "ubb.css";
         $this->css[] = "article.css";
-        $this->css[] = "ansi.css";
-        $this->js[] = "forum.xubb.js";
         $this->js[] = "forum.share.js";
         $this->js[] = "forum.article.js";
         $this->_getNotice();
@@ -122,74 +138,21 @@ class ArticleController extends AppController {
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
         $this->set("searchDay", Configure::read("search.day"));
-        $this->jsr[] = "var user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
+        $this->jsr[] = "window.user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
     }
 
     public function post(){
-        $this->_postInit();
-        if($this->RequestHandler->isPost()){
-            if(isset($this->params['form']['reid'])){
-                $reID = intval($this->params['form']['reid']);
-            }else{
-                if($this->_board->isTmplPost()){
-                    $this->redirect("/article/" . $this->_board->NAME . "/tmpl");
-                }
-                $reID = 0;
-            }
-            if(!isset($this->params['form']['subject']))
-                $this->error(ECode::$POST_NOSUB);
-            if(!isset($this->params['form']['content']))
-                $this->error(ECode::$POST_NOCON);
-            $subject = rawurldecode(trim($this->params['form']['subject']));
-            if(strlen($subject) > 60)
-                $subject = nforum_fix_gbk(substr($subject,0,60));
-            $content = trim($this->params['form']['content']);
-            $sig = User::getInstance()->signature;
-            $email = 0;$anony = null;$outgo = 0;
-            if(isset($this->params['form']['signature']))
-                $sig = intval($this->params['form']['signature']);
-            if(isset($this->params['form']['email']))
-                $email = 1;
-            if(isset($this->params['form']['anony']) && $this->_board->isAnony())
-                $anony = 1;
-            if(isset($this->params['form']['outgo']) && $this->_board->isOutgo())
-                $outgo = 1;
-            try{
-                $id = Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
-                $gid = Article::getInstance($id, $this->_board);
-                $gid = $gid->GROUPID;
-            }catch(ArticlePostException $e){
-                $this->error($e->getMessage());
-            }catch(ArticleNullException $e){
-                $this->error(ECode::$ARTICLE_NONE);
-            }
-            $this->waitDirect(
-                array(
-                    "text" => $this->_board->DESC, 
-                    "url" => "/board/" . $this->_board->NAME
-                ), ECode::$POST_OK, 
-                array(array("text" => str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid)
-                    ,array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-                ));
-        }
+        $article = $this->_postInit();
 
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
-        $this->js[] = "forum.xubb.js";
+        $this->js[] = "plupload.min.js";
+        $this->js[] = "forum.upload.js";
         $this->js[] = "forum.post.js";
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "post.css";
-        $this->css[] = "ubb.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"发表文章");
 
         $reTitle = $reContent = "";
-        if(isset($this->params['id'])){
-            $reID = $this->params['id'];
-            try{
-                $article = Article::getInstance($reID, $this->_board);
-            }catch(ArticleNullException $e){
-                $this->error(ECode::$ARTICLE_NONE);
-            }
+        if(false !== $article){
             $reContent = "\n".$article->getRef();
             //remove ref ubb tag
             $reContent = XUBB::remove($reContent);
@@ -201,7 +164,6 @@ class ArticleController extends AppController {
             if($this->_board->isTmplPost()){
                 $this->redirect("/article/" . $this->_board->NAME . "/tmpl");
             }
-            $reID = 0;
         }
         $u = User::getInstance();
         $sigOption = array();
@@ -223,10 +185,63 @@ class ArticleController extends AppController {
         $this->set("reContent", $reContent);
         $this->set("sigOption", $sigOption);
         $this->set("sigNow", $u->signature);
-        $this->set("reID", $reID);
+
+        $upload = Configure::read("article");
+        $this->set("maxNum", $upload['att_num']);
+        $this->set("maxSize", $upload['att_size']);
     }
 
-    public function delete(){
+    public function ajax_post(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $article = $this->_postInit();
+        if(false === $article && $this->_board->isTmplPost())
+            $this->error();
+
+        if(!isset($this->params['form']['subject']))
+            $this->error(ECode::$POST_NOSUB);
+        if(!isset($this->params['form']['content']))
+            $this->error(ECode::$POST_NOCON);
+        $subject = rawurldecode(trim($this->params['form']['subject']));
+        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        if(strlen($subject) > 60)
+            $subject = nforum_fix_gbk(substr($subject,0,60));
+        $content = $this->params['form']['content'];
+        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $sig = User::getInstance()->signature;
+        $email = 0;$anony = null;$outgo = 0;
+        if(isset($this->params['form']['signature']))
+            $sig = intval($this->params['form']['signature']);
+        if(isset($this->params['form']['email']))
+            $email = 1;
+        if(isset($this->params['form']['anony']) && $this->_board->isAnony())
+            $anony = 1;
+        if(isset($this->params['form']['outgo']) && $this->_board->isOutgo())
+            $outgo = 1;
+        try{
+            if(false === $article)
+                $id = Article::post($this->_board, $subject, $content, $sig, $email, $anony, $outgo);
+            else
+                $id = $article->reply($subject, $content, $sig, $email, $anony, $outgo);
+            $gid = Article::getInstance($id, $this->_board);
+            $gid = $gid->GROUPID;
+        }catch(ArticlePostException $e){
+            $this->error($e->getMessage());
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }
+
+        $ret['ajax_code'] = ECode::$POST_OK;
+        $ret['default'] = '/board/' .  $this->_board->NAME;
+        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_delete(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
         $u = User::getInstance();
         if(isset($this->params['id'])){
             try{
@@ -239,48 +254,21 @@ class ArticleController extends AppController {
                 $this->error(ECode::$ARTICLE_NONE);
             }
         }
-        $this->waitDirect(
-            array(
-                "text" => $this->_board->DESC, 
-                "url" => "/board/" . $this->_board->NAME
-            ),ECode::$ARTICLE_DELOK,
-            array(
-                array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-            ));
-
+        $ret['ajax_code'] = ECode::$ARTICLE_DELOK;
+        $ret['default'] = '/board/' .  $this->_board->NAME;
+        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
     }
 
     public function edit(){
         $this->_editInit();
         $id = $this->params['id'];
-        if($this->RequestHandler->isPost()){
-            if(!isset($this->params['form']['subject']))
-                $this->error(ECode::$POST_NOSUB);
-            if(!isset($this->params['form']['content']))
-                $this->error(ECode::$POST_NOCON);
-            $subject = trim($this->params['form']['subject']);
-            if(strlen($subject) > 60)
-                $subject = nforum_fix_gbk(substr($subject,0,60));
-            $content = trim($this->params['form']['content']);
-            $article = Article::getInstance($id, $this->_board);
-            if(!$article->update($subject, $content))
-                $this->error(ECode::$ARTICLE_EDITERROR);
-            $this->waitDirect(
-                array(
-                    "text" => $this->_board->DESC, 
-                    "url" => "/board/" . $this->_board->NAME
-                ),ECode::$ARTICLE_EDITOK,
-                array(array("text" => $subject, "url" => '/article/' .  $this->_board->NAME . '/' . $article->GROUPID)
-                    ,array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-                ));
-        }
 
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
-        $this->js[] = "forum.xubb.js";
+        $this->js[] = "plupload.min.js";
+        $this->js[] = "forum.upload.js";
         $this->js[] = "forum.post.js";
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "post.css";
-        $this->css[] = "ubb.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"编辑文章");
 
@@ -293,95 +281,126 @@ class ArticleController extends AppController {
         $this->set("title", $title);
         $this->set("content", $content);
         $this->set("eid", $id);
+
+        $upload = Configure::read("article");
+        $this->set("maxNum", $upload['att_num']);
+        $this->set("maxSize", $upload['att_size']);
     }
 
-    public function preview(){
-        $this->css[] = "article.css";
-        $this->css[] = "ansi.css";
-        $this->notice[] = array("url"=>"", "text"=>"发文预览");
+    public function ajax_edit(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->_editInit();
+        $id = $this->params['id'];
+        if(!isset($this->params['form']['subject']))
+            $this->error(ECode::$POST_NOSUB);
+        if(!isset($this->params['form']['content']))
+            $this->error(ECode::$POST_NOCON);
+        $subject = trim($this->params['form']['subject']);
+        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        if(strlen($subject) > 60)
+            $subject = nforum_fix_gbk(substr($subject,0,60));
+        $content = trim($this->params['form']['content']);
+        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $article = Article::getInstance($id, $this->_board);
+        if(!$article->update($subject, $content))
+            $this->error(ECode::$ARTICLE_EDITERROR);
+
+        $ret['ajax_code'] = ECode::$ARTICLE_EDITOK;
+        $ret['default'] = '/board/' .  $this->_board->NAME;
+        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $article->GROUPID);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_preview(){
         App::import('Sanitize');
-        if(!isset($this->params['form']['title']) || !isset($this->params['form']['content'])){
+        if(!isset($this->params['form']['subject']) || !isset($this->params['form']['content'])){
             $this->error();
         }
 
-        $title = Sanitize::html($this->params['form']['title']);
-        $content = preg_replace("/\n/", "<br />", Sanitize::html($this->params['form']['content']));
+        $subject = rawurldecode(trim($this->params['form']['subject']));
+        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        if(strlen($subject) > 60)
+            $subject = nforum_fix_gbk(substr($subject,0,60));
+        $subject = Sanitize::html($subject);
+
+        $content = $this->params['form']['content'];
+        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = preg_replace("/\n/", "<br />", Sanitize::html($content));
         if(Configure::read("ubb.parse"))
             $content = XUBB::parse($content);
-        $this->set("title", $title);
-        $this->set("content", $content);
+        $this->set('no_html_data', array("subject"=>$subject,"content"=>$content));
+    }
+
+    public function ajax_forward(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['target']))
+            $this->error(ECode::$USER_NONE);
+        $id = intval($this->params['id']);
+        $target = trim($this->params['form']['target']);
+        $threads = isset($this->params['form']['threads']);
+        $noref = isset($this->params['form']['noref']);
+        $noatt = isset($this->params['form']['noatt']);
+        $noansi = isset($this->params['form']['noansi']);
+        $big5 = isset($this->params['form']['big5']);
+        try{
+            $article = Article::getInstance($id, $this->_board);
+            if($threads){
+                $t = Threads::getInstance($article->GROUPID, $this->_board);
+                $t->forward($target, $t->ID, $noref, $noatt, $noansi, $big5);
+            }else{
+                $article->forward($target, $noatt, $noansi, $big5);
+            }
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }catch(ArticleForwardException $e){
+            $this->error($e->getMessage());
+        }
+         
+        $ret['ajax_code'] = ECode::$ARTICLE_FORWARDOK;
+        $this->set('no_html_data', $ret);
     }
 
     public function tmpl(){
-        $this->_postInit();
+        $article = $this->_postInit();
         App::import("vendor", "model/template");
         App::import('Sanitize');
+        $this->js[] = "forum.tmpl.js";
         $this->css[] = "post.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"模版发文");
 
-        $reid = 0;
-        if(isset($this->params['url']['reid']))
-            $reid = intval($this->params['url']['reid']);
-        if(isset($this->params['id'])){
-            $id = trim($this->params['id']);
+        if(isset($this->params['url']['tmplid'])){
+            //template question
+            $id = trim($this->params['url']['tmplid']);
             try{
                 $t = Template::getInstance($id, $this->_board);
             }catch(TemplateNullException $e){
                 $this->error(ECode::$TMPL_ERROR);
             }
-            if($this->RequestHandler->isPost() ){
-                if(isset($this->params['post']['reid']))
-                    $reid = intval($this->params['post']['reid']);
-                $val = $this->params['form']['q'];
-                $pre = $t->getPreview($val);
-                $title = $pre[0];
-                $preview = $pre[1];
-                $content = $pre[2];
-                if($this->params['form']['pre'] == "0"){
-                    $u = User::getInstance();
-                    try{
-                        Article::post($this->_board, $title, $content, $u->signature, $reid, 0);
-                    }catch(ArticlePostException $e){
-                        $this->error($e->getMessage());
-                    }
-                    $this->waitDirect(
-                        array(
-                            "text" => $this->_board->DESC, 
-                            "url" => "/board/" . $this->_board->NAME
-                        ), ECode::$POST_OK, 
-                        array(
-                            array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"))
-                        ));
-                }else{
-                    if(Configure::read("ubb.parse"))
-                        $content = XUBB::parse($content);
-                    $this->set("title", $title);
-                    $this->set("content", $preview);
-                    $this->set("reid", $reid);
-                    array_pop($this->css);
-                    $this->css[] = "article.css";
-                    $this->css[] = "ansi.css";
-                    $this->render("preview");
+            $info = array();
+            try{
+                foreach(range(0, $t->CONT_NUM - 1) as $i){
+                    $q = $t->getQ($i);
+                    $info[$i] = array("text" => Sanitize::html($q['TEXT']), "len"=>$q['LENGTH']);
                 }
-            }else{
-                $info = array();
-                try{
-                    foreach(range(0, $t->CONT_NUM - 1) as $i){
-                        $q = $t->getQ($i);
-                        $info[$i] = array("text" => Sanitize::html($q['TEXT']), "len"=>$q['LENGTH']);
-                    }
-                }catch(TemplateQNullException $e){
-                    $this->error();
-                }
-                $this->set("info", $info);
-                $this->set("num", $t->NUM);
-                $this->set("tmplTitle", Sanitize::html($t->TITLE));
-                $this->set("title", $t->TITLE_TMPL);
-                $this->set("reid", $reid);
-                $this->render("tmpl_que");
+            }catch(TemplateQNullException $e){
+                $this->error();
             }
+            $this->set("tmplId", $id);
+            $this->set("bName", $this->_board->NAME);
+            $this->set("info", $info);
+            $this->set("num", $t->NUM);
+            $this->set("tmplTitle", Sanitize::html($t->TITLE));
+            $this->set("title", $t->TITLE_TMPL);
+            $this->render("tmpl_que");
         }else{
+            //template list
             try{
                 $page = new Pagination(Template::getTemplates($this->_board));
             }catch(TemplateNullException $e){
@@ -394,33 +413,59 @@ class ArticleController extends AppController {
             }
             $this->set("info", $info);
             $this->set("bName", $this->_board->NAME);
-            $this->set("reid", $reid);
         }
     }
 
-    private function _init(){
-        if(!isset($this->params['name'])){
-            $this->error(ECode::$BOARD_NONE);
-        }
-
+    public function ajax_tmpl(){
+        $article = $this->_postInit();
+        App::import("vendor", "model/template");
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        if(!isset($this->params['form']['tmplid']))
+            $this->error(ECode::$TMPL_ERROR);
+        $id = trim($this->params['form']['tmplid']);
         try{
-            $boardName = $this->params['name'];
-            if(preg_match("/^\d+$/", $boardName))
-                throw new BoardNullException();
-            $this->_board = Board::getInstance($boardName);
-        }catch(BoardNullException $e){
-            $this->error(ECode::$BOARD_UNKNOW);
+            $t = Template::getInstance($id, $this->_board);
+        }catch(TemplateNullException $e){
+            $this->error(ECode::$TMPL_ERROR);
         }
 
-        if(!$this->_board->hasReadPerm(User::getInstance())){
-            if(!$this->ByrSession->isLogin)
-                $this->requestLogin();
-            $this->error(ECode::$BOARD_NOPERM);
+        $val = $this->params['form']['q'];
+        foreach($val as &$v)
+            $v = iconv('UTF-8', 'GBK//TRANSLIT', $v);
+        $pre = $t->getPreview($val);
+        $subject = $pre[0];
+        $preview = $pre[1];
+        $content = $pre[2];
+        if($this->params['form']['pre'] == "0"){
+            $u = User::getInstance();
+            try{
+                if(false === $article)
+                    $id = Article::post($this->_board, $subject, $content, $u->signature);
+                else
+                    $id = $article->reply($subject, $content, $u->signature);
+                $gid = Article::getInstance($id, $this->_board);
+                $gid = $gid->GROUPID;
+            }catch(ArticlePostException $e){
+                $this->error($e->getMessage());
+            }
+
+            $ret['ajax_code'] = ECode::$POST_OK;
+            $ret['default'] = "/board/" . $this->_board->NAME;
+            $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+            $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
+            $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+            $this->set('no_html_data', $ret);
+        }else{
+            App::import('Sanitize');
+            $subject = Sanitize::html($subject);
+            if(Configure::read("ubb.parse"))
+                $content = XUBB::parse($content);
+            $this->set('no_html_data', array("subject"=>$subject,"content"=>$preview, "reid"=>(false === $article)?0:$article->ID));
         }
-        $this->_board->setOnBoard();
-        $this->ByrSession->Cookie->write("XWJOKE", "hoho", false);
     }
 
+    //if there is reid,return reArticle,otherwise return false
     private function _postInit(){
         if($this->_board->isReadOnly()){
             $this->error(ECode::$BOARD_READONLY);
@@ -431,14 +476,18 @@ class ArticleController extends AppController {
         if($this->_board->isDeny(User::getInstance())){
             $this->error(ECode::$POST_BAN);
         }
-        if(isset($this->params['form']['reid']))
-            $reID = intval($this->params['form']['reid']);
-        else if(isset($this->params['url']['reid']))
-            $reID = intval($this->params['url']['reid']);
+        if(isset($this->params['id']))
+            $reID = intval($this->params['id']);
+        else if(isset($this->params['form']['id']))
+            $reID = intval($this->params['form']['id']);
+        else if(isset($this->params['url']['id']))
+            $reID = intval($this->params['url']['id']);
         else
-            return;
-        if($reID == 0)
-            return;
+            $reID = 0;
+        if(empty($reID))
+            return false;
+        else
+            $this->set('reid', $reID);
         if($this->_board->isNoReply())
             $this->error(ECode::$BOARD_NOREPLY);
         try{
@@ -448,8 +497,10 @@ class ArticleController extends AppController {
         }
         if($reArticle->isNoRe())
             $this->error(ECode::$ARTICLE_NOREPLY);
+        return $reArticle;
     }
 
+    //return the edit article
     private function _editInit(){
         if($this->_board->isReadOnly()){
             $this->error(ECode::$BOARD_READONLY);
@@ -468,6 +519,8 @@ class ArticleController extends AppController {
         $u = User::getInstance();
         if(!$article->hasEditPerm($u))
             $this->error(ECode::$ARTICLE_NOEDIT);
+        $this->set('reid', $id);
+        return $article;
     }
 
     private function _getNotice(){

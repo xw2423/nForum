@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="°æÄÚÍ¶Æ±"}>
         <div class="b-content corner">
 		<div class="vote" style="padding:10px;">
@@ -30,4 +29,3 @@
 			</table>
 		</div>
     	</div>
-<{include file="footer.tpl"}>

@@ -16,7 +16,6 @@ class SectionController extends ApiAppController {
             $this->error(ECode::$BOARD_NOBOARD);
         }
 
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
 
         $data = array();

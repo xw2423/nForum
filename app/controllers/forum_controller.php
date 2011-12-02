@@ -7,10 +7,19 @@
 App::import("vendor", "inc/db");
 class ForumController extends AppController {
 
+    public $components = array('Adv');
+
+    public function front(){
+        $this->front = true;
+
+        //load adv
+        //banner use js
+        Configure::write('jsr.adv', $this->Adv->getParams());
+        //left
+        $this->set("advs", $this->Adv->getLeft());
+    }
+
     public function index(){
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
-        $this->js[] = "forum.xwidget.js";
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "xwidget.css";
         $this->notice = array(array("url"=>Configure::read("site.notice.url"), "text"=>Configure::read("site.notice.text")));
 
@@ -52,13 +61,14 @@ class ForumController extends AppController {
         }
         if($persistent && $update) nforum_cache_write("widget_time", $time);
         $this->set("widget", $w);    
-        $this->jsr[] = 'var persistent=' . ($persistent?'true':'false');
+        $this->jsr[] = 'SYS.widget.persistent=' . ($persistent?'true':'false');
+        $this->jsr[] = "xWidget.init(SESSION.get('is_login'), SESSION.get('id'))";
     }
     
     public function preIndex(){
+        $this->front = true;
         if($this->ByrSession->isLogin)
             $this->redirect(Configure::read("site.home"));
-        $this->brief = true;
         $this->js[] = "forum.pre.js";
         $this->css[] = "preindex.css";
         $this->set("preimg", $this->Adv->getPreImg());
@@ -88,7 +98,6 @@ class ForumController extends AppController {
 
     public function online(){
         $this->requestLogin();
-        $this->js[] = "forum.friend.js";
         $this->css[] = "mail.css";
         $this->notice[] = array("url"=>"/online", "text"=>"在线用户");
 

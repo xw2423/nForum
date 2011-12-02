@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="模板发文"}>
         <div class="b-content corner">
 		<div class="tmpl">
@@ -19,11 +18,10 @@
 				<td><{$k+1}></td>
 				<td><{$item.name}></td>
 				<td><{$item.num}></td>
-				<td><a href="<{$base}>/article/<{$bName}>/tmpl/<{$k+1}>?reid=<{$reid}>">我要发文</a></td>
+				<td><a href="<{$base}>/article/<{$bName}>/tmpl/<{if isset($reid)}><{$reid}><{/if}>?tmplid=<{$k+1}>">我要发文</a></td>
 			</tr>
 <{/foreach}>
 <{/if}>
 			</table>
 		</div>
     	</div>
-<{include file="footer.tpl"}>

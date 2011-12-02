@@ -52,7 +52,6 @@ class AttachmentController extends ApiAppController {
             $article = Forum::listAttach();
         }
         
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         $this->set('data', $wrapper->attachment($article));
     }
@@ -112,7 +111,6 @@ class AttachmentController extends ApiAppController {
                         Forum::addAttach($tmpFile, $tmpName);
                         $article = Forum::listAttach();
                     }
-                    App::import('vendor', 'api.wrapper');
                     $wrapper = Wrapper::getInstance();
                     $this->set('data', $wrapper->attachment($article));
                     return;
@@ -165,7 +163,6 @@ class AttachmentController extends ApiAppController {
                 Forum::delAttach($attName);
                 $article = Forum::listAttach();
             }
-            App::import('vendor', 'api.wrapper');
             $wrapper = Wrapper::getInstance();
             $this->set('data', $wrapper->attachment($article));
             return;

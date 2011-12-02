@@ -9,13 +9,16 @@ class MailController extends MobileAppController {
 
     public function index(){
         $this->cache(false);
-        $this->notice = "收件箱";
         $type = MailBox::$IN;
+        if(isset($this->params['type']))
+            $type = $this->params['type'];
+
         try{
             $mailBox = new MailBox(User::getInstance(), $type);
         }catch(MailBoxNullException $e){
             $this->error(ECode::$MAIL_NOBOX);
         }
+        $this->notice = '邮件-' . $mailBox->desc;
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
 
         App::import('vendor', "inc/pagination");
@@ -39,6 +42,7 @@ class MailController extends MobileAppController {
                 );
             }
         }
+        $this->set("type", $type);
         $this->set("info", $info);
         $this->set("totalNum", $mailBox->getTotalNum());
         $this->set("curPage", $pagination->getCurPage());
@@ -47,11 +51,12 @@ class MailController extends MobileAppController {
 
     public function show(){
         $this->cache(false);
-        $this->notice = "阅读邮件";
-        if(!isset($this->params['num'])){
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+        if(!isset($this->params['num']))
             $this->error(ECode::$MAIL_NOMAIL);
-        }
-        $type = MailBox::$IN;
+
+        $type = $this->params['type'];
         $num = $this->params['num'];
         try{
             $box = new MailBox(User::getInstance(), $type);
@@ -59,6 +64,7 @@ class MailController extends MobileAppController {
         }catch(Exception $e){
             $this->error(ECode::$MAIL_NOMAIL);
         }
+        $this->notice = $box->desc . "-阅读邮件";
         $mail->setRead();
         $content = $mail->getHtml();
         preg_match("|来&nbsp;&nbsp;源:[\s]*([0-9a-zA-Z.:*]+)|", $content, $f);
@@ -70,6 +76,7 @@ class MailController extends MobileAppController {
             $content = XUBB::parse($content);
         }
         App::import("Sanitize");
+        $this->set("type", $type);
         $this->set("num", $mail->num);
         $this->set("title", Sanitize::html($mail->TITLE));
         $this->set("sender", $mail->OWNER);
@@ -80,80 +87,141 @@ class MailController extends MobileAppController {
     public function send(){
         if(!Mail::canSend())
             $this->error(ECode::$MAIL_SENDERROR);
+        $u = User::getInstance();
+        $mail = false;
+        if(isset($this->params['type']) && isset($this->params['num'])){
+            $type = $this->params['type'];
+            $num = $this->params['num'];
+            try{
+                $mail = MAIL::getInstance($num, new MailBox($u,$type));
+            }catch(Exception $e){}
+        }
         if($this->RequestHandler->isPost()){
-            @$id = trim($this->params['form']['id']);
-            @$title = trim($this->params['form']['title']);
-            @$content = trim($this->params['form']['content']);
+            $title = $content = '';
+            $sig = User::getInstance()->signature;
+            if(isset($this->params['form']['title']))
+                $title = trim($this->params['form']['title']);
+            if(isset($this->params['form']['content']))
+                $content = $this->params['form']['content'];
+            $sig = 0;
+            $bak = isset($this->params['form']['backup'])?1:0;
             if($this->encoding != Configure::read("App.encoding")){
                 $title = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $title);
                 $content = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $content);
             }
-            $sig = 0;
-            $bak = isset($this->params['form']['backup'])?1:0;
             try{
-                Mail::send($id, $title, $content, $sig, $bak);
+                if(false === $mail){
+                    //send new
+                    if(!isset($this->params['form']['id']))
+                        $this->error(ECode::$POST_NOID);
+                    $id = trim($this->params['form']['id']);
+                    Mail::send($id, $title, $content, $sig, $bak);
+                    $this->redirect($this->_mbase . "/mail?m=" . ECode::$MAIL_SENDOK);
+                }else{
+                    //reply
+                    $mail->reply($title, $content, $sig, $bak);
+                    $this->redirect($this->_mbase . "/mail/{$type}?m=" . ECode::$MAIL_SENDOK);
+                }
             }catch(MailSendException $e){
                 $this->error($e->getMessage());
             }
-            $this->redirect($this->_mbase . "/mail?m=" . ECode::$MAIL_SENDOK);
         }
-        $this->notice = "新邮件";
+
         $uid = $title = $content = "";
-        if(isset($this->params['pass'][0])){
-            $type = MailBox::$IN;
-            $num = $this->params['pass'][0];
-            if(preg_match("|^\d+$|", $num)){
+        if(isset($this->params['type']) && isset($this->params['num'])){
+            $this->notice = "邮件-回复邮件";
+            if(false === $mail){
+                //reply article
                 try{
-                    $mail = MAIL::getInstance($num, new MailBox(User::getInstance(),$type));
-                    if(isset($this->params['url']['a']) && $this->params['url']['a'] == "r"){
-                        if(!strncmp($mail->TITLE, "Re: ", 4))
-                            $title = $mail->TITLE;
-                        else
-                            $title = "Re: " . $mail->TITLE;
-                        $content = "\n".$mail->getRef();
-                        //remove ref ubb tag
-                        $content = XUBB::remove($content);
-                        $uid = $mail->OWNER;
-                    }else{
-                        $title = $mail->TITLE . "(转寄)";
-                        $content = preg_replace("/^发信人[^\n]*\n|^寄信人[^\n]*\n/", "", $mail->getContent());
-                    }
+                    $b = Board::getInstance($type);
+                    if(!$b->hasReadPerm($u))
+                        $this->error(ECode::$BOARD_NOPERM);
+                    $mail = Article::getInstance($num, $b);
                 }catch(Exception $e){
                     $this->error(ECode::$MAIL_NOMAIL);
                 }
-            }else{
-                try{
-                    $user = User::getInstance($this->params['pass']['0']);
-                }catch(UserNullException $e){
-                    $this->error(ECode::$USER_NOID);
-                }
-                $uid = $user->userid;
             }
+            if(!strncmp($mail->TITLE, "Re: ", 4))
+                $title = $mail->TITLE;
+            else
+                $title = "Re: " . $mail->TITLE;
+            $content = "\n".$mail->getRef();
+            //remove ref ubb tag
+            $content = XUBB::remove($content);
+            $uid = $mail->OWNER;
+        }else{
+            $this->notice = "邮件-新邮件";
         }
+
         $this->set("uid", $uid);
         $this->set("title", $title);
         $this->set("content", $content);
+        $this->set("bak", $u->getCustom("mailbox_prop", 0));
+    }
+
+    public function forward(){
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+        if(!isset($this->params['num']))
+            $this->error(ECode::$MAIL_NOMAIL);
+
+        $type = $this->params['type'];
+        $num = $this->params['num'];
+        try{
+            $box = new MailBox(User::getInstance(), $type);
+            $mail = Mail::getInstance($num, $box);
+        }catch(Exception $e){
+            $this->error(ECode::$MAIL_NOMAIL);
+        }
+
+        if($this->RequestHandler->isPost()){
+            if(!isset($this->params['form']['target']))
+                $this->error(ECode::$USER_NONE);
+            $target = trim($this->params['form']['target']);
+            $noansi = isset($this->params['form']['noansi']);
+            $big5 = isset($this->params['form']['big5']);
+            try{
+                $mail->forward($target, $noansi, $big5);
+            }catch(MailSendException $e){
+                $this->error($e->getMessage());
+            }
+            $this->redirect($this->_mbase . "/mail/{$type}/{$num}?m=" . ECode::$MAIL_FORWARDOK);
+        }
+
+        $this->notice = "邮件-转寄";
+        App::import("vendor", array("model/friend"));
+        $f = new Friend(User::getInstance());
+        $friends = $f->getRecord(1, $f->getTotalNum());
+        $ret = array();
+        foreach($friends as $v){
+            $ret[] = $v->userid;
+        }
+        $this->set('friends', $ret);
+        $this->set('type', $type);
+        $this->set('num',$num);
     }
 
     public function delete(){
         $this->cache(false);
-        $type = MailBox::$IN;
+        if(!isset($this->params['type']))
+            $this->error(ECode::$MAIL_NOBOX);
+        if(!isset($this->params['num']))
+            $this->error(ECode::$MAIL_NOMAIL);
+        $type = $this->params['type'];
+        $num = $this->params['num'];
         try{
             $box = new MailBox(User::getInstance(), $type);
         }catch(MailBoxNullException $e){
             $this->error(ECode::$MAIL_NOBOX);
         }
-        if(isset($this->params['pass'][0])){
-            try{
-                $num = (int)$this->params['pass'][0];
-                $mail = Mail::getInstance($num, $box);
-                if(!$mail->delete())
-                    $this->error(ECode::$MAIL_DELETEERROR);
-            }catch(Exception $e){
+        try{
+            $mail = Mail::getInstance($num, $box);
+            if(!$mail->delete())
                 $this->error(ECode::$MAIL_DELETEERROR);
-            }
+        }catch(Exception $e){
+            $this->error(ECode::$MAIL_DELETEERROR);
         }
-        $this->redirect($this->_mbase . "/mail?m=" .  ECode::$MAIL_DELETEOK);
+        $this->redirect($this->_mbase . "/mail/{$type}?m=" .  ECode::$MAIL_DELETEOK);
     }
 }
 ?>

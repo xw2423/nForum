@@ -19,6 +19,7 @@ class ECode {
     public static $SYS_NOFILE=           '0007';
     public static $SYS_IPBAN=            '0008';
     public static $SYS_PLUGINBAN=        '0009';
+    public static $SYS_404=              '0010';
     public static $LOGIN_NOID =          '0100';
     public static $LOGIN_ERROR =         '0101';
     public static $LOGIN_MULLOGIN =      '0102';
@@ -49,6 +50,7 @@ class ECode {
     public static $ARTICLE_DELOK =       '0307';
     public static $ARTICLE_REERROR =     '0308';
     public static $ARTICLE_REOK =        '0309';
+    public static $ARTICLE_FORWARDOK =   '0310';
     public static $POST_NOSUB =          '0400';
     public static $POST_NOCON =          '0401';
     public static $POST_ISDIR =          '0402';
@@ -79,6 +81,7 @@ class ECode {
     public static $MAIL_DELETEOK =       '0609';
     public static $MAIL_RENUMERROR =     '0610';
     public static $MAIL_NOPERM =         '0611';
+    public static $MAIL_FORWARDOK =      '0612';
     public static $SEC_NOSECTION =       '0700';
     public static $SEC_NOHOT =           '0701';
     public static $SEC_NOBOARD =         '0702';

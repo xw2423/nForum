@@ -1,12 +1,25 @@
-<html>
-<head>
-<style>
-a{color:#FFF;}
+<style type="text/css">
+.error-wrap{
+    width:100%;
+    background-color:#009;
+    margin-top:3px;
+    text-align:center;
+}
+.error-main{
+    width:640px;
+    color:#FFF;
+    font-weight:bold;
+    font-size:14px;
+    margin:auto;
+    *text-align:left;
+    height:200px;
+    padding:80px 0
+}
+.error-main a{color:#FFF;}
 </style>
-</head>
-<body style="background-color:#009;color:#FFF;font-weight:bold;*text-align:center">
-<div style="width:640px;margin:auto;*text-align:left";>
-	<div style="margin-top:100px;text-align:center;">
+<div class="error-wrap corner">
+<div class="error-main">
+	<div style="text-align:center;">
 		<span style="background-color:#999;padding:2px 15px;color:#009"><{$siteName}></span>
 	</div>
 	<div style="margin-top:30px;">
@@ -14,10 +27,10 @@ a{color:#FFF;}
 <br/ ><br/ >
 *&emsp;<a href="javascript:window.opener=null;window.close();">单击此处</a> 关闭当前窗口。
 <br/ >
-*&emsp;<a href="<{$domain}><{$base}>">单击此处</a> 返回<{$siteName}>，你将会丢失本次请求中所有没有保存的数据。
+*&emsp;<a href="<{$domain}><{$base}><{$home}>">单击此处</a> 返回<{$siteName}>，你将会丢失本次请求中所有没有保存的数据。
 	</div>
 	<div style="text-align:center;margin-top:30px;">
 <a href="javascript:history.go(-1);" style="text-align:center">单击此处</a> 返回&ensp;_
 	</div>
 </div>
-</body>
+</div>

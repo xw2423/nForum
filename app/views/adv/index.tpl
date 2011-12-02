@@ -1,8 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=<{$encoding}>" />
+<meta charset="<{$encoding}>">
+<meta name="keywords" content="<{$keywords}>" />
+<meta name="description" content="<{$description}>" />
+<meta name="author" content="xw2423@BYR" />
 <title><{$webTitle}></title>
+<link rel="shortcut icon" type="image/x-icon" href="<{$static}><{$base}>/favicon.ico">
+<!–[if lt IE9]> 
+<script src="<{$static}><{$base}>/js/html5.js"></script>
+<![endif]–>
 <{include file="css.tpl"}>
 </head>
 <body>
@@ -25,7 +32,7 @@
 	</div>
 	</div>
 	<div id="adv_main">
-	<table id="adv" class="ui-corner-all" cellpadding="0" cellspacing="0">
+	<table class="ui-corner-all" cellpadding="0" cellspacing="0">
 		<tr>
 			<th class="ui-state-default c_1">序号</th>
 			<th class="ui-state-default c_2">文件名</th>
@@ -63,7 +70,7 @@
 <{/if}>
 			<td class="c_8"><{$item.remark|default:"&nbsp;"}></td>
 			<td class="c_7">
-				<input type="button" class="button b_pre" value="预览" onclick="$('#preview').dialog('open').find('img').attr('src', '<{$base}>/<{$aPath}>/<{$item.file}>');"/>
+				<input type="button" class="button b_pre" value="预览" />
 				<input type="button" class="button b_mod" _type="<{$type}>"value="修改" />
 				<input type="button" class="button b_del" value="删除" />
 			</td>
@@ -83,34 +90,44 @@
 	</table> 
 	</div>
 </div>
-<form id="modifyform" style="display:none" action="<{$base}>/adv/<{$advType}>/set" method="post" class="dialog-form">
-	<ul>
-	<li><span>链接:</span><input type="text" name="url" class="input-text"/></li>
-<{if ($type)}>
-	<li><span>开始时间:</span><input type="text" name="sTime" class="input-text"/></li>
-	<li><span>结束时间:</span><input type="text" name="eTime" class="input-text"/></li>
-	<li><span>特权:</span><input type="checkbox" name="privilege" /></li>
-<{else}>
-	<li><span>开启:</span><input type="checkbox" name="switch" /></li>
-	<li><span>顺序:</span><input type="text" name="weight" class="input-text"/></li>
-<{/if}>
-<{if ($thome)}>
-	<li><span>首页:</span><input type="checkbox" name="home" /></li>
-<{/if}>
-	<li><span>备注:</span><input type="text" name="remark" class="input-text"/></li>
-	<li><input type="submit" class="submit" value="提交修改"/></li>
-	</ul>
-	<input type="hidden" name="aid" />
-	<input type="hidden" name="p" value="<{$page}>"/>
-</form>
-<div id="preview" style="display:none;text-align:center">
-	<img />
-</div>
-<form id="delform" style="display:none" action="<{$base}>/adv/<{$advType}>/del" method="post">
+<form id="adv_form_del" style="display:none" action="<{$base}>/adv/<{$advType}>/del" method="post">
 	<input type="hidden" name="aid"/>
 	<input type="hidden" name="p" value="<{$page}>"/>
 </form>
-<form id="addform" style="display:none" action="<{$base}>/adv/<{$advType}>/add" method="post" class="dialog-form" ENCTYPE="multipart/form-data">
+</body>
+<script id="tmpl_adv" type="text/template">
+<form id="adv_form" action="<{$base}>/adv/<{$advType}>/<%=ac%>" method="post" class="dialog-form" ENCTYPE="multipart/form-data">
+	<ul>
+<%if(ac=='add'){%>
+	<li><span>图片:</span><input type="file" name="img"/></li>
+<%}%>
+	<li><span>链接:</span><input type="text" value="<%=url%>" name="url" class="input-text"/></li>
+<{if ($type)}>
+	<li><span>开始时间:</span><input type="text" value="<%=stime%>" name="sTime" class="input-text"/></li>
+	<li><span>结束时间:</span><input type="text" value="<%=etime%>" name="eTime" class="input-text"/></li>
+	<li><span>特权:</span><input type="checkbox" name="privilege"<%if(priv){%> checked="checked"<%}%> /></li>
+<{else}>
+	<li><span>开启:</span><input type="checkbox" name="switch"<%if(sw){%> checked="checked"<%}%>/></li>
+	<li><span>顺序:</span><input type="text" value="<%=weight%>" name="weight" class="input-text"/></li>
+<{/if}>
+<{if ($thome)}>
+	<li><span>首页:</span><input type="checkbox" name="home"<%if(home){%> checked="checked"<%}%> /></li>
+<{/if}>
+	<li><span>备注:</span><input type="text" value="<%=remark%>" name="remark" class="input-text"/></li>
+	</ul>
+<%if(aid){%>
+	<input type="hidden" name="aid" value="<%=aid%>" />
+<%}%>
+	<input type="hidden" name="p" value="<{$page}>"/>
+</form>
+</script>
+<script id="tmpl_adv_preview" type="text/template">
+<div id="fav_preview" style="text-align:center">
+	<img src="<%=img%>" />
+</div>
+</script>
+<script id="tmpl_adv_edit" type="text/template">
+<form id="addform" action="<{$base}>/adv/<{$advType}>/add" method="post" class="dialog-form" ENCTYPE="multipart/form-data">
 	<ul>
 	<li><span>图片:</span><input type="file" name="img"/></li>
 	<li><span>链接:</span><input type="text" name="url" class="input-text"/></li>
@@ -130,6 +147,6 @@
 	</ul>
 	<input type="hidden" name="p" value="<{$page}>"/>
 </form>
-</body>
+</script>
 <{include file="script.tpl"}>
-<html>
+</html>

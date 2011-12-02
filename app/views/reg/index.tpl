@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
 	<div id="columns" class="corner">
     	<div class="mbar">
         	<ul>
@@ -7,7 +6,7 @@
         </div>
         <div class="b-content corner">
         	<div id="c_content" class="corner">
-                <form action="" method="post" id="f_reg">
+                <form action="<{$base}>/reg/ajax_reg.json" method="post" id="f_reg">
                 <table id="r_table" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                     	<td class="r_cell_1"><span>用户ID</span>2-12字符，可用英文字母或数字，首字符必须是字母</td>
@@ -63,4 +62,3 @@
 			</div>
 		</div>  
     </div>  
-<{include file="footer.tpl"}>

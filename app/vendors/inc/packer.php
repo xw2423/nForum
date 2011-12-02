@@ -1,6 +1,12 @@
 <?php
 class Packer{
     
+    public static $None = 0;
+    public static $Numeric = 10;
+    public static $Normal = 62;
+    public static $HighASCII = 95;
+
+    private $_js_encode = 0;
     /**
      * function pack compress & cache files
      *
@@ -23,13 +29,18 @@ class Packer{
         $cachePath = CACHE ."asset" . DS;
         $cache = $cachePath . substr(md5($file), 0, 10) . basename($file);
         if(file_exists($cache)){
-            if($check && filemtime($file) > filemtime($cache)){
+            if(!$check || filemtime($file) > filemtime($cache)){
                 file_put_contents($cache, $this->_compress($file, $type));
             }
         }else{
             file_put_contents($cache, $this->_compress($file, $type));
         }
         return file_get_contents($cache);
+    }
+
+    public function setEncode($v){
+        if(in_array($v, array(0, 10, 62, 95)))
+            $this->_js_encode = $v;
     }
 
     private function _compress($file, $type){
@@ -43,7 +54,8 @@ class Packer{
 
     private function _js_compress($content){
         App::import('vendor', 'inc/jspacker');
-        $js = new JavaScriptPacker($content, 'None', true, false);
+        $js = new JavaScriptPacker($content, $this->_js_encode, true, false);
+        $this->setEncode(0);
         return $js->pack();
     }
 

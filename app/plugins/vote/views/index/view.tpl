@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li><a href="<{$base}>/vote?c=new">最新投票</a></li>
@@ -16,9 +15,10 @@
         </div>
 		<div class="b-content vote-main">
 			<div class="vote-title">查看投票</div>
+            <div class="vote-body">
 			<div id="vote_view" class="vote-left corner">
 				<div class="view-wrap">
-				<form action="" method="post">
+				<form action="<{$base}>/vote/ajax_vote/<{$info.vid}>.json" method="post" id="f_view">
 				<h1><{$info.title}><span>(<{$info.limitMsg}>)</span></h1>
 				<h2>发起时间:<{$info.start}>&nbsp;&nbsp;&nbsp;截止日期:<{$info.end}><{if $info.isEnd}><font color="red">(已截止)</font><{/if}><{if $info.isDel}><font color="red">(已删除)</font><{/if}>&nbsp;&nbsp;&nbsp;参与人数:<{$info.num}></h2>
 <{if $info.desc!=""}>
@@ -66,7 +66,7 @@
 						<li><a href="<{$base}>/article/<{$board}>/post?reid=<{$info.aid}>">我要评论</a></li>
 <{/if}>
 <{if $admin}>
-						<li><a href="<{$base}>/vote/delete/<{$info.vid}>" onclick="return confirm('确认删除此投票?')">删除此投票</a></li>
+						<li><a href="<{$base}>/vote/ajax_delete/<{$info.vid}>.json" class="vote-delete">删除此投票</a></li>
 <{/if}>
 						</ul>
 					</div>
@@ -103,5 +103,5 @@
 					</div>
 				</li>
 			</div>
+			</div>
 		</div>
-<{include file="footer.tpl"}>

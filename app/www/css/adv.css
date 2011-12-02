@@ -30,18 +30,18 @@
     margin-top:20px;
     min-width:1024px;
 }
-#adv{ 
+#adv_main table{ 
     border:1px solid #aaa;
     width:85%;
     margin:auto;    
 }
-#adv th, #adv td{
+#adv_main th, #adv_main td{
     border-bottom:1px solid #aaa;
     border-right:1px solid #aaa;
     text-align:center;
 }
-#adv th{ height:25px; }
-#adv td{ height:28px; }
+#adv_main th{ height:25px; }
+#adv_main td{ height:28px; }
 .button{margin-left:5px;}
 .c_1{width:30px}
 .c_2{width:150px}

@@ -1,7 +1,7 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="版面列表"}>
         <div class="b-content corner">
-			<table class="board-title corner" cellpadding="0" cellspacing="0">
+            <table class="board-list corner" cellpadding="0" cellspacing="0">
+                <thead>
                 <tr>
                     <th class="title_1">版面名称</th>
                     <th class="title_2">版主</th>
@@ -11,8 +11,8 @@
                     <th class="title_6 middle">主题</th>
                     <th class="title_7 middle">文章</th>
             	</tr>
-            </table>
-            <table class="board-list corner" cellpadding="0" cellspacing="0">
+                </thead>
+                <tbody>
 <{if ($sec)}>
 <{foreach from=$sec item=item}>
                 <tr>
@@ -46,6 +46,6 @@
 <{else}>
 				<tr><td colspan="7" style="text-align:center"><{$noBrd}></td></tr>
 <{/if}>
+                </tbody>
             </table>
     	</div>
-<{include file="footer.tpl"}>

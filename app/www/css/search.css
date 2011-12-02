@@ -19,8 +19,18 @@
 }
 .search select{height:22px; margin-top:2px; margin:0 5px;}
 .search .input-day{ width:60px;}
-.search .input-check{height:20px;margin-right:3px}
-
+.search .input-check{height:20px;margin-right:3px;vertical-align:top}
+.search .search-option{
+    margin-top:14px;
+}
+.search .search-option input{
+    vertical-align:middle;
+}
+.search .search-option span{
+    display:inline-block;
+    padding-top:0;
+    margin-right:6px;
+}
 .search .b-search{
     padding:15px 0 5px 80px;
 }

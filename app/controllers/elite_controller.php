@@ -15,6 +15,7 @@ class EliteController extends AppController {
 
     public function path(){
         $this->js[] = "forum.board.js";
+        $this->js[] = "forum.elite.js";
         $this->css[] = "board.css";
 
         $path = $boardName = $path_tmp = "";
@@ -93,11 +94,8 @@ class EliteController extends AppController {
     }
 
     public function file(){
-        $this->css[] = "article.css";
-        $this->css[] = "ansi.css";
-
         $path = Configure::read("elite.root") . "/";
-        $boardName = $path_tmp = "";
+        $boardName = "";
         $articles = array();
         if(isset($this->params['url']['v'])){
             $path .= preg_replace("/^\//","", trim($this->params['url']['v']));
@@ -111,12 +109,6 @@ class EliteController extends AppController {
         }
         $up_dirs = array();
         $up_cnt = $this->_getUpdir($path,$boardName,$up_dirs);
-        if ($up_cnt >= 2){
-            $parent = $up_dirs[$up_cnt - 2];
-            $this->set("parent", urlencode($parent));
-        } elseif ($up_cnt == 1) {
-            $this->set("parent","");
-        }
         if ($boardName){
             try{
                 $brd = Board::getInstance($boardName);
@@ -139,14 +131,20 @@ class EliteController extends AppController {
             $e->getAttach($pos); 
             $this->_stop();
         }
+        //make a json output
+        $this->html = false;
+        $this->params['url']['ext'] = 'json';
+
         $content = $e->getHtml(true);
+        $subject = '';
+        if(preg_match("|标&nbsp;&nbsp;题: ([\s\S]*?)<br|", $content, $subject))
+            $subject = trim($subject[1]);
         if(Configure::read("ubb.parse")){
             App::import("vendor", "inc/ubb");
             $content = preg_replace("'^(.*?<br \/>.*?<br \/>)'e", "XUBB::remove('\\1')", $content);
             $content = XUBB::parse($content);
         }
-        $this->set("content", $content);
-        $this->notice[] = array("url" => "", "text" => "精华区阅读");
+        $this->set("no_html_data", array('subject'=>$subject, 'content'=>$content));
     }
 
     //copy from wForum

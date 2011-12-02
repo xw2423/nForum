@@ -3,43 +3,62 @@
  * FileName: app/vendors/inc/view.php
  * Author: xw <wei.xiao.bupt@gmail.com>
  *****************************************************/
-require("Smarty.class.php");
 
-/**
- * class SmartyView
- * use Smarty instead of cakephp view 
- *
- * @require Smarty       
- * @author xw
- */
-class SmartyView extends Smarty {
+class AppView {
 
-    public $controller = null;
-    public $hasRendered = false;
-    public $plugin = null;
-    public $action = null;
-    public $viewPath = null;
-    public $viewVars = null;
-    public $encoding = null;
-    private $_passedVars = array('plugin', 'action', 'viewPath', 'viewVars', 'encoding');
+    private static $_views = array();
 
-    public function __construct(&$controller, $config = null){
-        parent::__construct();
+    protected $_format = 'text/html';
+
+    protected $_out = '';
+
+    protected $_passedVars = array();
+
+    protected $_controller = null;
+
+    public static function getInstance($format = 'html', &$controller = null){
+        $format = strtolower($format);
+
+        if(isset(self::$_views[$format]))
+            return self::$_views[$format];
+
+        if(!App::import('vendor', "inc/view/{$format}")){
+            App::import('vendor', "inc/view/html");
+            $format = 'html';
+        }
+        $class = ucfirst($format) . 'View';
+
+        if(!class_exists($class))
+            throw new AppViewException($class . ' cant not be found');
+        if(!is_subclass_of($class, __CLASS__))
+            throw new AppViewException($class . ' is not a AppView');
+
+        $ins = new $class($controller);
+        return (self::$_views[$format] = $ins);
+
+    }
+    
+    public function __construct(&$controller){
+        $this->_passedVars = array_merge($this->_passedVars, array('viewVars', 'encoding'));
         if (is_object($controller)) {
             $count = count($this->_passedVars);
             for ($j = 0; $j < $count; $j++) {
                 $var = $this->_passedVars[$j];
                 $this->{$var} = $controller->{$var};
             }
+            $this->_controller = $controller;
         }
-        $this->_initSmarty($config);
-        $this->_initFilter();
     }
 
     /**
      * function render
-     * render a tpl via $action and $path, return html
-     * $path is base on VIEWS
+     * call subclass _render
+     * check rendered & do encoding convert
+     * if using smarty:
+     *   render a tpl via $action and $path, return html
+     *   $path is base on VIEWS
+     * else:
+     *   the params is no use 
      *
      * @param string $action
      * @param string $path
@@ -47,60 +66,17 @@ class SmartyView extends Smarty {
      * @access public
      */
     public function render($action = null, $path = null){
-        if($this->hasRendered)
-            return "";
-        $this->_assignVars();
-
-        if(is_null($action))
-            $action = $this->action;
-        if(is_null($path))
-            $path = $this->viewPath . DS;
-        $viewFileName = $path . $action . ".tpl";
-        if($this->plugin && file_exists(APP . "plugins" . DS . $this->plugin . DS . "views" . DS . $viewFileName)){
-            $viewFileName = APP . 'plugins' . DS . $this->plugin . DS . "views" . DS . $viewFileName;
-        }
-        $this->hasRendered = true;
-        $out = $this->fetch($viewFileName);    
+        $this->_out = $this->_render($action, $path);
         if($this->encoding != Configure::read("App.encoding")){
-            $out = @iconv(Configure::read("App.encoding"),"{$this->encoding}//IGNORE", $out);
+            $this->_out = @iconv(Configure::read("App.encoding"),"{$this->encoding}//IGNORE", $this->_out);
         }
-        return $out;
+        return $this->_out;
     }
 
-    private function _initSmarty($config){
-        $this->caching = false;
-        $this->template_dir = VIEWS;
-        $this->compile_dir  = TMP . 'compile';
-        $this->cache_dir    = CACHE;
-        $this->left_delimiter = '<{';
-        $this->right_delimiter = '}>';
-        if(!is_null($config)){
-            $this->compile_check = $config['compile_check'];
-            $this->force_compile = $config['force_compile'];
-        }
-
-    }
-
-    private function _initFilter(){
-        if(true === Configure::read("pack.on")){
-            if(method_exists(__CLASS__, "register_prefilter"))
-                $this->register_prefilter("smarty_htmlCompress");
-            else
-                $this->registerFilter("pre", "smarty_htmlCompress");
-        }
-    }
-
-    private function _assignVars(){
-        $this->assign($this->viewVars);
+    protected function _render(){
+        return '';
     }
 }
-function smarty_htmlCompress($out, &$smarty){
-    $pattern = array(
-        "/<!--.*?-->/",
-        "/(\s*[\n\r]+\s*)+/"
-    );
-    $replace = array("", "");
-    $out = preg_replace($pattern, $replace, $out);
-    return $out;
-}
+
+class AppViewException extends Exception{}
 ?>

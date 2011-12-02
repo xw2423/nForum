@@ -1,29 +1,63 @@
 $(function(){
-    var ubb = false;
-    $('#ta_content').click(function(){
+    var ubb = false, isPost = false, sub = null
+        ,tmpl_preview = _.template($('#tmpl_preview').html() || '');
+    $('#body').on('click', '#post_content', function(){
         if(ubb) return true;
         $(this).ubb({
-            ubb_img_path:config.base + "/img/ubb/",
+            ubb_img_path:SYS.base + "/img/ubb/",
             ubb_em:$('#em_img')
         });
         ubb = true;
         $(this).focus();
-    }).keydown(function(event){
+    }).on('keydown', '#post_content', function(event){
         if(event.ctrlKey && event.keyCode == 13){
-            $('#f_article').submit();
+            $('#post_form').submit();
             return false;
         }
-    });
-    $('#f_article').submit(function(){
-        if($('#subject').val() == ""){
-            alert('请输入文章标题');
+    }).on('click', '#post_preview', function(){
+        if($('#post_subject').val() == ""){
+            $('#post_subject').alertDialog(SYS.code.MSG_SUBJECT);
             return false;
         }
-        return true;
+        $.post($('#f_preview').attr('action'), $('#post_content,#post_subject').getPostData(), function(repo){
+            if(repo.ajax_st == 0)
+                DIALOG.ajaxDialog(repo);
+            else{
+                DIALOG.formDialog(tmpl_preview(repo), {title:SYS.code.COM_PREVIEW, width:600
+                 ,buttons:[
+                    {text:SYS.code.COM_SUBMIT,click:function(){
+                        $.post($('#post_form').attr('action'), $('#post_form').getPostData(), function(repo){
+                            isPost = (repo.ajax_st == 1);
+                            DIALOG.ajaxDialog(repo);
+                        });
+                        $(this).dialog('close');
+                    }},
+                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                 ]
+            });
+            }
+        });
     });
-    $('#b_preview').click(function(){
-        $('#pre_t').val($('#subject').val());
-        $('#pre_c').val($('#ta_content').val());
-        $('#f_preview').submit();
+    $('#post_form').submit(function(){
+        if($('#post_id').length > 0 && $('#post_id').val() == ""){
+            $('#post_id').alertDialog(SYS.code.MSG_USER);
+            return false;
+        }
+        if($('#post_subject').val() == ""){
+            $('#post_subject').alertDialog(SYS.code.MSG_SUBJECT);
+            return false;
+        }
+        if($('#post_subject').val() == sub && isPost){
+            DIALOG.alertDialog(SYS.code.MSG_REPEAT);
+            return false;
+        }
+        var btn = $(this).find('input[type="submit"]').loading(true);
+        $.post($(this).attr('action'), $(this).getPostData(), function(repo){
+            btn.loading(false);
+            sub = $('#post_subject').val();
+            isPost = (repo.ajax_st == 1);
+            DIALOG.ajaxDialog(repo);
+        });
+        return false;
     });
 });

@@ -34,7 +34,6 @@ class BoardController extends ApiAppController {
 
     public function index(){
 
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
 
         $data = array();

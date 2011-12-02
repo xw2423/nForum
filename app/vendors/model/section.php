@@ -181,6 +181,18 @@ class Section extends collection implements iWidget{
         return $this->_desc;
     }
 
+    /**
+     * function getPos get num for favorate delete
+     * root section return 0
+     * board section return its NPOS
+     *
+     * @return int
+     * @access public
+     */
+    public function getNPos(){
+        return ($this->isRoot()?0:$this->_board->NPOS);
+    }
+
     protected function __construct($info, $mixed, $desc, $root){
         parent::__construct($info);
         $this->_num = $root?$mixed:$mixed->SECNUM;

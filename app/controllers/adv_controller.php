@@ -10,7 +10,8 @@ class AdvController extends AppController {
     private $_type;
     public function beforeFilter(){
         parent::beforeFilter();
-        $this->requestLogin();
+        if(!$this->ByrSession->isLogin)
+            $this->_stop();
         $u = User::getInstance();
         if(!in_array($u->userid, Configure::read("adv.id")))
             $this->_stop();
@@ -20,12 +21,11 @@ class AdvController extends AppController {
             $this->_type = 1;
         else
             $this->_type = intval($this->params['type']);
+        $this->front = true;
     }
 
     public function index(){
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js[] = "forum.adv.js";
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "adv.css";
 
         $p = 1;

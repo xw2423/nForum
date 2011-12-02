@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li><a href="<{$base}>/user/info">基本资料修改</a></li>
@@ -13,22 +12,22 @@
 			<ul>
             	<li><a href="<{$base}>/mail/inbox" <{if $type=="inbox"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>收件箱</a></li>
                 <li><a href="<{$base}>/mail/outbox" <{if $type=="outbox"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>发件箱</a></li>
-                <li><a href="<{$base}>/mail/deleted" <{if $type=="deleted"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>废旧箱</a></li>
+                <li><a href="<{$base}>/mail/deleted" <{if $type=="deleted"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>垃圾箱</a></li>
                 <li><a href="<{$base}>/friend"><samp class="ico-pos-dot"></samp>地址薄</a></li>
                 <li><a href="<{$base}>/mail/send"><samp class="ico-pos-dot"></samp>撰写邮件</a></li>
             </ul>
 		</div>	
         <div class="b-content">
-			<form id="mail_clear" action="<{$base}>/mail/delete/<{$type}>" method="post">
+			<form id="mail_clear" action="<{$base}>/mail/<{$type}>/ajax_delete.json" method="post">
 			<input type="hidden" name="all" value="all" />
 			</form>
-			<form id="mail_form" action="<{$base}>/mail/delete/<{$type}>" method="post">
+			<form id="mail_form" action="<{$base}>/mail/<{$type}>/ajax_delete.json" method="post">
             <div class="mail-list">
                 <div class="t-pre">
                     <div class="t-btn">
-						<input type="checkbox" class="b-select" />选择所有
-						<input type="button" class="button b-del" value="删除" />
-						<input type="button" class="button b-clear" value="全部删除" />
+						<input type="checkbox" class="mail-select" />
+						<input type="button" class="button mail-del" value="删除" />
+						<input type="button" class="button mail-clear" value="全部删除" />
                     </div>
                     <div class="page">
                         <ul class="pagination" title="分页列表">
@@ -45,10 +44,10 @@
                 <table class="m-table">
 <{if isset($info)}>
 <{foreach from=$info item=item}>
-                	<tr <{if !($item.read)}>class="no_read"<{/if}>>
-                    	<td class="title_1"><input type="checkbox" name="m_<{$item.num}>" class="b-mail"/></td>
+                	<tr <{if !($item.read)}>class="no-read"<{/if}>>
+                    	<td class="title_1"><input type="checkbox" name="m_<{$item.num}>" class="mail-item"/></td>
 						<td class="title_2"><a href="<{$base}>/user/query/<{$item.sender}>"><{$item.sender}></a></td>
-                        <td class="title_3"><a href="<{$base}>/mail/<{$type}>/<{$item.num}>"><{$item.title}></a></td>
+                        <td class="title_3"><a href="<{$base}>/mail/<{$type}>/<{$item.num}>.json" class="mail-detail"><{$item.title}></a></td>
                         <td class="title_4"><{$item.time}></td>
                     </tr>
 <{/foreach}>
@@ -58,25 +57,62 @@
 					</tr>
 <{/if}>
                 </table>
-            <div class="t-pre-bottom">
-            	<div class="t-btn">
-					<input type="checkbox" class="b-select" />选择所有
-					<input type="button" class="button b-del" value="删除" />
-					<input type="button" class="button b-clear" value="全部删除" />
-				</div>
-				<div class="page">
-					<ul class="pagination" title="分页列表">
-					  <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
-					  <li>
-						  <ol title="分页列表" class="page-main">
-							<{$pageBar}>
-						  </ol>
-					  </li>
-					  <li class="page-suf"></li>	
-					</ul>
-				</div>
-             </div>
+                <div class="t-pre-bottom">
+                    <div class="t-btn">
+                        <input type="checkbox" class="mail-select" />
+                        <input type="button" class="button mail-del" value="删除" />
+                        <input type="button" class="button mail-clear" value="全部删除" />
+                    </div>
+                    <div class="page">
+                        <ul class="pagination" title="分页列表">
+                          <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
+                          <li>
+                              <ol title="分页列表" class="page-main">
+                                <{$pageBar}>
+                              </ol>
+                          </li>
+                          <li class="page-suf"></li>	
+                        </ul>
+                    </div>
+                 </div>
             </div>
 			</form>
     	</div>
-<{include file="footer.tpl"}>
+<script id="tmpl_mail_detail" type="text/template">
+<div class="mail-list">
+    <div class="m-op">
+        <ul class="m-func"> 
+            <li><samp class="ico-pos-reply"></samp><a href="mail/<%=type%>/reply/<%=num%>" class="mail-reply">回复</a></li> 
+            <li><samp class="ico-pos-forward"></samp><a href="mail/<%=type%>/ajax_forward/<%=num%>.json" class="mail-forward">转寄</a></li> 
+            <li><samp class="ico-pos-del"></samp><a href="mail/<%=type%>/ajax_delete/<%=num%>.json" class="mail-delete">删除</a></li> 
+            <li><samp class="ico-pos-edit"></samp><a href="mail/send" class="mail-new">撰写</a></li> 
+        </ul>
+    </div>
+    <div class="mail">
+        <p class="mail-content">
+        <%=content%>
+        </p> 
+    </div>
+    <div class="m-op">
+        <ul class="m-func"> 
+            <li><samp class="ico-pos-reply"></samp><a href="mail/<%=type%>/reply/<%=num%>" class="mail-reply">回复</a></li> 
+            <li><samp class="ico-pos-forward"></samp><a href="mail/<%=type%>/ajax_forward/<%=num%>.json" class="mail-forward">转寄</a></li> 
+            <li><samp class="ico-pos-del"></samp><a href="mail/<%=type%>/ajax_delete/<%=num%>.json" class="mail-delete">删除</a></li> 
+            <li><samp class="ico-pos-edit" class="mail-new"></samp><a href="mail/send">撰写</a></li> 
+        </ul>
+    </div>
+</div>
+</script>
+<script id="tmpl_forward" type="text/template">
+<form id="a_forward" action="<%=action%>" method="post">
+	<ul>
+	<li><span>收件人:</span><input type="text" class="input-text" name="id"/>
+        <select id="a_forward_list">
+            <option value="">选择好友</option>
+        <%_.each(friends,function(f){%>
+            <option value="<%=f%>"><%=f%></option>
+        <%});%>
+        </select>
+    </li>
+</form>
+</script>

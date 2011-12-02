@@ -142,6 +142,7 @@ class ArticleController extends MobileAppController {
         if(!$this->_board->hasPostPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPOST);
         }
+        $article = false;
         if(isset($this->params['gid'])){
             $reID = (int) $this->params['gid'];
             if($this->_board->isNoReply())
@@ -181,7 +182,10 @@ class ArticleController extends MobileAppController {
             if(isset($this->params['form']['outgo']) && $this->_board->isOutgo())
                 $outgo = 1;
             try{
-                Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
+                if(false === $article)
+                    Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
+                else
+                    $article->reply($subject, $content, $sig, $email, $anony, $outgo);
             }catch(ArticlePostException $e){
                 $this->error($e->getMessage());
             }
@@ -209,6 +213,51 @@ class ArticleController extends MobileAppController {
         $this->set("title", (string)$reTitle);
         $this->set("content", (string)$reContent);
         $this->set("reid", $reID);
+    }
+
+    public function forward(){
+        if(!isset($this->params['gid']))
+            $this->error(ECode::$ARTICLE_NONE);
+        $single = (isset($this->params['url']['s']) || isset($this->params['form']['s']));
+        if($this->RequestHandler->isPost()){
+            if(!isset($this->params['form']['target']))
+                $this->error(ECode::$USER_NONE);
+            $gid = intval($this->params['gid']);
+            $target = trim($this->params['form']['target']);
+            $threads = isset($this->params['form']['threads']);
+            $noref = isset($this->params['form']['noref']);
+            $noatt = isset($this->params['form']['noatt']);
+            $noansi = isset($this->params['form']['noansi']);
+            $big5 = isset($this->params['form']['big5']);
+            try{
+                $gid = $this->params['gid'];
+                $article = Article::getInstance($gid, $this->_board);
+                if($threads){
+                    $t = Threads::getInstance($article->GROUPID, $this->_board);
+                    $t->forward($target, $t->ID, $noref, $noatt, $noansi, $big5);
+                }else{
+                    $article->forward($target, $noatt, $noansi, $big5);
+                }
+            }catch(ArticleNullException $e){
+                $this->error(ECode::$ARTICLE_NONE);
+            }catch(ArticleForwardException $e){
+                $this->error($e->getMessage());
+            }
+            $this->redirect($this->_mbase . "/board/" . $this->_board->NAME . ($single?"/0":"") . "?m=" . ECode::$ARTICLE_FORWARDOK);
+        }
+
+        $this->notice = "{$this->_board->DESC}-×ª¼Ä";
+        App::import("vendor", array("model/friend"));
+        $f = new Friend(User::getInstance());
+        $friends = $f->getRecord(1, $f->getTotalNum());
+        $ret = array();
+        foreach($friends as $v){
+            $ret[] = $v->userid;
+        }
+        $this->set('friends', $ret);
+        $this->set('bName', $this->_board->NAME);
+        $this->set('gid',$this->params['gid']);
+        $this->set("single", $single);
     }
 
     public function edit(){

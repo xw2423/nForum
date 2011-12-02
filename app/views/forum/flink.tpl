@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
 	<{include file="s_nav.tpl" nav_left="ÓÑÇéÁ´½Ó"}>
         <div class="b-content">
 			<div id="f_link" class="corner">
@@ -19,5 +18,3 @@
 				</div>
 			</div>
     	</div>
-<{include file="footer.tpl"}>
-

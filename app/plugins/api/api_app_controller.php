@@ -1,13 +1,15 @@
 <?php
-
 class ApiAppController extends AppController {
 
-    public $components = array('RequestHandler', 'api.ApiSession');
+    public $components = array('api.ApiSession');
     protected $_abase = "";
     protected $_exts = array('xml' => 'application/xml', 'json'=> 'application/json');
 
     public function __construct(){
         parent::__construct();
+        //delete RedirectAcl&ByrSession components
+        array_pop($this->components);
+        array_pop($this->components);
         $this->encoding = "utf-8";
         if(true === Configure::read('plugins.api.use_domain')){
             Configure::write('plugins.api.base', '');
@@ -20,24 +22,22 @@ class ApiAppController extends AppController {
         $this->path = str_replace($this->base, '', $this->here);
         $this->base = Configure::read('site.prefix');
         $this->_abase = Configure::read('plugins.api.base');
-        if(in_array($this->params['url']['ext'], array_keys($this->_exts))){
-            $this->header('Content-Type:' . $this->_exts[$this->params['url']['ext']]. ';charset=' . $this->encoding);
-        }else if(!($this->params['controller'] === 'attachment' && $this->params['action'] === 'download'))
+        if(!in_array($this->params['url']['ext'], array_keys($this->_exts))
+            && !($this->params['controller'] === 'attachment' && $this->params['action'] === 'download'))
             $this->error404('Unknow Return Format');
         $this->_initPlugin();
         $this->ApiSession->setFromHost();
         $this->ApiSession->initLogin();
         $this->cache(false);
+        App::import('vendor', 'inc/wrapper');
     }
+
+    //no app_controller afterFilter
+    public function afterFilter(){}
 
     public function beforeRender(){
-    }
-
-    public function render($action = null, $path = null) {
-        $ext = $this->params['url']['ext'];
-        App::import("vendor", "api.api_view");
-        $this->view = new ApiView($this);
-        return parent::render($ext ,$path);
+        $this->html = false;
+        $this->set('no_html_data', $this->get('data'));
     }
 
     public function error($code = null){
@@ -67,5 +67,4 @@ class ApiAppController extends AppController {
         }
     }
 }
-
 ?>

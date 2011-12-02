@@ -36,7 +36,6 @@ class ArticleController extends ApiAppController {
         $id = $this->params['id'];
 
         App::import('vendor', "model/article");
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         try{
             $article = Article::getInstance($id, $this->_board);
@@ -66,7 +65,6 @@ class ArticleController extends ApiAppController {
         $page = intval($page);
         $pagination = new Pagination($threads, $count);
         $articles = $pagination->getPage($page);
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         $info = array();
         foreach($articles as $v){
@@ -88,21 +86,6 @@ class ArticleController extends ApiAppController {
 
         if(!$this->_board->hasPostPerm(User::getInstance()))
             $this->error(ECode::$BOARD_NOPOST);
-
-        App::import('vendor', "model/article");
-        $reID = 0;
-        if(isset($this->params['form']['reid'])){
-            if($this->_board->isNoReply())
-                $this->error(ECode::$BOARD_NOREPLY);
-            $reID = intval($this->params['form']['reid']);
-            try{
-                $reArticle = Article::getInstance($reID, $this->_board);
-            }catch(ArticleNullException $e){
-                $this->error(ECode::$ARTICLE_NOREID);
-            }
-            if($reArticle->isNoRe())
-                $this->error(ECode::$ARTICLE_NOREPLY);
-        }
 
         if(!isset($this->params['form']['title']))
             $this->error(ECode::$POST_NOSUB);
@@ -129,14 +112,61 @@ class ArticleController extends ApiAppController {
             $anony = 1;
         if(isset($this->params['form']['outgo']) && $this->params['form']['outgo'] == '1' && $this->_board->isOutgo())
             $outgo = 1;
+
+        App::import('vendor', "model/article");
         try{
-            $id = Article::post($this->_board, $title, $content, $sig, $reID, $email, $anony, $outgo);
+            if(isset($this->params['form']['reid'])){
+                if($this->_board->isNoReply())
+                    $this->error(ECode::$BOARD_NOREPLY);
+                $reID = intval($this->params['form']['reid']);
+                try{
+                    $reArticle = Article::getInstance($reID, $this->_board);
+                }catch(ArticleNullException $e){
+                    $this->error(ECode::$ARTICLE_NOREID);
+                }
+                if($reArticle->isNoRe())
+                    $this->error(ECode::$ARTICLE_NOREPLY);
+                $id = $reArticle->reply($title, $content, $sig, $email, $anony, $outgo);
+            }else{
+                $id = Article::post($this->_board, $title, $content, $sig, $email, $anony, $outgo);
+            }
             $new = Article::getInstance($id, $this->_board);
-            App::import('vendor', 'api.wrapper');
             $wrapper = Wrapper::getInstance();
             $this->set('data', $wrapper->article($new, array('content' => true)));
-
         }catch(ArticlePostException $e){
+            $this->error($e->getMessage());
+        }
+    }
+
+    public function forward(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['target']))
+            $this->error(ECode::$USER_NONE);
+        $id = intval($this->params['id']);
+        $target = trim($this->params['form']['target']);
+        $threads = (isset($this->params['form']['threads']) && $this->params['form']['threads'] == 1);
+        $noref = (isset($this->params['form']['noref']) && $this->params['form']['noref'] == 1);
+        $noatt = (isset($this->params['form']['noatt']) && $this->params['form']['noatt'] == 1);
+        $noansi = (isset($this->params['form']['noansi']) && $this->params['form']['noansi'] == 1);
+        $big5 = (isset($this->params['form']['big5']) && isset($this->params['form']['big5']) ==1);
+        try{
+            App::import('vendor', array('model/article', 'model/threads'));
+            $article = Article::getInstance($id, $this->_board);
+            if($threads){
+                $t = Threads::getInstance($article->GROUPID, $this->_board);
+                $t->forward($target, $t->ID, $noref, $noatt, $noansi, $big5);
+            }else{
+                $article->forward($target, $noatt, $noansi, $big5);
+            }
+            $wrapper = Wrapper::getInstance();
+            $this->set('data', $wrapper->article($article, array('content' => true)));
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }catch(ArticleForwardException $e){
             $this->error($e->getMessage());
         }
     }
@@ -181,7 +211,6 @@ class ArticleController extends ApiAppController {
             $title = nforum_fix_gbk(substr($title,0,60));
         if(!$article->update($title, $content))
             $this->error(ECode::$ARTICLE_EDITERROR);
-        App::import('vendor', 'api.wrapper');
         $new = Article::getInstance($id, $this->_board);
         $wrapper = Wrapper::getInstance();
         $this->set('data', $wrapper->article($new, array('content' => true)));
@@ -204,7 +233,6 @@ class ArticleController extends ApiAppController {
         $u = User::getInstance();
         if(!$article->hasEditPerm($u))
             $this->error(ECode::$ARTICLE_NODEL);
-        App::import('vendor', 'api.wrapper');
         $wrapper = Wrapper::getInstance();
         $this->set('data', $wrapper->article($article, array('content' => true)));
         if(!$article->delete())

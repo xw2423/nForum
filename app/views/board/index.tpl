@@ -1,5 +1,3 @@
-<{include file="header.tpl"}>
-	<div id="body" class="corner">
     <div class="t-pre">
         <div class="page">
             <ul class="pagination">
@@ -14,14 +12,14 @@
         </div>
 		<div class="t-btn">
 <{if !$tmpl}>
-			<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">新话题</a>
+			<a href="<{$base}>/article/<{$bName}>/post" class="b-post button">新话题</a>
 <{/if}>
-			<a href="<{$base}>/article/<{$bName}>/tmpl" id="b_tmpl" class="button">模版发文</a>
+			<a href="<{$base}>/article/<{$bName}>/tmpl" class="b-post button">模版发文</a>
 <{if $hasVote}>
 			<a href="<{$base}>/board/<{$bName}>/vote" class="button">版内投票</a>
 <{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
-			<{if $islogin}><a href="javascript:favadd('<{$bName}>')" class="button">收藏</a><{/if}>
+			<{if $islogin}><a href="javascript:void(0)" id="b_fav" class="button" _b="<{$bName}>">收藏</a><{/if}>
 			<a href="<{$base}>/rss/board-<{$bName}>" class="rss"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
@@ -34,8 +32,9 @@
 	<{/capture}>
 
 	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right=$smarty.capture.n_right}>
-        <div class="b-content corner">
-			<table class="board-title" cellpadding="0" cellspacing="0">
+        <div class="b-content">
+            <table class="board-list tiz" cellpadding="0" cellspacing="0">
+                <thead>
                 <tr>
                     <th class="title_8">状态</th>
                     <th class="title_9 middle">主题</th>
@@ -43,8 +42,8 @@
                     <th class="title_11 middle">回复</th>
                     <th class="title_12">最新回复&emsp;&ensp;|&ensp;作者</th>
             	</tr>
-            </table>
-            <table class="board-list tiz" cellpadding="0" cellspacing="0">
+                </thead>
+                <tbody>
 <{if ($info)}>
 <{foreach from=$info item=item}>
 				<tr <{if $item.tag == "T"}>class="top"<{/if}>>
@@ -73,13 +72,13 @@
 					<td class="title_12"><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>#a<{$item.num}>" title="跳转至最后回复"><{$item.replyTime}></a>&ensp;|&ensp;<a href="<{$base}>/user/query/<{$item.last}>" class="c09f"><{$item.last}></a></td>
 				</tr>
 <{/foreach}>
-			</table>
 <{else}>
 				<tr>
 					<td colspan="5" style="text-align:center">该版面没有任何主题</td>
 				</tr>
-			</table>
 <{/if}>
+                </tbody>
+			</table>
     	</div>
     <div class="t-pre-bottom">
         <div class="page">
@@ -94,8 +93,8 @@
             </ul>
         </div>
     	<div class="t-btn">
-        	<form method="get" action="<{$base}>/s/article">
-        		<input id="t_search" type="text" class="input-text input" name="t1" value="输入关键字" />
+        	<form method="get" action="<{$base}>/s/article" id="board_search">
+        		<input type="text" class="input-text input" name="t1" value="输入关键字" />
                 <input type="checkbox" name="m" id="c_m"/>
                 <label for="c_m">精华帖</label>
                 <input type="checkbox" name="a" id="c_a"/>
@@ -105,5 +104,3 @@
             </form>
         </div>
     </div>
-    </div>  
-<{include file="footer.tpl"}>

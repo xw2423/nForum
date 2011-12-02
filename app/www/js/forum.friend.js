@@ -1,24 +1,30 @@
 $(function(){
-    $('.b-select').click(function(){
-        var val = $(this).attr("checked");
-        $(".b-select").attr("checked", val);
-        $(".b-friend").attr("checked", val);
+    $('#friend_add').submit(function(){
+        $.post($(this).attr('action'), $(this).getPostData(),
+            function(json){
+                DIALOG.ajaxDialog(json);
+            },'json');
+        return false;
     });
-    $('.b-del').click(function(){
-        var enable = false;
-        $(".b-friend").each(function(){
-            if($(this).attr("checked")){
-                enable = true;
-                return false;
-            }
-        });
-        if(!enable){
-            alert("请先选择要删除的好友!");    
+    $('#friend_form').submit(function(){
+        $.post($(this).attr('action'), $(this).getPostData(),
+            function(json){
+                DIALOG.ajaxDialog(json);
+            }, 'json');
+        return false;
+    });
+    $('#body').on('click', '.friend-select', function(){
+        var val = ($(this).attr("checked") == 'checked');
+        $(".friend-select").attr("checked", val);
+        $(".friend-item").attr("checked", val);
+    }).on('click', '.friend-del', function(){
+        if($(".friend-item:checked").length <= 0){
+            DIALOG.alertDialog("请先选择要删除的好友!");    
             return false;
         }
-        if(confirm("确认要删除这些好友?")){
+        DIALOG.confirmDialog("确认要删除这些好友?",function(){
             $('#friend_form').submit();
-        }
+        });
     });
 });
 

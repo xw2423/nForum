@@ -82,48 +82,54 @@ class SectionController extends AppController {
         $this->notice[] = array("url"=>"", "text"=>$this->_sec->isRoot()?"分区列表":"目录列表");
     }
 
-    public function slist(){
-        $this->initAjax();
+    //if url has key 'bo' return all boards name of root,it is for search now
+    //if no 'bo' for left menu tree
+    //the key 'root' is 'list-section' or 'sec-NAME'
+    public function ajax_list(){
         $this->cache(true, strtotime(date("Y-m-d", time()+86400)));
 
         $ret = array();
         if(!isset($this->params['url']['root']))
             $this->_stop();
         $root = $this->params['url']['root'];
-        try{
-            if($root == "list-section"){
-                $sections = Configure::read("section");    
-                foreach($sections as $k=>$v){
-                    $ret[] = array(
-                        "t" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
-                        "id" => "sec-$k"
-                        );
+        if($root == "list-section"){
+            $sections = Configure::read("section");    
+            foreach($sections as $k=>$v){
+                $ret[] = array(
+                    "t" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
+                    "id" => "sec-$k"
+                    );
+            }
+            $this->set('no_html_data', $ret);
+            $this->set('no_ajax_info', true);
+            return;
+        }else{
+            try{
+                $boardOnly = isset($this->params['url']['bo']);
+                $root = Section::getInstance(substr($root, 4), $boardOnly?Section::$ALL:Section::$NORMAL);
+                $sections = $boardOnly?$root->getList():$root->getAll();
+                foreach($sections as $v){
+                    $tmp = array();
+                    if($boardOnly){
+                        $ret[] = array('name'=>$v->NAME, 'desc'=>$v->DESC);
+                        continue;
+                    }
+                    if($v->isDir()){
+                        $tmp['t'] = "<a href=\"{$this->base}/section/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
+                        $tmp['id'] = 'sec-' . $v->NAME;
+                    }else{
+                        $tmp['t'] = "<a href=\"{$this->base}/board/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
+                    }
+                    $ret[] = $tmp; 
                 }
-                App::import("vendor", "inc/json");
-                echo BYRJSON::encode($ret);
+                $this->set('no_html_data', $ret);
+                $this->set('no_ajax_info', true);
+            }catch(SectionNullException $e){
                 $this->_stop();
-            }else{
-                $root = Section::getInstance(substr($root, 4), Section::$NORMAL);
+            }catch(BoardNullException $e){
+                $this->_stop();
             }
-        }catch(SectionNullException $e){
-            $this->_stop();
-        }catch(BoardNullException $e){
-            $this->_stop();
         }
-        $sections = $root->getAll();
-        foreach($sections as $v){
-            $tmp = array();
-            if($v->isDir()){
-                $tmp['t'] = "<a href=\"{$this->base}/section/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
-                $tmp['id'] = 'sec-' . $v->NAME;
-            }else{
-                $tmp['t'] = "<a href=\"{$this->base}/board/{$v->NAME}\" title=\"{$v->DESC}\">{$v->DESC}</a>";
-            }
-            $ret[] = $tmp; 
-        }
-        App::import("vendor", "inc/json");
-        echo BYRJSON::encode($ret);
-        $this->_stop();
     }
 }
 ?>

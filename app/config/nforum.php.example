@@ -36,6 +36,10 @@ $config['site']['prefix'] = "";
 
 $config['site']['home'] = "/default";
 
+$config['site']['preIndex'] = true;
+#类型: Boolean
+#描述: 是否启用进站页面，即guest用户访问根域名时，自动跳转至进站页面/index
+
 $config['site']['notice']['text'] = "公告:&nbsp;啦啦啦，这是一个公告";
 $config['site']['notice']['url'] = "";
 #类型: String
@@ -77,9 +81,22 @@ $config['proxy']['X_FORWARDED_FOR'] = false;
 #类型: Boolean
 #描述: web服务器前端存在代理时设为true
 
+$config['search']['site'] = false;
+#类型: Boolean
+#描述: 是否开启全站搜索,如果开启,只有管理员能使用
+
 $config['search']['max'] = 999;
+#类型: Int
+#描述: 版面默认搜索返回的最大文章数
+
 $config['search']['day'] = 7;
+#类型: Int
+#描述: 版面默认搜索文章的最大间隔天数
+
 $config['ubb']['parse'] = true;
+#类型: Boolean
+#描述: 是否解析ubb代码
+
 $config['elite']['root'] = "0Announce";
 
 /********* component config ******************/
@@ -261,5 +278,6 @@ $config['jsr']['mWidth'] = 1000;
 #page in iframe
 $config['jsr']['iframe'] = false;
 #if jsr.iframe false,the allow page pattern(javascript)
-$config['jsr']['allowFrame'] = "/att/.*|/user/face";
+$config['jsr']['allowFrame'] = "";
+$config['jsr']['session']['timeout'] = 60;
 ?>

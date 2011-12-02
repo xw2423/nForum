@@ -7,8 +7,7 @@
 App::import("vendor", array("model/favor", "model/section", "model/widget"));
 class WidgetController extends AppController {
 
-    public function widget(){
-        $this->initAjax();
+    public function ajax_widget(){
         if(!isset($this->params['name']))
             $this->error();
         $name = $this->params['name'];
@@ -24,7 +23,7 @@ class WidgetController extends AppController {
             "id" => $name,
             "list" => $widget->wGetList()
         );
-        $this->success(null, $arr);
+        $this->set('no_html_data', $arr);
     }
 
     /**
@@ -37,8 +36,7 @@ class WidgetController extends AppController {
      * ti: title
      * co: color num
      */
-    public function widgetSet(){
-        $this->initAjax();
+    public function ajax_set(){
         if(!$this->ByrSession->isLogin)
             $this->_stop();
         if(!isset($this->params['url']['w']) ||
@@ -52,7 +50,7 @@ class WidgetController extends AppController {
             case Widget::$ADD:
                 if(!isset($this->params['url']['c']) ||
                     !isset($this->params['url']['r']))
-                    $this->_stop();
+                    $this->error();
                 $col = intval($this->params['url']['c']);
                 $row = intval($this->params['url']['r']);
                 try{
@@ -67,13 +65,12 @@ class WidgetController extends AppController {
                     if(isset($this->params['url']['co']))
                         $color = $this->params['url']['co'];
                     $title = urldecode($title);
-                    $title = @iconv("utf-8", $this->encoding . "//TRANSLIT", $title);
+                    $title = @iconv("utf-8", 'GBK'. "//TRANSLIT", $title);
                     $color = ($color < count(Configure::read("widget.color")) && $color >= 0)?$color:0;
                     Widget::wAdd($u, $widget->wGetName(), $title, $color, $col, $row);
                 }catch(Exception $e){
                     $this->error();
                 }
-                $this->success();
                 break;
 
             case Widget::$DELETE:
@@ -82,7 +79,6 @@ class WidgetController extends AppController {
                 }catch(WidgetOpException $e){
                     $this->error();
                 }
-                $this->success();
                 break;
 
             case Widget::$MOVE:
@@ -110,20 +106,17 @@ class WidgetController extends AppController {
                 $title = @iconv("utf-8", $this->encoding . "//TRANSLIT", $title);
                 try{
                     Widget::wSet($u, $wid, $title, $color);
-                    $this->success(null, array('n'=>$wid,'t'=>$title, 'c'=>$color));
+                    $this->set('no_html_data', array('n'=>$wid,'t'=>$title, 'c'=>$color));
                 }catch(Exception $e){
                     $this->_stop();
                 }
                 break;
         }
-        $this->_stop();
     }
 
     public function add(){
         $this->requestLogin();
-        $this->js[] = "jquery-ui-1.8.7.pack.js";
         $this->js[] = "forum.widget.js";
-        $this->css[] = "jquery-ui-1.8.7.css";
         $this->css[] = "widget.css";
         $this->notice[] = array("url"=>"/widget/add", "text"=>"个性化首页");
 
@@ -192,8 +185,7 @@ class WidgetController extends AppController {
         $this->set("type", $type);
     }
 
-    public function wlist(){
-        $this->initAjax();
+    public function ajax_list(){
         $this->requestLogin();
 
         if(!isset($this->params['url']['t'])){
@@ -240,7 +232,6 @@ class WidgetController extends AppController {
                             }
                         }
                     }
-                    $this->success(null, $ret);
                     break;
                 case 'favor':
                     //tt is for favor level
@@ -257,7 +248,6 @@ class WidgetController extends AppController {
                             $ret[] = array('wid' => "favor-" . $w->BID, 'title' => $w->DESC, 'p'=> "default");
                         }
                     }
-                    $this->success(null, $ret);
                     break;
                 case 'board':
                     if(!isset($this->params['url']['tt'])){
@@ -278,7 +268,6 @@ class WidgetController extends AppController {
                             $ret[] = array('wid' => $ww->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGES . 'app/icon/'.$ww->wGetName().'.png')?$ww->wGetName():"default");
                         }
                     }
-                    $this->success(null, $ret);
                     break;
                 case 'ext':
                     if(!isset($this->params['url']['tt'])){
@@ -302,7 +291,6 @@ class WidgetController extends AppController {
                             $ret[] = array('wid' => $w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGES . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
                         }
                     }
-                    $this->success(null, $ret);
                     break;
                 case 'search':
                     if(!isset($this->params['url']['tt'])){
@@ -325,12 +313,14 @@ class WidgetController extends AppController {
                                 $ret[] = array('wid' =>$w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGES . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
                         }
                     }
-                    $this->success(null, $ret);
                     break;
             }
         }catch(Exception $e){
             $this->error();
         }
+        $this->set('no_html_data',$ret);
+        //no ajax status info
+        $this->set('no_ajax_info', true);
     }
 }
 ?>

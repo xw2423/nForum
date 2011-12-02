@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar corner">
         	<ul>
                 <li><a href="<{$base}>/user/info">基本资料修改</a></li>
@@ -18,14 +17,14 @@
         </div>
         <div class="b-content">
             <div class="friend-list">
-				<form method="get" action="<{$base}>/friend/add" id="f_add">
+				<form method="get" action="<{$base}>/friend/ajax_add.json" id="friend_add">
 					添加好友:<input type="text" class="input-text" name="id" value="" />
 					<input type="submit" class="button" value="添加" />
 				</form>
                 <div class="t-pre">
                     <div class="t-btn">
-						<input type="checkbox" class="b-select" />选择所有
-						<input type="button" class="button b-del" value="删除" />
+						<input type="checkbox" class="friend-select" />
+						<input type="button" class="button friend-del" value="删除" />
                     </div>
                     <div class="page">
                         <ul class="pagination" title="分页列表">
@@ -39,12 +38,12 @@
                         </ul>
                     </div>
                 </div>
-			<form id="friend_form" action="<{$base}>/friend/delete" method="post">
+			<form id="friend_form" action="<{$base}>/friend/ajax_delete.json" method="post">
                 <table class="m-table">
 <{if isset($friends)}>
 <{foreach from=$friends item=item}>
                 	<tr>
-                    	<td class="title_1"><input type="checkbox" name="f_<{$item.fid}>" class="b-friend"/></td>
+                    	<td class="title_1"><input type="checkbox" name="f_<{$item.fid}>" class="friend-item"/></td>
 						<td class="title_2"><a href="<{$base}>/user/query/<{$item.fid}>"><{$item.fid}></a></td>
                         <td class="title_3"><{$item.desc|default:"&nbsp;"}></td>
                         <td class="title_6"><a href="<{$base}>/mail/send?id=<{$item.fid}>">发信问候</a></td>
@@ -59,8 +58,8 @@
 			</form>
             <div class="t-pre-bottom">
             	<div class="t-btn">
-						<input type="checkbox" class="b-select" />选择所有
-						<input type="button" class="button b-del" value="删除" />
+						<input type="checkbox" class="friend-select" />
+						<input type="button" class="button friend-del" value="删除" />
 				</div>
 				<div class="page">
 					<ul class="pagination" title="分页列表">
@@ -76,5 +75,3 @@
              </div>
             </div>
     	</div>
-<{include file="footer.tpl"}>
-

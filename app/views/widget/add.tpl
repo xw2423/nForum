@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li <{if $type=="section"}>class="selected"<{/if}>><a href="<{$base}>/widget/add?t=section">讨论区</a></li>
@@ -9,32 +8,35 @@
         </div>
         <div class="b-content corner">
 <{if isset($filter)}>
-        	<ul class="w-filter">
+        	<ul class="widget-add-filter">
 <{foreach from=$filter item=item key=k}>
 				<li class="tab-normal" id="filter_<{$k}>"><{$item}></li>
 <{/foreach}>
 			</ul>
 <{/if}>
-        	<ul id="application" style="display:none" class="corner">
-            	<li id="%0%" title="%2%">
-                	<h5 class="app-title">%1%</h5>
-                    <div class="app-logo"><img _src="<{$base}>/img/app/icon/%3%.png" /></div>
-                    <div class="app-submit"><input type="submit" class="submit" value="添加到首页" /></div>
-                </li>
+        	<ul id="widget_add" class="corner">
             </ul>
 <{if isset($search)}>
-            <div class="w-search"><span>搜索应用:&ensp;</span><input class="input-text" type="text" id="w_search_txt" value="输入应用名称" /><input class="button" type="button" id="w_search_btn" value="搜  索" /></div>
+            <div class="widget-add-search"><span>搜索应用:&ensp;</span><input class="input-text" type="text" id="w_search_txt" value="输入应用名称" /><input class="button" type="button" id="w_search_btn" value="搜  索" /></div>
 <{/if}>
     	</div>
-	<div id="addform" style="display:none">
+<script id="tmpl_app" type="text/template">
+                <li id="<%=wid%>" title="<%=title%>">
+                	<h5 class="widget-add-title"><%=title%></h5>
+                    <div class="widget-add-logo"><img src="<{$base}>/img/app/icon/<%=p%>.png" /></div>
+                    <div class="widget-add-submit"><input type="button" class="submit" value="添加到首页" /></div>
+                </li>
+</script>
+<script id="tmpl_app_add" type="text/template">
+	<form id="widget_add_form" action="<{$base}>/widget/set.json">
 			<ul>
-        	<li><span>标题:&ensp;</span><input type="text" id="title" size="20" class="input-text"/></li>
-            <li><span>颜色:&ensp;</span><select id="color">
+        	<li><span>标题:&ensp;</span><input type="text" size="20" class="input-text" value="<%=title%>" name="ti"/></li>
+            <li><span>颜色:&ensp;</span><select id="color" name="co">
 					<{html_options options=$colors selected=$color}>
 				</select>
 			</li>
         	<li>
-				<span>列:&emsp;&ensp;</span><select id="col">
+				<span>列:&emsp;&ensp;</span><select name="c">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<{if $line3}>
@@ -42,8 +44,9 @@
 					<{/if}>
 				</select>
 			</li>
-            <li><input type="submit" class="submit" value="添加应用"/></li>
 			</ul>
-			<input type="hidden" id="wid" value="" />
-    </div>  
-<{include file="footer.tpl"}>
+			<input type="hidden" name="w" value="<%=wid%>" />
+			<input type="hidden" name="t" value="0" />
+			<input type="hidden" name="r" value="1" />
+    </form>  
+</script>

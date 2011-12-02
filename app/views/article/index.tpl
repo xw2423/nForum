@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     <div class="t-pre">
         <div class="page">
             <ul class="pagination">
@@ -9,10 +8,10 @@
         </div>
 		<div class="t-btn">
 <{if !$tmpl}>
-        	<a href="<{$base}>/article/<{$bName}>/post" id="b_post" class="button">新话题</a>
+        	<a href="<{$base}>/article/<{$bName}>/post" class="a-post button">新话题</a>
 <{/if}>
-        	<a href="<{$base}>/article/<{$bName}>/tmpl" id="b_tmpl" class="button">模版发文</a>
-            <a href="javascript:void(0)" id="goToReply" class="button">快捷回复</a>
+        	<a href="<{$base}>/article/<{$bName}>/tmpl" class="a-post button">模版发文</a>
+            <a href="javascript:void(0)" id="a_reply" class="button">快捷回复</a>
         </div>
     </div>
 	<{capture name=n_left}>文章主题:&ensp;<{$title}><{/capture}>
@@ -21,17 +20,17 @@
     	<div class="b-content corner">
 <{foreach from=$info item=item}>
 	<a name="a<{$item.pos}>"></a>
-	<div class="a-wrap">
+    <div class="a-wrap corner">
 	<table class="article">
 		<tr class="a-head">
-			<td class="a-left a-no-bottom a-no-top">
+			<td class="a-left">
 <{if !($item.owner)}>
-				<span class="u-name"><{$item.poster}></span>
-				<span class="u-sex" > <samp title="隐藏" class="ico-pos-offline-hide" ></samp>
+				<span class="a-u-name"><{$item.poster}></span>
+				<span class="a-u-sex" > <samp title="隐藏" class="ico-pos-offline-hide" ></samp>
 				</span>
 <{else}>
-				<span class="u-name"><a href="<{$base}>/user/query/<{$item.owner.id}>"><{$item.owner.id}></a></span>
-				<span class="u-sex" >
+				<span class="a-u-name"><a href="<{$base}>/user/query/<{$item.owner.id}>"><{$item.owner.id}></a></span>
+				<span class="a-u-sex" >
 				<samp
 				<{if ($item.owner.gender == -1)}>
 					<{if ($item.owner.online)}> title="性别保密哦 在线" class="ico-pos-online-hide" <{else}> title="性别保密哦 离线" class="ico-pos-offline-hide" <{/if}>
@@ -44,17 +43,17 @@
 				</span>
 <{/if}>
 			</td>
-			<td class="a-no-bottom a-no-top">
+			<td>
 				<ul class="a-func">
 					<li><samp class="ico-pos-reply"></samp><a href="<{$base}>/article/<{$bName}>/post/<{$item.id}>" class="a-post">回复</a></li>
 <{if $item.subject}>
-					<li><samp class="ico-pos-template"></samp><a href="<{$base}>/article/<{$bName}>/tmpl?reid=<{$item.id}>" class="a-post">模版回复</a></li>
+					<li><samp class="ico-pos-template"></samp><a href="<{$base}>/article/<{$bName}>/tmpl?id=<{$item.id}>" class="a-post">模版回复</a></li>
 <{/if}>
-					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/forward/<{$bName}>/<{$item.id}>" class="a-post">转寄</a></li>
+					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/<{$bName}>/ajax_forward/<{$item.id}>.json" class="a-post a-func-forward">转寄</a></li>
 					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 				<{if $item.op == "1"}>
 					<li><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
-					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/delete/<{$item.id}>" onclick="return confirm('确认删除？')">删除</a></li>
+					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/ajax_delete/<{$item.id}>.json" class="a-func-del">删除</a></li>
 				<{/if}>
 				</ul>
 				<span class="a-pos">
@@ -67,15 +66,15 @@
 			</td>
 		</tr>
 		<tr class="a-body">
-			<td class="a-left a-no-bottom a-no-top">
+			<td class="a-left">
 <{if !($item.owner)}>
 				&nbsp;
 <{else}>
-				<div class="u-img">
+				<div class="a-u-img">
 					<img src="<{$static}><{$base}><{$item.owner.furl}>" <{if $item.owner.width != ""}>width="<{$item.owner.width}>px"<{/if}> <{if $item.owner.height != ""}>height="<{$item.owner.height}>px"<{/if}> />
 				</div>
-				<div class="u-uid"><{$item.owner.name}></div>
-				<dl class="u-info">
+				<div class="a-u-uid"><{$item.owner.name}></div>
+				<dl class="a-u-info">
 					<dt>等级</dt>
 					<dd><{$item.owner.level}></dd>
 					<dt>文章</dt>
@@ -87,12 +86,12 @@
 				</dl>
 <{/if}>
 			</td>
-			<td class="a-content a-no-bottom a-no-top">
+			<td class="a-content">
 				<p><{$item.content}></p>
 			</td>
 		</tr>
 		<tr class="a-bottom">
-			<td class="a-left a-no-top a-no-bottom">
+			<td class="a-left">
 <{if !($item.owner)}>
 				&nbsp;
 <{else}>
@@ -103,10 +102,10 @@
 				</ul>
 <{/if}>
 			</td>
-			<td class="a-no-top a-no-bottom"><a href="#" class="c63f a-back">返回顶部</a></td>
+			<td><a href="#" class="c63f a-back">返回顶部</a></td>
 		</tr>
 	</table>
-	</div>
+    </div>
 <{/foreach}>
         </div>
     <div class="t-pre-bottom">
@@ -119,7 +118,7 @@
         </div>
     	<div class="t-btn">
         	<form id="f_search" method="get" action="<{$base}>/s/article">
-        		<input id="t_search" type="text" class="input-text input" name="t1" value="输入关键字" />
+        		<input id="a_search" type="text" class="input-text input" name="t1" value="输入关键字" />
                 <input type="checkbox" name="m" id="c_m"/>
                 <label for="c_m">精华帖</label>
                 <input type="checkbox" name="a" id="c_a"/>
@@ -131,21 +130,37 @@
         </div>
     </div>
     <!--quick_reply start-->
-	<form id="f_post" method="post" action="<{$base}>/article/<{$bName}>/post" >
+	<form id="quick_post" method="post" action="<{$base}>/article/<{$bName}>/ajax_post.json" >
     <table id="quick_reply" class="corner">
         <tr>
-            <td><textarea id="text_a" name="content"></textarea></td>
+            <td><textarea id="quick_text" name="content"></textarea></td>
             <td id="quick_submit"><input type="submit" class="button" value="快捷回复" /></td>
         </tr>
         <tr>
 			<td colspan="2"><div id="em_img"></div></td>
         </tr>
     </table>
-	<input type="hidden" name="reid" value="<{$reid}>" />
+	<input type="hidden" name="id" value="<{$reid|default:0}>" />
 	<input type="hidden" name="subject" value="<{$reTitle}>" />
 	<{if $anony}>
 	<input type="hidden" name="anony" value="1" />
 	<{/if}>
     </form>
     <!--quick_reply end-->
-<{include file="footer.tpl"}>
+    <script id="tmpl_forward" type="text/template">
+<form id="a_forward" action="<%=action%>" method="post">
+	<ul>
+	<li><span>收件人:</span><input type="text" class="input-text" name="target"/>
+        <select id="a_forward_list">
+            <option value="">选择好友</option>
+        <%_.each(friends,function(f){%>
+            <option value="<%=f%>"><%=f%></option>
+        <%});%>
+        </select>
+    </li>
+	<li><span>合集转寄:</span><input type="checkbox" name="threads" />
+    &emsp;&emsp;<span>合集无引文:</span><input type="checkbox" name="noref" />
+    </li>
+	<li><span>不含附件:</span><input type="checkbox" name="noatt" /></li>
+</form>
+    </script>

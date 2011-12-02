@@ -7,7 +7,7 @@
 App::import("vendor", array("model/board"));
 class SearchController extends AppController {
 
-    public function search(){
+    public function index(){
         $this->js[] = "forum.search.js";
         $this->css[] = "search.css";
         $this->notice[] = array("url"=>"", "text"=>"ËÑË÷ÎÄÕÂ");
@@ -18,12 +18,13 @@ class SearchController extends AppController {
         }
         $this->set("sec", $secs);
         $this->set("selected", 0);
+        $this->set("site", Configure::read('search.site'));
 
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
     }
 
-    public function doSearch(){
+    public function article(){
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
         $this->notice[] = array("url"=>"", "text"=>"ËÑË÷½á¹û");
@@ -41,27 +42,33 @@ class SearchController extends AppController {
             $author = trim($this->params['url']['au']);
         if(isset($this->params['url']['d']))
             $day = intval($this->params['url']['d']);
-         $m = isset($this->params['url']['m']);
-         $a = isset($this->params['url']['a']);
-        if(isset($this->params['url']['t']))
-            $t = $this->params['url']['t'];
+        $m = isset($this->params['url']['m']);
+        $a = isset($this->params['url']['a']);
+        $full = isset($this->params['url']['f']);
+        $site = Configure::read('search.site');
         $return =  Configure::read("search.max");
 
         $res = array();
-        switch($t){
-            case 'xw':
-                break;
-            case 'm':
-                break;
-            default:
-                $b = @$this->params['url']['b'];    
-                try{
-                    $brd = Board::getInstance($b);
-                }catch(BoardNullException $e){
-                    $this->error(ECode::$BOARD_NONE);
+        $u = User::getInstance();
+        if($full && $site && $u->isAdmin()){
+            App::import('vendor', 'model/section');
+            $secs = array_keys(Configure::read("section"));
+            foreach($secs as $v){
+                $sec = Section::getInstance($v, Section::$ALL);
+                foreach($sec->getList() as $brd){
+                    if(!$brd->isNormal())
+                        continue;
+                    $res = array_merge($res, Threads::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $return));
                 }
-                $res = Threads::search($brd, $title1, $title2, $title3, $author, $day, $m,$a, $return);
-                break;
+            }
+        }else{
+            $b = @$this->params['url']['b'];    
+            try{
+                $brd = Board::getInstance($b);
+            }catch(BoardNullException $e){
+                $this->error(ECode::$BOARD_NONE);
+            }
+            $res = Threads::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $return);
         }
 
         $p = 1;
@@ -88,6 +95,7 @@ class SearchController extends AppController {
                 "last" => $last->OWNER,
                 "replyTime" => $replyTime,
                 "page" => $tabs,
+                "bName" => $v->getBoard()->NAME,
                 "num" => $v->articleNum - 1
             );
         }
@@ -101,7 +109,6 @@ class SearchController extends AppController {
         $link = "?". join("&", $query);
         $pageBar = $page->getPageBar($p, $link);
 
-        $this->set("bName", $brd->NAME);
         $this->set("totalPage", $page->getTotalPage());
         $this->set("totalNum", count($res));
         $this->set("curPage", $page->getCurPage());

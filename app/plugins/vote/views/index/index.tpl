@@ -1,4 +1,3 @@
-<{include file="header.tpl"}>
     	<div class="mbar">
         	<ul>
                 <li <{if $category=="new"}>class="selected"<{/if}>><a href="<{$base}>/vote?c=new">最新投票</a></li>
@@ -16,13 +15,14 @@
         </div>
 		<div class="b-content vote-main">
 			<div class="vote-title"><{$voteTitle}></div>
+            <div class="vote-body">
 			<div id="vote_list" class="vote-left">
 <{if $info}>
 				<ul class="list-main">
 <{foreach from=$info item=item}>
 					<li>
 						<div class="c-con">
-							<h1><a href="<{$base}>/vote/view/<{$item.vid}>"><{$item.title}></a><{if $item.admin && !$item.isDel}>&nbsp;&nbsp;<a href="<{$base}>/vote/delete/<{$item.vid}>" onclick="return confirm('确认删除此投票?')"><span>删除</span><{/if}></a></h1>
+							<h1><a href="<{$base}>/vote/view/<{$item.vid}>"><{$item.title}></a><{if $item.admin && !$item.isDel}>&nbsp;&nbsp;<a href="<{$base}>/vote/ajax_delete/<{$item.vid}>.json" class="vote-delete"><span>删除</span><{/if}></a></h1>
 							<h2>发起时间:<{$item.start}>&nbsp;&nbsp;截止日期:<{$item.end}><{if $item.isEnd}><font color="red">(已截止)</font><{/if}><{if $item.isDel}><font color="red">(已删除)</font><{/if}></h2>
 							<h3><font color="#666">发起人:</font><a href="<{$base}>/user/query/<{$item.uid}>"><{$item.uid}></a><span><a href="<{$base}>/vote?c=list&u=<{$item.uid}>">他的投票</a></span><span><a href="<{$base}>/mail/send?id=<{$item.uid}>">站内信</a></span></h3>
 						</div>
@@ -91,5 +91,5 @@
 					</div>
 				</li>
 			</div>
+			</div>
 		</div>
-<{include file="footer.tpl"}>
