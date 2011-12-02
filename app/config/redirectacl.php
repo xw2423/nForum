@@ -3,6 +3,7 @@ $config['redirectacl']['forum']['front'] = true;
 $config['redirectacl']['forum']['preIndex'] = true;
 $config['redirectacl']['attachment']['download'] = true;
 $config['redirectacl']['reg']['authImg'] = true;
+$config['redirectacl']['rss'] = true;
 $config['redirectacl']['adv'] = true;
 
 $config['redirectacl']['spider'] = array(
