@@ -47,7 +47,7 @@
     *zoom:1
 }
 #widget_add li:hover{
-    background:url(../img/app/hover.gif) no-repeat left top;
+    background:url(./img/app/hover.gif) no-repeat left top;
 }
 .widget-add-title{
     color:#4c72ac;

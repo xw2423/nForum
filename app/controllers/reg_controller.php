@@ -26,7 +26,6 @@ class RegController extends AppController{
     public function ajax_reg(){
         if(!$this->RequestHandler->isPost())
             $this->error(ECode::$SYS_REQUESTERROR);
-        $this->requestLogin();
         $IDLEN = BBS_IDLEN;
         //it's defined in bbs.h but no constant for php
         $PWDLEN = 39;

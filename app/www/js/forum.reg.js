@@ -50,7 +50,7 @@ $(function(){
     };
     validid();
     validpwd();
-    $('#authimg').click(function(){this.src = SYS.base + "/authimg?_id=" + Math.round(Math.random() * 10000);});
+    $('#authimg').click(function(){this.src = $(this).attr('_src') + "?_t=" + $.random()}).click();
     $('#f_reg').submit(function(){
         if($('#t_id').val() == ""){
             $('#t_id').alertDialog('ID²»ÄÜÎª¿Õ');
@@ -96,6 +96,10 @@ $(function(){
             return false;
         }
         $.post($(this).attr('action'), $(this).getPostData(), function(json){
+            if(json.ajax_st == 0){
+                $('#t_auth').val('');
+                $('#authimg').click();
+            }
             DIALOG.ajaxDialog(json)
         }, 'json');
         return false;

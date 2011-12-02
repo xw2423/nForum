@@ -541,7 +541,6 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     *padding-bottom:1px;
 }
 #notice_nav {display:inline-block;}
-#notice_time { float:right;font-size:11px}
 #body{
     width:100%;
     _width:99.5%;
@@ -606,6 +605,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     background-color:#FFF1A8;
     font-weight:bold;
     display:none;
+    z-index:2000;
 }
 /* tips end */
 

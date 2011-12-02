@@ -2,7 +2,6 @@
 /**
  * Application controller for nforum
  * all of controllors extend from it
- * use Smarty for View
  * 
  * @author xw
  */
@@ -197,7 +196,6 @@ EOT;
             ,'webTotal' => Forum::getOnlineNum()
             ,'webUser' => Forum::getOnlineUserNum()
             ,'webGuest' => Forum::getOnlineGuestNum()
-            ,'serverTime' => date('Y-m-d H:i')
             ,'encoding' => $this->encoding
             ,'domain' => $site['domain']
             ,'static' => $site['static']

@@ -160,8 +160,7 @@ $.fn.extend({
             return t;
         },
         getTop:function(){
-            for(var i = this.containers.length - 1, t = this.containers[i]
-                ;i >=0; i--)
+            for(var i = this.containers.length - 1;t = this.containers[i]; i--)
                 if(t.dialog('isOpen')) return t;
             return null;
         },
@@ -178,11 +177,11 @@ $.fn.extend({
             .dialog('option',option)
             .dialog('open');
 
-            d.find('img').load(function(){
+            d.find('img').one('load', function(){
                 if($(this).width() > d.width())
                     $(this).width(d.width() - 20);
                 var p = d.parent(), t = $(window).height()-p.height();
-                p.css('top', t>=0?t/2:0);
+                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
             });
             return d;
         },
@@ -457,12 +456,17 @@ $.fn.extend({
                 user = new UserModel({id:u});
                 user.bind('change', this._onUserQuery, this).fetch();
             }
+            return false;
         },
-        click_u_mail:function(e){
+        click_u_mail:function(){
             DIALOG.getTop().dialog('close');
         },
         click_u_add:function(e){
-            DIALOG.getTop().dialog('close');
+            var id = DIALOG.getTop().find('.u-name span').html();
+            $.post(SYS.base + '/friend/ajax_add.json', {id:id}, function(json){
+                DIALOG.alertDialog(json.ajax_msg, json.ajax_st == 1?DIALOG.ICO_INFO:DIALOG.ICO_ALERT);
+            }, 'json');
+            return false;
         },
         onBodyJump:function(){
             this.tips(true);
@@ -559,8 +563,8 @@ $.fn.extend({
         },
         //only for user query,do not call by AppView
         _onUserQuery:function(user){
-            if(user.get('ajax_st') == 0){
-                DIALOG.ajaxDialog(this);
+            if(!user.ajaxOK()){
+                DIALOG.ajaxDialog(user.toJSON());
             }else{
                 var t = new Date();
                 t.setTime(user.get('first_login_time') * 1000);

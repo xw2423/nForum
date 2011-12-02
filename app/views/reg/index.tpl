@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                     	<td class="r_cell_1"><span>验证码</span><font color="red">请输入右边图片中的等式的结果(运算符只包括'+','-')</font></td>
-                        <td class="r_cell_2"><input type="text" class="input-text" name="auth" id="t_auth"/><img id="authimg" src="<{$base}>/authimg" alt="auth code"/></td>
+                        <td class="r_cell_2"><input type="text" class="input-text" name="auth" id="t_auth"/><img id="authimg" _src="<{$base}>/authimg" alt="auth code"/></td>
                     </tr>
                 </table>
                 <div class="r_su"><input type="submit" class="button r_submit" value="我要注册" /></div>

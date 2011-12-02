@@ -208,7 +208,7 @@ class UserController extends AppController {
                 }
                 if(!$u->setPwd($new1))
                     $this->error(ECode::$USER_PWDERROR);
-                $ret['ajax_code'] = ECode::$USER_NAMEOK;
+                $ret['ajax_code'] = ECode::$USER_PWDOK;
                 $this->set('no_html_data', $ret);
         }
     }

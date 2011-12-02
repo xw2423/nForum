@@ -2,9 +2,9 @@
 <section class="u-query">
     <%if(id){%>
     <header class="u-name">
-        <%=id%>
+        <span><%=id%></span>
         <%if(session_login){%>
-        <a href="<{$base}>/mail/send?id=<%=id%>" id="u_query_mail">发问候信</a>|<a href="<{$base}>/friend/ajax_add" id="u_query_add">加为好友</a>
+        <a href="<{$base}>/mail/send?id=<%=id%>" id="u_query_mail">发问候信</a>|<a href="javascript:void(0)" id="u_query_add">加为好友</a>
         <%}%>
     </header>
     <article class="u-info">
