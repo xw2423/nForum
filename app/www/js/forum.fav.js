@@ -61,7 +61,10 @@ $(function(){
             ,m = this.model;
             $.post(url, data, function(json){
                 DIALOG.ajaxDialog(json);
-                if(json.ajax_st == 1) m.fetch();
+                if(json.ajax_st == 1){
+                    m.fetch();
+                    APP.renderTree();
+                }
             }, "json");
         },
         click_link:function(e){
@@ -78,6 +81,7 @@ $(function(){
                 if(json.ajax_st == 1){
                     $('#fav_ab_txt').val('');
                     m.fetch();
+                    APP.renderTree();
                 }
             }, "json");
         },
@@ -90,6 +94,7 @@ $(function(){
                 if(json.ajax_st == 1){
                     $('#fav_ad_txt').val('');
                     m.fetch();
+                    APP.renderTree();
                 }
             }, "json");
         },

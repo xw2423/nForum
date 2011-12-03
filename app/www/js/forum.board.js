@@ -18,6 +18,8 @@ $(function(){
             var url = SYS.base + "/fav/op/0.json"
             ,data = {ac:'ab', v:$(this).attr('_b')};
             $.post(url, data, function(json){
+                if(json.ajax_st == 1)
+                    APP.renderTree();
                 DIALOG.ajaxDialog(json);
             }, "json");
         }).on('mouseover', '#board_search .input-text', function(){
