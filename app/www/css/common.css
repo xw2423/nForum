@@ -835,7 +835,6 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .m-table th,.m-table td{ border-bottom:1px solid #c9d7f1; vertical-align:middle;height:26px;}
 .m-table th{background-color:#f5f8fb;}
 .m-table tr:hover td{
-    cursor:pointer;
     background-color:#f5f8fb
 }
 
@@ -867,7 +866,6 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     padding-top:13px;
 }
 .board-list tr:hover td{
-    cursor:pointer;
     background-color:#FBF5D9;
 }
 .bg-odd{background-color:#F2F6F9}

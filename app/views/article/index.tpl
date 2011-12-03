@@ -97,8 +97,8 @@
 <{else}>
 				<ul class="a-func a-func-info">
 					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/user/query/<{$item.owner.id}>">查看</a></li>
-					<li><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/reply/<{$bName}>/<{$item.id}>?id=<{$item.owner.id}>" class="a-post">发信</a></li>
-					<li><samp class="ico-pos-friend"></samp><a href="<{$base}>/friend/add?id=<{$item.owner.id}>" class="a-post">加好友</a></li>
+					<li><samp class="ico-pos-mess"></samp><a href="<{$base}>/mail/<{$bName}>/reply/<{$item.id}>?id=<{$item.owner.id}>" class="a-post">发信</a></li>
+					<li><samp class="ico-pos-friend"></samp><a href="<{$base}>/friend/ajax_add.json?id=<{$item.owner.id}>" class="a-func-friend a-post">加好友</a></li>
 				</ul>
 <{/if}>
 			</td>

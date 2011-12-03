@@ -23,6 +23,13 @@ $(function(){
     $('#body').on('click','.a-post',validPost)
         .on('click','#a_reply',function(){
             $('#quick_text').focus();
+        }).on('click','.a-func-friend',function(){
+            $.post($(this).attr('href'), function(json){
+                delete json['default'];
+                delete json['list'];
+                DIALOG.ajaxDialog(json);   
+            }, 'json');
+            return false;
         }).on('mouseover','#a_search',function(){
             $(this).select();
         }).on('mouseover','#quick_text',function(){

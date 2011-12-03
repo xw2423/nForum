@@ -1,6 +1,7 @@
 	<{include file="s_nav.tpl" nav_left="搜索结果"}>
         <div class="b-content">
-			<table class="board-title" cellpadding="0" cellspacing="0">
+            <table class="board-list tiz" cellpadding="0" cellspacing="0">
+                <thead>
                 <tr>
                     <th class="title_8">序号</th>
                     <th class="title_9 middle">主题</th>
@@ -8,8 +9,7 @@
                     <th class="title_11 middle">回复</th>
                     <th class="title_12">最新回复&emsp;&ensp;|&ensp;作者</th>
             	</tr>
-            </table>
-            <table class="board-list tiz" cellpadding="0" cellspacing="0">
+                </thead>
 <{if ($info)}>
 <{foreach from=$info item=item key=k}>
 				<tr>

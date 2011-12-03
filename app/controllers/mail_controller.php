@@ -146,6 +146,8 @@ class MailController extends AppController {
                 $this->error(ECode::$MAIL_NOBOX);
             if(!isset($this->params['num']))
                 $this->error(ECode::$MAIL_NOMAIL);
+            $type = $this->params['type'];
+            $num = $this->params['num'];
             try{
                 $b = Board::getInstance($type);
                 if(!$b->hasReadPerm($u))

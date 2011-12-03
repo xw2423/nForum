@@ -71,9 +71,12 @@ class FriendController extends AppController {
     public function ajax_add(){
         if(!$this->RequestHandler->isPost())
             $this->error(ECode::$SYS_REQUESTERROR);
-        if(!isset($this->params['form']['id']))
-            $this->error(ECode::USER_NOID);
-        $id = $this->params['form']['id'];
+        if(isset($this->params['form']['id']))
+            $id = $this->params['form']['id'];
+        else if(isset($this->params['url']['id']))
+            $id = $this->params['url']['id'];
+        else
+            $this->error(ECode::$USER_NOID);
         try{
             Friend::add($id);
         }catch(FriendAddException $e){

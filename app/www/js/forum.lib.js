@@ -464,7 +464,9 @@ $.fn.extend({
         click_u_add:function(e){
             var id = DIALOG.getTop().find('.u-name span').html();
             $.post(SYS.base + '/friend/ajax_add.json', {id:id}, function(json){
-                DIALOG.alertDialog(json.ajax_msg, json.ajax_st == 1?DIALOG.ICO_INFO:DIALOG.ICO_ALERT);
+                delete json['default'];
+                delete json['list'];
+                DIALOG.ajaxDialog(json);
             }, 'json');
             return false;
         },

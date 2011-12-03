@@ -23,6 +23,7 @@
     border-bottom:1px solid #c9d7f1;
     overflow:hidden;
 }
+.mail-list .m-table tr:hover{cursor:pointer}
 /* mail list end*/
 
 /* mail detail start*/
