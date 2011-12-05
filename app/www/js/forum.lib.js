@@ -167,7 +167,7 @@ $.fn.extend({
         updateTop:function(content){
             var p = this.getTop().html(content).parent()
                 , t = $(window).height()-p.height();
-            p.css('top', t>=0?t/2:0);
+            p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
         },
         open:function(content, option){
             option = option || {};
@@ -365,6 +365,7 @@ $.fn.extend({
                 this.refresh();
             else
                 window.open(url, '_self');
+            $(window).scrollTop(0);
         },
         //do not use jump, using function open
         jump:function(path){
