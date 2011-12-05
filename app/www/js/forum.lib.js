@@ -242,7 +242,17 @@ $.fn.extend({
                 text += ',' + SYS.code.COM_REDIRECT;
                 opt['buttons'] = buttons;
             }
-            if(repo['default']) opt['close'] = function(){!_prevent_default && BODY.open(repo['default'])};
+            if(repo['default']){
+                opt['close'] = function(){
+                    if(!_prevent_default){
+                        _prevent_default = true;
+                        BODY.open(repo['default']);
+                    }
+                };
+                setTimeout(function(){
+                    !_prevent_default && DIALOG.getTop().dialog('close');
+                }, (SYS.redirect - 1) * 1000);
+            }
             return this.alertDialog(text, this.ajaxOK()?this.ICO_INFO:this.ICO_ALERT, opt);
         }
     });

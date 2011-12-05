@@ -8,6 +8,7 @@ window.SYS = {
     iframe:true,
     allowFrame:"/att/.*|/user/face",
     protocol:"http://",
+    redirect:3,
     session:{
         timeout:60
     },

@@ -64,13 +64,9 @@ $config['ajax']['check'] = false;
 #valid cookie
 $config['ajax']['valid'] = false; 
 
-$config['redirect']['error'] = 3;
+$config['redirect']['time'] = 3;
 #类型: Int
-#描述: 发生错误时的跳转等待时间
-
-$config['redirect']['wait'] = 3;
-#类型: Int
-#描述: 操作成功时的跳转等待时间
+#描述: ajax对话框消失并执行默认动作的时间间隔
 
 $config['cache']['second'] = 300;
 #类型: Int
