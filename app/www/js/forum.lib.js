@@ -517,6 +517,11 @@ $.fn.extend({
                 SYS.clear();
                 this.tips(false);
             }
+
+            //update bottom number
+            $('#bot_info .c-total').html(this.session.get('forum_total_count'));
+            $('#bot_info .c-user').html(this.session.get('forum_user_count'));
+            $('#bot_info .c-guest').html(this.session.get('forum_guest_count'));
         },
         renderTree:function(){
             var uid = this.session.get('id'), is_login = this.session.get('is_login');
