@@ -20,7 +20,6 @@ class WsapiController extends AppController{
     }
 
     public function afterFilter(){
-        parent::afterFilter();
         $this->_stop();
     }
 
@@ -34,7 +33,7 @@ class WsapiController extends AppController{
      */
     public function sys_checkpwd(){
         @$id = trim($this->params['url']['id']);
-        @$pwd = rawurldecode(trim($this->params['url']['pwd']));
+        @$pwd = rawurldecode($this->params['url']['pwd']);
         @$md5 = intval(trim($this->params['url']['md5']));
         @$ip = trim($this->params['url']['ip']);
 
