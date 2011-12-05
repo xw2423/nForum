@@ -10,7 +10,7 @@
     <article class="u-info">
         <header>基本信息</header>
         <figure>
-        <img src="<%=face_url%>"<%if(!_.isEmpty(face_width)){%> width="<%=face_width%>px"<%}%><%if(!_.isEmpty(face_height)){%> height="<%=face_height%>px"<%}%> />
+        <img src="<%=face_url%>"<%if(face_width != 0){%> width="<%=face_width%>px"<%}%><%if(face_height != 0){%> height="<%=face_height%>px"<%}%> />
         </figure>
         <dl>
             <dt>昵 称：</dt>
