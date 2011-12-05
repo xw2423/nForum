@@ -372,14 +372,15 @@ $.fn.extend({
         },
         //do not use jump, using function open
         jump:function(path){
+            //fuck ie6
+            if($.isIE(6)) path = path.replace(/%3[Ff]/g, '?');
+
             var self = this,
             handler = function(repo){
                 repo = _.isString(repo)?repo:repo.responseText;
                 if(repo.match(/^location:.*$/i))
                     window.location.hash = '!'+ repo.replace(/^location:\/?/i, '');
                 else{
-                    //fuck ie6
-                    if($.isIE(6)) path = path.replace(/%3[Ff]/g, '?');
                     self.set({html:repo,path:path},{silent: true});
                     self.change();
                     self.trigger('jumped');
