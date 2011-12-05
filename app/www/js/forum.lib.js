@@ -369,7 +369,6 @@ $.fn.extend({
                 this.refresh();
             else
                 window.open(url, '_self');
-            $(window).scrollTop(0);
         },
         //do not use jump, using function open
         jump:function(path){
@@ -564,6 +563,7 @@ $.fn.extend({
             });
         },
         onBodyUpdate:function(){
+            $(window).scrollTop(0);
             $('#body').off().html(this.body.get('html'))
                 .find('.resizeable').each(function(){
                     $(this).load(function(){
