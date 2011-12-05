@@ -331,7 +331,7 @@ $.fn.extend({
         //open url of element 'a', open inside
         open:function(url, target){
             if(_.isElement(url)){
-                var base = SYS.protocol + SYS.domain;
+                var base = SYS.protocol + SYS.domain + (location.port == ''?'':(':'+location.port));
                 target = url.target;
                 url = url.href.replace(base,'');
             }
