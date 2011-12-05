@@ -389,6 +389,7 @@ $.fn.extend({
            'click #u_query_search' : 'click_u_search',
            'click #u_query_mail' : 'click_u_mail',
            'click #u_query_add' : 'click_u_add',
+           'click #left_line samp' : 'click_hide_left',
            'click a' : 'click_a'
         },
 
@@ -412,6 +413,10 @@ $.fn.extend({
             this.session.bind("login", this.onLogin, this);
             this.session.bind("logout", this.onLogout, this);
 
+            //hide btn
+            this.$('#left_line samp').data('_show', 1);
+            if($.cookie("left-show") == 0)
+                this.$('#left_line samp').click();
         },
         click_submit:function(){
             this.tips(true);
@@ -469,6 +474,12 @@ $.fn.extend({
                 DIALOG.ajaxDialog(json);
             }, 'json');
             return false;
+        },
+        click_hide_left:function(e){
+            var self = $(e.currentTarget), s = !self.data('_show');
+            self.toggleClass('ico-pos-show', 'ico-pos-hide').data("_show", s?1:0).css('right',s?-7:-12);
+            $('#menu').width(s?156:0).children(':not(#left_line)')[s?"show":"hide"]().end().next().css("margin-left", s?162:3);
+            $.cookie("left-show", s?1:0,{path:'/', domain:SYS.domain,expires:30});
         },
         onBodyJump:function(){
             this.tips(true);

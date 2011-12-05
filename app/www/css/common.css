@@ -394,8 +394,8 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .u-login-list span{
     color:#f00;
 }
-#left-line{position:relative;width:100%;height:3px;_zoom:1}
-#left-line samp{
+#left_line{position:relative;width:100%;height:3px;_zoom:1}
+#left_line samp{
     width:14px;
     height:15px;
     cursor:pointer;

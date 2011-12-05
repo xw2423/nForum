@@ -76,7 +76,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     </section>
     <!--login end-->
 
-    <div id="left-line">
+    <div id="left_line">
         <samp class="ico-pos-hide"></samp>
     </div>
 
