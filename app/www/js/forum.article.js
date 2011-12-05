@@ -33,7 +33,7 @@ $(function(){
         }).on('mouseover','#a_search',function(){
             $(this).select();
         }).on('mouseover','#quick_text',function(){
-            $(this).select();
+            $(this).focus();
         }).on('keydown','#quick_text',function(event){
             if(event.ctrlKey && event.keyCode == 13){
                 $('#quick_post').submit();
