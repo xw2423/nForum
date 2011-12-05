@@ -134,6 +134,9 @@ class ArticleController extends AppController {
             $reTitle = $this->_threads->TITLE;
         else
             $reTitle = "Re: " . $this->_threads->TITLE;
+
+        //hack for post with ajax,need utf-8 encoding
+        $reTitle = iconv($this->encoding, 'UTF-8//TRANSLIT', $reTitle);
         $this->set("reTitle", rawurlencode($reTitle));
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
