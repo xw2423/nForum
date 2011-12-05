@@ -12,6 +12,7 @@ class BuildassetShell extends Shell {
                 ,'jquery-ui-1.8.16.min.js'
                 ,'underscore-min.js'
                 ,'backbone-min.js'
+                ,'plupload.min.js'
                 ,'jquery.tools.min.js'
                 ,'jquery.cookie.js'
                 ,'jquery.simpletree.js'

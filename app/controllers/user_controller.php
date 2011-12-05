@@ -126,7 +126,6 @@ class UserController extends AppController {
         $this->requestLogin();
         $this->notice[] = array("url"=>"/user/info", "text"=>"基本资料修改");
         $this->css[] = "control.css";
-        $this->js[] = "plupload.min.js";
         $this->js[] = "forum.control.js";
 
         App::import('Sanitize');

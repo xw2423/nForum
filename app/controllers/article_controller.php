@@ -147,7 +147,6 @@ class ArticleController extends AppController {
     public function post(){
         $article = $this->_postInit();
 
-        $this->js[] = "plupload.min.js";
         $this->js[] = "forum.upload.js";
         $this->js[] = "forum.post.js";
         $this->css[] = "post.css";
@@ -268,7 +267,6 @@ class ArticleController extends AppController {
         $this->_editInit();
         $id = $this->params['id'];
 
-        $this->js[] = "plupload.min.js";
         $this->js[] = "forum.upload.js";
         $this->js[] = "forum.post.js";
         $this->css[] = "post.css";
