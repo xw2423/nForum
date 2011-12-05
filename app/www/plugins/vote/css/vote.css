@@ -78,6 +78,7 @@
     padding:6px;
     margin-bottom:4px;
     _margin-bottom:2px;
+    position:relative;
 }
 #vote_list{margin-right:230px}
 #vote_list .page{float:right}
@@ -90,7 +91,7 @@
     *display:inline;
     *zoom:1;
 }
-.c-con h1{font-size:15px;color:#4D7BBF;background:url('../images/chart_bar.gif') no-repeat center left;padding-left:24px;}
+.c-con h1{font-size:15px;color:#4D7BBF;background:url('../images/chart_bar.gif') no-repeat center left;padding-left:24px;padding-right:80px;}
 .c-con h1 a{color:#4D7BBF;}
 .c-con h1 a span{color:red;font-weight:normal;font-size:12px;}
 .c-con h2{font-size:12px;font-weight:normal;color:#444;margin-top:4px;padding-left:24px;background:url('../images/clock.gif') no-repeat center left;}
@@ -98,15 +99,13 @@
 .c-con h3 a{color:#4D7BBF;}
 .c-con h3 span a{font-weight:normal;margin-left:10px;}
 .c-num{
-    float:right;
     vertical-align:middle;
     width:72px;
     height:53px;
     background:url("../images/vote_num.gif") no-repeat 0 0;
-    position:relative;
-    margin-top:3px;
-    *margin-top:-60px;
-    *margin-right:5px;
+    position:absolute;
+    top:8px;
+    right:8px;
 }
 .c-num div{
     width:72px;

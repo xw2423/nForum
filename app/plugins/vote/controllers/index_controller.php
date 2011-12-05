@@ -141,7 +141,7 @@ class IndexController extends VoteAppController {
         $items = array();
         foreach($this->params['form'] as $k=>$v){
             if(preg_match('/^i\d+$/', $k) && trim($v) != "")
-                $items[] = trim($v);
+                $items[] = iconv('UTF-8', $this->encoding . '//TRANSLIT', trim($v));
         }
         $realNum = count($items);
         if($realNum < 2 || $realNum > 20)
@@ -149,6 +149,8 @@ class IndexController extends VoteAppController {
         if($limit > $realNum)
             $limit = $realNum;
         $u = User::getInstance();
+        $subject = iconv('UTF-8', $this->encoding . '//TRANSLIT', $subject);
+        $desc = iconv('UTF-8', $this->encoding . '//TRANSLIT', $desc);
         $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items);
         $site = Configure::read("site");
         $a_title = $subject;
