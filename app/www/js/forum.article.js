@@ -59,6 +59,10 @@ $(function(){
     //forward
     var friends = SYS.cache('friends');
     $('#body').on('click','.a-func-forward',function(){
+        if(!SESSION.get('is_login')){
+            DIALOG.alertDialog(SYS.code.MSG_LOGIN);
+            return false;
+        }
         var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {
                  buttons:[
                     {text:SYS.code.COM_SUBMIT,click:function(){

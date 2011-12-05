@@ -216,6 +216,7 @@ class ArticleController extends MobileAppController {
     }
 
     public function forward(){
+        $this->requestLogin();
         if(!isset($this->params['gid']))
             $this->error(ECode::$ARTICLE_NONE);
         $single = (isset($this->params['url']['s']) || isset($this->params['form']['s']));

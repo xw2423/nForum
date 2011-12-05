@@ -142,6 +142,7 @@ class ArticleController extends ApiAppController {
         if(!$this->RequestHandler->isPost())
             $this->error(ECode::$SYS_REQUESTERROR);
 
+        $this->requestLogin();
         if(!isset($this->params['id']))
             $this->error(ECode::$ARTICLE_NONE);
         if(!isset($this->params['form']['target']))
