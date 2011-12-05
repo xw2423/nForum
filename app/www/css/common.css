@@ -574,6 +574,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     -moz-border-radius:0 0 4px 4px;
     -webkit-border-radius:0 0 4px 4px;
     border-radius:0 0 4px 4px;
+    clear:both;
 }
 /* middle  end*/
 

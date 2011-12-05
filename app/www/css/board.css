@@ -32,11 +32,12 @@
 .title_7{ width:45px;}
 
 /*board list*/
-.title_8{ width:35px; padding-left:10px;}
+.board-list thead th.title_8{padding-left:7px;}
+.title_8{ width:37px; padding-left:10px;}
 .title_9{ width:auto;}
-.title_10{ width:156px;}
-.title_11{ width:50px;}
-.title_12{ width:156px;}
+.title_10{ width:64px;}
+.title_11{ width:35px;}
+.title_12{ width:97px;}
 
 /*elite list*/
 .title_13{ width:35px; padding-left:5px;}
