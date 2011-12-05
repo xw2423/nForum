@@ -352,14 +352,18 @@ $.fn.extend({
             if(url.match(/^(https|http|ftp|rtsp|mms):\/\//i)){
                 window.open(url, target || '_blank');
                 return;
-             }
+            }
+
+            //parse for 'href="?xx&xx"'
             if(url.match(/^(\?|%3F).*$/i))
                 url = window.location.hash.replace(/(\?|%3F).*$/i,'') + url;
             else if(url.match(/^[\w\d]/))
                 url = '#!' + url;
             else
                 return;
-            $.isIE(6) && (url = url.replace('?', '%3F'));
+
+            //fuck ie6
+            $.isIE(6) && (url = url.replace(/\?/g, '%3F'));
             if(url == '#!' + this.get('path'))
                 //if path no change refresh
                 this.refresh();
@@ -375,6 +379,8 @@ $.fn.extend({
                 if(repo.match(/^location:.*$/i))
                     window.location.hash = '!'+ repo.replace(/^location:\/?/i, '');
                 else{
+                    //fuck ie6
+                    if($.isIE(6)) path = path.replace(/%3[Ff]/g, '?');
                     self.set({html:repo,path:path},{silent: true});
                     self.change();
                     self.trigger('jumped');
