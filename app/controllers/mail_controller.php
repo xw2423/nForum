@@ -52,7 +52,7 @@ class MailController extends AppController {
             }
             $this->set("info", $info);
         }
-        $link = "?p=%page%";
+        $link = "{$this->base}/mail/{$type}?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("type", $type);
         $this->set("desc", $mailBox->desc);

@@ -122,7 +122,7 @@ class ForumController extends AppController {
             }
             $this->set("friends", $info);
         }
-        $link = "?p=%page%";
+        $link = "{$this->base}/online?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("pageBar", $pageBar);
         $this->set("totalNum", $f->getTotalNum());

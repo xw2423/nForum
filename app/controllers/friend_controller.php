@@ -30,7 +30,7 @@ class FriendController extends AppController {
             }
             $this->set("friends", $info);
         }
-        $link = "?p=%page%";
+        $link = "{$this->base}/friend?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("pageBar", $pageBar);
         $this->set("totalNum", $f->getTotalNum());

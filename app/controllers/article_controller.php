@@ -116,7 +116,7 @@ class ArticleController extends AppController {
             );
         }
         $this->title = Sanitize::html($this->_threads->TITLE);
-        $link = "?p=%page%";
+        $link = "{$this->base}/article/{$this->_board->NAME}/{$gid}?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("bName", $this->_board->NAME);
         $this->set("gid", $gid);

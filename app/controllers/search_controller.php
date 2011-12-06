@@ -106,7 +106,7 @@ class SearchController extends AppController {
         foreach($query as $k=>&$v)
             $v = $k . '=' . $v;
         $query[] = "p=%page%";
-        $link = "?". join("&", $query);
+        $link = "{$this->base}/s/article?". join("&", $query);
         $pageBar = $page->getPageBar($p, $link);
 
         $this->set("totalPage", $page->getTotalPage());

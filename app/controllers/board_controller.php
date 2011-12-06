@@ -73,8 +73,7 @@ class BoardController extends AppController {
         $this->title = Configure::read('site.name').'-'.$this->_board->DESC;
         $this->set("info", $info);
         $this->set("noThreads", ECode::msg(ECode::$BOARD_NOTHREADS));
-        $link = "?p=%page%";
-        //$link = "{$this->base}/{$}?p=%page%";
+        $link = "{$this->base}/board/{$this->_board->NAME}?p=%page%";
         $pageBar = $pagination->getPageBar($p, $link);
 
         $bms = split(" ", $this->_board->BM);
