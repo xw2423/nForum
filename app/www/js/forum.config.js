@@ -10,7 +10,7 @@ window.SYS = {
     protocol:"http://",
     redirect:3,
     session:{
-        timeout:60
+        timeout:30
     },
     ajax:{
         session:'user/ajax_session.json',

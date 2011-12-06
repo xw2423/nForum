@@ -28,7 +28,10 @@ $(function(){
             if(json.ajax_st == 0)
                 DIALOG.ajaxDialog(json);
             else{
-                tr.removeClass('no-read');
+                if(tr.hasClass('no-read')){
+                    SESSION.update(true);
+                    tr.removeClass('no-read');
+                }
                 var d = DIALOG.formDialog(tmpl_mail_detail(json),
                     {title:SYS.code.COM_DETAIL, width:600
                     }
