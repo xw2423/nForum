@@ -233,9 +233,9 @@ $.fn.extend({
             this.set(repo);
             var _prevent_default = false
                 ,text = repo.ajax_msg
-                ,opt = {};
+                ,opt = {width:400};
             buttons = _.reduce(repo.list || [], function(res, item){
-                res.push({text:item.text.GBKsubstr(0,14),click:function(){BODY.open(item.url);_prevent_default=true;$(this).dialog('close')}});
+                res.push({text:item.text.substr(0,25),click:function(){BODY.open(item.url);_prevent_default=true;$(this).dialog('close')}});
                 return res;
             }, buttons || []);
             if(!_.isEmpty(buttons)){
@@ -251,7 +251,7 @@ $.fn.extend({
                 };
                 setTimeout(function(){
                     !_prevent_default && DIALOG.getTop().dialog('close');
-                }, (SYS.redirect - 1) * 1000);
+                }, SYS.redirect * 1000);
             }
             return this.alertDialog(text, this.ajaxOK()?this.ICO_INFO:this.ICO_ALERT, opt);
         }
