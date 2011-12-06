@@ -5,9 +5,11 @@
                 <tr>
                     <th class="title_8">序号</th>
                     <th class="title_9 middle">主题</th>
-                    <th class="title_10">发帖时间&emsp;&ensp;|&ensp;作者</th>
+                    <th class="title_10">发帖时间</th>
+                    <th class="title_12">|&ensp;作者</th>
                     <th class="title_11 middle">回复</th>
-                    <th class="title_12">最新回复&emsp;&ensp;|&ensp;作者</th>
+                    <th class="title_10">最新回复</th>
+                    <th class="title_12">|&ensp;作者</th>
             	</tr>
                 </thead>
 <{if ($info)}>
@@ -22,15 +24,17 @@
 		<span class="threads-tab">[<{section name=temp loop=$item.page+1 start=2}><a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>]</span>
 		<{/if}>
 					</td>
-					<td class="title_10"><{$item.postTime}>&ensp;|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>"><{$item.poster}></a></td>
+					<td class="title_10"><{$item.postTime}></td>
+                    <td class="title_12">|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>" class="c63f"><{$item.poster}></a></td>
 					<td class="title_11 middle"><{$item.num}></td>
-					<td class="title_12"><{$item.replyTime}>&ensp;|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>"><{$item.last}></a></td>
+					<td class="title_10"><a href="<{$base}>/article/<{$item.bName}>/<{$item.gid}>?p=<{$item.page}>#a<{$item.num}>" title="跳转至最后回复"><{$item.replyTime}></a></td>
+                    <td class="title_12">|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>" class="c09f"><{$item.last}></a></td>
 				</tr>
 <{/foreach}>
 			</table>
 <{else}>
 				<tr>
-					<td colspan="5" style="text-align:center">没有搜索到任何主题</td>
+					<td colspan="7" style="text-align:center">没有搜索到任何主题</td>
 				</tr>
 			</table>
 <{/if}>

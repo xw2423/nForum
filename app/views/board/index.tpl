@@ -78,7 +78,7 @@
 <{/foreach}>
 <{else}>
 				<tr>
-					<td colspan="5" style="text-align:center">该版面没有任何主题</td>
+					<td colspan="7" style="text-align:center">该版面没有任何主题</td>
 				</tr>
 <{/if}>
                 </tbody>
