@@ -67,9 +67,9 @@ class AppView {
      */
     public function render($action = null, $path = null){
         $this->_out = $this->_render($action, $path);
-        if($this->encoding != Configure::read("App.encoding")){
-            $this->_out = @iconv(Configure::read("App.encoding"),"{$this->encoding}//IGNORE", $this->_out);
-        }
+
+        //IGNORE
+        $this->_out = nforum_iconv(Configure::read("App.encoding"), $this->encoding, $this->_out, 2);
         return $this->_out;
     }
 

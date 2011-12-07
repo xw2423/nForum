@@ -65,7 +65,7 @@ class WidgetController extends AppController {
                     if(isset($this->params['url']['co']))
                         $color = $this->params['url']['co'];
                     $title = urldecode($title);
-                    $title = @iconv("utf-8", 'GBK'. "//TRANSLIT", $title);
+                    $title = nforum_iconv('utf-8', $this->encoding, $title);
                     $color = ($color < count(Configure::read("widget.color")) && $color >= 0)?$color:0;
                     Widget::wAdd($u, $widget->wGetName(), $title, $color, $col, $row);
                 }catch(Exception $e){
@@ -103,7 +103,7 @@ class WidgetController extends AppController {
                     $color < 0)
                     $this->_stop();
                 $title = urldecode(urldecode($this->params['url']['ti']));
-                $title = @iconv("utf-8", $this->encoding . "//TRANSLIT", $title);
+                $title = nforum_iconv('utf-8', $this->encoding, $title);
                 try{
                     Widget::wSet($u, $wid, $title, $color);
                     $this->set('no_html_data', array('n'=>$wid,'t'=>$title, 'c'=>$color));
@@ -298,7 +298,7 @@ class WidgetController extends AppController {
                     }
                     //$tt is for widget name
                     $tt = urldecode(urldecode($this->params['url']['tt']));    
-                    $tt = @iconv("utf-8", $this->encoding . "//TRANSLIT", $tt);
+                    $tt = nforum_iconv('utf-8', $this->encoding, $tt);
                     $ext = Configure::read('widget.ext');
                     foreach($ext as $v){
                         foreach($v[1] as $wid){

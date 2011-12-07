@@ -136,7 +136,7 @@ class ArticleController extends AppController {
             $reTitle = "Re: " . $this->_threads->TITLE;
 
         //hack for post with ajax,need utf-8 encoding
-        $reTitle = iconv($this->encoding, 'UTF-8//TRANSLIT', $reTitle);
+        $reTitle = nforum_iconv($this->encoding, 'utf-8', $reTitle);
         $this->set("reTitle", rawurlencode($reTitle));
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
@@ -205,11 +205,11 @@ class ArticleController extends AppController {
         if(!isset($this->params['form']['content']))
             $this->error(ECode::$POST_NOCON);
         $subject = rawurldecode(trim($this->params['form']['subject']));
-        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        $subject = nforum_iconv('UTF-8', $this->encoding, $subject);
         if(strlen($subject) > 60)
             $subject = nforum_fix_gbk(substr($subject,0,60));
         $content = $this->params['form']['content'];
-        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = nforum_iconv('UTF-8', $this->encoding, $content);
         $sig = User::getInstance()->signature;
         $email = 0;$anony = null;$outgo = 0;
         if(isset($this->params['form']['signature']))
@@ -298,11 +298,11 @@ class ArticleController extends AppController {
         if(!isset($this->params['form']['content']))
             $this->error(ECode::$POST_NOCON);
         $subject = trim($this->params['form']['subject']);
-        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        $subject = nforum_iconv('UTF-8', $this->encoding, $subject);
         if(strlen($subject) > 60)
             $subject = nforum_fix_gbk(substr($subject,0,60));
         $content = trim($this->params['form']['content']);
-        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = nforum_iconv('UTF-8', $this->encoding, $content);
         $article = Article::getInstance($id, $this->_board);
         if(!$article->update($subject, $content))
             $this->error(ECode::$ARTICLE_EDITERROR);
@@ -322,13 +322,13 @@ class ArticleController extends AppController {
         }
 
         $subject = rawurldecode(trim($this->params['form']['subject']));
-        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        $subject = nforum_iconv('UTF-8', $this->encoding, $subject);
         if(strlen($subject) > 60)
             $subject = nforum_fix_gbk(substr($subject,0,60));
         $subject = Sanitize::html($subject);
 
         $content = $this->params['form']['content'];
-        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = nforum_iconv('UTF-8', $this->encoding, $content);
         $content = preg_replace("/\n/", "<br />", Sanitize::html($content));
         if(Configure::read("ubb.parse"))
             $content = XUBB::parse($content);
@@ -433,8 +433,7 @@ class ArticleController extends AppController {
         }
 
         $val = $this->params['form']['q'];
-        foreach($val as &$v)
-            $v = iconv('UTF-8', 'GBK//TRANSLIT', $v);
+        $val = nforum_iconv('UTF-8', $this->encoding, $val);
         $pre = $t->getPreview($val);
         $subject = $pre[0];
         $preview = $pre[1];

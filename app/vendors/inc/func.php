@@ -95,4 +95,31 @@ function nforum_size_format($num){
     return $num;
 }
 
+/**
+ * change encoding of string
+ * @param string $from
+ * @param string $to
+ * @param mixed $in
+ * @param int $param 0:'',1:'TRANSLIT',2:'IGNORE'
+ * @return string
+ */
+function nforum_iconv($from , $to, $in, $param = 1){
+    if(is_array($in)){
+        foreach($in as &$v)
+            $v = nforum_iconv($from, $to, $v, $param);
+        return $in;
+    }
+    if(!is_string($in))
+        return $in;
+    $from = strtoupper($from);
+    $to = strtoupper($to);
+    if($from == $to)
+        return $in;
+    $charset = array('UTF-8', 'GBK', 'GB2312');
+    $params = array('', '//TRANSLIT', '//IGNORE');
+    $param = isset($params[$param])?$params[$param]:$params[1];
+    if(!in_array($from, $charset) || !in_array($to, $charset))
+        return $str;
+    return @iconv($from , $to . $param, $in);
+}
 ?>

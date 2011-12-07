@@ -156,6 +156,7 @@ class BoardController extends AppController {
 
         $v = @$this->params['form']['v'];
         $msg = @$this->params['form']['msg'];
+        $msg = nforum_iconv('utf-8', $this->encoding, $msg);
         $val = 0;
         if($vote['type'] == 'Êý×Ö'){
             $val = (int)$v;

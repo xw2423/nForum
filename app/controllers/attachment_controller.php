@@ -113,7 +113,7 @@ class AttachmentController extends AppController {
             file_put_contents($tmp_name, file_get_contents('php://input'));
             $file = array(
                 'tmp_name' => $tmp_name,
-                'name' => @iconv('utf-8', $this->encoding . "//TRANSLIT",$this->params['url']['name']),
+                'name' => nforum_iconv('utf-8', $this->encoding, $this->params['url']['name']),
                 'size' => filesize($tmp_name),
                 'error' => 0
             );
@@ -121,7 +121,7 @@ class AttachmentController extends AppController {
             && is_array($this->params['form']['file'])){
             //flash mode
             $file = $this->params['form']['file'];
-            $file['name'] = @iconv('utf-8', $this->encoding . "//TRANSLIT",$file['name']);
+            $file['name'] = nforum_iconv('utf-8', $this->encoding, $file['name']);
         }else{
             $this->error(ECode::$ATT_NONE);
         }
@@ -186,7 +186,7 @@ class AttachmentController extends AppController {
         $this->brief = true;
         $u = User::getInstance();
         if (isset($this->params['url']['name'])) {
-            $attName = @iconv('utf-8', $this->encoding . "//TRANSLIT",$this->params['url']['name']);
+            $attName = nforum_iconv('utf-8', $this->encoding, $this->params['url']['name']);
             try{
                 if(isset($this->params['id'])){
                     $id = $this->params['id'];

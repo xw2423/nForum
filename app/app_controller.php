@@ -36,8 +36,10 @@ class AppController extends Controller {
     //debug array
     public $dp = array();
 
-    //encoding
+    //app encoding,it may be not App.encoding in plugin
     public $encoding;
+    //value of App.encoding, it is also kbs encoding, gbk default
+    public $appEncoding;
 
     //path
     public $path;
@@ -55,7 +57,7 @@ class AppController extends Controller {
         $this->components[] = 'ByrSession';
         $this->components[] = 'RedirectAcl';
         $this->_kbsExtInstall();
-        $this->encoding = Configure::read("App.encoding");
+        $this->appEncoding = $this->encoding = Configure::read("App.encoding");
     }
 
     /**
@@ -78,7 +80,7 @@ class AppController extends Controller {
      */
     public function afterFilter(){
         if($this->RequestHandler->isFlash())
-            $this->output = @iconv($this->encoding, 'utf-8//TRANSLIT',$this->output);
+            $this->output = nforum_iconv($this->encoding, 'utf-8', $this->output);
 
         if($this->html){
             if($this->spider)

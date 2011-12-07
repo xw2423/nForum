@@ -74,10 +74,8 @@ class MailController extends ApiAppController {
 
         $title = rawurldecode($title);
         $content = rawurldecode($content);
-        if($this->encoding != Configure::read("App.encoding")){
-            $title = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $title);
-            $content = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $content);
-        }
+        $title = nforum_iconv($this->encoding, $this->appEncoding, $title);
+        $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
 
         $sig = User::getInstance()->signature;
         $bak = 0;
@@ -111,10 +109,8 @@ class MailController extends ApiAppController {
 
         $title = rawurldecode($title);
         $content = rawurldecode($content);
-        if($this->encoding != Configure::read("App.encoding")){
-            $title = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $title);
-            $content = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $content);
-        }
+        $title = nforum_iconv($this->encoding, $this->appEncoding, $title);
+        $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
 
         $sig = User::getInstance()->signature;
         $bak = $u->getCustom("mailbox_prop", 0);

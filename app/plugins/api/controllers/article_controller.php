@@ -96,10 +96,8 @@ class ArticleController extends ApiAppController {
 
         $title = rawurldecode($title);
         $content = rawurldecode($content);
-        if($this->encoding != Configure::read("App.encoding")){
-            $title = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $title);
-            $content = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $content);
-        }
+        $title = nforum_iconv($this->encoding, $this->appEncoding, $title);
+        $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
         if(strlen($title) > 60)
             $title = nforum_fix_gbk(substr($title,0,60));
         $sig = User::getInstance()->signature;
@@ -204,10 +202,8 @@ class ArticleController extends ApiAppController {
         $content = trim($this->params['form']['content']);
         $title = rawurldecode($title);
         $content = rawurldecode($content);
-        if($this->encoding != Configure::read("App.encoding")){
-            $title = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $title);
-            $content = @iconv($this->encoding, Configure::read("App.encoding"). '//IGNORE', $content);
-        }
+        $title = nforum_iconv($this->encoding, $this->appEncoding, $title);
+        $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
         if(strlen($title) > 60)
             $title = nforum_fix_gbk(substr($title,0,60));
         if(!$article->update($title, $content))

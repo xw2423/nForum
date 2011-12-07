@@ -168,10 +168,8 @@ class ArticleController extends MobileAppController {
                 $this->error(ECode::$POST_NOCON);
             $subject = trim($this->params['form']['subject']);
             $content = trim($this->params['form']['content']);
-            if($this->encoding != Configure::read("App.encoding")){
-                $subject = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $subject);
-                $content = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $content);
-            }
+            $subject = nforum_iconv($this->encoding, $this->appEncoding, $subject);
+            $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
             $subject = rawurldecode($subject);
             $sig = User::getInstance()->signature;
             $email = 0;$anony = null;$outgo = 0;
@@ -282,10 +280,8 @@ class ArticleController extends MobileAppController {
         if($this->RequestHandler->isPost()){
             $subject = trim($this->params['form']['subject']);
             $content = trim($this->params['form']['content']);
-            if($this->encoding != Configure::read("App.encoding")){
-                $subject = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $subject);
-                $content = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $content);
-            }
+            $subject = nforum_iconv($this->encoding, $this->appEncoding, $subject);
+            $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
             $subject = rawurldecode($subject);
             if(!$article->update($subject, $content))
                 $this->error(ECode::$ARTICLE_EDITERROR);

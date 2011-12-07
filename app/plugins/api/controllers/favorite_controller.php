@@ -29,7 +29,8 @@ class FavoriteController extends ApiAppController {
         if($val == "")
             $this->error();
         if($dir){
-            if(!$fav->add(iconv("utf-8", "gbk//TRANSLIT", $val), Favor::$DIR))
+            $val = nforum_iconv($this->encoding, $this->appEncoding, $val);
+            if(!$fav->add($val, Favor::$DIR))
                 $this->error();
         }else{
             App::import("vendor", "model/board");

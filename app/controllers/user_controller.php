@@ -163,6 +163,7 @@ class UserController extends AppController {
             }
             $this->_clearFace(basename($furl));
         }
+        $signature = nforum_iconv('utf-8', $this->encoding, $signature);
         $u->setSignature($signature);
         $ret['ajax_code'] = ECode::$USER_SAVEOK;
         $this->set('no_html_data', $ret);
@@ -188,7 +189,7 @@ class UserController extends AppController {
         $u = User::getInstance();
         if(isset($this->params['form']['name'])){
             $name = $this->params['form']['name'];
-            $name = iconv('UTF-8', 'GBK//TRANSLIT', $name);
+            $name = nforum_iconv('UTF-8', $this->encoding, $name);
             //0 means modify forever
             if($u->setName($name)){
                 $ret['ajax_code'] = ECode::$USER_NAMEOK;
@@ -274,7 +275,7 @@ class UserController extends AppController {
             file_put_contents($tmp_name, file_get_contents('php://input'));
             $file = array(
                 'tmp_name' => $tmp_name,
-                'name' => @iconv('utf-8', $this->encoding . "//TRANSLIT",$this->params['url']['name']),
+                'name' => nforum_iconv('utf-8', $this->encoding, $this->params['url']['name']),
                 'size' => filesize($tmp_name),
                 'error' => 0
             );
@@ -282,7 +283,7 @@ class UserController extends AppController {
             && is_array($this->params['form']['file'])){
             //flash mode
             $file = $this->params['form']['file'];
-            $file['name'] = @iconv('utf-8', $this->encoding . "//TRANSLIT",$file['name']);
+            $file['name'] = nforum_iconv('utf-8', $this->encoding, $file['name']);
         }else{
             $this->error(ECode::$ATT_NONE);
         }

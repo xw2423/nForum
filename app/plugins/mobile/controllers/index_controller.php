@@ -68,9 +68,7 @@ class IndexController extends MobileAppController {
         $bName = "";
         if(isset($this->params['url']['name']))
             $bName = trim($this->params['url']['name']);
-        if($this->encoding != Configure::read("App.encoding")){
-            $bName = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $bName);
-        }
+        $bName = nforum_iconv($this->encoding, $this->appEncoding, $bName);
         $boards = Board::search($bName);
         if(count($boards) == 1){
             $this->redirect($this->_mbase . "/board/". $boards[0]->NAME);

@@ -105,10 +105,8 @@ class MailController extends MobileAppController {
                 $content = $this->params['form']['content'];
             $sig = 0;
             $bak = isset($this->params['form']['backup'])?1:0;
-            if($this->encoding != Configure::read("App.encoding")){
-                $title = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $title);
-                $content = iconv($this->encoding, Configure::read("App.encoding")."//IGNORE", $content);
-            }
+            $title = nforum_iconv($this->encoding, $this->appEncoding, $title);
+            $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
             try{
                 if(false === $mail){
                     //send new

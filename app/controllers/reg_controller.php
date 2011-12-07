@@ -68,9 +68,10 @@ class RegController extends AppController{
             $day = "01";
         $birthday = "$year-{$month}-{$day}";
 
-        $tname = iconv('UTF-8', 'GBK//TRANSLIT', $tname);
-        $dept = iconv('UTF-8', 'GBK//TRANSLIT', $dept);
-        $address = iconv('UTF-8', 'GBK//TRANSLIT', $address);
+        $name = nforum_iconv('utf-8', $this->encoding, $name);
+        $tname = nforum_iconv('utf-8', $this->encoding, $tname);
+        $dept = nforum_iconv('utf-8', $this->encoding, $dept);
+        $address = nforum_iconv('utf-8', $this->encoding, $address);
 
         try{
             User::create($id, $pwd1, $name);
@@ -130,9 +131,9 @@ class RegController extends AppController{
             $day = "01";
         $birthday = "$year-{$month}-{$day}";
 
-        $tname = iconv('UTF-8', 'GBK//TRANSLIT', $tname);
-        $dept = iconv('UTF-8', 'GBK//TRANSLIT', $dept);
-        $address = iconv('UTF-8', 'GBK//TRANSLIT', $address);
+        $tname = nforum_iconv('utf-8', $this->encoding, $tname);
+        $dept = nforum_iconv('utf-8', $this->encoding, $dept);
+        $address = nforum_iconv('utf-8', $this->encoding, $address);
 
         try{
             $u = User::getInstance();

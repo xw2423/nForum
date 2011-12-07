@@ -201,8 +201,8 @@ class MailController extends AppController {
         if(isset($this->params['form']['signature']))
             $sig = intval($this->params['form']['signature']);
         $bak = isset($this->params['form']['backup'])?1:0;
-        $title = iconv('UTF-8', 'GBK//TRANSLIT', $title);
-        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $title = nforum_iconv('utf-8', $this->encoding, $title);
+        $content = nforum_iconv('utf-8', $this->encoding, $content);
         try{
             if(false === $mail){
                 //send new
@@ -305,13 +305,13 @@ class MailController extends AppController {
         }
 
         $subject = rawurldecode(trim($this->params['form']['title']));
-        $subject = iconv('UTF-8', 'GBK//TRANSLIT', $subject);
+        $subject = nforum_iconv('utf-8', $this->encoding, $subject);
         if(strlen($subject) > 60)
             $subject = nforum_fix_gbk(substr($subject,0,60));
         $subject = Sanitize::html($subject);
 
         $content = $this->params['form']['content'];
-        $content = iconv('UTF-8', 'GBK//TRANSLIT', $content);
+        $content = nforum_iconv('utf-8', $this->encoding, $content);
         $content = preg_replace("/\n/", "<br />", Sanitize::html($content));
         if(Configure::read("ubb.parse"))
             $content = XUBB::parse($content);
