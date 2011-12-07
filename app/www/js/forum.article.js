@@ -20,6 +20,12 @@ $(function(){
         }
         return false;
     });
+    $('#f_search').submit(function(){
+        BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
+            return k + '=' + v;
+        }).join('&'));  
+        return false;
+    });
     $('#body').on('click','.a-post',validPost)
         .on('click','#a_reply',function(){
             $('#quick_text').focus();
