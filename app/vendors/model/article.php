@@ -46,8 +46,11 @@ class Article extends Archive{
         if($board->isSortMode()){
             $info = array();
             $num = bbs_get_records_from_id($board->NAME, $id, 0, $info);
-            if($num == 0)
-                throw new ArticleNullException();
+            if($num == 0){
+                $num = bbs_get_records_from_id($board->NAME, $id, 11, $info);
+                if($num == 0)
+                    throw new ArticleNullException();
+            }
             $info = $info[1];
         }else{
             $info = bbs_getarticles($board->NAME, $id, 1, $board->getMode());
