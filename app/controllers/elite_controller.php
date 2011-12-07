@@ -164,7 +164,7 @@ class EliteController extends AppController {
                     continue;
                 $buf .= '/'.$dir;
                 $up_dirs[] = $buf;
-                if ($j == 2)
+                if ($j == 2 && !strcmp($up_dirs[0], 'groups'))
                     $board = $dir;
                 $j ++;
             }
