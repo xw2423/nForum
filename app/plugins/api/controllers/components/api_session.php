@@ -16,10 +16,10 @@ class ApiSessionComponent extends Object{
         $this->isLogin = ($id !== 'guest');
 
         $db = DB::getInstance();
-        if($u = $db->one('select utmpnum, utmpkey from pl_api_session where id=?', array($id))){
-            if(Forum::initUser($id,intval($u['utmpnum']),intval($u['utmpkey']))){
+        if($u = $db->one('select id, utmpnum, utmpkey from pl_api_session where id=?', array($id))){
+            if(Forum::initUser($u['id'],intval($u['utmpnum']),intval($u['utmpkey']))){
                 $val = array('expire' => (time() + $this->_expire));
-                $db->update('pl_api_session', $val, 'where id=?', array($id));
+                $db->update('pl_api_session', $val, 'where id=?', array($u['id']));
                 return;
             }
         }
@@ -42,9 +42,9 @@ class ApiSessionComponent extends Object{
         $user = User::getInstance();
         if($u){
             $val = array('utmpnum' => $user->index, 'utmpkey' => $user->utmpkey, 'expire' => time() + $this->_expire);
-            $db->update('pl_api_session', $val, 'where id=?', array($id));
+            $db->update('pl_api_session', $val, 'where id=?', array($user->userid));
         }else{
-            $val = array('k'=>array('id', 'utmpnum', 'utmpkey', 'expire'), 'v'=>array(array($id, $user->index, $user->utmpkey, time() + $this->_expire)));
+            $val = array('k'=>array('id', 'utmpnum', 'utmpkey', 'expire'), 'v'=>array(array($user->userid, $user->index, $user->utmpkey, time() + $this->_expire)));
             $db->insert('pl_api_session', $val);
         }
     } 
