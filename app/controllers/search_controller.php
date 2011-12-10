@@ -33,15 +33,18 @@ class SearchController extends AppController {
         $day = $title1 = $title2 = $title3 = $author = $t = "";
 
         if(isset($this->params['url']['t1']))
-            $title1 = trim($this->params['url']['t1']);
+            $title1 = trim(rawurldecode($this->params['url']['t1']));
         if(isset($this->params['url']['t2']))
-            $title2 = trim($this->params['url']['t2']);
+            $title2 = trim(rawurldecode($this->params['url']['t2']));
         if(isset($this->params['url']['tn']))
-            $title3 = trim($this->params['url']['tn']);
+            $title3 = trim(rawurldecode($this->params['url']['tn']));
         if(isset($this->params['url']['au']))
             $author = trim($this->params['url']['au']);
         if(isset($this->params['url']['d']))
             $day = intval($this->params['url']['d']);
+        $title1 = nforum_iconv('utf-8', $this->encoding, $title1);
+        $title2 = nforum_iconv('utf-8', $this->encoding, $title2);
+        $title3 = nforum_iconv('utf-8', $this->encoding, $title3);
         $m = isset($this->params['url']['m']);
         $a = isset($this->params['url']['a']);
         $full = isset($this->params['url']['f']);
@@ -123,7 +126,9 @@ class SearchController extends AppController {
         App::import('Sanitize');
         $b = isset($this->params['url']['b'])?$this->params['url']['b']:"";
         $ret = false;
-        $boards = Board::search(trim($b));
+        $b = trim(rawurldecode($b));
+        $b = nforum_iconv('utf-8', $this->encoding, $b);
+        $boards = Board::search($b);
         if(count($boards) == 1)
             $this->redirect("/board/". $boards[0]->NAME);
         foreach($boards as $brd){
