@@ -455,7 +455,7 @@ $.fn.extend({
         },
         keydown_search:function(e){
             if(e.keyCode == 13){
-                var url = '/s/board?b=' + $('#b_search').val();
+                var url = '/s/board?b=' + encodeURIComponent(encodeURIComponent($('#b_search').val()));
                 this.body.open(url);
             }
         },

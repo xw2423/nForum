@@ -22,7 +22,7 @@ $(function(){
     });
     $('#f_search').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
-            return k + '=' + v;
+            return k + '=' + encodeURIComponent(encodeURIComponent(v));
         }).join('&'));  
         return false;
     });

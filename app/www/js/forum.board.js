@@ -2,7 +2,7 @@ $(function(){
     $('.board-list tbody tr:odd td').addClass('bg-odd');
     $('#board_search').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
-            return k + '=' + v;
+            return k + '=' + encodeURIComponent(encodeURIComponent(v));
         }).join('&'));  
         return false;
     });
