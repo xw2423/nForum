@@ -500,10 +500,10 @@ $.fn.extend({
         },
         onBodyJump:function(){
             this.tips(true);
-            this.session.update();
         },
         onBodyJumped:function(){
             this.tips(false);
+            this.session.update();
         },
         onLogin:function(){
             SYS.clear();
