@@ -311,7 +311,7 @@ $.fn.extend({
                 self.set(json);
                 self.updateTime = $.now();
                 if(self.ajaxOK()) self.trigger('login');
-                else DIALOG.ajaxDialog(json);
+                else {self.trigger('logerror');DIALOG.ajaxDialog(json);}
             }, 'json');
         },
         //session will trigger 'logout' event
@@ -428,6 +428,7 @@ $.fn.extend({
             this.session = session;
             this.session.bind("change", this.onSessionUpdate, this);
             this.session.bind("login", this.onLogin, this);
+            this.session.bind("logerror", this.onLogerror, this);
             this.session.bind("logout", this.onLogout, this);
 
             //hide btn
@@ -436,13 +437,14 @@ $.fn.extend({
                 this.$('#left_line samp').click();
         },
         click_submit:function(){
-            this.tips(true);
             if($.trim($('#u_login_id').val()) == '')
                 DIALOG.alertDialog(SYS.code.MSG_USER);
             else if($('#u_login_passwd').val() == '')
                 DIALOG.alertDialog(SYS.code.MSG_PWD);
-            else
+            else{
+                this.tips(true);
                 this.session.login($('#u_login_id'), $('#u_login_passwd'), $('#u_login_cookie'));
+            }
             return false;
         },
         click_out:function(e){
@@ -508,6 +510,9 @@ $.fn.extend({
         onLogin:function(){
             SYS.clear();
             this.body.refresh();
+        },
+        onLogerror:function(){
+            this.tips(false);
         },
         onLogout:function(){
             SYS.clear();
