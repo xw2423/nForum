@@ -32,7 +32,7 @@ class Wrapper {
         $ret['title'] = $article->TITLE;
         try{
             $ret['user'] = $this->user(User::getInstance($article->OWNER));
-        }catch(UserNullException $e){
+        }catch(Exception $e){
             $ret['user'] = $article->OWNER;
         }
         $ret['post_time'] = $article->POSTTIME;
@@ -106,7 +106,9 @@ class Wrapper {
                 $info = $box->getInfo();
                 $ret['new_mail'] = $info['newmail'];
                 $ret['full_mail'] = $info['full'];
-            }catch(Exception $e){}
+            }catch(Exception $e){
+                $ret['new_mail'] = $ret['full_mail'] = false;
+            }
         }
 
         return $ret;
@@ -205,7 +207,7 @@ class Wrapper {
         $ret['title'] = $mail->TITLE;
         try{
             $ret['user'] = $this->user(User::getInstance($mail->OWNER));
-        }catch(UserNullException $e){
+        }catch(Exception $e){
             $ret['user'] = $mail->OWNER;
         }
         $ret['post_time'] = $mail->POSTTIME;
