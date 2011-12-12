@@ -3,6 +3,7 @@ class ApiAppController extends AppController {
 
     public $components = array('api.ApiSession');
     protected $_abase = "";
+    protected $_oabase = "";
     protected $_exts = array('xml' => 'application/xml', 'json'=> 'application/json');
 
     public function __construct(){
@@ -11,6 +12,7 @@ class ApiAppController extends AppController {
         array_pop($this->components);
         array_pop($this->components);
         $this->encoding = "utf-8";
+        $this->_oabase = Configure::read('plugins.api.base');
         if(true === Configure::read('plugins.api.use_domain')){
             Configure::write('plugins.api.base', '');
             Configure::write('site.prefix', '');
@@ -42,7 +44,7 @@ class ApiAppController extends AppController {
 
     public function error($code = null){
         $code = is_null($code)?ECode::$SYS_ERROR:$code;
-        $req = str_replace($this->_abase, '', $this->path);
+        $req = str_replace($this->_oabase, '', $this->path);
         $_error = array('request' => $req, 'code'=> $code, 'msg' => ECode::msg($code));
         $this->set('data', $_error);
         $this->name = 'error';
