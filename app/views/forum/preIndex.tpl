@@ -7,9 +7,9 @@
 <meta name="author" content="xw2423@BYR" />
 <title><{$webTitle}></title>
 <link rel="shortcut icon" type="image/x-icon" href="<{$static}><{$base}>/favicon.ico">
-<!¨C[if lt IE9]> 
+<!--[if lt IE 9]>
 <script src="<{$static}><{$base}>/js/html5.js"></script>
-<![endif]¨C>
+<![endif]-->
 <{include file="css.tpl"}>
 </head>
 <body>

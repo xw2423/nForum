@@ -12,9 +12,9 @@
 if(!location.hash.match(/^#.+$/)) location.href='index';
 </script>
 <{/if}>
-<!¨C[if lt IE9]> 
+<!--[if lt IE 9]>
 <script src="<{$static}><{$base}>/js/html5.js"></script>
-<![endif]¨C>
+<![endif]-->
 <{include file="css.tpl"}>
 </head>
 
