@@ -119,7 +119,7 @@ $(function(){
             this.trigger('destroy');
         },
         'delete':function(){
-            this.destroy({url:SYS.base + '/att' + bName + '/ajax_delete' + id + '.json?name=' + this.get('name')});
+            this.destroy({url:SYS.base + '/att' + bName + '/ajax_delete' + id + '.json?name=' + encodeURIComponent(this.get('name'))});
         }
     });
     var FilesModel = Backbone.Collection.extend({
