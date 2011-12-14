@@ -15,5 +15,6 @@ $config['redirectacl']['spider'] = array(
     ,array("|sogou.*spider|i", false)
     ,array("|soso.*spider|i", false)
     ,array("|voluniabot|i", false)
+    ,array("|jikespider|i", false)
 );
 ?>
