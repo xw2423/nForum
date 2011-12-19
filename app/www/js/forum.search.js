@@ -19,7 +19,9 @@ $(function(){
 
     $('#search_form').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
-            return k + '=' + encodeURIComponent(encodeURIComponent(v));
+            v = encodeURIComponent(encodeURIComponent(v));
+            if($.isIE(7) || $.isIE(6)) v = encodeURIComponent(v);
+            return k + '=' + v;
         }).join('&'));  
         return false;
     });
