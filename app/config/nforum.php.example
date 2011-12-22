@@ -112,6 +112,10 @@ $config['exif'] = array('Photo');
 #类型: Array
 #描述: 解析图片exif信息的版面
 
+$config['thumbnail']['small'] = array(120, null);
+$config['thumbnail']['middle'] = array(240, null);
+#类型: Array
+#描述: 缩略图设置,key为缩略图类别,value为宽度和高度,不设置用null代替
 /********* article config ******************/
 $config['article']['ref_line'] = BBS_QUOTED_LINES;
 $config['article']['quote_level'] = BBS_QUOTE_LEV;

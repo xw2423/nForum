@@ -50,7 +50,7 @@
     Router::connect('/board/:name/:action/:num', array('controller' => 'board', 'num' => null), array('num' => '\d+'));
     Router::connect('/article/:name/:gid', array('controller' => 'article', 'action' => 'index'), array('gid' => '\d+'));
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
-    Router::connect('/att/:name/:id/:pos', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+'));
+    Router::connect('/att/:name/:id/:pos/:type', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+', 'pos'=>'\d+'));
     Router::connect('/att/:name/:action/:id', array('controller' => 'attachment', 'id' => null), array('id'=> '\d+'));
     Router::connect('/section/:num', array('controller' => 'section', 'action' => 'index'));
     Router::connect('/user/query/:id', array('controller' => 'user', 'action' => 'ajax_query'));
@@ -107,7 +107,7 @@
     Router::connect($base . '/user/:action/:id', array('controller' => 'user', 'plugin'=>'api'), array("id"=>"\w+"));
     Router::connect($base . '/board/:action/:name', array('controller' => 'board', 'plugin'=>'api'), array("name"=>"\w+"));
     Router::connect($base . '/section/:action/:name', array('controller' => 'section', 'plugin'=>'api'), array("name"=>"\w+"));
-    Router::connect($base . '/attachment/:name/:id/:pos', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download'), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+'));
+    Router::connect($base . '/attachment/:name/:id/:pos/:type', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download'), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+'));
     Router::connect($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'plugin'=>'api'), array("id"=>"\d+"));
     Router::connect($base . '/attachment/:name/:action', array('controller' => 'attachment', 'plugin'=>'api'));
     Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'api'), array("num"=>"\d+"));

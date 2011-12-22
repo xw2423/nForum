@@ -149,10 +149,11 @@ abstract class Archive extends OverloadObject{
      * function getAttHtml parse the ubb code of attachment to html
      * the ubb code like [upload=\d][/upload]
      *
+     * @param string $thumbnail
      * @return string html
      * @access public
      */
-    public function getAttHtml(){
+    public function getAttHtml($thumbnail = ''){
         $list = $this->getAttList(false);
         $ret = array();
         foreach($list as $v){
@@ -162,7 +163,7 @@ abstract class Archive extends OverloadObject{
                 case 'jpeg':
                 case 'png':
                 case 'gif':
-                    $ret[] = $this->_getImg($this->getAttLink($v['pos']));
+                    $ret[] = $this->_getImg($this->getAttLink($v['pos']), $thumbnail);
                     break;
                 case 'swf':
                     $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['size']);
@@ -182,11 +183,12 @@ abstract class Archive extends OverloadObject{
      * function parseAtt parse the "[upload][/upload]" tag in content
      *
      * @param string $content
+     * @param string $thumbnail
      * @return string 
      * @access public
      */
-    public function parseAtt($content){
-        $attList = $this->getAttHtml();
+    public function parseAtt($content, $thumbnail = ''){
+        $attList = $this->getAttHtml($thumbnail);
         $num = count($attList);
         if($num > 0){
             for($i = 1; $i <= $num; $i++){
@@ -210,8 +212,10 @@ abstract class Archive extends OverloadObject{
         return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);
     }
 
-    protected function _getImg($link){
+    protected function _getImg($link, $thumbnail){
         $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="单击此在新窗口浏览图片" src="%link%" class="resizeable" /></a>';
+        if('' !== $thumbnail)
+            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图片</a><br /><img border="0" src="%link%/' . $thumbnail . '" />';
         return str_replace("%link%", $link, $templete);
     }
 

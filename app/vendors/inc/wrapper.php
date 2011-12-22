@@ -155,13 +155,14 @@ class Wrapper {
 
     public function attachment($archive){
         $domain = Configure::read('site.domain');
+        $base = Configure::read('site.prefix');
         $abase = Configure::read('plugins.api.base');
         if(!is_array($archive)){
             $list = $archive->getAttList(false);
             if(is_a($archive, 'Article')){
-                $url_prefix = $domain  . $abase . '/attachment/' . $archive->getBoard()->NAME . '/' . $archive->ID . '/';
+                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBoard()->NAME . '/' . $archive->ID . '/';
             }else if(is_a($archive, 'Mail')){
-                $url_prefix = $domain  . $abase . '/attachment/' . $archive->getBox()->type . '/' . $archive->ID . '/';
+                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBox()->type . '/' . $archive->ID . '/';
             }
         }else{
             $list = $archive;
@@ -173,10 +174,17 @@ class Wrapper {
         foreach($list as $v){
             $size += intval($v['size']);
             $v['size'] = nforum_size_format($v['size']);
-            $ret[] = array('name' => $v['name']
+            $tmp = array('name' => $v['name']
                 ,'url' => ('' === $url_prefix)?'':($url_prefix . $v['pos'])
                 ,'size' => $v['size']
+                ,'thumbnail_small' => false
+                ,'thumbnail_middle' => false
             );
+            if(in_array(strtolower(substr(strrchr($v['name'], "."), 1)), array('jpg', 'jpeg', 'png', 'gif'))){
+                $tmp['thumbnail_small'] = $tmp['url'] . '/small';
+                $tmp['thumbnail_middle'] = $tmp['url'] . '/middle';
+            }
+            $ret[] = $tmp;
         }
         $upload = Configure::read("article");
         return array('file' => $ret, 'remain_space' => nforum_size_format($upload['att_size'] - $size), 'remain_count' => $upload['att_num'] - $num);

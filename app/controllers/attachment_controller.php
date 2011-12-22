@@ -11,6 +11,7 @@ class AttachmentController extends AppController {
     public function __construct(){
         parent::__construct();
         $this->components[] = "Exif";
+        $this->components[] = "Thumbnail";
         $this->front = true;
     }
 
@@ -48,14 +49,15 @@ class AttachmentController extends AppController {
         $name = $this->params['name'];
         $id = $this->params['id'];
         $pos = $this->params['pos'];
+        $type = $this->params['type'];
 
         $archive = null;
         App::import("vendor", "model/mail");
         try{
             if(in_array($name, get_class_vars("MailBox"))){
                 $this->requestLogin();
-                    $box = new MailBox(User::getInstance(), $name);
-                    $archive = Mail::getInstance($id, $box);
+                $box = new MailBox(User::getInstance(), $name);
+                $archive = Mail::getInstance($id, $box);
             }else{
                 $board = Board::getInstance($name);
                 if(!$board->hasReadPerm(User::getInstance()))
@@ -68,6 +70,11 @@ class AttachmentController extends AppController {
         }catch(Exception $e){
             $this->error(ECode::$SYS_NOFILE);
         }
+
+        //check thumbnail
+        if(!empty($type))
+            $this->Thumbnail->archive($type, $archive, $pos);
+
         $archive->getAttach($pos);
         $this->_stop();
     }

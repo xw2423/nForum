@@ -20,7 +20,7 @@ patch -s -d $cakelib -p 2 < patch/cake.patch
 #fi
 #patch -s -d $kbslib -p 0 < patch/kbs.patch
 
-tmpdir="tmp/cache tmp/cache/models tmp/cache/persistent tmp/cache/asset tmp/cache/nforum tmp/compile tmp/logs www/files/adv www/uploadFace"
+tmpdir="tmp/cache tmp/cache/models tmp/cache/persistent tmp/cache/asset tmp/cache/nforum tmp/cache/thumbnail tmp/compile tmp/logs www/files/adv www/uploadFace"
 for dir in $tmpdir
 do
 	if [ ! -d app/$dir ]

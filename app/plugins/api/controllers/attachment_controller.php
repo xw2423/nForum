@@ -4,6 +4,11 @@ class AttachmentController extends ApiAppController {
 
     private $_board;
 
+    public function __construct(){
+        parent::__construct();
+        $this->components[] = "Thumbnail";
+    }
+
     public function download(){
         if(!isset($this->params['name']) 
         || !isset($this->params['id'])
@@ -13,6 +18,7 @@ class AttachmentController extends ApiAppController {
         $name = $this->params['name'];
         $id = $this->params['id'];
         $pos = $this->params['pos'];
+        $type = $this->params['type'];
 
         $archive = null;
         App::import("vendor", "model/mail");
@@ -26,12 +32,18 @@ class AttachmentController extends ApiAppController {
                 if(!$board->hasReadPerm(User::getInstance()))
                     $this->error(ECode::$SYS_NOFILE);
                 $archive = Article::getInstance($id, $board);
+                $file = $archive->getFileName();
+                if($board->isNormal())
+                    $this->cache(true, @filemtime($file));
             }
         }catch(Exception $e){
             $this->error(ECode::$SYS_NOFILE);
         }
-        $file = $archive->getFileName();
-        $this->cache(true, @filemtime($file));
+
+        //check thumbnail
+        if(!empty($type))
+            $this->Thumbnail->archive($type, $archive, $pos);
+
         $archive->getAttach($pos);
         $this->_stop();
     }

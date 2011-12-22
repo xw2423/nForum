@@ -17,11 +17,15 @@ class ExifComponent extends Object {
     }
 
     public function getInfo($file){
-        @$exif = exif_read_data($file,"IFD0"); 
-        if($exif === false){
+        App::import('vendor', 'inc/image');
+        try{
+            $img = new Image($file);
+            $exif = $img->exif();
+        }catch(ImageNullException $e){
             return false;
         }
-        $exif = exif_read_data($file, 0, true);
+        if($exif === false)
+            return false;
         if(isset($exif['EXIF']['ExposureTime'])){
             $expTime = split("/", $exif['EXIF']['ExposureTime']);
             if(intval($expTime[1]) >= intval($expTime[0])*10)
