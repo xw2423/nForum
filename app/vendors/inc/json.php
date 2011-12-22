@@ -29,7 +29,7 @@ class BYRJSON {
                 return (float) $var;
 
             case 'string':
-                return '"' . preg_replace(array("/(?<=([".chr(0x81)."-".chr(0xff)."][".chr(0x40)."-".chr(0xff)."])|[".chr(0x1)."-".chr(0x7e)."]|^)\\\/", "|\"|", "|\n|", "|".chr(0x8)."|", "|\r|", "|\t|"), array('\\\\\\', '\"', '\n', '\b', '\r', '\t'), $var)  . '"';
+                return '"' . preg_replace(array("/(?<=([".chr(0x81)."-".chr(0xff)."][".chr(0x40)."-".chr(0xff)."])|[".chr(0x1)."-".chr(0x7e)."]|^)\\\/", "|\"|", "|\n|", "|".chr(0x8)."|", "|\r|", "|\t|", "|[".chr(0x1)."-".chr(0x1f)."]|e"), array('\\\\\\', '\"', '\n', '\b', '\r', '\t', "'\u00' . bin2hex('$0')"), $var)  . '"';
 
             case 'array':
                 if (is_array($var) && count($var) && (array_keys($var) !== range(0, count($var) - 1))) {
