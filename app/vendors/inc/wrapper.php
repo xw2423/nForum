@@ -177,10 +177,10 @@ class Wrapper {
             $tmp = array('name' => $v['name']
                 ,'url' => ('' === $url_prefix)?'':($url_prefix . $v['pos'])
                 ,'size' => $v['size']
-                ,'thumbnail_small' => false
-                ,'thumbnail_middle' => false
+                ,'thumbnail_small' => ''
+                ,'thumbnail_middle' => ''
             );
-            if(in_array(strtolower(substr(strrchr($v['name'], "."), 1)), array('jpg', 'jpeg', 'png', 'gif'))){
+            if('' !== $tmp['url'] && in_array(strtolower(substr(strrchr($v['name'], "."), 1)), array('jpg', 'jpeg', 'png', 'gif'))){
                 $tmp['thumbnail_small'] = $tmp['url'] . '/small';
                 $tmp['thumbnail_middle'] = $tmp['url'] . '/middle';
             }
