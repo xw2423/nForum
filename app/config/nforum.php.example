@@ -276,4 +276,5 @@ $config['jsr']['iframe'] = false;
 #if jsr.iframe false,the allow page pattern(javascript)
 $config['jsr']['allowFrame'] = "";
 $config['jsr']['session']['timeout'] = 60;
+$config['jsr']['redirect'] = $config['redirect']['time'];
 ?>
