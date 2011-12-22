@@ -318,15 +318,6 @@ class UserController extends AppController {
                     $msg = "我觉得您今天可以买彩票了";
                     break;
                 }
-                $imgInf = @getimagesize($tmpFile);
-                if($imgInf === false){
-                    $msg = "上传的文件貌似不是图像文件";
-                    break;
-                }
-                if(!in_array($imgInf[2], range(1, 3))){
-                    $msg = "上传的文件貌似不是图像文件";
-                    break;
-                }
                 if (isset($tmp_name)) { 
                     if(!rename($tmp_name, $faceFullPath)){
                         $msg = "上传错误";
@@ -336,15 +327,33 @@ class UserController extends AppController {
                     $msg = "上传错误";
                     break;
                 }
-                $msg = "文件上传成功";
+
+                App::import('vendor', "inc/image");
+                try{
+                    $img = new Image($faceFullPath);
+                    $format = $img->getFormat();
+                    if(!in_array($format, range(1, 3))){
+                        $msg = "上传的文件貌似不是图像文件";
+                        break;
+                    }
+                    //gif do not thumbnail
+                    if($format != 1){
+                        $facePath = preg_replace("/\.[^.]+$/", '.jpg', $facePath);
+                        $faceFullPath = WWW_ROOT . $facePath;
+                        $img->thumbnail($faceFullPath, 120, 120);
+                    }
+                }catch(ImageNullException $e){
+                    $msg = "上传的文件貌似不是图像文件";
+                    break;
+                }
 
                 $this->set("no_html_data", array(
                     "img" => $facePath
-                    ,"width" => $imgInf[0]
-                    ,"height" => $imgInf[1]
+                    ,"width" => $img->getWidth()
+                    ,"height" => $img->getHeight()
                     ,"ajax_st" => 1
                     ,"ajax_code" =>ECode::$SYS_AJAXOK
-                    ,"ajax_msg" => $msg
+                    ,"ajax_msg" => "文件上传成功"
                 ));
                 return;
                 break;
@@ -361,6 +370,8 @@ class UserController extends AppController {
             default:
                 $msg = "未知错误";
         }
+        if(isset($tmp_name))
+            @unlink($tmp_name);
         $this->set("no_html_data", array(
             "ajax_st" => 0
             ,"ajax_code" =>ECode::$SYS_AJAXERROR
