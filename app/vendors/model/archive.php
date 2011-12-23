@@ -163,7 +163,7 @@ abstract class Archive extends OverloadObject{
                 case 'jpeg':
                 case 'png':
                 case 'gif':
-                    $ret[] = $this->_getImg($this->getAttLink($v['pos']), $thumbnail);
+                    $ret[] = $this->_getImg($this->getAttLink($v['pos']), $v['size'], $thumbnail);
                     break;
                 case 'swf':
                     $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['size']);
@@ -212,10 +212,10 @@ abstract class Archive extends OverloadObject{
         return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);
     }
 
-    protected function _getImg($link, $thumbnail){
+    protected function _getImg($link, $size, $thumbnail){
         $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="单击此在新窗口浏览图片" src="%link%" class="resizeable" /></a>';
         if('' !== $thumbnail)
-            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图片</a><br /><img border="0" src="%link%/' . $thumbnail . '" />';
+            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(' . $size . ')</a><br /><img border="0" src="%link%/' . $thumbnail . '" />';
         return str_replace("%link%", $link, $templete);
     }
 
