@@ -60,6 +60,8 @@ class ForumController extends AppController {
             }
         }
         if($persistent && $update) nforum_cache_write("widget_time", $time);
+        foreach($w as &$v)
+            ksort($v);
         $this->set("widget", $w);    
         $this->jsr[] = 'SYS.widget.persistent=' . ($persistent?'true':'false');
         $this->jsr[] = "xWidget.init(SESSION.get('is_login'), SESSION.get('id'))";
