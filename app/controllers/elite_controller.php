@@ -147,6 +147,12 @@ class EliteController extends AppController {
         $this->set("no_html_data", array('subject'=>$subject, 'content'=>$content));
     }
 
+    public function download(){
+        if(!isset($this->params['url']['pos']))
+            $this->_stop();
+        $this->file();
+    }
+
     //copy from wForum
     private function _getUpdir($path, &$board, &$up_dirs){
         $board = '';
@@ -191,7 +197,7 @@ class Elite extends Archive{
     }
     public function getAttLink($pos){
         $base = Configure::read('site.prefix');
-        return "$base/elite/file?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
+        return "$base/elite/download?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
     }
     public function addAttach($file, $fileName){}
     public function delAttach($num){}
