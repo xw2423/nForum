@@ -99,6 +99,7 @@ class Wrapper {
             $ret['is_admin'] = $user->isAdmin();
             $ret['first_login_time'] = $user->firstlogin;
             $ret['login_count'] = $user->numlogins;
+            $ret['stay_count'] = $user->stay;
             App::import("vendor", "model/mail");
             $ret['new_mail'] = $ret['full_mail'] = false;
             try{
