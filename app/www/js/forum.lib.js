@@ -48,8 +48,7 @@ $.extend({
                 this['_ie'+ver] = (!!$.browser.msie && $.browser.version == ver+'.0');
             return this['_ie'+ver];
         }else{
-            //thanks for Aleko
-            (typeof this._ie === "undefined") && (this._ie = !-[1,]);
+            (typeof this._ie === "undefined") && (this._ie = !!$.browser.msie);
             return this._ie;
         }
     },
