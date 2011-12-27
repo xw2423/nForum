@@ -22,10 +22,11 @@ if(!file_exists($file)){
 }
 $fileModified = filemtime($file);
 make_cache(true, $fileModified, 86400);
+$encoding = Configure::read("App.encoding");
 if($type === "css"){
-    header("Content-Type: text/css");
+    header("Content-Type: text/css;charset=$encoding");
 }else if($type === "js"){
-    header("Content-Type: text/javascript");
+    header("Content-Type: text/javascript;charset=$encoding");
 }
 foreach($filter as $v){
     if(strpos($file, $v) !== false){
