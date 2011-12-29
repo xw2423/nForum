@@ -117,6 +117,8 @@ class ECode {
     public static $ATT_NOPERM =          '1206';
     public static $ATT_ADDOK =           '1207';
     public static $ATT_DELOK =           '1208';
+
+    //no use just remember some time
     public static $XW_JOKE =             '9999';
 
     public static function msg($code){

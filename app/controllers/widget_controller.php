@@ -12,7 +12,7 @@ class WidgetController extends AppController {
             $this->error();
         $name = $this->params['name'];
         if(!$this->ByrSession->isLogin && !in_array($name, array_keys(Configure::read("widget.default"))))
-            $this->error(ECode::$XW_JOKE);
+            $this->error();
         try{
             $widget = Widget::getInstance($name);    
         }catch(WidgetNullException $e){

@@ -47,7 +47,7 @@ class IndexController extends VoteAppController {
                 break;
             case 'del':
                 if(!$u->isAdmin())
-                    $this->error(ECode::$XW_JOKE);
+                    $this->error('你无权查看此类投票');
                 $title = "已删除的投票";
                 $sql = "select * from pl_vote where status=0 order by vid desc";
                 break;
@@ -131,7 +131,7 @@ class IndexController extends VoteAppController {
         $limit = @trim($this->params['form']['limit']);
         
         if(empty($subject) || empty($end))
-            $this->error(ECode::$XW_JOKE);
+            $this->error();
         if($type != "0" && $type != "1")
             $type = 0;
         if(empty($limit) || intval($limit) < 2 || intval($limit) > 19)
@@ -291,7 +291,7 @@ class IndexController extends VoteAppController {
         }
         $u = User::getInstance();
         if(!$u->isAdmin() && $u->userid != $vote->uid)
-            $this->error(ECode::$XW_JOKE);
+            $this->error("你无权删除此投票");
         $vote->delete();
     }
 }

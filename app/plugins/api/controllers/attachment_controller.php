@@ -161,7 +161,7 @@ class AttachmentController extends ApiAppController {
                 $id = $this->params['id'];
                     $article = Article::getInstance($id, $this->_board);
                     if(!$article->hasEditPerm($u))
-                        $this->error(ECode::$XW_JOKE);
+                        $this->error(ECode::$ARTICLE_NOEDIT);
                     $attNum = 0;
                     foreach($article->getAttList() as $k=>$v){
                         if($v['name'] == $attName){
@@ -183,7 +183,7 @@ class AttachmentController extends ApiAppController {
         }catch(AttException $e){
             $msg = $e->getMessage();
         }catch(Exception $e){
-            $this->error(ECode::$XW_JOKE);
+            $this->error();
         }
     }
 

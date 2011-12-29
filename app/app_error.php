@@ -12,7 +12,7 @@ class AppError extends ErrorHandler {
      * @param $param
      */
     public function error($params) {
-        $this->controller->html = $params['html'];
+        $this->controller->html = ($params['html'] !== false);
         unset($params['html']);
         if($this->controller->html){
             $time = Configure::read("redirect.error");
@@ -33,7 +33,7 @@ class AppError extends ErrorHandler {
      * @param $param
      */
     public function redirect($params){
-        $this->controller->html = $params['html'];
+        $this->controller->html = ($params['html'] !== false);
         unset($params['html']);
         if($this->controller->html){
             $time = Configure::read("redirect.wait");
@@ -62,7 +62,7 @@ JS;
      */
     public function error404($params){
         if(isset($params['html'])){
-            $this->controller->html = $params['html'];
+            $this->controller->html = ($params['html'] !== false);
             unset($params['html']);
         }
         if($this->controller->html){

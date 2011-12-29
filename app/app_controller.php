@@ -83,9 +83,10 @@ class AppController extends Controller {
             $this->output = nforum_iconv($this->encoding, 'utf-8', $this->output);
 
         if($this->html){
-            if($this->spider)
-                $this->output = $this->view->render('header', '') . $this->output . $this->view->render('footer', '');
-            else if(!$this->front)
+            if($this->spider){
+                if(!$this->front)
+                    $this->output = $this->view->render('header', '') . $this->output . $this->view->render('footer', '');
+            }else if(!$this->front)
                 $this->output = $this->view->render('css', '') . $this->output . $this->view->render('script', '');
         }
 
@@ -324,6 +325,8 @@ EOT;
      * @param array $param
      */
     public function error($code = null, $args = array(), $other = array()){
+        if(is_a($this, 'CakeErrorController'))
+            return;
         if(is_null($code))
             $code = ECode::$SYS_AJAXERROR;
         $msg = ECode::msg($code);
@@ -342,6 +345,8 @@ EOT;
     } 
 
     public function error404($msg = ''){
+        if(is_a($this, 'CakeErrorController'))
+            return;
         $this->cakeError("error404", array('html' => $this->html, 'msg' => $msg));
     }
 
@@ -398,11 +403,11 @@ EOT;
      */
     protected function _initAjax(){
         if(0 === strpos($this->params['action'], 'ajax_')){
-            if(!$this->RequestHandler->isAjax() && Configure::read("ajax.check"))
-                $this->error(ECode::$XW_JOKE);
-            if(!$this->ByrSession->hasCookie && Configure::read("ajax.valid"))
-                $this->error(ECode::$XW_JOKE);
             $this->html = false;
+            if(!$this->RequestHandler->isAjax() && Configure::read("ajax.check"))
+                $this->error404();
+            if(!$this->ByrSession->hasCookie && Configure::read("ajax.valid"))
+                $this->error404();
         }
     }
 
