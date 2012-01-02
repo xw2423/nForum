@@ -35,10 +35,10 @@
     ,init:function(area, url, content){
         $(this.sites).each(function(i,e){
             var template = BShare.template;
-            e.url = e.url.replace('%url%', encodeURIComponent(url));
-            e.url = e.url.replace('%content%', encodeURIComponent(content));
-            template = template.replace('%img%', e.img); 
-            template = template.replace('%title%', e.title); 
+            e.url = e.url.replace(/%url%/g, encodeURIComponent(url));
+            e.url = e.url.replace(/%content%/g, encodeURIComponent(content));
+            template = template.replace(/%img%/g, e.img);
+            template = template.replace(/%title%/g, e.title);
             $(template).bind('click', e.url, BShare.handler).appendTo(area);
         });
     }
