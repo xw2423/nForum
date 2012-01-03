@@ -18,7 +18,6 @@
             <li><a href="<{$base}>/mail">我的收件箱</a></li>
             <li><a href="<{$base}>/fav">我的收藏夹</a></li>
             <li><a href="<{$base}>/widget/add">个性首页设置</a></li>
-            <!--<li><a href="#">论坛主题设置</a></li>-->
             <li><a href="<{$base}>/logout">退出登录</a></li>
         </ul>
 <{/if}>

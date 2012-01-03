@@ -50,7 +50,6 @@
 
     <!--notice start-->
     <nav id="notice" class="corner">
-        <div id="notice_time">服务器时间:&ensp;<{$serverTime}></div>
         <div id="notice_nav"><{if $notice[0].url != ""}><a href="<{$base}><{$notice[0].url}>"><{$notice[0].text}></a><{else}><{$notice[0].text}><{/if}><{section loop=$notice name=key start=1}>&ensp;>>&ensp;<{if $notice[key].url != ""}><a href="<{$base}><{$notice[key].url}>"><{$notice[key].text}></a><{else}><{$notice[key].text}><{/if}><{/section}></div>
     </nav>
     <!--notice end-->
