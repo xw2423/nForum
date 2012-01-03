@@ -4,11 +4,11 @@ nForum °²×°ËµÃ÷
 »·¾³ĞèÇó
 --------------------------
 KBS BBS
-»ñÈ¡·½·¨: 
+»ñÈ¡·½·¨:
     svn co http://svn.kcn.cn/repos/kbs/trunk/kbs_bbs
 
 PHP 5.2+
-»ñÈ¡·½·¨: 
+»ñÈ¡·½·¨:
     http://www.php.net/downloads.php
 
 Cakephp 1.2.7
@@ -21,29 +21,33 @@ Cakephp 1.2.7
 
 Smarty 2.x|3.x
 »ñÈ¡·½·¨:
-    http://www.smarty.net/download  
-    
+    http://www.smarty.net/download
+
 
 nForum Ä¿Â¼½á¹¹
 --------------------------
 nForum/
-    |-- INSTALL             °²×°ËµÃ÷
-    |-- README              ÏîÄ¿ËµÃ÷
     |-- app
-        |-- app_controller.php  
-        |-- app_error.php       
-        |-- config              ÅäÖÃÎÄ¼ş
-        |-- controllers         ¿ØÖÆÆ÷
-        |-- index.php           
-        |-- plugins             ²å¼ş    
-        |-- tmp                 ÁÙÊ±ÎÄ¼ş
-        |-- vendors             ¿âÎÄ¼ş
-        |-- views               ÊÓÍ¼
-        `-- www                 webÄ¿Â¼
-    |-- install.sh          °²×°½Å±¾
-    |-- patch               ²¹¶¡ÎÄ¼ş
-    `-- sql                 Êı¾İ¿âÎÄ¼ş
-
+    |   |-- app_controller.php
+    |   |-- app_error.php
+    |   |-- config                  ÅäÖÃÎÄ¼ş
+    |   |-- controllers             ¿ØÖÆÆ÷
+    |   |-- plugins                 ²å¼ş
+    |   |-- tmp                     ÁÙÊ±ÎÄ¼ş
+    |   |-- vendors                 ¿âÎÄ¼ş
+    |   |-- views                   ÊÓÍ¼
+    |   `-- www                     webÄ¿Â¼
+    |-- crontab.example             crontabÎÄ¼ş
+    |-- doc
+    |   |-- INSTALL                 °²×°ËµÃ÷
+    |   |-- README                  ÏîÄ¿ËµÃ÷
+    |   |-- README.ajax             ajaxËµÃ÷
+    |   |-- README.cache            »º´æËµÃ÷
+    |   |-- README.front            Ç°¶ËËµÃ÷
+    |   `-- README.widget           widgetËµÃ÷
+    |-- install.sh                  °²×°½Å±¾
+    |-- patch                       ²¹¶¡ÎÄ¼ş
+    `-- sql                         Êı¾İ¿âÎÄ¼ş
 
 °²×°²½Öè
 --------------------------
@@ -52,7 +56,7 @@ nForum/
     chmod +x install.sh
     ./install.sh cake
 nForum»áÔÚCakephpÉÏ´òÉÏÒ»Ğ©±ØÒªµÄ²¹¶¡¡£ÔÚ±àÒëÇ°£¬ÇëÔÚsite.hÖĞ¼ÓÉÏÒÔÏÂºê¶¨ÒåÓÃÒÔÆôÓÃkbsÖĞnForumµÄ¹¦ÄÜ:
-    #define NFORUM 1    
+    #define NFORUM 1
 Èç¹ûÒÑ¾­°²×°KBS£¬ÇëÌí¼Óºê¶¨ÒåºóÖØĞÂ±àÒë°²×°KBSµÄPHPÄ£¿é¡£
 
 2.°²×°KBS£¬Apache£¬PHP£¬MYSQL¡£ÓĞ¹ØKBSµÄÏêÏ¸°²×°²½ÖèÇë²Î¼ûhttp://trac.kcn.cn/kbs/wiki/Installation¡£°²×°ApacheÊ±Çë¸½¼Ómod_rewriteÄ£¿é¡£°²×°PHPÊ±Çë¸½¼ÓGD¿â(--with-gd)£¬pdo-mysql(--with-pdo-mysql=PATH)£¬exif¿â(--enable-exif)¡£
@@ -61,7 +65,7 @@ nForum»áÔÚCakephpÉÏ´òÉÏÒ»Ğ©±ØÒªµÄ²¹¶¡¡£ÔÚ±àÒëÇ°£¬ÇëÔÚsite.hÖĞ¼ÓÉÏÒÔÏÂºê¶¨ÒåÓÃÒÔÆ
 
 4.ÅäÖÃÄ¿Â¼nForumÖ§³Ömod_rewrite£¬ApacheÅäÖÃÈçÏÂ
     <Directory "/path/to/nForum">
-        AllowOverride All 
+        AllowOverride All
     </Directory>
 
 5.½øÈënForum/app/configÄ¿Â¼£¬½«nforum.php.exampleÖØÃüÃûÎªnforum.php
@@ -69,4 +73,6 @@ nForum»áÔÚCakephpÉÏ´òÉÏÒ»Ğ©±ØÒªµÄ²¹¶¡¡£ÔÚ±àÒëÇ°£¬ÇëÔÚsite.hÖĞ¼ÓÉÏÒÔÏÂºê¶¨ÒåÓÃÒÔÆ
     ½«nForum/sqlÖĞµÄÊı¾İ¿âÎÄ¼şµ¼Èë½ømysql£¬²¢ÅäÖÃ$config['db']ÖĞµÄÖµ¡£
 ÏêÏ¸ÅäÖÃËµÃ÷Çë²Î¼û´ËÎÄ¼ş×¢ÊÍ¡£
 
-6.ÉèÖÃÏà¹Øcrontab£¬²Î¼ûcrontab.example
+6.ÔËĞĞcake -app app buildasset½¨Á¢cssºÍjavascript´ò°üÎÄ¼ş
+
+7.ÉèÖÃÏà¹Øcrontab£¬²Î¼ûcrontab.example
