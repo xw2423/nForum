@@ -13,7 +13,6 @@ $(function(){
                 num = (num < 2)?2:num;
                 this.templete = $(this.items).html();
                 $(this.items).empty().show();
-                console.log($(this.items));
                 for(var i=1;i<=num;i++)
                     this.addItem();
                 $(this.items).on('click', 'samp', this.removeItem);
