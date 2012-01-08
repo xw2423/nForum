@@ -212,7 +212,7 @@ abstract class Archive extends OverloadObject{
         return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);
     }
 
-    protected function _getImg($link, $size, $thumbnail){
+    protected function _getImg($link, $size, $thumbnail = ''){
         $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="单击此在新窗口浏览图片" src="%link%" class="resizeable" /></a>';
         if('' !== $thumbnail)
             $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(' . $size . ')</a><br /><img border="0" src="%link%/' . $thumbnail . '" />';
