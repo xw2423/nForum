@@ -48,7 +48,7 @@ abstract class Archive extends OverloadObject{
      * @throws ArchiveFileNullException
      */
     public function getContent(){
-        $file = $this->getFileName();    
+        $file = $this->getFileName();
         if(!file_exists($file))
             throw new ArchiveFileNullException("can't find file:$file");
         return bbs_originfile($file);
@@ -65,7 +65,7 @@ abstract class Archive extends OverloadObject{
      */
     public function getPlant($color = false, $len = 0, $escape = false){
         $escape = $escape?1:0;
-        $fullName = $this->getFileName();    
+        $fullName = $this->getFileName();
         if(!file_exists($fullName))
             throw new ArchiveFileNullException();
         $ret = ($color)?bbs_printansifile_nforum($fullName):bbs2_readfile_nforum($fullName, $len, $escape);
@@ -100,7 +100,7 @@ abstract class Archive extends OverloadObject{
 
     /**
      * function getRef get the reference of archive
-     * it used in reply, forward 
+     * it used in reply, forward
      * config.article.ref_line is the line for reference
      *
      * @return $string the simple reference format of archive
@@ -166,11 +166,11 @@ abstract class Archive extends OverloadObject{
                     $ret[] = $this->_getImg($this->getAttLink($v['pos']), $v['size'], $thumbnail);
                     break;
                 case 'swf':
-                    $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['size']);
+                    $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 case 'mp3':
                 case 'wma':
-                    $ret[] = $this->_getMp3($this->getAttLink($v['pos']), $v['size']);
+                    $ret[] = $this->_getMp3($this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 default:
                     $ret[] = $this->_getCommon($this->getAttLink($v['pos']), $v['name'], $v['size']);
@@ -184,7 +184,7 @@ abstract class Archive extends OverloadObject{
      *
      * @param string $content
      * @param string $thumbnail
-     * @return string 
+     * @return string
      * @access public
      */
     public function parseAtt($content, $thumbnail = ''){
@@ -215,18 +215,18 @@ abstract class Archive extends OverloadObject{
     protected function _getImg($link, $size, $thumbnail = ''){
         $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="单击此在新窗口浏览图片" src="%link%" class="resizeable" /></a>';
         if('' !== $thumbnail)
-            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(' . $size . ')</a><br /><img border="0" src="%link%/' . $thumbnail . '" />';
+            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(' . $size . ')</a><br /><img border="0" src="%link%/' . $thumbnail . '" class="resizeable" />';
         return str_replace("%link%", $link, $templete);
     }
 
-    protected function _getSwf($link, $size){
-        $pre = $this->_getCommon($link, "右键另存为", $size);    
-        $templete = '<br /><br /><object class="resizeable"classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="560px" height="420px"><param name="allowScriptAccess" value="never" /><param name="allowFullScreen" value="true" /><param name="movie" value="%link%" /><param name="quality" value="high" /><embed src="%link%" quality="high" allowScriptAccess="never" allowFullScreen="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="560px" height="420px"/></object>';
+    protected function _getSwf($link, $name, $size){
+        $pre = $this->_getCommon($link, $name . "(在新窗口打开)", $size);
+        $templete = '<br /><br /><div class="a-swf" _src="%link%"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="560px" height="420px"><param name="allowScriptAccess" value="never" /><param name="allowFullScreen" value="true" /><param name="movie" value="%link%" /><param name="quality" value="high" /><embed src="%link%" quality="high" allowScriptAccess="never" allowFullScreen="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="560px" height="420px"/></object></div>';
         return $pre . str_replace("%link%", $link, $templete);
     }
 
-    protected function _getMp3($link, $size){
-        $pre = $this->_getCommon($link, "右键另存为", $size);    
+    protected function _getMp3($link, $name, $size){
+        $pre = $this->_getCommon($link, $name . "(在新窗口打开)", $size);
         $templete = '<br /><br /><EMBED src="%link%" width="560px" height="45px" type="audio/x-ms-wma" nojava="true" controls="ImageWindow,ControlPanel,StatusBar" mute="false" autostart="0">';
         return $pre . str_replace("%link%", $link, $templete);
     }
@@ -267,7 +267,7 @@ abstract class Archive extends OverloadObject{
      * @abstract
      */
     abstract public function getAttLink($pos);
-    
+
     /**
      * function addAttach add attachment to archive
      * there is not function for mail archive now

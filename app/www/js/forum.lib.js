@@ -570,6 +570,15 @@ $.fn.extend({
         onBodyUpdate:function(){
             $(window).scrollTop(0);
             $('#body').off().html(this.body.get('html'))
+                .find('.ubb-swf').each(function(){
+                    $(this).empty().flashembed({
+                        src:$(this).attr('_src')
+                        ,width:560
+                        ,height:420
+                        ,wmode: 'opaque'
+                        ,allowscriptaccess:'never'
+                        });
+                }).end()
                 .find('.resizeable').each(function(){
                     $(this).load(function(){
                         $(this).adjust($('body').width() - 410);
