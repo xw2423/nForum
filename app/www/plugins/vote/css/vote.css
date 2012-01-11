@@ -2,10 +2,10 @@
     clear:both;
     background-color:#FFF;
     padding:10px;
-    min-height:400px;
+    min-height:480px;
     height:100%;
     *overflow:visible;
-    _height:500px;
+    _height:480px;
 }
 .vote-body{
     position:relative;
