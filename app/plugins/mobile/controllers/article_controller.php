@@ -181,7 +181,7 @@ class ArticleController extends MobileAppController {
                 $outgo = 1;
             try{
                 if(false === $article)
-                    Article::post($this->_board, $subject, $content, $sig, $reID, $email, $anony, $outgo);
+                    Article::post($this->_board, $subject, $content, $sig, $email, $anony, $outgo);
                 else
                     $article->reply($subject, $content, $sig, $email, $anony, $outgo);
             }catch(ArticlePostException $e){
