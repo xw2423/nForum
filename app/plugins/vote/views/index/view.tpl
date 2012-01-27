@@ -17,56 +17,22 @@
 			<div class="vote-title">查看投票</div>
             <div class="vote-body">
 			<div id="vote_view" class="vote-left corner">
-				<div class="view-wrap">
-				<form action="<{$base}>/vote/ajax_vote/<{$info.vid}>.json" method="post" id="f_view">
-				<h1><{$info.title}><span>(<{$info.limitMsg}>)</span></h1>
-				<h2>发起时间:<{$info.start}>&nbsp;&nbsp;&nbsp;截止日期:<{$info.end}><{if $info.isEnd}><font color="red">(已截止)</font><{/if}><{if $info.isDel}><font color="red">(已删除)</font><{/if}>&nbsp;&nbsp;&nbsp;参与人数:<{$info.num}></h2>
-<{if $info.desc!=""}>
-				<h3><{$info.desc}></h3>
-<{/if}>
-				<table id="vote_table" cellpadding="0" cellspacing="0" _limit="<{$info.limit}>">
-<{foreach from=$items item=item}>
-					<tr>
-						<td class="col1"><{$item.label}>:</td>
-						<td class="col2"><div class="vote-scroll corner"><span class="corner" style="width:<{$item.percent}>%"></span></div></td>
-						<td class="col3"><{$item.num}>(<{$item.percent}>%)</td>
-<{if $info.type=="0"}>
-						<td class="col4"><input type="radio" name="v<{$info.vid}>" value="<{$item.viid}>"<{if $info.voted || $info.isEnd || $info.isDel}> disabled="true"<{if $item.on}> checked="true"<{/if}><{/if}> /></td>
-<{else}>
-						<td class="col4"><input type="checkbox" name="v<{$info.vid}>_<{$item.viid}>"<{if $info.voted || $info.isEnd || $info.isDel}> disabled="true"<{if $item.on}> checked<{/if}><{/if}> /></td>
-<{/if}>
-					</tr>
-<{/foreach}>
-				</table>
-				<div class="vote-submit">
-<{if !$islogin}>
-请登录后进行投票
-<{elseif !$info.voted}>
-<{if !$info.isDel&& !$info.isEnd}>
-					<input type="submit" class="button" value="提交" />
-					<input type="reset" class="button" value="重置" />
-<{/if}>
-<{else}>
-你在 <{$myres.time}> 参与了此投票。
-<{/if}>
-				</div>
-				</form>
-				</div>
+                <{include file="../plugins/vote/views/index/vote.tpl"}>  
 			</div>
 			<div id="vote_info" class="vote-right">
-<{if !$info.isDel}>
+<{if !$vinfo.isDel}>
 				<li class="widget color-default">  
 					<div class="widget-head">
 						<span class="widget-title vote-hot">操作列表</span>	
 					</div>
 					<div class="widget-content">
 						<ul class="w-list-line">
-						<li><a href="<{$base}>/article/<{$board}>/<{$info.aid}>">查看评论</a></li>
+						<li><a href="<{$base}>/article/<{$board}>/<{$vinfo.aid}>">查看评论</a></li>
 <{if $islogin}>
-						<li><a href="<{$base}>/article/<{$board}>/post?reid=<{$info.aid}>">我要评论</a></li>
+						<li><a href="<{$base}>/article/<{$board}>/post?reid=<{$vinfo.aid}>">我要评论</a></li>
 <{/if}>
 <{if $admin}>
-						<li><a href="<{$base}>/vote/ajax_delete/<{$info.vid}>.json" class="vote-delete">删除此投票</a></li>
+						<li><a href="<{$base}>/vote/ajax_delete/<{$vinfo.vid}>.json" class="vote-delete">删除此投票</a></li>
 <{/if}>
 						</ul>
 					</div>
@@ -76,7 +42,7 @@
                         <span class="widget-title vote-share">投票分享</span>	
                     </div>
                     <div class="widget-content">
-                        <div id="vote_share" _u="<{$domain}><{$base}>/vote/view/<{$info.vid}>" _c="#投票# <{$info.title}>"></div>
+                        <div id="vote_share" _u="<{$domain}><{$base}>/vote/view/<{$vinfo.vid}>" _c="#投票# <{$vinfo.title}>"></div>
                     </div>
                 </li>
 <{/if}>
@@ -89,15 +55,15 @@
 <{if $furl}>
 						<img src="<{$base}><{$furl}>" <{if $fwidth != ""}>width="<{$fwidth}>px"<{/if}> <{if $fheight != ""}>height="<{$fheight}>px"<{/if}> />
 <{/if}>
-						<span>ID:<{$info.uid}></span>
+						<span>ID:<{$vinfo.uid}></span>
 
 						</div>
 						<ul class="w-list-line">
-						<li><a href="<{$base}>/vote?c=list&u=<{$info.uid}>">查看他的投票</a></li>
-						<li><a href="<{$base}>/user/query/<{$info.uid}>">查看他的信息</a></li>
+						<li><a href="<{$base}>/vote?c=list&u=<{$vinfo.uid}>">查看他的投票</a></li>
+						<li><a href="<{$base}>/user/query/<{$vinfo.uid}>">查看他的信息</a></li>
 <{if $islogin}>
-						<li><a href="<{$base}>/mail/send?id=<{$info.uid}>">给他发站内信</a></li>
-						<li><a href="<{$base}>/friend/add?id=<{$info.uid}>">加他为好友</a></li>
+						<li><a href="<{$base}>/mail/send?id=<{$vinfo.uid}>">给他发站内信</a></li>
+						<li><a href="<{$base}>/friend/add?id=<{$vinfo.uid}>">加他为好友</a></li>
 <{/if}>
 						</ul>
 					</div>

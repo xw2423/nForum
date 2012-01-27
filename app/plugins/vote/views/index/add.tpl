@@ -36,6 +36,15 @@
 				<dd><input type="radio" name="type" value="0" checked onclick="$('#v_limit').attr('disabled',true)"/>单选&nbsp;&nbsp;<input type="radio" name="type" value="1" onclick="$('#v_limit').attr('disabled',false)"/>多选</dd>
 				<dt>多选限制:</dt>
 				<dd><select id="v_limit" disabled="1" name="limit"><option value="0">无限制</option><{html_options options=$limit}></select></dd>
+				<dt>相关版面:</dt>
+				<dd>
+					<select id="vote_section">
+					<{html_options options=$sec selected=$selected}>
+					</select>&emsp;
+					<select name="b" id="vote_board">
+					</select>
+                    <span style="color:red;padding-left:5px">如果你有该版面发文权限,此投票将发送至版面</span>
+                </dd>
 			</dl>
 			<div class="vote-submit">
 				<input type="submit" class="button" value="提交" />

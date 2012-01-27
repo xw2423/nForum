@@ -69,6 +69,24 @@ $(function(){
 
         $('#vote_opt').find('input[name="end"]').datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true,minDate:new Date(), dayNamesMin:['日', '一', '二', '三', '四', '五', '六'],monthNames:['一月', '二月', '三月', '四月', '五月', '六月','七月','八月','九月','十月','十一月','十二月']});
 
+        $('#vote_section').change(function(){
+            $(window).focus();
+            var k='sec-' + $(this).val() + 'bo'
+                ,c = SYS.cache(k)
+                ,func = function(list){
+                    $('#vote_board').empty()
+                    .append(_.reduce(list, function(ret, item){
+                        ret += '<option value="' + item.name + '">' + item.desc + '</option>';
+                        return ret;
+                    },'<option value="">请选择版面</option>'));
+            };
+            if(c){func(c);return;}
+            var data = {root:'sec-' + $(this).val(), uid:SESSION.get('id'), bo:1};
+            $.getJSON(SYS.ajax.section_list, data, function(list){
+                SYS.cache(k,list);
+                func(list);
+            });
+        }).change();
     }
     if($('#vote_table').length>0){
         var checkbox = $('#vote_table input:checkbox'),
@@ -81,9 +99,6 @@ $(function(){
                 }
             });
         }
-    }
-    if($('#vote_share').length>0){
-        BShare.init($('#vote_share'), $('#vote_share').attr('_u'), $('#vote_share').attr('_c'));
         $('#f_view').submit(function(){
             $.post($(this).attr('action'), $(this).getPostData(), function(json){
                 if(json.ajax_st == 1)
@@ -93,7 +108,9 @@ $(function(){
             }, 'json');
             return false;
         });
-
+    }
+    if($('#vote_share').length>0){
+        BShare.init($('#vote_share'), $('#vote_share').attr('_u'), $('#vote_share').attr('_c'));
     }
     $('#body').on('click', '.vote-delete', function(){
         var self = this;

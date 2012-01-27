@@ -117,6 +117,13 @@ class IndexController extends VoteAppController {
         for($i = 2;$i<=19; $i++)
             $limit[$i] = $i;
         $this->set('limit', $limit);
+
+        $secs = Configure::read("section");
+        foreach($secs as $k=>&$v){
+            $v = $k . "区:" . $v[0];
+        }
+        $this->set("sec", $secs);
+        $this->set("selected", 0);
     }
 
     public function ajax_add(){
@@ -154,12 +161,21 @@ class IndexController extends VoteAppController {
         $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items);
         $site = Configure::read("site");
         $a_title = $subject;
-        $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n";
+        $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n[vote=$vid][/vote]";
         App::import("vendor", "model/article");
         $aid = Article::autoPost($this->_board, $a_title, $a_content);
         $db = DB::getInstance();
         $db->update("pl_vote", array("aid"=>$aid), "where vid=?", array($vid));
 
+        if(isset($this->params['form']['b'])){
+            App::import("vendor", "model/board");
+            try{
+                $board = Board::getInstance(trim($this->params['form']['b']));
+                if($board->hasPostPerm($u)){
+                    Article::autoPost($board->NAME, '[投票]' . $a_title, $a_content);
+                }
+            }catch(Exception $e){}
+        }
         $ret['ajax_code'] = "发起投票成功";
         $ret['default'] = "/vote?c=list&u=".$u->userid;
         $ret['list'][] = array("text" => '我的投票', "url" => "/vote?c=list&u=".$u->userid);
@@ -193,7 +209,6 @@ class IndexController extends VoteAppController {
             $myres['time'] = date("Y-m-d H:i:s", $myres['time']);
             $this->set("myres", $myres);
         }
-        $limitMsg = ($vote->type==0)?"单选":(($vote->limit == 0)?"无限制":"可选{$vote->limit}个");
         App::import('Sanitize');
         $info = array(
             "vid" =>$vote->vid,
@@ -207,7 +222,6 @@ class IndexController extends VoteAppController {
             "aid" =>$vote->aid,
             "isEnd" =>$vote->isEnd(),
             "isDel" =>$vote->isDeleted(),
-            "limitMsg" =>$limitMsg,
             "voted" =>$voted,
             "uid" =>$vote->uid
         );
@@ -219,8 +233,8 @@ class IndexController extends VoteAppController {
         }
         $this->set("board", $this->_board);
         $this->set("admin", $u->userid === $vote->uid || $u->isAdmin());
-        $this->set("info", $info);
-        $this->set("items", $item);
+        $this->set("vinfo", $info);
+        $this->set("vitems", $item);
 
         try{
             $u = User::getInstance($vote->uid);

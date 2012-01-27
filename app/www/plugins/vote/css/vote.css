@@ -138,7 +138,7 @@
     text-align:center;
 }
 #vote_view .view-wrap{
-    width:660px;
+    width:600px;
     margin:auto;
     padding:15px;
 }
@@ -171,11 +171,12 @@
     width:100%;
     text-align:left;
 }
-#vote_table td{height:34px;}
+#vote_table td{height:34px;vertical-align:middle}
 .col1{width:210px;text-align:right;}
 .col2{width:250px;}
 .col3{width:80px;font-size:13px;}
-.col4{width:auto;}
+.col4{width:20px;}
+.col5{width:auto;}
 .vote-scroll{width:230px;height:16px;margin:auto;background-color:#EEE;border:1px solid #C4AFF6}
 .vote-scroll span{width:10%;height:100%;display:inline-block;background-color:#8B58FF;}
 /* vote view end*/

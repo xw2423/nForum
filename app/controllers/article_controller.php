@@ -103,6 +103,53 @@ class ArticleController extends AppController {
                 $content = preg_replace("'(^.*?<br \/>.*?<br \/>)'", '', $content);
                 $content = XUBB::remove($res[1]) . $content;
                 $content = XUBB::parse($content);
+
+                //parse vote
+                if($v->OWNER === 'deliver' && in_array('mobile', Configure::read('plugins.install'))){
+                    $vid = array();
+                    if(preg_match("'\[vote=(\d+)\]\[/vote\]'", $content, $vid)){
+                        $content = preg_replace("'\[vote=\d+\]\[/vote\]'", '', $content);
+                        App::import("vendor", array("inc/db", "vote.vote"));
+                        $vid = $vid[1];
+                        try{
+                            $vote = new Vote($vid);
+                            if(!$vote->isDeleted()){
+                                $this->css['plugin']['vote'][] = "vote.css";
+                                $this->js['plugin']['vote'][] = "vote.js";
+                                $myres = $vote->getResult($u->userid);
+                                $voted = false;
+                                if($myres !== false){
+                                    $voted = true;
+                                    $myres['time'] = date("Y-m-d H:i:s", $myres['time']);
+                                    $this->set("myres", $myres);
+                                }
+                                $vinfo = array(
+                                    "vid" =>$vote->vid,
+                                    "title" =>Sanitize::html($vote->subject),
+                                    "desc" =>nl2br(Sanitize::html($vote->desc)),
+                                    "start" =>date("Y-m-d H:i:s", $vote->start),
+                                    "end" =>date("Y-m-d", $vote->end),
+                                    "num" =>$vote->num,
+                                    "type" =>$vote->type,
+                                    "limit" =>$vote->limit,
+                                    "aid" =>$vote->aid,
+                                    "isEnd" =>$vote->isEnd(),
+                                    "isDel" =>$vote->isDeleted(),
+                                    "voted" =>$voted,
+                                    "uid" =>$vote->uid
+                                );
+                                $item = $vote->items;
+                                foreach($item as $kk=>$vv){
+                                    $item[$kk]["label"] = Sanitize::html($vv["label"]);
+                                    $item[$kk]["percent"] = ($vote->total === 0)?0:round(intval($vv['num'])*100/$vote->total);
+                                    $item[$kk]["on"] = ($myres !== false) && in_array($vv['viid'], $myres['items']);
+                                }
+                                $this->set("vinfo", $vinfo);
+                                $this->set("vitems", $item);
+                            }
+                        }catch(VoteNullException $e){}
+                    }
+                }
             }
             $info[] = array(
                 "id" => $v->ID,
