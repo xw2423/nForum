@@ -33,7 +33,7 @@
 				<dt>截止日期:</dt>
 				<dd ><input type="text" name="end" class="input-text"/></dd>
 				<dt>选项类型:</dt>
-				<dd><input type="radio" name="type" value="0" checked onclick="$('#v_limit').attr('disabled',1)"/>单选&nbsp;&nbsp;<input type="radio" name="type" value="1" onclick="$('#v_limit').attr('disabled',0)"/>多选</dd>
+				<dd><input type="radio" name="type" value="0" checked onclick="$('#v_limit').attr('disabled',true)"/>单选&nbsp;&nbsp;<input type="radio" name="type" value="1" onclick="$('#v_limit').attr('disabled',false)"/>多选</dd>
 				<dt>多选限制:</dt>
 				<dd><select id="v_limit" disabled="1" name="limit"><option value="0">无限制</option><{html_options options=$limit}></select></dd>
 			</dl>

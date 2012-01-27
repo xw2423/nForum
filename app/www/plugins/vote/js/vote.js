@@ -20,7 +20,7 @@ $(function(){
             },
             addItem:function(){
                 if(vote.itemNum >= vote.maxItem){
-                    alert("最多只能添加20个选项");
+                    DIALOG.alertDialog("最多只能添加20个选项");
                     return false;
                 }
                 var name = "i" + Math.round(Math.random()*100000);
@@ -31,7 +31,7 @@ $(function(){
                 if(!confirm("确认删除此项?"))
                     return false;
                 if(vote.itemNum <= 2){
-                    alert("至少保留2个选项");
+                    DIALOG.alertDialog("至少保留2个选项");
                     return false;
                 }
                 $(this).parent().prev().remove();
@@ -54,11 +54,11 @@ $(function(){
 
         $('#f_vote').submit(function(){
             if(vote.isNull()){
-                alert('请至少填写标题和2个选项');
+                DIALOG.alertDialog('请至少填写标题和2个选项');
                 return false;
             }
             if(!$('#vote_opt').find('input[name="end"]').val().match(/^\d{4}(-\d{2}){2}$/)){
-                alert('请填写正确的截止日期');
+                DIALOG.alertDialog('请填写正确的截止日期');
                 return false;
             }
             $.post($(this).attr('action'), $(this).getPostData(), function(json){
@@ -76,7 +76,7 @@ $(function(){
         if(checkbox.length > 0 && limit > 0){
             checkbox.click(function(){
                 if(checkbox.filter(':checked').length > limit){
-                    alert("本投票最多选"+limit+"个选项");
+                    DIALOG.alertDialog("本投票最多选"+limit+"个选项");
                     return false;
                 }
             });
