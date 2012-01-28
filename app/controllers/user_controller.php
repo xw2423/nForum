@@ -43,6 +43,15 @@ class UserController extends AppController {
         $ret['forum_totol_count'] = Forum::getOnlineNum();
         $ret['forum_user_count'] = Forum::getOnlineUserNum();
         $ret['forum_guest_count'] = Forum::getOnlineGuestNum();
+        $ret['new_at'] = $ret['new_reply'] = 0;
+
+        App::import('vendor', 'model/refer');
+        try{
+            $refer = new Refer($user, Refer::$AT);
+            $ret['new_at'] = $refer->getNewNum();
+            $refer = new Refer($user, Refer::$REPLY);
+            $ret['new_reply'] = $refer->getNewNum();
+        }catch(ReferNullException $e){}
 
         $this->set('no_html_data', $ret);
     }

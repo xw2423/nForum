@@ -26,31 +26,6 @@
 .mail-list .m-table tr:hover{cursor:pointer}
 /* mail list end*/
 
-/* mail detail start*/
-.m-op{padding:3px;background:#f5f8fb}
-.m-func{font-size:0px}
-.m-func li{ 
-    margin-left:10px; 
-    display:inline-block;
-    *display:inline;
-    *zoom:1;
-}
-.m-func li a{
-    font-size:12px;
-    color:#2244bb;
-    vertical-align:middle;
-    padding-top:2px;
-    *zoom:1;
-}
-.m-func li samp{
-    margin-right:4px;
-    width:16px;
-    height:16px;
-}
-.mail{ padding:10px 17px}
-.mail-content{ display:block;line-height:1.4;font-size:13px}
-/* mail detail end*/
-
 /*friend start*/
 .t-btn .friend-select{padding-top:0;padding-bottom:0}
 #friend_add{padding:4px 12px;border-bottom:1px solid #c9d7f1;}

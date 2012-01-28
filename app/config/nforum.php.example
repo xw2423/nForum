@@ -153,6 +153,8 @@ $config['user']['custom']['userdefine0'] = array(
 //user_define2 is none after 1
 $config['user']['custom']['userdefine1'] = array(
         array(0,"隐藏 IP", "是否发文和被查询的时候隐藏自己的 IP 信息","隐藏","不隐藏"),
+        array(2,"启用 @ 提醒", "当文章中提到(@)了你时，是否发送提醒消息","发送","不发送"),
+        array(3,"启用回复提醒", "当别人回复了你的文章时，是否发送提醒消息","发送","不发送"),
         //bit-31 for column num of web 2 or 3
         array(31,"首页列数", "首页显示的列数","3&nbsp;&nbsp;","2"));
 //mailbox_prop is none after 2

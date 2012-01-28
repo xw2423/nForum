@@ -17,7 +17,7 @@ class FavorController extends AppController {
     public function index(){
         $this->js[] = "forum.fav.js";
         $this->css[] = "favor.css";
-        $this->notice[] = array("url"=>"/fav", "text"=>" ’≤ÿº–");
+        $this->notice[] = array("url"=>"/fav", "text"=>" ’≤ÿ∞Ê√Ê");
     }
 
     public function ajax_show(){

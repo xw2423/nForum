@@ -52,6 +52,8 @@
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
     Router::connect('/att/:name/:id/:pos/:type', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+', 'pos'=>'\d+'));
     Router::connect('/att/:name/:action/:id', array('controller' => 'attachment', 'id' => null), array('id'=> '\d+'));
+    Router::connect('/refer/:type', array('controller' => 'refer', 'action' => 'index'));
+    Router::connect('/refer/:type/:action', array('controller' => 'refer'));
     Router::connect('/section/:num', array('controller' => 'section', 'action' => 'index'));
     Router::connect('/user/query/:id', array('controller' => 'user', 'action' => 'ajax_query'));
     Router::connect('/online', array('controller' => 'forum', 'action' => 'online'));

@@ -216,6 +216,10 @@ $config['code']['1206'] = "无权添加附件";
 $config['code']['1207'] = "添加附件成功";
 //ATT_DELOK
 $config['code']['1208'] = "删除附件成功";
+//REFER_NONE
+$config['code']['1301'] = "未知的提醒";
+//REFER_DELETEOK
+$config['code']['1302'] = "提醒删除成功";
 //XW_JOKE
 $config['code']['9999'] = "WHAT DO YOU WANT TO DO?!";
 ?>

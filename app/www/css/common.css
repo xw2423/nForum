@@ -905,7 +905,30 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .u-search .input-text{ height:16px; width:150px;margin-right:5px;}
 /* user info end */
 
+/* archive detail start*/
+.m-op{padding:3px;background:#f5f8fb}
+.m-func{font-size:0px}
+.m-func li{
+    margin-left:10px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+.m-func li a{
+    font-size:12px;
+    color:#2244bb;
+    vertical-align:middle;
+    padding-top:2px;
+    *zoom:1;
+}
+.m-func li samp{
+    margin-right:4px;
+    width:16px;
+    height:16px;
+}
+.m-content{padding:10px 17px;display:block;line-height:1.4;font-size:13px}
+/* archive detail end*/
+
 /*colors*/
 .c63f{color:#609}
 .c09f{color:#09f}
-

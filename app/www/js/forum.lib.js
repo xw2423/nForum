@@ -164,9 +164,15 @@ $.fn.extend({
             return null;
         },
         updateTop:function(content){
-            var p = this.getTop().html(content).parent()
+            var d = this.getTop(), p = d.html(content).parent()
                 , t = $(window).height()-p.height();
-            p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+            p.css('top', $(window).scrollTop() + (t>=0?t/2:0))
+            .find('img').one('load', function(){
+                if($(this).width() > d.width())
+                    $(this).width(d.width() - 20);
+                var t = $(window).height()-p.height();
+                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+            });
         },
         open:function(content, option){
             option = option || {};

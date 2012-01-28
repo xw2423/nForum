@@ -513,6 +513,33 @@ class ArticleController extends AppController {
         }
     }
 
+    public function ajax_single(){
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        $id = $this->params['id'];
+
+        try{
+            $article = Article::getInstance($id, $this->_board);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }
+        App::import('vendor', 'inc/wrapper');
+        $wrapper = Wrapper::getInstance();
+        $ret = $wrapper->article($article, array('single' => true, 'content' => false));
+        $ret['allow_post'] = $this->_board->hasPostPerm(User::getInstance());
+        $content = $article->getHtml(true);
+        if(Configure::read("ubb.parse")){
+            //remove ubb of nickname in first and title second line
+            preg_match("'^(.*?<br \/>.*?<br \/>)'", $content, $res);
+            $content = preg_replace("'(^.*?<br \/>.*?<br \/>)'", '', $content);
+            $content = XUBB::remove($res[1]) . $content;
+            $content = XUBB::parse($content);
+        }
+        $ret['content'] = $content;
+
+        $this->set('no_html_data', $ret);
+    }
+
     //if there is reid,return reArticle,otherwise return false
     private function _postInit(){
         if($this->_board->isReadOnly()){

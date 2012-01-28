@@ -1,46 +1,75 @@
 $(function(){
-    var tmpl_mail_detail = _.template($('#tmpl_mail_detail').html() || '')
+    var tmpl_article_single = _.template($('#tmpl_article_single').html() || '')
     ,friends = SYS.cache('friends');
     $('#body').on('click', '.mail-select', function(){
         var val = ($(this).attr("checked") == 'checked');
         $(".mail-select").attr("checked", val);
         $(".mail-item").attr("checked", val);
-    }).on('click', '.mail-del', function(){
+    }).on('click', '.refer-del', function(){
         if($(".mail-item:checked").length <= 0){
-            DIALOG.alertDialog("请先选择要删除的邮件!");    
+            DIALOG.alertDialog("请先选择要删除的提醒!");    
             return false;
         }
-        DIALOG.confirmDialog("确认要删除这些邮件?",function(){
-            $('#mail_form').submit();
+        DIALOG.confirmDialog("确认要删除这些提醒?",function(){
+            $('#refer_form').submit();
         });
-    }).on('click', '.mail-clear', function(){
-        DIALOG.confirmDialog("确认要删除全部邮件?",function(){
-            $('#mail_clear').submit();
+    }).on('click', '.refer-clear', function(){
+        DIALOG.confirmDialog("确认要删除全部提醒?",function(){
+            $('#refer_clear').submit();
+        });
+    }).on('click', '.refer-read', function(){
+        DIALOG.confirmDialog("确认要已读全部提醒?",function(){
+            $('#refer_read').submit();
         });
     }).on('click', '.title_3', function(){
-        $(this).find('>.mail-detail').click();
+        $(this).find('>.m-single').click();
         return false;
-    }).on('click', '.mail-detail', function(){
+    }).on('click', '.m-single', function(){
         var tr = $(this).parent().parent();
         APP.tips(true);
+        if(tr.hasClass('no-read'))
+            $.post($('#refer_read').attr('action'), {'index':$(this).attr('_index')}, function(){
+                tr.removeClass('no-read');
+                SESSION.update(true);
+            });
         $.getJSON($(this).attr('href'), function(json){
             APP.tips(false);
             if(json.ajax_st == 0)
                 DIALOG.ajaxDialog(json);
             else{
-                if(tr.hasClass('no-read')){
-                    SESSION.update(true);
-                    tr.removeClass('no-read');
-                }
-                var d = DIALOG.formDialog(tmpl_mail_detail(json),
+                var d = DIALOG.formDialog(tmpl_article_single(json),
                     {title:SYS.code.COM_DETAIL, width:600
                     }
-                );
-                d.on('click.nforum', '.mail-reply', function(){
+                ),
+                validPost = function(){
+                    if(!json.allow_post){
+                        DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
+                        return false;
+                    }
+                    return true;
+                };
+                d.on('click.nforum', '.a-post', function(){
+                    if(!validPost())
+                        return false;
                     d.dialog('close');
                     BODY.open(this);
                     return false;
-                }).on('click.nforum', '.mail-forward', function(){
+                }).on('click.nforum', '.a-close', function(){
+                    d.dialog('close');
+                    BODY.open(this);
+                    return false;
+                }).on('click.nforum', '.a-single', function(){
+                    APP.tips(true);
+                    $.getJSON($(this).attr('href'), function(json){
+                        APP.tips(false);
+                        if(json.ajax_st == 0)
+                            DIALOG.ajaxDialog(json);
+                        else{
+                            DIALOG.updateTop(tmpl_article_single(json));
+                        }
+                    });
+                    return false;
+                }).on('click.nforum', '.a-func-forward', function(){
                     var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {
                              buttons:[
                                 {text:SYS.code.COM_SUBMIT,click:function(){
@@ -67,25 +96,21 @@ $(function(){
                         SYS.cache('friends', json);
                     });
                     return false;
-                }).on('click.nforum', '.mail-delete', function(){
+                }).on('click.nforum', '.a-func-del', function(){
                     var url = $(this).attr('href');
-                    DIALOG.confirmDialog("确认要删除此邮件?",function(){
+                    DIALOG.confirmDialog("确认要删除此文章?",function(){
                         $.post(url, function(json){
                             d.dialog('close');
                             DIALOG.ajaxDialog(json);
                         }, 'json');
                     });
                     return false;
-                }).on('click.nforum', '.mail-new', function(){
-                    d.dialog('close');
-                    BODY.open(this);
-                    return false;
                 });
             }
         });
         return false;
     });
-    $('#mail_form').submit(function(){
+    $('#refer_form').submit(function(){
         var btn = $(this).find('input[type="submit"]').loading(true);
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
@@ -95,12 +120,20 @@ $(function(){
             }, 'json');
         return false;
     });
-    $('#mail_clear').submit(function(){
+    $('#refer_clear').submit(function(){
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
                 DIALOG.ajaxDialog(json);
                 SESSION.update(true);
             }, 'json');
+        return false;
+    });
+    $('#refer_read').submit(function(){
+        $.post($(this).attr('action'), $(this).getPostData(), function(json){
+            if(json.ajax_st == 1)
+                BODY.refresh();
+                SESSION.update(true);
+        }, 'json');
         return false;
     });
 });

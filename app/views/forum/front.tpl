@@ -67,7 +67,14 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
         <div class="u-login-id"><samp class="ico-pos-cdot"></samp>欢迎<a href="<{$base}>/user/query/<%=id%>" title="<%=id%>"><%=id.length<11?id:(id.substr(0,10)+'...')%></a></div>
         <ul class="u-login-list">
             <li><a href="<{$base}>/mail">我的收件箱
-<%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a></li>
+<%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a>
+            </li>
+            <li><a href="<{$base}>/refer/at">提到我的文章</a>
+<%if(new_at>0){%><span class="new_mail">(<%=new_at%>)</span><%}%></a>
+            </li>
+            <li><a href="<{$base}>/refer/reply">回复我的文章</a>
+<%if(new_reply>0){%><span class="new_mail">(<%=new_reply%>)</span><%}%></a>
+            </li>
             <li><a href="<{$base}>/fav">我的收藏夹</a></li>
             <li><a href="<{$base}>/widget/add">个性首页设置</a></li>
             <li><a href="javascript:void(0)" id="u_login_out">退出登录</a></li>

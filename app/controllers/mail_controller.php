@@ -10,7 +10,7 @@ class MailController extends AppController {
     public function beforeFilter(){
         parent::beforeFilter();
         $this->requestLogin();
-        $this->notice[] = array("url"=>"/mail", "text"=>"用户信件服务");
+        $this->notice[] = array("url"=>"/mail", "text"=>"用户信件");
     }
 
     public function index(){
