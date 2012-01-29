@@ -234,7 +234,7 @@ EOT;
                 $this->view = AppView::getInstance($this->params['url']['ext'], $this);
                 $this->output .= $this->view->render($action, $path);    
             }catch(AppViewException $e){
-                $this->error404($e->getMessage());
+                $this->_stop();
             }
         }
         $this->_hasRendered = true;
