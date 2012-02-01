@@ -79,5 +79,6 @@
                     </div>
                  </div>
             </div>
+            </form>
         </div>
 <{include file="article/single.tpl"}>
