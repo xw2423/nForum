@@ -159,6 +159,14 @@ class Threads extends Article implements Pageable{
         return null;
     }
 
+    public function getArticleById($id){
+        foreach($this->_articles as $v){
+            if($v->ID == $id)
+                return $v;
+        }
+        return null;
+    }
+
     /**
      * function forward mail this thread to sb.
      *

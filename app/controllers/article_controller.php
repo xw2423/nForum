@@ -53,6 +53,15 @@ class ArticleController extends AppController {
         }catch(ThreadsNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
+        if(isset($this->params['url']['s'])){
+            $article = $this->_threads->getArticleById(intval($this->params['url']['s']));
+            if(null !== $article){
+                $pos = $article->getPos();
+                $page = ceil(($pos + 1) / Configure::read("pagination.article"));
+                $this->redirect("/article/{$this->_board->NAME}/{$gid}?p={$page}#a{$pos}");
+            }
+            $this->redirect("/article/{$this->_board->NAME}/{$gid}");
+        }
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
         $pagination = new Pagination($this->_threads, Configure::read("pagination.article"));
         $articles = $pagination->getPage($p);
