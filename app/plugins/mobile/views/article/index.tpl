@@ -23,6 +23,7 @@
 <li class="f">Ö÷Ìâ:<{$title}></li>
 <{foreach from=$info item=item key=k}>
 <li<{cycle values=', class="hla"'}>>
+    <a name="a<{$item.pos}>"></a>
 	<div class="nav hl">
         <div>
             <a class="plant"><{if $item.pos == 0}>Â¥Ö÷<{else}><{$item.pos}>Â¥<{/if}></a>
