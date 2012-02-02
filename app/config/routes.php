@@ -94,6 +94,8 @@
     Router::connect($base . '/mail/:type', array('controller' => 'mail', 'plugin'=>'mobile', 'action' => 'index'));
     Router::connect($base . '/mail/:type/:num', array('controller' => 'mail', 'plugin'=>'mobile', 'action' => 'show'), array('num' => '\d+'));
     Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'mobile', 'num' => null), array('num'=> '\d+'));
+    Router::connect($base . '/refer/:type', array('controller' => 'refer', 'plugin'=>'mobile', 'action' => 'index'));
+    Router::connect($base . '/refer/:type/:action', array('controller' => 'refer', 'plugin'=>'mobile'));
     Router::connect($base . '/favor/:num', array('controller' => 'favor', 'plugin'=>'mobile', 'action' => 'index'), array("num"=>"\d+"));
     Router::connect($base . '/:controller/:action/*', array('plugin'=>'mobile'));
 

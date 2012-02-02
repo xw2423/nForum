@@ -46,6 +46,15 @@ class MobileAppController extends AppController {
             $id = User::getInstance()->userid;
             $isAdmin = User::getInstance()->isAdmin();
             $this->set("mailInfo", $info);
+
+            App::import('vendor', 'model/refer');
+            try{
+                $refer = new Refer(User::getInstance(), Refer::$AT);
+                $this->set("newAt", $refer->getNewNum());
+                $refer = new Refer(User::getInstance(), Refer::$REPLY);
+                $this->set("newReply", $refer->getNewNum());
+            }catch(ReferNullException $e){}
+
         }else{
             $login = false;
             $id = "guest";

@@ -11,8 +11,10 @@
 <{if $islogin}>
 	|<a href="<{$mbase}>/favor" accesskey="4">收藏</a>
 	|<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $mailInfo.full}>(满)<{elseif $mailInfo.newmail}>(新)<{/if}></a>
-	|<a href="<{$mbase}>/friend/online" accesskey="6">好友</a>
-	|<a href="<{$mbase}>/user/logout" accesskey="7">注销(<{$id}>)</a>
+	|<a href="<{$mbase}>/refer/at" accesskey="6">@我<{if $newAt>0}>(<{$newAt}>)<{/if}></a>
+	|<a href="<{$mbase}>/refer/reply" accesskey="7">回我<{if $newReply>0}>(<{$newReply}>)<{/if}></a>
+	|<a href="<{$mbase}>/friend/online" accesskey="8">好友</a>
+	|<a href="<{$mbase}>/user/logout" accesskey="9">注销(<{$id}>)</a>
 <{/if}>
 	</div>
 	<div class="logo sp">BYR-Team&copy;2010</div>

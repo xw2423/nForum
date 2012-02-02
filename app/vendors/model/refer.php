@@ -52,14 +52,7 @@ class Refer implements Pageable{
 
     public function getRecord($start, $num){
         $this->_initNum();
-        $tmp = array();
-        if(bbs_load_refer($this->_user->userid, $this->_types[$this->_type], $this->_totalNum - $start + 1 - $num, $num, &$tmp) > 0){
-            foreach($tmp as $k=>&$v){
-                $v['INDEX'] = $this->_totalNum - $start + 1 - $num + $k;
-            }
-            return array_reverse($tmp);
-        }
-        return array();
+        return array_reverse($this->getRefers($this->_totalNum - $start + 1 - $num, $num));
     }
 
     public function getType(){
@@ -70,8 +63,20 @@ class Refer implements Pageable{
         return $this->_descs[$this->_type];
     }
 
+    public function getRefers($index, $num){
+        $tmp = array();
+        if(bbs_load_refer($this->_user->userid, $this->_types[$this->_type], $index, $num, &$tmp) > 0){
+            foreach($tmp as $k=>&$v){
+                $v['INDEX'] = $index + $k;
+            }
+            return $tmp;
+        }
+        return array();
+    }
+
     public function getRefer($index){
-        return $this->getRecord($index + 1, 1);
+        $r = $this->getRefers($index, 1);
+        return empty($r)?null:$r[0];
     }
 
     public function getNewNum(){
