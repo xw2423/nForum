@@ -37,6 +37,14 @@ class MailBox implements Pageable{
     /** the path of MailBox */
     public $path;
 
+    public static function getInfo($user){
+        return bbs_mail_get_num($user->userid);
+    }
+
+    public static function getSpace(){
+        return bbs_getmailusedspace();
+    }
+
     /**
      * function __construct
      *
@@ -103,14 +111,6 @@ class MailBox implements Pageable{
                 $num ++;
         }
         return $num;
-    }
-
-    public function getInfo(){
-        return bbs_mail_get_num($this->user->userid);
-    }
-    
-    public function getSpace(){
-        return bbs_getmailusedspace();
     }
 
     /**

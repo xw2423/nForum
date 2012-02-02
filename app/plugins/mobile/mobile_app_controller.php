@@ -37,17 +37,14 @@ class MobileAppController extends AppController {
         if($this->ByrSession->isLogin){
             $u = User::getInstance();
 
-            App::import("vendor", "model/mail");
-            try{
-                $box = new MailBox($u, MailBox::$IN);
-                $info = $box->getInfo();
-            }catch(MailBoxNullException $e){
-            }catch(UserNullException $e){
-            }
             $login = true;
             $id = $u->userid;
             $isAdmin = $u->isAdmin();
-            $info['mailInfo'] = $info;
+
+            App::import("vendor", "model/mail");
+            $info = MailBox::getInfo($u);
+            $info['new_mail'] = $info['newmail'];
+            $info['full_mail'] = $info['full'];
 
             $info['newAt'] = $info['newReply'] = false;
             App::import('vendor', 'model/refer');

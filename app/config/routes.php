@@ -52,7 +52,6 @@
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
     Router::connect('/att/:name/:id/:pos/:type', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+', 'pos'=>'\d+'));
     Router::connect('/att/:name/:action/:id', array('controller' => 'attachment', 'id' => null), array('id'=> '\d+'));
-    Router::connect('/refer/:type', array('controller' => 'refer', 'action' => 'index'));
     Router::connect('/refer/:type/:action', array('controller' => 'refer'));
     Router::connect('/section/:num', array('controller' => 'section', 'action' => 'index'));
     Router::connect('/user/query/:id', array('controller' => 'user', 'action' => 'ajax_query'));
@@ -94,7 +93,6 @@
     Router::connect($base . '/mail/:type', array('controller' => 'mail', 'plugin'=>'mobile', 'action' => 'index'));
     Router::connect($base . '/mail/:type/:num', array('controller' => 'mail', 'plugin'=>'mobile', 'action' => 'show'), array('num' => '\d+'));
     Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'mobile', 'num' => null), array('num'=> '\d+'));
-    Router::connect($base . '/refer/:type', array('controller' => 'refer', 'plugin'=>'mobile', 'action' => 'index'));
     Router::connect($base . '/refer/:type/:action', array('controller' => 'refer', 'plugin'=>'mobile'));
     Router::connect($base . '/favor/:num', array('controller' => 'favor', 'plugin'=>'mobile', 'action' => 'index'), array("num"=>"\d+"));
     Router::connect($base . '/:controller/:action/*', array('plugin'=>'mobile'));
@@ -114,8 +112,10 @@
     Router::connect($base . '/attachment/:name/:id/:pos/:type', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download'), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+'));
     Router::connect($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'plugin'=>'api'), array("id"=>"\d+"));
     Router::connect($base . '/attachment/:name/:action', array('controller' => 'attachment', 'plugin'=>'api'));
+    Router::connect($base . '/refer/:type/:action/:index', array('controller' => 'refer', 'plugin'=>'api', "index" => null), array("index"=>"\d+"));
     Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'api'), array("num"=>"\d+"));
     Router::connect($base . '/mail/send', array('controller' => 'mail', 'plugin'=>'api', 'action'=>'send'));
+    Router::connect($base . '/mail/info', array('controller' => 'mail', 'plugin'=>'api', 'action'=>'info'));
     Router::connect($base . '/mail/:type', array('controller' => 'mail', 'action'=>'box', 'plugin'=>'api'));
     Router::connect($base . '/favorite/:action/:num', array('controller' => 'favorite', 'plugin'=>'api'), array("num"=>"\d+"));
     Router::connect($base . '/favorite/:action', array('controller' => 'favorite', 'plugin'=>'api'));

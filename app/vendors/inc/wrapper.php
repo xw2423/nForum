@@ -100,16 +100,6 @@ class Wrapper {
             $ret['first_login_time'] = $user->firstlogin;
             $ret['login_count'] = $user->numlogins;
             $ret['stay_count'] = $user->stay;
-            App::import("vendor", "model/mail");
-            $ret['new_mail'] = $ret['full_mail'] = false;
-            try{
-                $box = new MailBox(User::getInstance(), MailBox::$IN);
-                $info = $box->getInfo();
-                $ret['new_mail'] = $info['newmail'];
-                $ret['full_mail'] = $info['full'];
-            }catch(Exception $e){
-                $ret['new_mail'] = $ret['full_mail'] = false;
-            }
         }
 
         return $ret;
@@ -191,15 +181,16 @@ class Wrapper {
         return array('file' => $ret, 'remain_space' => nforum_size_format($upload['att_size'] - $size), 'remain_count' => $upload['att_num'] - $num);
     }
 
-    public function mailbox($mailbox){
+    public function mailbox(){
+        App::import("vendor", "model/mail");
         $ret = array();
-        $ret['description'] = $mailbox->desc;
-        $ret['unread_count'] = $mailbox->getNewNum();
-        $ret['space_used'] = $mailbox->getSpace() . 'KB';
+        $info = MailBox::getInfo(User::getInstance());
+        $ret['new_mail'] = $info['newmail'];
+        $ret['full_mail'] = $info['full'];
+        $ret['space_used'] = MailBox::getSpace() . 'KB';
         $ret['can_send'] = Mail::canSend();
 
         return $ret;
-
     }
 
     public function mail($mail, $options = array()){
@@ -237,6 +228,25 @@ class Wrapper {
 
         return $ret;
 
+    }
+
+    public function refer($refer){
+        App::import("vendor", "model/refer");
+        $ret = array();
+        $ret['index'] = $refer['INDEX'];
+        $ret['id'] = $refer['ID'];
+        $ret['group_id'] = $refer['GROUP_ID'];
+        $ret['reply_id'] = $refer['RE_ID'];
+        $ret['board_name'] = $refer['BOARD'];
+        try{
+            $ret['user'] = $this->user(User::getInstance($refer['USER']));
+        }catch(Exception $e){
+            $ret['user'] = $refer['USER'];
+        }
+        $ret['title'] = $refer['TITLE'];
+        $ret['time'] = $refer['TIME'];
+        $ret['is_read'] = $refer['FLAG'] === Refer::$FLAG_READ;
+        return $ret;
     }
 
     public function page($page){

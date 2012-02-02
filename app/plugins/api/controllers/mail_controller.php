@@ -54,10 +54,16 @@ class MailController extends ApiAppController {
         foreach($mails as $v){
             $info[] = $wrapper->mail($v);
         }
-        $data = $wrapper->mailbox($mailBox);
+        $data['description'] = $mailBox->desc;
         $data['pagination'] = $wrapper->page($pagination);
         $data['mail'] = $info;
         $this->set('data', $data);
+        $this->set('root', 'mailbox');
+    }
+
+    public function info(){
+        $wrapper = Wrapper::getInstance();
+        $this->set('data', $wrapper->mailbox());
         $this->set('root', 'mailbox');
     }
 

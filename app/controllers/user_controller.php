@@ -43,9 +43,14 @@ class UserController extends AppController {
         $ret['forum_totol_count'] = Forum::getOnlineNum();
         $ret['forum_user_count'] = Forum::getOnlineUserNum();
         $ret['forum_guest_count'] = Forum::getOnlineGuestNum();
-        $ret['new_at'] = $ret['new_reply'] = false;
+
+        App::import("vendor", "model/mail");
+        $info = MailBox::getInfo($user);
+        $ret['new_mail'] = $info['newmail'];
+        $ret['full_mail'] = $info['full'];
 
         App::import('vendor', 'model/refer');
+        $ret['new_at'] = $ret['new_reply'] = false;
         try{
             if($user->getCustom('userdefine1', 2)){
                 $refer = new Refer($user, Refer::$AT);
