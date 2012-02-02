@@ -8,7 +8,6 @@ class MailController extends MobileAppController {
     }
 
     public function index(){
-        $this->cache(false);
         $type = MailBox::$IN;
         if(isset($this->params['type']))
             $type = $this->params['type'];
@@ -50,7 +49,6 @@ class MailController extends MobileAppController {
     }
 
     public function show(){
-        $this->cache(false);
         if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
         if(!isset($this->params['num']))
@@ -200,7 +198,6 @@ class MailController extends MobileAppController {
     }
 
     public function delete(){
-        $this->cache(false);
         if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
         if(!isset($this->params['num']))

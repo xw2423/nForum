@@ -94,6 +94,9 @@ class MobileAppController extends AppController {
         if(!$this->ByrSession->isLogin){
             $this->error(ECode::$SYS_NOLOGIN);
         }
+
+        //no cache if need login
+        $this->cache(false);
     }
 }
 ?>
