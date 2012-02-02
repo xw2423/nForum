@@ -11,7 +11,7 @@
         </div>
         <div class="c-mbar">
             <ul>
-                <li><a href="<{$base}>/refer/at" <{if $type=="at"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>提到我的文章</a></li>
+                <li><a href="<{$base}>/refer/at" <{if $type=="at"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>@我的文章</a></li>
                 <li><a href="<{$base}>/refer/reply" <{if $type=="reply"}>class="select"<{/if}>><samp class="ico-pos-dot"></samp>回复我的文章</a></li>
             </ul>
         </div>

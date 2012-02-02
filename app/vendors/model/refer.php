@@ -31,7 +31,7 @@ class Refer implements Pageable{
 
     private $_type = "at";
     private $_types = array("at" => 1, "reply" => 2);
-    private $_descs = array("at" => "提到我的文章", "reply" => "回复我的文章");
+    private $_descs = array("at" => "@我的文章", "reply" => "回复我的文章");
 
     private $_newNum = 0;
     private $_totalNum = 0;

@@ -69,7 +69,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
             <li><a href="<{$base}>/mail">我的收件箱
 <%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a>
             </li>
-            <li><a href="<{$base}>/refer/at">提到我的文章</a>
+            <li><a href="<{$base}>/refer/at">@我的文章</a>
 <%if(new_at>0){%><span class="new_mail">(<%=new_at%>)</span><%}%></a>
             </li>
             <li><a href="<{$base}>/refer/reply">回复我的文章</a>
