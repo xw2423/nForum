@@ -69,12 +69,16 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
             <li><a href="<{$base}>/mail">我的收件箱
 <%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a>
             </li>
+<%if(false !== new_at){%>
             <li><a href="<{$base}>/refer/at">@我的文章</a>
 <%if(new_at>0){%><span class="new_mail">(<%=new_at%>)</span><%}%></a>
             </li>
+<%}%>
+<%if(false !== new_reply){%>
             <li><a href="<{$base}>/refer/reply">回复我的文章</a>
 <%if(new_reply>0){%><span class="new_mail">(<%=new_reply%>)</span><%}%></a>
             </li>
+<%}%>
             <li><a href="<{$base}>/fav">我的收藏夹</a></li>
             <li><a href="<{$base}>/widget/add">个性首页设置</a></li>
             <li><a href="javascript:void(0)" id="u_login_out">退出登录</a></li>
@@ -112,8 +116,9 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/info" ><samp class="ico-pos-dot"></samp>基本资料修改</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/passwd" ><samp class="ico-pos-dot"></samp>昵称密码修改</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/custom" ><samp class="ico-pos-dot"></samp>用户自定义参数</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/refer" ><samp class="ico-pos-dot"></samp>文章提醒</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友列表</a></span></li>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏夹管理</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏版面</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <%}%>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/query" ><samp class="ico-pos-dot"></samp>查询用户</a></span></li>

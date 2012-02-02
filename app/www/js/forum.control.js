@@ -10,7 +10,8 @@ $(function(){
         var btn = $(this).find('input[type="submit"]').loading(true);
         $.post($(this).attr('action'), $(this).getPostData(), function(json){
             btn.loading(false);
-            DIALOG.ajaxDialog(json)
+            DIALOG.ajaxDialog(json);
+            SESSION.update(true);
         }, 'json');
         return false;
     });

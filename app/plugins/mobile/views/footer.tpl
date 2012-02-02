@@ -11,8 +11,12 @@
 <{if $islogin}>
 	|<a href="<{$mbase}>/favor" accesskey="4">收藏</a>
 	|<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $mailInfo.full}>(满)<{elseif $mailInfo.newmail}>(新)<{/if}></a>
+<{if false !== $newAt}>
 	|<a href="<{$mbase}>/refer/at" accesskey="6">@我<{if $newAt>0}>(<{$newAt}>)<{/if}></a>
+<{/if}>
+<{if false !== $newReply}>
 	|<a href="<{$mbase}>/refer/reply" accesskey="7">回我<{if $newReply>0}>(<{$newReply}>)<{/if}></a>
+<{/if}>
 	|<a href="<{$mbase}>/friend/online" accesskey="8">好友</a>
 	|<a href="<{$mbase}>/user/logout" accesskey="9">注销(<{$id}>)</a>
 <{/if}>

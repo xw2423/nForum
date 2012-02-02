@@ -35,26 +35,33 @@ class MobileAppController extends AppController {
 
     public function beforeRender(){
         if($this->ByrSession->isLogin){
+            $u = User::getInstance();
+
             App::import("vendor", "model/mail");
             try{
-                $box = new MailBox(User::getInstance(), MailBox::$IN);
+                $box = new MailBox($u, MailBox::$IN);
                 $info = $box->getInfo();
             }catch(MailBoxNullException $e){
             }catch(UserNullException $e){
             }
             $login = true;
-            $id = User::getInstance()->userid;
-            $isAdmin = User::getInstance()->isAdmin();
-            $this->set("mailInfo", $info);
+            $id = $u->userid;
+            $isAdmin = $u->isAdmin();
+            $info['mailInfo'] = $info;
 
+            $info['newAt'] = $info['newReply'] = false;
             App::import('vendor', 'model/refer');
             try{
-                $refer = new Refer(User::getInstance(), Refer::$AT);
-                $this->set("newAt", $refer->getNewNum());
-                $refer = new Refer(User::getInstance(), Refer::$REPLY);
-                $this->set("newReply", $refer->getNewNum());
+                if($u->getCustom('userdefine1', 2)){
+                    $refer = new Refer($u, Refer::$AT);
+                    $info['newAt'] = $refer->getNewNum();
+                }
+                if($u->getCustom('userdefine1', 3)){
+                    $refer = new Refer($u, Refer::$REPLY);
+                    $info['newReply'] = $refer->getNewNum();
+                }
             }catch(ReferNullException $e){}
-
+            $this->set($info);
         }else{
             $login = false;
             $id = "guest";
