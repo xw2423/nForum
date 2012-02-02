@@ -2,6 +2,7 @@
 class friendController extends MobileAppController {
 
     public function online(){
+        $this->requestLogin();
         $this->notice = "ÔÚÏßºÃÓÑ";
         App::import('Sanitize');
         $u = User::getInstance();
