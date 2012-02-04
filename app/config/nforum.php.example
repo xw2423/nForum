@@ -95,6 +95,7 @@ $config['ubb']['parse'] = true;
 
 $config['elite']['root'] = "0Announce";
 
+$config['refer']['enable'] = defined('BBS_ENABLE_REFER');
 /********* component config ******************/
 $config['rss']['num'] = 20;
 #¿‡–Õ: Int

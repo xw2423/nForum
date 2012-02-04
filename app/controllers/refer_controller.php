@@ -9,6 +9,8 @@ class ReferController extends AppController {
 
     public function beforeFilter(){
         parent::beforeFilter();
+        if(!Configure::read('refer.enable'))
+            $this->error(ECode::$REFER_DISABLED);
         $this->requestLogin();
         $this->notice[] = array("url"=>"/mail", "text"=>"ндублАпя");
     }

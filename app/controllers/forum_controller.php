@@ -11,6 +11,7 @@ class ForumController extends AppController {
 
     public function front(){
         $this->front = true;
+        $this->set("refer", Configure::read('refer.enable'));
 
         //load adv
         //banner use js

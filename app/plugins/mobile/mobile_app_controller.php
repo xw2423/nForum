@@ -47,17 +47,19 @@ class MobileAppController extends AppController {
             $info['full_mail'] = $info['full'];
 
             $info['newAt'] = $info['newReply'] = false;
-            App::import('vendor', 'model/refer');
-            try{
-                if($u->getCustom('userdefine1', 2)){
-                    $refer = new Refer($u, Refer::$AT);
-                    $info['newAt'] = $refer->getNewNum();
-                }
-                if($u->getCustom('userdefine1', 3)){
-                    $refer = new Refer($u, Refer::$REPLY);
-                    $info['newReply'] = $refer->getNewNum();
-                }
-            }catch(ReferNullException $e){}
+            if(Configure::read('refer.enable')){
+                App::import('vendor', 'model/refer');
+                try{
+                    if($u->getCustom('userdefine1', 2)){
+                        $refer = new Refer($u, Refer::$AT);
+                        $info['newAt'] = $refer->getNewNum();
+                    }
+                    if($u->getCustom('userdefine1', 3)){
+                        $refer = new Refer($u, Refer::$REPLY);
+                        $info['newReply'] = $refer->getNewNum();
+                    }
+                }catch(ReferNullException $e){}
+            }
             $this->set($info);
         }else{
             $login = false;

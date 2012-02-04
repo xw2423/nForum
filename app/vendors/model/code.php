@@ -119,6 +119,7 @@ class ECode {
     public static $ATT_DELOK =           '1208';
     public static $REFER_NONE =          '1301';
     public static $REFER_DELETEOK =      '1302';
+    public static $REFER_DISABLED =      '1303';
 
     //no use just remember some time
     public static $XW_JOKE =             '9999';

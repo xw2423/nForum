@@ -4,6 +4,8 @@ class ReferController extends MobileAppController{
 
     public function beforeFilter(){
         parent::beforeFilter();
+        if(!Configure::read('refer.enable'))
+            $this->error(ECode::$REFER_DISABLED);
         $this->requestLogin();
     }
 

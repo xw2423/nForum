@@ -49,18 +49,20 @@ class UserController extends AppController {
         $ret['new_mail'] = $info['newmail'];
         $ret['full_mail'] = $info['full'];
 
-        App::import('vendor', 'model/refer');
-        $ret['new_at'] = $ret['new_reply'] = false;
-        try{
-            if($user->getCustom('userdefine1', 2)){
-                $refer = new Refer($user, Refer::$AT);
-                $ret['new_at'] = $refer->getNewNum();
-            }
-            if($user->getCustom('userdefine1', 3)){
-                $refer = new Refer($user, Refer::$REPLY);
-                $ret['new_reply'] = $refer->getNewNum();
-            }
-        }catch(ReferNullException $e){}
+        if(Configure::read('refer.enable')){
+            App::import('vendor', 'model/refer');
+            $ret['new_at'] = $ret['new_reply'] = false;
+            try{
+                if($user->getCustom('userdefine1', 2)){
+                    $refer = new Refer($user, Refer::$AT);
+                    $ret['new_at'] = $refer->getNewNum();
+                }
+                if($user->getCustom('userdefine1', 3)){
+                    $refer = new Refer($user, Refer::$REPLY);
+                    $ret['new_reply'] = $refer->getNewNum();
+                }
+            }catch(ReferNullException $e){}
+        }
 
         $this->set('no_html_data', $ret);
     }
