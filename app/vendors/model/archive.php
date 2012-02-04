@@ -110,20 +110,16 @@ abstract class Archive extends OverloadObject{
         $qlev = Configure::read("article.quote_level");
         $refline = Configure::read("article.ref_line");
         $ret = "\n【 在 {$this->OWNER} 的大作中提到: 】\n";
-        $con = $this->getContent();
+        $con = trim($this->getContent());
         $qPrefix = str_repeat(": ", $qlev);
-        $pattern =
-        array("/^发信人[^\n]*\n|^寄信人([^\n]*\n){5}|^{$qPrefix}【[^\n]*\n|^$qPrefix:[^\n]*\n|^--(?![\s\S]*--[\s\S]*)[\s\S]*$/", "/\n{2,}/");
-        $replace = array("", "\n");
+        $pattern = array(
+            "/^发信人([^\n]*\n){4}|^寄信人([^\n]*\n){5}|(?<=\n|^){$qPrefix}(?:【|: )[^\n]*\n|(?<=\n|^)--\n?(?![\s\S]*?\n--\n[\s\S]*?)[\s\S]*?$/"
+            ,"/\n\s*?\n/"
+            ,"/^((?:[^\n]*\n){" . $refline ."})[\s\S]+$/"
+            ,"/(.*\n)/"
+        );
+        $replace = array("", "\n", "\$1...................\n", ": \$1");
         $con = preg_replace($pattern, $replace, $con);
-        $pattern = "/((?:.*\n){" . $refline ."})[\s\S]*/";
-        $con = preg_replace($pattern, "\$1", $con);
-        $pattern = "/(.*\n)/";
-        $con = preg_replace($pattern, ": \$1", $con);
-        if(preg_match("/(.+\n){" . $refline ."}/", $con)){
-            $end = ": ...................\n";
-            return $ret . $con . $end;
-        }
         return $ret . $con;
     }
 
