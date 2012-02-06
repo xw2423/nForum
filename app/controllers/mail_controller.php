@@ -331,7 +331,7 @@ class MailController extends AppController {
         else if(isset($this->params['form']['num']))
             $num = $this->params['form']['num'];
         
-        if(empty($type) || empty($num))
+        if(empty($type) || false === $num)
             return false;
 
         try{
