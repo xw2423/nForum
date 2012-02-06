@@ -5,7 +5,8 @@ $(function(){
         if(ubb) return true;
         $(this).ubb({
             ubb_img_path:SYS.base + "/img/ubb/",
-            ubb_em:$('#em_img')
+            ubb_em:$('#em_img'),
+            ubb_syntax_enable:(typeof sh_init !== 'undefined')
         });
         ubb = true;
         $(this).focus();
@@ -35,6 +36,7 @@ $(function(){
                     {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
                  ]
             });
+                if(typeof sh_init !== 'undefined') sh_init();
             }
         });
     });

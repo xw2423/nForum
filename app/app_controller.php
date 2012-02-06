@@ -183,6 +183,11 @@ class AppController extends Controller {
                 $this->jsr[] = <<<EOT
 $('#notice_nav').html('{$tmp}');document.title='{$title}';
 EOT;
+
+                $syn = Configure::read('ubb.syntax');
+                if(!empty($syn)){
+                    $this->set('syntax', $syn);
+                }
             }
         }
         /* handle jsr end*/

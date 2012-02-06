@@ -79,12 +79,29 @@ class XUBB {
     );
 
     public static function parse($text){
+        $syn = Configure::read('ubb.syntax');
+        if(!empty($syn)){
+            self::$rule[0][] = "'\[code=(\w*?)\]([\s\S]*?)\[/code\]'e";
+            self::$rule[1][] = "self::parseCode('\\1', '\\2')";
+            self::$rule[2][] = "\\2";
+        }
         $prefix = Configure::read('site.prefix');
         return str_replace('%base%', $prefix, preg_replace(self::$rule[0], self::$rule[1], $text));
     }
 
     public static function remove($text){
         return preg_replace(self::$rule[0], self::$rule[2], $text);
+    }
+
+    public static function parseCode($lang, $code){
+        //preg_match use 'e' quote "?
+        $code = str_replace("\\\"", "\"", $code);
+        $code = preg_replace("'<br ?/?>'", "\n", $code);
+        $code = str_replace("&nbsp;", " ", $code);
+        $code = preg_replace("'</?[^>]*?>'", "", $code);
+        $code = trim($code);
+        $code = "<pre class=\"brush:$lang\">$code</pre>";
+        return $code;
     }
 }
 ?>

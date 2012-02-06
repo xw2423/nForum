@@ -93,6 +93,10 @@ $config['ubb']['parse'] = true;
 #类型: Boolean
 #描述: 是否解析ubb代码
 
+$config['ubb']['syntax'] = '';
+#类型: String
+#描述: 语法高亮的SyntaxHighlighter3.x的目录名称，请把SyntaxHighlighter3.x放在app/www目录下，为空即不启用语法高亮
+
 $config['elite']['root'] = "0Announce";
 
 $config['refer']['enable'] = defined('BBS_ENABLE_REFER');

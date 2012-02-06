@@ -8,6 +8,7 @@ $(function(){
                 DIALOG.formDialog(tmpl_preview(repo),
                     {title:SYS.code.COM_DETAIL, width:600
                 });
+                if(typeof sh_init !== 'undefined') sh_init();
             }
         });
         return false;

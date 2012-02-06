@@ -49,13 +49,6 @@ hr {display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 
 
 input, select {vertical-align: middle;}
 
-pre {
-    white-space: pre; /* CSS2 */
-    white-space: pre-wrap; /* CSS 2.1 */
-    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-    word-wrap: break-word; /* IE */
-}
-
 input[type="radio"] {vertical-align: text-bottom;}
 input[type="checkbox"] {vertical-align: text-bottom; *vertical-align: baseline;}
 .ie6 input {vertical-align: text-bottom;}
@@ -689,13 +682,13 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .a-u-info dd{width:70px;color:#000;}
 
 /* article content */
-.a-content{padding:10px}
-.a-content img{
-    display:inline; 
-}
-.a-content p{
+.a-content{
+    padding:10px;
     font-size:13px;
     line-height:1.4
+}
+.a-content img{
+    display:inline;
 }
 .a-content img.resizeable{
     -moz-box-shadow:3px 3px 6px #333;

@@ -10,9 +10,10 @@
         </tr>
         <tr class="a-body">
             <td class="a-content">
-                <p><%=content%></p>
+                <%=content%>
             </td>
         </tr>
     </table>
     </div>
 </script>
+<{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

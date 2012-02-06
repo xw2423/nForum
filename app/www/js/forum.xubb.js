@@ -111,7 +111,30 @@ window.nForumMap = {
              ubb_em_img : [{name:'æ≠µ‰', path:'em', start:1, num:74},
                              {name:'”∆Œ˚∫Ô', path:'ema', start:0, num:42},
                              {name:'Õ√Àπª˘', path:'emb', start:0, num:25},
-                             {name:'—Û¥–Õ∑', path:'emc', start:0, num:59}]
+                             {name:'—Û¥–Õ∑', path:'emc', start:0, num:59}],
+             ubb_syntax_enable: false,
+             ubb_syntax: [{name:'ActionScript3', alias:'as3'},
+                             {name:'Bash/shell', alias:'bash'},
+                             {name:'ColdFusion', alias:'cf'},
+                             {name:'C/C++', alias:'c'},
+                             {name:'C#', alias:'csharp'},
+                             {name:'CSS', alias:'css'},
+                             {name:'Delphi', alias:'delphi'},
+                             {name:'Diff', alias:'diff'},
+                             {name:'Erlang', alias:'erl'},
+                             {name:'Groovy', alias:'groovy'},
+                             {name:'Java', alias:'java'},
+                             {name:'JavaFx', alias:'jfx'},
+                             {name:'JavaScript', alias:'js'},
+                             {name:'Perl', alias:'pl'},
+                             {name:'PHP', alias:'php'},
+                             {name:'Text', alias:'text'},
+                             {name:'Python', alias:'py'},
+                             {name:'Ruby', alias:'rb'},
+                             {name:'Scala', alias:'scala'},
+                             {name:'SQL', alias:'sql'},
+                             {name:'Visual Basic', alias:'vb'},
+                             {name:'XML/HTML', alias:'xml'}]
          };
 
         config = $.extend(ubb_config, config);
@@ -165,20 +188,31 @@ window.nForumMap = {
             $('#ubb_wrap').prepend((function(){
                 var ret = "";
                 ret += '◊÷ÃÂ&ensp;<select id="ubb_face">';
+                ret += '<option value="">«Î—°‘Ò</option>';
                 for(var i in config.ubb_face){
                     ret += '<option value="' + config.ubb_face[i] + '">' +config.ubb_face[i] + '</option>';
                 }
                 ret += '</select>&emsp;';
                 ret += '◊÷∫≈&ensp;<select id="ubb_size" >';
+                ret += '<option value="">«Î—°‘Ò</option>';
                 for(var i in config.ubb_size){
                     ret += '<option value="' + config.ubb_size[i] + '">' +config.ubb_size[i] + '</option>';
                 }
                 ret += '</select>&emsp;';
                 ret += '—’…´&ensp;<select id="ubb_color" >';
+                ret += '<option value="">«Î—°‘Ò</option>';
                 for(var i in config.ubb_color){
                     ret += '<option style="background-color:' +config.ubb_color[i] + ';color:' +config.ubb_color[i] + '"value="' + config.ubb_color[i] + '">' +config.ubb_color[i] + '</option>';
                 }
-                ret += '</select>';
+                ret += '</select>&emsp;';
+                if(config.ubb_syntax_enable){
+                    ret += '”Ô∑®∏ﬂ¡¡&ensp;<select id="ubb_syntax" >';
+                    ret += '<option value="">«Î—°‘Ò</option>';
+                    for(var i in config.ubb_syntax){
+                        ret += '<option value="' + config.ubb_syntax[i]['alias'] + '">' +config.ubb_syntax[i]['name'] + '</option>';
+                    }
+                    ret += '</select>&emsp;';
+                }
                 ret += '<br /><div class="ubb-icon">';
                 for(var i in config.ubb_img){
                     ret += ('<img id="' + config.ubb_img[i].id + '" src="' + config.ubb_img_path + config.ubb_img[i].src + '" alt="' + config.ubb_img[i].alt + '" title="' + config.ubb_img[i].alt + '"border="0">');        
@@ -186,12 +220,13 @@ window.nForumMap = {
                 return ret + '</div>';
             })());
 
-            $('#ubb_color').change(function(){textarea._makeUBB("[color=" + $(this).val()+ "]%content%[/color]", true);});
-            $('#ubb_size').change(function(){textarea._makeUBB("[size=" + $(this).val()+ "]%content%[/size]", true);});
-            $('#ubb_face').change(function(){textarea._makeUBB("[face=" + $(this).val()+ "]%content%[/face]", true);});
+            $('#ubb_color').change(function(){$(this).val() && textarea._makeUBB("[color=" + $(this).val()+ "]%content%[/color]", true);});
+            $('#ubb_size').change(function(){$(this).val() && textarea._makeUBB("[size=" + $(this).val()+ "]%content%[/size]", true);});
+            $('#ubb_face').change(function(){$(this).val() && textarea._makeUBB("[face=" + $(this).val()+ "]%content%[/face]", true);});
             $('#ubb_bold').click(function(){textarea._makeUBB("[b]%content%[/b]", true);});
             $('#ubb_italic').click(function(){textarea._makeUBB("[i]%content%[/i]", true);});
             $('#ubb_underline').click(function(){textarea._makeUBB("[u]%content%[/u]", true);});
+            $('#ubb_syntax').change(function(){$(this).val() && textarea._makeUBB("[code=" + $(this).val()+ "]\n%content%\n[/code]", true);});
 
             $('#ubb_url').click(function(e){
                 if(textarea._getSelection()== ""){

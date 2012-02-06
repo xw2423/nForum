@@ -89,9 +89,9 @@
             <li><samp class="ico-pos-edit"></samp><a href="mail/send" class="mail-new">×«Ð´</a></li> 
         </ul>
     </div>
-    <p class="m-content">
+    <div class="m-content">
         <%=content%>
-    </p> 
+    </div>
     <div class="m-op">
         <ul class="m-func"> 
             <li><samp class="ico-pos-reply"></samp><a href="mail/<%=type%>/reply/<%=num%>" class="mail-reply">»Ø¸´</a></li> 
@@ -115,3 +115,4 @@
     </li>
 </form>
 </script>
+<{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

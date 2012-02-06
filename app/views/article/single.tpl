@@ -15,9 +15,9 @@
         <li><samp class="ico-pos-query"></samp><a href="user/query/<%=user.id||user%>">作者信息</a></li> 
     </ul>
 </div>
-<p class="m-content">
+<div class="m-content">
 <%=content%>
-</p> 
+</div>
 <div class="m-op">
     <ul class="m-func"> 
 <%if(previous_id){%>
@@ -39,3 +39,4 @@
 </div>
 </script>
 <{include file="article/forward.tpl"}>
+<{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

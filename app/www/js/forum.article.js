@@ -99,4 +99,5 @@ $(function(){
         }
         return false;
     });
+    if(typeof sh_init !== 'undefined') sh_init();
 });

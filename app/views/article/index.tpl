@@ -87,12 +87,12 @@
 <{/if}>
 			</td>
 			<td class="a-content">
-				<p><{$item.content}>
+				<{$item.content}>
                 <{if isset($vinfo) && $item.pos=="0"}>
                     <div id="vote_view" class="corner" style="margin:0;display:inline-block">
                     <{include file="../plugins/vote/views/index/vote.tpl"}>  
                     </div>
-                <{/if}></p>
+                <{/if}>
 			</td>
 		</tr>
 		<tr class="a-bottom">
@@ -153,3 +153,4 @@
     </form>
     <!--quick_reply end-->
 <{include file="article/forward.tpl"}>
+<{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>
