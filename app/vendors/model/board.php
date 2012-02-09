@@ -453,10 +453,11 @@ class Board extends OverloadObject implements Pageable, iWidget{
      *     'ITEM5' => string 
      *     'ITEM6' => string 
      *     'ITEM7' => string 
-     *     *'VOTED' => int 1
-     *     *'MSG1' => string 
-     *     *'MSG2' => string 
-     *     *'MSG3' => string
+     *     'VOTED1' => int 1
+     *     'VOTED2' => int 1
+     *     'MSG1' => string
+     *     'MSG2' => string
+     *     'MSG3' => string
      * )
      *
      * @param int $num
@@ -486,17 +487,17 @@ class Board extends OverloadObject implements Pageable, iWidget{
         $ret['day'] = $arr[0]['MAXDAY'];
         $ret['limit'] = $arr[0]['MAXTKT'];
         $ret['desc'] = @bbs_printansifile("vote/" . $this->NAME . "/desc." . $arr[0]["DATE"]);
-        $voted = isset($res[0]['VOTED']);
+        $voted = isset($res[0]['VOTED1']);
         switch($arr[0]['TYPE']){
             case 'Êý×Ö':
-                $ret['val'] = $voted?$res[0]['VOTED']:"";
+                $ret['val'] = $voted?$res[0]['VOTED1']:"";
                 break;
             case 'ÎÊ´ð':
                 $ret['val'] = false;
                 break;
             default:
                 foreach(range(1, $arr[0]['TOTALITEMS']) as $i){
-                    $ret['val'][] = array($arr[0]['ITEM'.$i], $voted && ($res[0]['VOTED'] & (1 << ($i - 1))) != 0);
+                    $ret['val'][] = array($arr[0]['ITEM'.$i], $voted && ($res[0]['VOTED'.($i <= 32?'1':'2')] & (1 << (($i - 1) % 32))) != 0);
                 }
         }
         $ret['msg'] = $voted?trim(join("\n", array($res[0]['MSG1'], $res[0]['MSG2'], $res[0]['MSG3']))):"";
@@ -507,14 +508,15 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * function vote
      *
      * @param int $num
-     * @param array $val
+     * @param array $val1
+     * @param array $val2
      * @param string msg
      * @return boolean
      * @access public
      */
-    public function vote($num, $val, $msg){
+    public function vote($num, $val1, $val2, $msg){
         $msg = trim(preg_replace("|^((.*?\n){3})[\s\S]*$|", "\$1", $msg));
-        $ret = bbs_vote_num($this->NAME, $num, intval($val), $msg);
+        $ret = bbs_vote_num($this->NAME, $num, intval($val1), intval($val2), $msg);
         return ($ret > 0);
     }
     

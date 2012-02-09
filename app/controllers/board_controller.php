@@ -159,18 +159,26 @@ class BoardController extends AppController {
         $v = @$this->params['form']['v'];
         $msg = @$this->params['form']['msg'];
         $msg = nforum_iconv('utf-8', $this->encoding, $msg);
-        $val = 0;
+        $val1 = $val2 = 0;
         if($vote['type'] == 'Êý×Ö'){
-            $val = (int)$v;
+            $val1 = (int)$v;
         }else if($vote['type'] == '¸´Ñ¡'){
             if(count((array)$v) > $vote['limit'])
                 $this->error(ECode::$BOARD_VOTEFAIL);
-            foreach((array)$v as $k=>$v)
-                $val += 1 << intval($k);
+            foreach((array)$v as $k=>$v){
+                if($k < 32)
+                    $val1 += 1 << $k;
+                else
+                    $val2 += 1 << ($k - 32);
+            }
         }else if($vote['type'] != 'ÎÊ´ð'){
-            $val = 1 << intval($v);
+            $v = intval($v);
+            if($v < 32)
+                $val1 = 1 << $v;
+            else
+                $val2 = 1 << ($v - 32);
         }
-        if(!$this->_board->vote($num, $val, $msg))
+        if(!$this->_board->vote($num, $val1, $val2, $msg))
             $this->error(ECode::$BOARD_VOTEFAIL);
 
         $ret['ajax_code'] = ECode::$BOARD_VOTESUCCESS;
