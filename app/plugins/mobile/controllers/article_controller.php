@@ -135,6 +135,7 @@ class ArticleController extends MobileAppController {
         $info = array(
             "aid" => $article->ID,
             "gid" => $article->GROUPID,
+            "rid" => $article->REID,
             "op" => ($article->OWNER == $u->userid || $bm)?1:0,
             "time" => date("Y-m-d H:i:s", $article->POSTTIME),
             "poster" => $article->OWNER,

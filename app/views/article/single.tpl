@@ -35,6 +35,7 @@
         <li><a href="article/<%=board_name%>/<%=group_id%>?s=<%=id%>" class="a-close">展开</a></li>
         <li><a href="article/<%=board_name%>/ajax_single/<%=group_id%>.json" class="a-single">溯源</a></li> 
         <li><a href="article/<%=board_name%>/<%=group_id%>" class="a-close">同主题展开</a></li>
+        <li><a href="article/<%=board_name%>/ajax_single/<%=reply_id%>.json" class="a-single">引文</a></li>
     </ul>
 </div>
 </script>
