@@ -15,10 +15,6 @@
         </div>
 		<div class="b-content vote-main">
 			<div class="vote-title">�鿴ͶƱ</div>
-            <div class="vote-body">
-			<div id="vote_view" class="vote-left corner">
-                <{include file="../plugins/vote/views/index/vote.tpl"}>  
-			</div>
 			<div id="vote_info" class="vote-right">
 <{if !$vinfo.isDel}>
 				<li class="widget color-default">  
@@ -69,5 +65,7 @@
 					</div>
 				</li>
 			</div>
+			<div id="vote_view" class="vote-left corner">
+                <{include file="../plugins/vote/views/index/vote.tpl"}>  
 			</div>
 		</div>

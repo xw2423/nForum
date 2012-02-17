@@ -600,7 +600,8 @@ $.fn.extend({
             }
         },
         tips:function(show){
-            this.$('#nforum_tips')[!!show?'show':'hide']();
+            var t = $(window).scrollTop();
+            this.$('#nforum_tips').css('top',t)[!!show?'show':'hide']();
         },
         userQuery:function(el){
             var re = new RegExp(SYS.ajax.user + '/?([\\w\\d]*)$')

@@ -592,7 +592,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 
 /* tips */
 #nforum_tips{
-    position:absolute;
+    position:fixed;
     top:0;
     right:0;
     padding:5px;

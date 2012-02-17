@@ -2,21 +2,12 @@
     clear:both;
     background-color:#FFF;
     padding:10px;
-    min-height:480px;
     height:100%;
-    *overflow:visible;
-    _height:480px;
 }
-.vote-body{
-    position:relative;
-    padding-top:8px;
-    *overflow:visible;
-}
-.vote-left{margin:0 10px 0 10px;}
+.vote-left{margin:8px 10px 0 10px;}
 .vote-right{
-    position:absolute;
-    top:8px;
-    right:0;
+    margin-top:8px;
+    float:right;
 }
 .vote-submit{
     margin-top:10px;
@@ -37,10 +28,9 @@
 .vote-submit input{
     margin-left:20px;
 }
-.widget{margin-bottom:4px;*margin-left:-16px;_margin-bottom:1px;;}
+.widget{margin-bottom:4px;*margin-left:-16px}
 .widget-head{text-align:center;}
 .widget-head .widget-title{font-weight:bold;text-align:center; padding-left:18px;}
-.w-list-line li{width:100%;}
 .w-free {text-align:center;}
 .vote-share{background:url('../images/chart_bar.gif') no-repeat center left}
 .vote-hot{background:url('../images/color_swatch.gif') no-repeat center left}
