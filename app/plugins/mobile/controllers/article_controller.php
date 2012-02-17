@@ -62,7 +62,11 @@ class ArticleController extends MobileAppController {
             $f = empty($f)?"":"<br />FROM {$f[1]}";
             $s = (($pos = strpos($content, "<br/><br/>")) === false)?0:$pos + 10;
             $e = (($pos = strpos($content, "<br/>--<br/>")) === false)?strlen($content):$pos + 7;
-            $content = substr($content, $s, $e - $s) . $m . $f;
+            $content = preg_replace(
+                array("'^(<br/>)+'", "|(<br/>)+--$|")
+                ,array("", "<br>--")
+                ,substr($content, $s, $e - $s)
+            ) . $m . $f;
             $content = $v->parseAtt($content, 'middle');
             if(Configure::read("ubb.parse")){
                 $content = XUBB::parse($content);
@@ -119,7 +123,11 @@ class ArticleController extends MobileAppController {
         $f = empty($f)?"":"<br />FROM {$f[1]}";
         $s = (($pos = strpos($content, "<br/><br/>")) === false)?0:$pos + 10;
         $e = (($pos = strpos($content, "<br/>--<br/>")) === false)?strlen($content):$pos + 7;
-        $content = substr($content, $s, $e - $s) . $m . $f;
+        $content = preg_replace(
+            array("'^(<br/>)+'", "|(<br/>)+--$|")
+            ,array("", "<br>--")
+            ,substr($content, $s, $e - $s)
+        ) . $m . $f;
         $content = $article->parseAtt($content, 'middle');
         if(Configure::read("ubb.parse")){
             $content = XUBB::parse($content);
