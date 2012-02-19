@@ -19,7 +19,7 @@
 </form>
 </div>
 <ul class="list sec">
-<{if $info}>
+<{if isset($info)}>
 <{foreach from=$info item=item}>
 <li<{cycle values=', class="hla"'}>>
     <div>
