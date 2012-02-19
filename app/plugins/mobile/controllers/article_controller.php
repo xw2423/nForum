@@ -313,6 +313,7 @@ class ArticleController extends MobileAppController {
         $this->set("bName", $this->_board->NAME);
         $this->set("email", false);
         $this->set("anony", false);
+        $this->set("outgo", false);
         $this->set("title", $title);
         $this->set("content", $content);
         $this->set("single", $single);
