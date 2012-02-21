@@ -116,7 +116,7 @@
     <div class="t-pre-bottom">
         <div class="page">
             <ul class="pagination">
-			  <li class="page-pre">主题数:<i><{$totalNum}></i>&emsp;分页:</li>
+			  <li class="page-pre">贴数:<i><{$totalNum}></i>&emsp;分页:</li>
               <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
 			  <li class="page-suf"></li>	
             </ul>
