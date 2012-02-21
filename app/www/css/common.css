@@ -300,23 +300,23 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 
 /*header start*/
 #top_head{
-    height:104px;
+    height:92px;
     clear:both;
     margin:auto;
     overflow:hidden;
-    background: #ecf4fd url(../img/bg.gif) repeat-x 0 -38px;
+    background-color:#fff;
 }
 #top_menu{ float:right; }
-#top_menu ul{ margin-top:10px; margin-right:10px; }
+#top_menu ul{ margin-top:10px; margin-right:6px; }
 #top_menu ul li{ margin-bottom:5px; }
 #top_menu ul a{ color:#666; text-decoration:underline; }
 #top_menu ul a:hover{ color:#06C; }
-#top_logo{ margin:15px 0px 0 20px;}
+#top_logo{ margin:14px 0px 0 20px;}
 #top_logo img{ position:relative;z-index:1}
 #ban_ner{
     margin:auto;
-    margin-top:-87px;
-    *margin-top:-85px;
+    margin-top:-94px;
+    *margin-top:-89px;
     width:660px;
     height:90px;
     padding:4px 7px 0px 80px;
