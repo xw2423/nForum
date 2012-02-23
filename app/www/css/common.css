@@ -311,17 +311,24 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 #top_menu ul li{ margin-bottom:5px; }
 #top_menu ul a{ color:#666; text-decoration:underline; }
 #top_menu ul a:hover{ color:#06C; }
-#top_logo{ margin:14px 0px 0 20px;}
+#top_logo{ margin:14px 0px 0 10px;}
 #top_logo img{ position:relative;z-index:1}
 #ban_ner{
     margin:auto;
     margin-top:-94px;
-    *margin-top:-89px;
-    width:660px;
+    *margin-top:-90px;
+    width:610px;
     height:90px;
-    padding:4px 7px 0px 80px;
-    text-align:right;
-    background:url(../img/bg_ban_ner.png) right top no-repeat;
+    padding:4px 0 0 110px;
+}
+#ban_ner_border{
+    border: 1px outset #BBB;
+    width: 600px;
+    height: 80px;
+    padding: 1px;
+    -moz-box-shadow:0 0 3px #bbb;
+    -webkit-box-shadow:0 0 3px #bbb;
+    -box-shadow:0 0 3px #bbb;
 }
 /*head end*/
 

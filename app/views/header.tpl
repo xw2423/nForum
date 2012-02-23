@@ -37,6 +37,7 @@
     <!--logo end-->
 
     <article id="ban_ner">
+        <div id="ban_ner_border"></div>
     </article>
     <!--ban_ner end-->
 

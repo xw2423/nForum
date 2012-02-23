@@ -716,7 +716,7 @@ function front_startup(){
     window.front_init();
 
     //load flash
-    $('#ban_ner').flashembed({
+    $('#ban_ner_border').flashembed({
         src:SYS.static + SYS.base + "/files//swf/adv.swf"
         ,width:600
         ,height:80
