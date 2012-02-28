@@ -99,6 +99,10 @@ $(function(){
                 }
             });
         }
+        $('.vote-scroll span').each(function(){
+            var w = parseInt($(this).attr('_width')) * 230 / 100;
+            if(0 != w) $(this).animate({width:w + 'px'}, 1500);
+        });
         $('#f_view').submit(function(){
             $.post($(this).attr('action'), $(this).getPostData(), function(json){
                 if(json.ajax_st == 1)
