@@ -8,19 +8,25 @@
 <div class="sec nav">
 <form action="<{$mbase}>/article/<{$bName}>/<{$reid}>" method="get">
 <{if $curPage != 1}>
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=1">首页</a>|
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage-1}>">上页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=1<{if $au}>&au=<{$au}><{/if}>">首页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage-1}><{if $au}>&au=<{$au}><{/if}>">上页</a>|
 <{/if}>
 <{if $curPage != $totalPage}>
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage+1}>">下页</a>|
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$totalPage}>">尾页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage+1}><{if $au}>&au=<{$au}><{/if}>">下页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$totalPage}><{if $au}>&au=<{$au}><{/if}>">尾页</a>|
 <{/if}>
 	<a class="plant"><{$curPage}>/<{$totalPage}></a>|
 	<a class="plant">转到&nbsp;<input type="text" name="p" size="2" />&nbsp;<input type="submit" value="GO" class="btn" /></a>
+<{if $au}>
+    <input type="hidden" name="au" value="<{$au}>" />
+<{/if}>
 </form>
 </div>
 <ul class="list sec">
 <li class="f">主题:<{$title}></li>
+<{if count($info) == 0}>
+<li>不存在任何文章</li>
+<{else}>
 <{foreach from=$info item=item key=k}>
 <li<{cycle values=', class="hla"'}>>
     <a name="a<{$item.pos}>"></a>
@@ -29,6 +35,11 @@
             <a class="plant"><{if $item.pos == 0}>楼主<{else}><{$item.pos}>楼<{/if}></a>
             |<a href="<{$mbase}>/user/query/<{$item.poster}>"><{$item.poster}></a>
             |<a class="plant"><{$item.time}></a>
+<{if $au}>
+            |<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a>
+<{else}>
+            |<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a>
+<{/if}>
         </div>
         <div>
         <{if $canPost}>
@@ -47,19 +58,23 @@
 	<div class="sp"><{$item.content}></div>
 </li>
 <{/foreach}>
+<{/if}>
 </ul>
 <div class="sec nav">
 <form action="<{$mbase}>/article/<{$bName}>/<{$reid}>" method="get">
 <{if $curPage != 1}>
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=1">首页</a>|
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage-1}>">上页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=1<{if $au}>&au=<{$au}><{/if}>">首页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage-1}><{if $au}>&au=<{$au}><{/if}>">上页</a>|
 <{/if}>
 <{if $curPage != $totalPage}>
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage+1}>">下页</a>|
-	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$totalPage}>">尾页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$curPage+1}><{if $au}>&au=<{$au}><{/if}>">下页</a>|
+	<a href="<{$mbase}>/article/<{$bName}>/<{$gid}>?p=<{$totalPage}><{if $au}>&au=<{$au}><{/if}>">尾页</a>|
 <{/if}>
 	<a class="plant"><{$curPage}>/<{$totalPage}></a>|
 	<a class="plant">转到&nbsp;<input type="text" name="p" size="2" />&nbsp;<input type="submit" value="GO" class="btn" /></a>
+<{if $au}>
+    <input type="hidden" name="au" value="<{$au}>" />
+<{/if}>
 </form>
 </div>
 <{if $canPost}>

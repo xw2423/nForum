@@ -36,6 +36,8 @@ class ArticleController extends MobileAppController {
         }catch(ThreadsNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
+
+        //article jump
         if(isset($this->params['url']['s'])){
             $article = $threads->getArticleById(intval($this->params['url']['s']));
             if(null !== $article){
@@ -45,8 +47,20 @@ class ArticleController extends MobileAppController {
             }
             $this->redirect("{$this->_mbase}/article/{$this->_board->NAME}/{$gid}");
         }
+
+        //filter author
+        $auF = $au = false;
+        if(isset($this->params['url']['au'])){
+            $tmp = $threads->getRecord(1, $threads->getTotalNum());
+            $auF = array();$au = trim($this->params['url']['au']);
+            foreach($tmp as $v){
+                if($v->OWNER == $au)
+                    $auF[] = $v;
+            }
+            $auF = new ArrayPageableAdapter($auF);
+        }
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
-        $pagination = new Pagination($threads, Configure::read("pagination.article"));
+        $pagination = new Pagination(false !== $au?$auF:$threads, Configure::read("pagination.article"));
         $articles = $pagination->getPage($p);
 
         $u = User::getInstance();
@@ -89,6 +103,7 @@ class ArticleController extends MobileAppController {
         $this->set("title", Sanitize::html($threads->TITLE));
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());
+        $this->set("au", $au);
         //for the quick reply, raw encode the space
         $this->set("reid", $threads->ID);
         if(!strncmp($threads->TITLE, "Re: ", 4))

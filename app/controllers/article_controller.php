@@ -53,6 +53,8 @@ class ArticleController extends AppController {
         }catch(ThreadsNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
+
+        //article jump
         if(isset($this->params['url']['s'])){
             $article = $this->_threads->getArticleById(intval($this->params['url']['s']));
             if(null !== $article){
@@ -62,8 +64,21 @@ class ArticleController extends AppController {
             }
             $this->redirect("/article/{$this->_board->NAME}/{$gid}");
         }
+
+        //filter author
+        $auF = $au = false;
+        if(isset($this->params['url']['au'])){
+            $tmp = $this->_threads->getRecord(1, $this->_threads->getTotalNum());
+            $auF = array();$au = trim($this->params['url']['au']);
+            foreach($tmp as $v){
+                if($v->OWNER == $au)
+                    $auF[] = $v;
+            }
+            $auF = new ArrayPageableAdapter($auF);
+        }
+
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
-        $pagination = new Pagination($this->_threads, Configure::read("pagination.article"));
+        $pagination = new Pagination(false !== $au?$auF:$this->_threads, Configure::read("pagination.article"));
         $articles = $pagination->getPage($p);
 
         $u = User::getInstance();
@@ -180,6 +195,8 @@ class ArticleController extends AppController {
         }
         $this->title = Sanitize::html($this->_threads->TITLE);
         $link = "{$this->base}/article/{$this->_board->NAME}/{$gid}?p=%page%";
+        if(false !== $auF)
+            $link .= "&au=$au";
         $pageBar = $pagination->getPageBar($p, $link);
         $this->set("bName", $this->_board->NAME);
         $this->set("gid", $gid);
@@ -192,6 +209,7 @@ class ArticleController extends AppController {
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());
         $this->set('hasSyn', $hasSyn);
+        $this->set("au", $au);
         //for the quick reply, raw encode the space
         $this->set("reid", $this->_threads->ID);
         if(!strncmp($this->_threads->TITLE, "Re: ", 4))

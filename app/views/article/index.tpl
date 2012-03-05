@@ -18,6 +18,9 @@
 	<{capture name=n_right}><span style="color:#eee;vertical-align:bottom" id="a_share" _u="<{$domain}><{$base}>/article/<{$bName}>/<{$gid}>" _c="<{$title}>">分享到:</span><{/capture}>
 	<{include file="s_nav.tpl" nav_left=$smarty.capture.n_left nav_right=$smarty.capture.n_right}>
     	<div class="b-content corner">
+<{if count($info) == 0}>
+        <div class="corner" style="text-align:center;margin:3px 0;padding:8px 0;border:1px solid #D4E6FC">不存在任何文章</div>
+<{else}>
 <{foreach from=$info item=item}>
 	<a name="a<{$item.pos}>"></a>
     <div class="a-wrap corner">
@@ -51,6 +54,11 @@
 <{/if}>
 					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/<{$bName}>/ajax_forward/<{$item.id}>.json" class="a-func-forward">转寄</a></li>
 					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
+<{if $au}>
+					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a></li>
+<{else}>
+					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a></li>
+<{/if}>
 				<{if $item.op == "1"}>
 					<li><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
 					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/ajax_delete/<{$item.id}>.json" class="a-func-del">删除</a></li>
@@ -112,6 +120,7 @@
 	</table>
     </div>
 <{/foreach}>
+<{/if}>
         </div>
     <div class="t-pre-bottom">
         <div class="page">
