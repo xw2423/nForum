@@ -185,7 +185,7 @@ $('#notice_nav').html('{$tmp}');document.title='{$title}';
 EOT;
 
                 $syn = Configure::read('ubb.syntax');
-                if(!empty($syn)){
+                if(Configure::read('ubb.parse') && !empty($syn) && $this->get('hasSyn') !== false){
                     $this->set('syntax', $syn);
                 }
             }

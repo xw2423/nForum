@@ -70,6 +70,9 @@ class ArticleController extends AppController {
         $bm = $u->isBM($this->_board) || $u->isAdmin();
         $info = array();
         $curTime = strtotime(date("Y-m-d", time()));
+        $isUbb = Configure::read("ubb.parse");
+        $isSyn = Configure::read("ubb.syntax");
+        $hasSyn = false;
         foreach($articles as $v){
             try{
                 $own = User::getInstance($v->OWNER); 
@@ -106,12 +109,16 @@ class ArticleController extends AppController {
             //$pattern = '/<font class="f[0-9]+">¡ù( |&nbsp;)À´Ô´:¡¤.+?\[FROM:( |&nbsp;)[0-9a-zA-Z.:*]+\]<\/font><font class="f000">( +<br \/>)+ +<\/font>/';
             //preg_match($pattern, $content, $match);
             //$content = preg_replace($pattern, "", $content);
-            if(Configure::read("ubb.parse")){
+            if($isUbb){
                 //remove ubb of nickname in first and title second line
                 preg_match("'^(.*?<br \/>.*?<br \/>)'", $content, $res);
                 $content = preg_replace("'(^.*?<br \/>.*?<br \/>)'", '', $content);
                 $content = XUBB::remove($res[1]) . $content;
                 $content = XUBB::parse($content);
+
+                //check syntax
+                if(!empty($isSyn) && preg_match("/<pre class=\"brush:/", $content))
+                    $hasSyn = true;
 
                 //parse vote
                 if($v->OWNER === 'deliver' && in_array('mobile', Configure::read('plugins.install'))){
@@ -184,6 +191,7 @@ class ArticleController extends AppController {
         $this->set("totalNum", $this->_threads->getTotalNum());
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());
+        $this->set('hasSyn', $hasSyn);
         //for the quick reply, raw encode the space
         $this->set("reid", $this->_threads->ID);
         if(!strncmp($this->_threads->TITLE, "Re: ", 4))
