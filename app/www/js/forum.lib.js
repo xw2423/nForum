@@ -503,7 +503,7 @@ $.fn.extend({
             var self = $(e.currentTarget), s = !self.data('_show');
             self.toggleClass('ico-pos-show', 'ico-pos-hide').data("_show", s?1:0).css('right',s?-7:-12);
             $('#menu').width(s?156:0).children(':not(#left_line)')[s?"show":"hide"]().end().next().css("margin-left", s?162:3);
-            $.cookie("left-show", s?1:0,{path:'/', domain:SYS.domain,expires:30});
+            $.cookie("left-show", s?1:0,{path:'/', domain:SYS.cookie_domain,expires:30});
         },
         onBodyJump:function(){
             this.tips(true);
@@ -564,7 +564,7 @@ $.fn.extend({
         serialize:function(){
             var data = [];
             $('#xlist .x-child').each(function(i, e){data[i] = $(e).is(':visible')?1:0});
-            $.cookie("nforum-left",data.join(""), {path:'/', domain:SYS.domain,expires: 30});
+            $.cookie("nforum-left",data.join(""), {path:'/', domain:SYS.cookie_domain,expires: 30});
         },
         deserialize:function(){
             var data = $.cookie("nforum-left") || "100";

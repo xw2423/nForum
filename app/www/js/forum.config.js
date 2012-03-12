@@ -1,6 +1,7 @@
 /* SYS */
 window.SYS = {
     domain: window.location.host,
+    cookie_domain: window.location.host,
     base: "",
     home: "/default",
     prefix: "nforum",

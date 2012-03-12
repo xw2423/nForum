@@ -165,7 +165,8 @@ class AppController extends Controller {
                 $cookie = Configure::read("cookie");
                 $jsr = Configure::read("jsr");
                 $jsr['iframe'] = $jsr['iframe']?'true':'false';
-                $jsr['domain'] = $cookie['domain'];
+                $jsr['domain'] = preg_replace('/^https?:\/\//', '', $site['domain']);
+                $jsr['cookie_domain'] = $cookie['domain'];
                 $jsr['base'] = $this->base;
                 $jsr['prefix'] = $cookie['prefix'];
                 $jsr['home'] = $site['home'];
