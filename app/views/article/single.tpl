@@ -11,7 +11,7 @@
         <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/edit/<%=id%>.json" class="a-close">编辑</a></li> 
         <li><samp class="ico-pos-del"></samp><a href="article/<%=board_name%>/ajax_delete/<%=id%>.json" class="a-func-del">删除</a></li> 
 <%}%>
-        <li><samp class="ico-pos-edit"></samp><a href="mail/send" class="a-post">发文</a></li> 
+        <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/post" class="a-post">发文</a></li>
         <li><samp class="ico-pos-query"></samp><a href="user/query/<%=user.id||user%>">作者信息</a></li> 
     </ul>
 </div>
