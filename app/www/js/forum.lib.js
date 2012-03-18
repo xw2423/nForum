@@ -309,9 +309,9 @@ $.fn.extend({
             }
         },
         //session will trigger 'login' event
-        login:function(uid, passwd, cookie){
-            var p = _.map([uid,passwd,cookie], function(el){return el.attr('name') + '=' + el.val()}),self = this;
-            $.post(SYS.ajax.login,p.join('&'),function(json){
+        login:function(form){
+            var self = this;
+            $.post(SYS.ajax.login,form.getPostData(),function(json){
                 //login will return session data, so force update here
                 self.set(json);
                 self.updateTime = $.now();
@@ -448,7 +448,7 @@ $.fn.extend({
                 DIALOG.alertDialog(SYS.code.MSG_PWD);
             else{
                 this.tips(true);
-                this.session.login($('#u_login_id'), $('#u_login_passwd'), $('#u_login_cookie'));
+                this.session.login($('#u_login_form'));
             }
             return false;
         },
