@@ -36,7 +36,7 @@ window.SYS = {
     //cache value via key,if value null return value of key
     cache: function(key, value){
         if(typeof key !== 'string') return this._cache;
-        if(value) return this._cache[key] = value;
+        if(typeof value !== 'undefined') return this._cache[key] = value;
         if(this._cache[key]) return this._cache[key];
         return null;
     },
