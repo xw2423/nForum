@@ -136,7 +136,7 @@ class ArticleController extends AppController {
                     $hasSyn = true;
 
                 //parse vote
-                if($v->OWNER === 'deliver' && in_array('mobile', Configure::read('plugins.install'))){
+                if($v->OWNER === 'deliver' && in_array('vote', Configure::read('plugins.install'))){
                     $vid = array();
                     if(preg_match("'\[vote=(\d+)\]\[/vote\]'", $content, $vid)){
                         $content = preg_replace("'\[vote=\d+\]\[/vote\]'", '', $content);
