@@ -53,7 +53,9 @@ class SearchController extends AppController {
 
         $res = array();
         $u = User::getInstance();
-        if($full && $site && $u->isAdmin()){
+        if($title1 == '' && $title3 == '' && $author == '' && !$m && !$a){
+            $res = array();
+        }else if($full && $site && $u->isAdmin()){
             App::import('vendor', 'model/section');
             $secs = array_keys(Configure::read("section"));
             foreach($secs as $v){
