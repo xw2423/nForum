@@ -65,6 +65,11 @@ $.extend({
     isTop:function(){
         return (window.top == window.self);
     },
+    setTitle:function(title){
+        if($.isIE())
+            window.origTitle = title;
+        document.title = title;
+    },
     sizeFormat:function(num){
         var sizes = [
             ['TB',1024 * 1024 * 1024 * 1024],
@@ -715,6 +720,12 @@ function front_startup(){
     //front_init
     window.front_init();
 
+    if($.isIE()){
+        document.onpropertychange = function(){
+            if(window.event.propertyName == 'title' && document.title != window.origTitle)
+                setTimeout(function(){document.title = window.origTitle},1);
+        };
+    }
     //load flash
     $('#ban_ner_border').flashembed({
         src:SYS.static + SYS.base + "/files//swf/adv.swf"

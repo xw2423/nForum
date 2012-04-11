@@ -182,7 +182,7 @@ class AppController extends Controller {
                 }
                 $tmp = join('&ensp;>>&ensp;', $tmp);
                 $this->jsr[] = <<<EOT
-$('#notice_nav').html('{$tmp}');document.title='{$title}';
+$('#notice_nav').html('{$tmp}');$.setTitle('{$title}');
 EOT;
 
                 $syn = Configure::read('ubb.syntax');
