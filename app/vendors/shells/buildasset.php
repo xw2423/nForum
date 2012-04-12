@@ -23,7 +23,7 @@ class BuildassetShell extends Shell {
         );
 
         foreach($js as $v){
-            $js_out .= $js_pack?$p->pack(APP . 'www/js/' . $v, 'js', false):file_get_contents(APP . 'www/js/' . $v);
+            $js_out .= ($js_pack&&!strstr($v,'min.js'))?$p->pack(APP . 'www/js/' . $v, 'js', false):file_get_contents(APP . 'www/js/' . $v);
         }
 
         $js_file = 'pack' . $time . '.js';

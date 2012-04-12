@@ -23,7 +23,6 @@ $(function(){
     $('#f_search').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
             v = encodeURIComponent(encodeURIComponent(v));
-            if($.isIE(7) || $.isIE(6)) v = encodeURIComponent(v);
             return k + '=' + v;
         }).join('&'));  
         return false;

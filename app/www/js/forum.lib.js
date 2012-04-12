@@ -372,8 +372,6 @@ $.fn.extend({
             else
                 return;
 
-            //fuck ie6
-            $.isIE(6) && (url = url.replace(/\?/g, '%3F'));
             if(url == '#!' + this.get('path'))
                 //if path no change refresh
                 this.refresh();
@@ -382,9 +380,6 @@ $.fn.extend({
         },
         //do not use jump, using function open
         jump:function(path){
-            //fuck ie6
-            if($.isIE(6)) path = path.replace(/%3[Ff]/g, '?');
-
             var self = this,
             handler = function(repo){
                 repo = _.isString(repo)?repo:repo.responseText;
