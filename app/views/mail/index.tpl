@@ -97,7 +97,7 @@
             <li><samp class="ico-pos-reply"></samp><a href="mail/<%=type%>/reply/<%=num%>" class="mail-reply">»Ø¸´</a></li> 
             <li><samp class="ico-pos-forward"></samp><a href="mail/<%=type%>/ajax_forward/<%=num%>.json" class="mail-forward">×ª¼Ä</a></li> 
             <li><samp class="ico-pos-del"></samp><a href="mail/<%=type%>/ajax_delete/<%=num%>.json" class="mail-delete">É¾³ý</a></li> 
-            <li><samp class="ico-pos-edit" class="mail-new"></samp><a href="mail/send">×«Ð´</a></li> 
+            <li><samp class="ico-pos-edit"></samp><a href="mail/send" class="mail-new">×«Ð´</a></li>
         </ul>
     </div>
 </div>
