@@ -110,7 +110,7 @@ class SearchController extends AppController {
         unset($query['p']);
         unset($query['ext']);
         foreach($query as $k=>&$v)
-            $v = $k . '=' . rawurlencode(rawurlencode($v));
+            $v = $k . '=' . rawurlencode($v);
         $query[] = "p=%page%";
         $link = "{$this->base}/s/article?". join("&", $query);
         $pageBar = $page->getPageBar($p, $link);
