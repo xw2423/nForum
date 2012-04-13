@@ -175,6 +175,10 @@ class AppController extends Controller {
                 App::import("vendor", "inc/json");
                 $jsr = 'var sys_merge=' . BYRJSON::encode($jsr);
                 $this->jsr = array_merge(array($jsr), $this->jsr);
+                $syn = Configure::read('ubb.syntax');
+                if(Configure::read('ubb.parse') && !empty($syn)){
+                    $this->set('js' ,array_merge($this->get('js'), array($syn . '/scripts/shCore.js', $syn . '/scripts/shAutoloader.js')));
+                }
             }else{
                 $tmp = array();
                 foreach($this->notice as $v){

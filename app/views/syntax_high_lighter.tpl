@@ -3,8 +3,6 @@
 <style type="text/css">
 .syntaxhighlighter table{table-layout:auto}
 </style>
-<script type="text/javascript" src="<{$base}>/<{$syntax}>/scripts/shCore.js"></script>
-<script type="text/javascript" src="<{$base}>/<{$syntax}>/scripts/shAutoloader.js"></script>
 <script type="text/javascript">
 SyntaxHighlighter.defaults['gutter'] = true;
 SyntaxHighlighter.defaults['toolbar'] = false;
