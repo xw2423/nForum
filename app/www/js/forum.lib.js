@@ -488,7 +488,7 @@ $.fn.extend({
             return false;
         },
         click_u_mail:function(){
-            DIALOG.getTop().dialog('close');
+            DIALOG.close();
         },
         click_u_add:function(e){
             var id = DIALOG.getTop().find('.u-name span').html();
