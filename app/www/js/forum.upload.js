@@ -103,7 +103,7 @@ $(function(){
 
     var FileModel = BaseModel.extend({
         defaults:{
-            id:'',
+            id:null,
             no:0,
             loaded:0,
             name:'',
@@ -119,6 +119,7 @@ $(function(){
             this.trigger('destroy');
         },
         'delete':function(){
+            this.id = this.get('name') + $.random();
             this.destroy({url:SYS.base + '/att' + bName + '/ajax_delete' + id + '.json?name=' + encodeURIComponent(this.get('name'))});
         }
     });
@@ -195,7 +196,7 @@ $(function(){
             e.preventDefault();
         },
         one:function(file, key){
-            file.set({no:_.isNumber(key)?key+1:this.model.length}, {slient:true});
+            file.set({no:this.model.indexOf(file)+1}, {slient:true});
             var fv = new FileView({model:file});
             this.$('tbody').append(fv.render().el);
         },
