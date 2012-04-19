@@ -14,6 +14,7 @@ class BuildassetShell extends Shell {
                 ,'backbone-min.js'
                 ,'plupload.min.js'
                 ,'jquery.tools.min.js'
+                ,'jquery.placeholder.min.js'
                 ,'jquery.cookie.js'
                 ,'jquery.simpletree.js'
                 ,'forum.config.js'

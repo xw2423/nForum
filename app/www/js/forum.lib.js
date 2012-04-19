@@ -407,7 +407,6 @@ $.fn.extend({
            'click #u_login_reg' : 'click_reg',
            'click #u_login_out' : 'click_out',
            'keydown #b_search' : 'keydown_search',
-           'mouseover #b_search' : 'mouseover_search',
            'click #u_query_search' : 'click_u_search',
            'click #u_query_mail' : 'click_u_mail',
            'click #u_query_add' : 'click_u_add',
@@ -465,10 +464,6 @@ $.fn.extend({
                 var url = '/s/board?b=' + encodeURIComponent(encodeURIComponent($('#b_search').val()));
                 this.body.open(url);
             }
-        },
-        mouseover_search:function(e){
-            $(e.currentTarget).select();
-            return false;
         },
         click_a:function(e){
             if(e.currentTarget.href && 0 === e.currentTarget.href.indexOf(SYS.protocol + SYS.domain + SYS.base + '/' + SYS.ajax.user))
@@ -560,6 +555,7 @@ $.fn.extend({
                 return false;
             });
             /* fix end */
+            $('#b_search').placeholder();
         },
         serialize:function(){
             var data = [];

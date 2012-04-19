@@ -132,7 +132,8 @@
         </div>
     	<div class="t-btn">
         	<form id="f_search" method="get" action="<{$base}>/s/article">
-        		<input id="a_search" type="text" class="input-text input" name="t1" value="输入关键字" />
+        		<input type="text" class="input-text input" name="t1" placeholder="输入关键字" size="16"/>
+        		<input type="text" class="input-text input" name="au" placeholder="输入作者ID" size="12"/>
                 <input type="checkbox" name="m" id="c_m"/>
                 <label for="c_m">精华帖</label>
                 <input type="checkbox" name="a" id="c_a"/>

@@ -14,6 +14,7 @@ $(function(){
             return false;
         }
     };
+    $('#board_search input[placeholder]').placeholder();
     $('#body').on('click','.b-post',validPost)
         .on('click', '#b_fav', function(){
             var url = SYS.base + "/fav/op/0.json"
@@ -23,7 +24,5 @@ $(function(){
                     APP.renderTree();
                 DIALOG.ajaxDialog(json);
             }, "json");
-        }).on('mouseover', '#board_search .input-text', function(){
-            $(this).select();
         });
 });

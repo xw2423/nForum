@@ -27,6 +27,7 @@ $(function(){
         }).join('&'));  
         return false;
     });
+    $('#f_search input[placeholder]').placeholder();
     $('#body').on('click','.a-post',validPost)
         .on('click','#a_reply',function(){
             $('#quick_text').focus();
@@ -37,10 +38,6 @@ $(function(){
                 DIALOG.ajaxDialog(json);   
             }, 'json');
             return false;
-        }).on('mouseover','#a_search',function(){
-            $(this).select();
-        }).on('mouseover','#quick_text',function(){
-            $(this).focus();
         }).on('keydown','#quick_text',function(event){
             if(event.ctrlKey && event.keyCode == 13){
                 $('#quick_post').submit();
