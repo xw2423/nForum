@@ -588,6 +588,16 @@ class Board extends OverloadObject implements Pageable, iWidget{
         
     }
 
+    public function getTitleKey($sys = true){
+        $tmp = array();
+        $ret = bbs_gettitkey($this->NAME, $tmp, $sys?1:0);
+        if(false === $ret)
+            return false;
+        foreach($tmp as &$v)
+            $v = $v['desc'];
+        return $tmp;
+    }
+
     private function _checkFlag($flag){
         return ($this->FLAG & $flag)?true:false;
     }

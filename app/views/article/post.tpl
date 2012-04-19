@@ -6,6 +6,17 @@
                 	<div class="post-m">标题:</div>
                     <input class="input-text post-title" type="text" name="subject" id="post_subject" value="<{$reTitle}>"/>
                 </li>
+<{if ($subject && $titKey && !empty($titKey))}>
+                <li class="post-list-item">
+                    <div class="post-m">关键字(可选):</div>
+                    <ul class="post-tag">
+<{foreach from=$titKey item=item}>
+                    <li class="tab-normal"><{$item}></li>
+<{/foreach}>
+                    </ul>
+                    <div class="clearfix"></div>
+                </li>
+<{/if}>
 <{if ($isAtt)}>
             	<li class="upload post-list-item">
                 	<div class="post-m">文件上传:</div>

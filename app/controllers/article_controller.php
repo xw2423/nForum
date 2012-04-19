@@ -265,6 +265,8 @@ class ArticleController extends AppController {
         $this->set("anony", $this->_board->isAnony());
         $this->set("outgo", $this->_board->isOutgo());
         $this->set("isAtt", $this->_board->isAttach());
+        $this->set("titKey", $this->_board->getTitleKey());
+        $this->set("subject", false === $article);
         $this->set("reTitle", $reTitle);
         $this->set("reContent", $reContent);
         $this->set("sigOption", $sigOption);
@@ -361,6 +363,8 @@ class ArticleController extends AppController {
         $content = Sanitize::html($article->getContent());
         $this->set("bName", $this->_board->NAME);
         $this->set("isAtt", $this->_board->isAttach());
+        $this->set("titKey", $this->_board->getTitleKey());
+        $this->set("subject", $article->isSubject());
         $this->set("title", $title);
         $this->set("content", $content);
         $this->set("eid", $id);

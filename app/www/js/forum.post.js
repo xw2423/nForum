@@ -10,6 +10,15 @@ $(function(){
         });
         ubb = true;
         $(this).focus();
+    }).on('click', '.tab-normal', function(){
+        var self = $(this);
+        if(self.hasClass('tab-down')){
+            self.removeClass('tab-down');
+            $('#post_subject').val($('#post_subject').val().replace('[' + self.html() + ']', ''));
+        }else{
+            self.addClass('tab-down');
+            $('#post_subject').val('[' + self.html() + ']' + $('#post_subject').val());
+        }
     }).on('keydown', '#post_content', function(event){
         if(event.ctrlKey && event.keyCode == 13){
             $('#post_form').submit();
