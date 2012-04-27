@@ -717,6 +717,9 @@ function front_startup(){
                 setTimeout(function(){document.title = window.origTitle},1);
         };
     }
+    if($.isIE(6)){
+        document.execCommand("BackgroundImageCache", false, true);
+    }
     //load flash
     $('#ban_ner_border').flashembed({
         src:SYS.static + SYS.base + "/files//swf/adv.swf"
