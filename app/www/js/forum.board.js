@@ -17,12 +17,15 @@ $(function(){
     $('#board_search input[placeholder]').placeholder();
     $('#body').on('click','.b-post',validPost)
         .on('click', '#b_fav', function(){
-            var url = SYS.base + "/fav/op/0.json"
-            ,data = {ac:'ab', v:$(this).attr('_b')};
-            $.post(url, data, function(json){
-                if(json.ajax_st == 1)
-                    APP.renderTree();
-                DIALOG.ajaxDialog(json);
-            }, "json");
-        });
+            var self = this;
+            DIALOG.confirmDialog('确认收藏此版面?', function(){
+                var url = SYS.base + "/fav/op/0.json"
+                ,data = {ac:'ab', v:$(self).attr('_b')};
+                $.post(url, data, function(json){
+                    if(json.ajax_st == 1)
+                        APP.renderTree();
+                    DIALOG.ajaxDialog(json);
+                }, "json");
+            });
+       });
 });
