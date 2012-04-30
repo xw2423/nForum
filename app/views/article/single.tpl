@@ -8,7 +8,7 @@
         <li><samp class="ico-pos-forward"></samp><a href="article/<%=board_name%>/ajax_forward/<%=id%>.json" class="a-func-forward">×ª¼Ä</a></li> 
         <li><samp class="ico-pos-search"></samp><a href="s/article?b=<%=board_name%>&au=<%=user.id||user%>" class="a-close">ËÑË÷</a></li>
 <%if(is_admin){%>
-        <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/edit/<%=id%>.json" class="a-close">±à¼­</a></li> 
+        <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/edit/<%=id%>" class="a-close">±à¼­</a></li>
         <li><samp class="ico-pos-del"></samp><a href="article/<%=board_name%>/ajax_delete/<%=id%>.json" class="a-func-del">É¾³ý</a></li> 
 <%}%>
         <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/post" class="a-post">·¢ÎÄ</a></li>
