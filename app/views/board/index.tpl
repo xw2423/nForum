@@ -26,8 +26,8 @@
 	<{capture name=n_left}>本版当前共有<{$curNum}>人在线<{if isset($maxNum)}><span title="发生于<{$maxTime}>">[最高<{$maxNum}>人]</span><{/if}>&emsp;今日帖数<{$todayNum}><{/capture}>
 	<{capture name=n_right}>
 	版主:
-		<{foreach from=$bms item=bm}>
-			&ensp;<{if $bm[1]}><a href="<{$base}>/user/query/<{$bm[0]}>"><{$bm[0]}></a><{else}><{$bm[0]}><{/if}>
+		<{foreach from=$bms item=item}>
+			&ensp;<{if $item[1]}><a href="<{$base}>/user/query/<{$item[0]}>"><{$item[0]}></a><{else}><{$item[0]}><{/if}>
 		<{/foreach}>
 	<{/capture}>
 
@@ -49,7 +49,13 @@
 <{if ($info)}>
 <{foreach from=$info item=item}>
 				<tr <{if $item.tag == "T"}>class="top"<{/if}>>
-					<td class="title_8"><a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题"><samp class="tag 
+					<td class="title_8">
+                    <{if $bm}>
+                    <a class="a-func-manage" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.gid}>.json" title="管理" _gid="<{$item.gid}>">
+                    <{else}>
+					<a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题">
+                    <{/if}>
+                    <samp class="tag
 					<{if $item.tag == "N"}> ico-pos-article-normal
 					<{elseif $item.tag == "L"}> ico-pos-article-light
                     <{elseif $item.tag == "L2"}> ico-pos-article-fire
@@ -109,3 +115,4 @@
             </form>
         </div>
     </div>
+<{if $bm}><{include file="article/manage.tpl"}><{/if}>

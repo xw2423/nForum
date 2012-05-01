@@ -228,6 +228,53 @@ class Threads extends Article implements Pageable{
             $i ++;
         }
     }
+
+    /**
+     * function manage set threads flag
+     *
+     * @param int $op
+     *     0 - nothing
+     *     1 - delete
+     *     2 - mark
+     *     3 - unmark
+     *     4 - del X records
+     *     5 - put to announce
+     *     6 - set X flag
+     *     7 - unset X flag
+     *     8 - no reply
+     *     9 - cancel no reply
+     */
+    public function manage($op, $start = null){
+        $s = $this->FIRST->ID;
+        if(null !== $start){
+            foreach($this->_articles as $v){
+                if($start == $v->ID){
+                    $s = $start;
+                    break;
+                }
+            }
+        }
+        $code = null;
+        $ret = bbs_threads_bmfunc($this->_board->BID, $this->GROUPID, $s, $op);
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+            case -10:
+                $code = ECode::$SYS_ERROR;
+                break;
+            default:
+                break;
+        }
+        if(!is_null($code))
+            throw new ThreadsManageException($code);
+        return $ret;
+    }
+
 }
 class ThreadsNullException extends Exception {}
 class ThreadsForwardException extends Exception {}

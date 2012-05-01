@@ -84,6 +84,10 @@ $config['code']['0308'] = "推荐文章失败";
 $config['code']['0309'] = "推荐文章成功";
 //ARTICLE_FORWARDOK
 $config['code']['0310'] = "转寄文章成功";
+//ARTICLE_NOMANAGE
+$config['code']['0311'] = "您无权进行管理操作";
+//ARTICLE_NOTORIGIN
+$config['code']['0312'] = "非主题帖或原主题已删除，操作失败";
 //POST_NOSUB            
 $config['code']['0400'] = "没有指定文章标题";
 //POST_NOCON            

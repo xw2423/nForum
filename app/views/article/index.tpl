@@ -55,14 +55,17 @@
 					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/<{$bName}>/ajax_forward/<{$item.id}>.json" class="a-func-forward">转寄</a></li>
 					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 <{if $au}>
-					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a></li>
+					<li><samp class="ico-pos-user"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a></li>
 <{else}>
-					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a></li>
+					<li><samp class="ico-pos-user"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a></li>
 <{/if}>
 				<{if $item.op == "1"}>
 					<li><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
 					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/ajax_delete/<{$item.id}>.json" class="a-func-del">删除</a></li>
 				<{/if}>
+                <{if $bm}>
+                    <li><samp class="ico-pos-manage"></samp><a href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json" class="a-func-manage" _gid="<{$gid}>">管理</a></li>
+                <{/if}>
 				</ul>
 				<span class="a-pos">
 					<{if $item.pos == "0"}>
@@ -115,7 +118,18 @@
 				</ul>
 <{/if}>
 			</td>
-			<td><a href="#" class="c63f a-back">返回顶部</a></td>
+			<td>
+<{if $bm}>
+				<ul class="a-status">
+<{if $item['m']}><li><samp class="ico-pos-article-m"></samp><{/if}>
+<{if $item['g']}><li><samp class="ico-pos-article-g"></samp><{/if}>
+<{if $item['l']}><li><samp class="ico-pos-article-lock"></samp><{/if}>
+<{if $item['x']}><li>X</li><{/if}>
+<{if $item['%']}><li>％</li><{/if}>
+<{if $item['#']}><li>﹟</li><{/if}>
+				</ul>
+<{/if}>
+            <a href="#" class="c63f a-back">返回顶部</a></td>
 		</tr>
 	</table>
     </div>
@@ -163,4 +177,5 @@
     </form>
     <!--quick_reply end-->
 <{include file="article/forward.tpl"}>
+<{if $bm}><{include file="article/manage.tpl"}><{/if}>
 <{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

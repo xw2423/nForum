@@ -82,7 +82,8 @@ class ArticleController extends AppController {
         $articles = $pagination->getPage($p);
 
         $u = User::getInstance();
-        $bm = $u->isBM($this->_board) || $u->isAdmin();
+        if($bm = $u->isBM($this->_board) || $u->isAdmin())
+            $this->js[] = "forum.manage.js";
         $info = array();
         $curTime = strtotime(date("Y-m-d", time()));
         $isUbb = Configure::read("ubb.parse");
@@ -189,8 +190,14 @@ class ArticleController extends AppController {
                 "pos" => $v->getPos(),
                 "poster" => $v->OWNER,
                 "content" => $content,
-                "subject" => $v->isSubject()
+                "subject" => $v->isSubject(),
                 //"from" => isset($match[0])?preg_replace("/<br \/>/", "", $match[count($match)-1]):""
+                'g' => $v->isG(),
+                'm' => $v->isM(),
+                'l' => $v->isNoRe(),
+                '%' => $v->isPercent(),
+                '#' => $v->isSharp(),
+                'x' => $v->isX(),
             );
         }
         $this->title = Sanitize::html($this->_threads->TITLE);
@@ -210,6 +217,7 @@ class ArticleController extends AppController {
         $this->set("totalPage", $pagination->getTotalPage());
         $this->set('hasSyn', $hasSyn);
         $this->set("au", $au);
+        $this->set("bm", $bm);
         //for the quick reply, raw encode the space
         $this->set("reid", $this->_threads->ID);
         if(!strncmp($this->_threads->TITLE, "Re: ", 4))
@@ -565,7 +573,9 @@ class ArticleController extends AppController {
         App::import('vendor', 'inc/wrapper');
         $wrapper = Wrapper::getInstance();
         $ret = $wrapper->article($article, array('single' => true, 'content' => false));
-        $ret['allow_post'] = $this->_board->hasPostPerm(User::getInstance());
+        $u = User::getInstance();
+        $ret['allow_post'] = $this->_board->hasPostPerm($u);
+        $ret['is_bm'] = $u->isBM($this->_board) || $u->isAdmin();
         $content = $article->getHtml(true);
         if(Configure::read("ubb.parse")){
             //remove ubb of nickname in first and title second line
@@ -576,6 +586,115 @@ class ArticleController extends AppController {
         }
         $ret['content'] = $content;
 
+        $this->set('no_html_data', $ret);
+    }
+
+    /**
+     * op=g|m|;|top|%|x|sharp
+     * top=m|um|x|ux|;|u;|d|dx
+     */
+    public function ajax_manage(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['op'])
+            && !isset($this->params['form']['top']))
+            $this->error();
+
+        $u = User::getInstance();
+        if(!($u->isBM($this->_board) || $u->isAdmin())){
+            $this->error(ECode::$ARTICLE_NOMANAGE);
+        }
+
+        $id = $this->params['id'];
+        if(isset($this->params['form']['op'])){
+            $op = explode('|', $this->params['form']['op']);
+            try{
+                $a = Article::getInstance($id, $this->_board);
+                foreach($op as $v){
+                    switch($v){
+                        case 'g':
+                            $a->manage(3);
+                            break;
+                        case 'm':
+                            $a->manage(2);
+                            break;
+                        case ';':
+                            $a->manage(4);
+                            break;
+                        case 'top':
+                            if(!$a->isSubject())
+                                $this->error(ECode::$ARTICLE_NOTORIGIN);
+                            if($a->isReallyTop()){
+                                $a->manage(1, true);
+                            }else{
+                                $a->manage(5);
+                            }
+                            break;
+                        case '%':
+                            $a->manage(7);
+                            break;
+                        case 'x':
+                            $a->manage(8);
+                            break;
+                        case 'sharp':
+                            $a->manage(9);
+                            break;
+                    }
+                }
+            }catch(ArticleNullException $e){
+                $this->error(ECode::$ARTICLE_NONE);
+            }catch(ArticleManageException $e){
+                $this->error($e->getMessage);
+            }
+        }
+        if(isset($this->params['form']['top'])){
+            $top = explode('|', $this->params['form']['top']);
+            $gid = isset($this->params['form']['gid'])?$this->params['form']['gid']:$id;
+            try{
+                $t = Threads::getInstance($gid, $this->_board);
+                $s = ($gid == $id)?null:$id;
+                if(in_array('d', $top))
+                    $t->manage(1, $s);
+                else{
+                    foreach($top as $v){
+                        switch($v){
+                            case 'm':
+                                $t->manage(2, $s);
+                                break;
+                            case 'um':
+                                $t->manage(3, $s);
+                                break;
+                            case 'x':
+                                $t->manage(6, $s);
+                                break;
+                            case 'ux':
+                                $t->manage(7, $s);
+                                break;
+                            case ';':
+                                $t->manage(8, $s);
+                                break;
+                            case 'u;':
+                                $t->manage(9, $s);
+                                break;
+                            case 'dx':
+                                $t->manage(4, $s);
+                                break;
+                        }
+                    }
+                }
+            }catch(ThreadsNullException $e){
+                $this->error(ECode::$ARTICLE_NONE);
+            }catch(ArticleManageException $e){
+                $this->error($e->getMessage);
+            }
+        }
+
+        $ret['ajax_code'] = ECode::$SYS_AJAXOK;
+        $ret['default'] = '/board/' .  $this->_board->NAME;
+        $ret['list'][] = array("text" => '°æÃæ:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
         $this->set('no_html_data', $ret);
     }
 

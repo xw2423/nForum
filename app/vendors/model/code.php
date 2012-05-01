@@ -51,6 +51,8 @@ class ECode {
     public static $ARTICLE_REERROR =     '0308';
     public static $ARTICLE_REOK =        '0309';
     public static $ARTICLE_FORWARDOK =   '0310';
+    public static $ARTICLE_NOMANAGE =    '0311';
+    public static $ARTICLE_NOTORIGIN =   '0312';
     public static $POST_NOSUB =          '0400';
     public static $POST_NOCON =          '0401';
     public static $POST_ISDIR =          '0402';

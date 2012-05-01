@@ -31,6 +31,24 @@ App::import("vendor", array("model/overload"));
  */
 abstract class Archive extends OverloadObject{
 
+    //accessed0
+    public static $SIGN = 0x1;
+    public static $TOTAL = 0x2;
+    public static $PERCENT = 0x4;
+    public static $MARKED = 0x8;
+    public static $DIGEST = 0x10;
+    public static $REPLIED = 0x20;
+    public static $FORWARDED = 0x40;
+    public static $IMPORTED = 0x80;
+
+    //accessed1
+    public static $READ = 0x1;
+    public static $DEL = 0x2;
+    public static $MAILBACK = 0x4;
+    public static $COMMEND = 0x8;
+    public static $CENSOR = 0x20;
+    public static $TEX = 0x80;
+
     private $_att = null;
 
     public function __construct($info){
@@ -290,6 +308,58 @@ abstract class Archive extends OverloadObject{
      * @abstract
      */
     abstract public function delAttach($num);
+
+    public function isM(){
+        return ($this->ACCESSED0 & self::$MARKED) !== 0;
+    }
+
+    public function isG(){
+        return ($this->ACCESSED0 & self::$DIGEST) !== 0;
+    }
+
+    public function isNoRe(){
+        return ($this->ACCESSED1 & self::$READ) !== 0;
+    }
+
+    public function isB(){
+        return $this->isM() && $this->isG();
+    }
+
+    public function isU(){
+        return $this->isM() && $this->isNoRe();
+    }
+
+    public function isO(){
+        return $this->isG() && $this->isNoRe();
+    }
+
+    public function is8(){
+        return $this->isB() && $this->isNoRe();
+    }
+
+    public function isSharp(){
+        return ($this->ACCESSED0 & self::$SIGN) !== 0;
+    }
+
+    public function isPercent(){
+        return ($this->ACCESSED0 & self::$PERCENT) !== 0;
+    }
+
+    public function isX(){
+        return ($this->ACCESSED1 & self::$DEL) !== 0;
+    }
+
+    public function isCommend(){
+        return ($this->ACCESSED1 & self::$COMMEND) !== 0;
+    }
+
+    public function isCensor(){
+        return ($this->ACCESSED1 & self::$CENSOR) !== 0;
+    }
+
+    public function isTex(){
+        return ($this->ACCESSED1 & self::$TEX) !== 0;
+    }
 }
 
 class ArchiveNullException extends Exception {}

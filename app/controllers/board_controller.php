@@ -47,7 +47,8 @@ class BoardController extends AppController {
         $pagination = new Pagination($this->_board, Configure::read("pagination.threads"));
         $threads = $pagination->getPage($p);
         $u = User::getInstance();
-        $bm = $u->isBM($this->_board) || $u->isAdmin();
+        if($bm = $u->isBM($this->_board) || $u->isAdmin())
+            $this->js[] = "forum.manage.js";
         $info = false;
         $curTime = strtotime(date("Y-m-d", time()));
         $pageArticle = Configure::read("pagination.article");
@@ -66,7 +67,6 @@ class BoardController extends AppController {
                 "replyTime" => $replyTime,
                 "num" => $v->articleNum - 1,
                 "page" => $page,
-                "del" => $bm?1:0,
                 "att" => $v->hasAttach()
             );
         }
@@ -77,11 +77,11 @@ class BoardController extends AppController {
         $pageBar = $pagination->getPageBar($p, $link);
 
         $bms = split(" ", $this->_board->BM);
-        foreach($bms as &$bm){
-            if(preg_match("/[^0-9a-zA-Z]/", $bm)){
-                $bm = array($bm, false);
+        foreach($bms as &$v){
+            if(preg_match("/[^0-9a-zA-Z]/", $v)){
+                $v = array($v, false);
             }else{
-                $bm = array($bm, true);
+                $v = array($v, true);
             }
         }
 
@@ -96,6 +96,7 @@ class BoardController extends AppController {
         $this->set("curPage", $pagination->getCurPage());
         $this->set("bms", $bms);
         $this->set("bName", $this->_board->NAME);
+        $this->set("bm", $bm);
         $this->set("tmpl", $this->_board->isTmplPost());
         $this->set("hasVote", count($this->_board->getVotes()) != 0);
         $this->set("pageBar", $pageBar);

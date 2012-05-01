@@ -295,6 +295,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .ico-pos-hide{background-position:-112px -21px;}
 .ico-pos-show{background-position:-126px -21px;}
 .ico-pos-rss{background-position:-197px -21px;}
+.ico-pos-user{background-position:-224px -21px;}
+.ico-pos-deny{background-position:-239px -21px;}
+.ico-pos-manage{background-position:-255px -20px;}
 /* ico postion end*/
 /* nforum base end*/
 
@@ -635,6 +638,23 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     padding-top:2px;
 }
 
+/* article status */
+.a-status{
+    float:left;
+}
+.a-status li{
+    height:16px;
+    line-height:16px;
+    text-align:center;
+    margin-left:10px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+.a-status li samp{
+    width:16px;
+    height:18px;
+}
 /* article op */
 .a-func{
     float:left;
@@ -928,6 +948,30 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 .m-content{padding:10px 17px;display:block;line-height:1.4;font-size:13px}
 /* archive detail end*/
+
+/* list block */
+.list-block header{
+    font-size:14px;
+    font-weight:bold;
+    color:#598EDE;
+    padding:0 10px 2px 7px;
+    border-bottom:1px solid #C9D7F1;
+    clear:both;
+}
+.list-block ul{
+    display:block;
+    padding:20px 0 0 20px;
+}
+.list-block ul li{
+    margin-bottom:10px;
+}
+.list-block ul.narrow{
+    padding:10px 0 0 10px;
+}
+.list-block ul.narrow li{
+    margin-bottom:5px;
+}
+/* list block end */
 
 /*colors*/
 .c63f{color:#609}
