@@ -31,7 +31,6 @@ var WidgetAppView = Backbone.View.extend({
            self[this.id] = _.template($(this).html());
         });
         this.model.bind('reset', this.onWidgetUpdate, this);
-        this.$('.tab-normal:first').click();
     },
     click_tab: function(e){
         var self = $(e.target);
@@ -73,4 +72,5 @@ var WidgetAppView = Backbone.View.extend({
 });
 var widgets = new WidgetList();
 var widgetApp = new WidgetAppView({model:widgets});
+$('#body .tab-normal:first').click();
 });
