@@ -11,27 +11,31 @@
         </div>
         <div class="b-content corner">
         	<div id="c_content" class="corner">
-                <h6>昵称修改</h6>
                 <form method="post" action="<{$base}>/user/ajax_passwd.json">
+                <section class="list-block">
+                <header>昵称修改</header>
                 <ul>
                     <li><span class="b-left-m">您的昵称：</span><input class="input-text" type="text" name="name" value="<{$name}>" size="30"/></span></li>
+                    <li class="b-op b-nc-change">
+                        <input type="submit" class="button" value="提交修改" />
+                        <input class="button" type="reset" value="重写" />
+                    </li>
                 </ul>
-                <div class="b-op b-nc-change">
-					<input type="submit" class="button" value="提交修改" />
-					<input class="button" type="reset" value="重写" />
-				</div>
+                </section>
                 </form>
-                <h6>密码修改</h6>
                 <form method="post" action="<{$base}>/user/ajax_passwd.json" id="p_submit">
+                <section class="list-block">
+                <header>密码修改</header>
                 <ul>
                     <li><span class="b-left-m">旧密码确认：</span><input class="input-text" type="password" name="pold"/><span class="b-right-m">输入当前密码</span></li>
                     <li><span class="b-left-m">新密码：</span><input class="input-text" type="password"  id="p_new1" name="pnew1"/><span class="b-right-m">输入新密码</span></li>
                     <li><span class="b-left-m">新密码确认：</span><input class="input-text" type="password" id="p_new2" name="pnew2" /><span class="b-right-m">重新输入新密码</span></li>
+                    <li class="b-op b-nc-change">
+                        <input type="submit" class="button" value="提交修改"/>
+                        <input class="button" type="reset" value="重写" />
+                    </li>
                 </ul>
-                <div class="b-op b-nc-change">
-					<input type="submit" class="button" value="提交修改"/>
-					<input class="button" type="reset" value="重写" />
-				</div>
+                </section>
                 </form>
             </div>
     	</div>
