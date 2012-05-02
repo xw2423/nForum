@@ -698,6 +698,36 @@ class ArticleController extends AppController {
         $this->set('no_html_data', $ret);
     }
 
+    public function ajax_deny(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['reason']))
+            $this->error(ECode::$DENY_NOREASON);
+        if(!isset($this->params['form']['day']))
+            $this->error(ECode::$DENY_INVALIDDAY);
+        $id = $this->params['id'];
+        $reason = nforum_iconv('utf-8', $this->encoding, $this->params['form']['reason']);
+        $day = intval($this->params['form']['day']);
+        if ($day < 1)
+            $this->error(ECode::$DENY_INVALIDDAY);
+        $u = User::getInstance();
+        if (!($u->isBM($this->_board) || $u->isAdmin())) {
+            $this->error(ECode::$ARTICLE_NOMANAGE);
+        }
+        try{
+            $article = Article::getInstance($id, $this->_board);
+            $article->addDeny($reason, $day);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }catch(ArticleManageException $e){
+            $this->error($e->getMessage());
+        }catch(BoardDenyException $e){
+            $this->error($e->getMessage());
+        }
+    }
+
     //if there is reid,return reArticle,otherwise return false
     private function _postInit(){
         if($this->_board->isReadOnly()){

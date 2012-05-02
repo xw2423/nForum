@@ -64,6 +64,7 @@
 					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/ajax_delete/<{$item.id}>.json" class="a-func-del">É¾³ý</a></li>
 				<{/if}>
                 <{if $bm}>
+                    <li><samp class="ico-pos-deny"></samp><a href="<{$base}>/article/<{$bName}>/ajax_deny/<{$item.id}>.json" class="a-func-deny" _b="<{$bName}>" _u="<{$item.poster}>">·â½û</a></li>
                     <li><samp class="ico-pos-manage"></samp><a href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json" class="a-func-manage" _gid="<{$gid}>">¹ÜÀí</a></li>
                 <{/if}>
 				</ul>

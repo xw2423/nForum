@@ -598,9 +598,121 @@ class Board extends OverloadObject implements Pageable, iWidget{
         return $tmp;
     }
 
+    public function addDeny($userid = '', $reason, $day, $article = 0){
+        $ret = bbs_denyadd($this->NAME, $userid, $reason, $day, $article, 0);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$USER_NOID;
+                break;
+            case -4:
+                $code = ECode::$DENY_DENIED;
+                break;
+            case -5:
+                $code = ECode::$DENY_INVALIDDAY;
+                break;
+            case -6:
+                $code = ECode::$DENY_NOREASON;
+                break;
+            case -7:
+                $code = ECode::$DENY_CANTPOST;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    public function modDeny($userid, $reason, $day){
+        $ret = bbs_denymod($this->NAME, $userid, $reason, $day, 0);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$USER_NOID;
+                break;
+            case -4:
+                $code = ECode::$DENY_NOTDENIED;
+                break;
+            case -5:
+                $code = ECode::$DENY_INVALIDDAY;
+                break;
+            case -6:
+                $code = ECode::$DENY_NOREASON;
+                break;
+            case -7:
+                $code = ECode::$DENY_CANTPOST;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    public function delDeny($userid){
+        $ret = bbs_denydel($this->NAME, $userid);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$DENY_NOTDENIED;
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    // $all == false indicates custom reasons only
+    public function getDenyReasons($all = true){
+        $ret = array();
+        bbs_getdenyreason($this->NAME, $ret, $all);
+        return $ret;
+    }
+
+    public function getDeny() {
+        $data = array();
+        $ret = bbs_denyusers($this->NAME, $data);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$SYS_ERROR;
+                break;
+            case -2:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -3:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+        return $data;
+    }
+
     private function _checkFlag($flag){
         return ($this->FLAG & $flag)?true:false;
     }
 }
 class BoardNullException extends Exception {}
+class BoardDenyException extends Exception {}
 ?>

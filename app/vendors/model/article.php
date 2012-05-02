@@ -441,6 +441,10 @@ class Article extends Archive{
         }
     }
 
+    public function addDeny($reason, $day){
+        $this->_board->addDeny('', $reason, $day, $this->ID);
+    }
+
     public function getBoard(){
         return $this->_board;
     }

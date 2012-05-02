@@ -1,8 +1,8 @@
 <style>
 #a_manage samp{width:16px;height:17px}
-.list-block {padding-top:10px;}
-.list-block ul{overflow:hidden;*zoom:1}
-.list-block li{float:left;margin-right:10px;width:220px;height:18px}
+.list-block {padding-top:6px;}
+#a_manage .list-block ul{overflow:hidden;*zoom:1}
+#a_manage .list-block li{float:left;margin-right:10px;width:220px;height:18px}
 </style>
 <script id="tmpl_manage" type="text/template">
 <form id="a_manage" action="<%=action%>" method="post">
@@ -62,5 +62,25 @@
         </ul>
     </section>
     <input type="hidden" id="a_manage_gid"name="gid" value="<%=gid%>" />
+</form>
+</script>
+<script id="tmpl_deny" type="text/template">
+<form id="a_deny" action="<%=action%>" method="post">
+    <section class="list-block">
+        <header>在<%=board%>版封禁<%=userid%></header>
+        <ul class="narrow">
+            <li>
+                <span>封禁理由:</span><input type="text" class="input-text" name="reason" /><select id="a_deny_reasons"><option value="">选择封禁理由</option>
+<%=_.reduce(reason,function(ret,item){
+    ret += ('<option value="' + item.desc + '">' + item.desc + '</option>');
+    return ret;
+},'')%>
+                </select>
+            </li>
+            <li>
+                <span>封禁天数:</span><input type="text" class="input-text" name="day"><span>(1-<%=maxday%>天)</span>
+            </li>
+        </ul>
+    </section>
 </form>
 </script>

@@ -190,6 +190,115 @@ class BoardController extends AppController {
         $this->set('no_html_data', $ret);
     }
 
+    public function denylist(){
+        $this->cache(false);
+        $this->requestLogin();
+        $u = User::getInstance();
+        try {
+            $ret = $this->_board->getDeny();
+        } catch(BoardDenyException $e) {
+            $this->error($e->getMessage());
+        }
+        $this->_getNotice();
+        $this->notice[] = array("url"=>"", "text"=>"封禁名单");
+        $this->title = Configure::read('site.name').'-'.$this->_board->DESC;
+        $this->js[] = "forum.board.js";
+        $this->css[] = "board.css";
+        $this->set('bName', $this->_board->NAME);
+        $this->set('data', $ret);
+        $this->set('maxday', $u->isAdmin()?70:14);
+    }
+
+    public function ajax_adddeny(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+        $u = User::getInstance();
+        if (!isset($this->params['form']['id']))
+            $this->error(ECode::$DENY_NOID);
+        if (!isset($this->params['form']['reason']))
+            $this->error(ECode::$DENY_NOREASON);
+        if (!isset($this->params['form']['day']))
+            $this->error(ECode::$DENY_INVALIDDAY);
+        $id = $this->params['form']['id'];
+        $reason = nforum_iconv('utf-8', $this->encoding, $this->params['form']['reason']);
+        $day = intval($this->params['form']['day']);
+        if ($day < 1)
+            $this->error(ECode::$DENY_INVALIDDAY);
+        try {
+            $this->_board->addDeny($id, $reason, $day);
+        } catch (BoardDenyException $e) {
+            $this->error($e->getMessage());
+        }
+        $ret['ajax_code'] = ECode::$SYS_AJAXOK;
+        $ret['default'] = '/board/' . $this->_board->NAME . '/denylist';
+        $ret['list'][] = array('text' => '版面封禁列表:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME . '/denylist');
+        $ret['list'][] = array('text' => '版面:' . $this->_board->DESC, 'url'
+            > '/board/' . $this->_board->NAME);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_moddeny(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+        $u = User::getInstance();
+        if (!isset($this->params['form']['id']))
+            $this->error(ECode::$DENY_NOID);
+        if (!isset($this->params['form']['reason']))
+            $this->error(ECode::$DENY_NOREASON);
+        if (!isset($this->params['form']['day']))
+            $this->error(ECode::$DENY_INVALIDDAY);
+        $id = $this->params['form']['id'];
+        $reason = nforum_iconv('utf-8', $this->encoding, $this->params['form']['reason']);
+        $day = intval($this->params['form']['day']);
+        if ($day < 1)
+            $this->error(ECode::$DENY_INVALIDDAY);
+        try {
+            $this->_board->modDeny($id, $reason, $day);
+        } catch (BoardDenyException $e) {
+            $this->error($e->getMessage());
+        }
+        $ret['ajax_code'] = ECode::$SYS_AJAXOK;
+        $ret['default'] = '/board/' . $this->_board->NAME . '/denylist';
+        $ret['list'][] = array('text' => '版面封禁列表:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME . '/denylist');
+        $ret['list'][] = array('text' => '版面:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_deldeny(){
+        if(!$this->RequestHandler->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+        $u = User::getInstance();
+        if (!isset($this->params['form']['id']))
+            $this->error(ECode::$DENY_NOID);
+        $id = $this->params['form']['id'];
+        try {
+            $this->_board->delDeny($id);
+        } catch (BoardDenyException $e) {
+            $this->error($e->getMessage());
+        }
+        $ret['ajax_code'] = ECode::$SYS_AJAXOK;
+        $ret['default'] = '/board/' . $this->_board->NAME . '/denylist';
+        $ret['list'][] = array('text' => '版面封禁列表:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME . '/denylist');
+        $ret['list'][] = array('text' => '版面:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME);
+        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+        $this->set('no_html_data', $ret);
+    }
+
+    public function ajax_denyreasons() {
+        $this->cache(false);
+        $u = User::getInstance();
+        $ret = array();
+        if ($u->isBM($this->_board) || $u->isAdmin())
+            $ret = $this->_board->getDenyReasons();
+        $this->set('no_ajax_info', true);
+        $this->set('no_html_data', $ret);
+    }
+
     private function _getTag($threads){
         if($threads->isTop()){
             return "T";

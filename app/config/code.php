@@ -226,6 +226,18 @@ $config['code']['1301'] = "未知的提醒";
 $config['code']['1302'] = "提醒删除成功";
 //REFER_DISABLED
 $config['code']['1303'] = "提醒功能未启用";
+//DENY_DENIED
+$config['code']['1401'] = "用户已经被封禁";
+//DENY_NOTDENIED
+$config['code']['1402'] = "用户尚未被封禁,无法修改/删除";
+//DENY_INVALIDDAY
+$config['code']['1403'] = "封禁期限非法";
+//DENY_NOREASON
+$config['code']['1404'] = "请输入封禁理由";
+//DENY_CANTPOST
+$config['code']['1405'] = "不能封禁在版面无发表权限的用户";
+//DENY_NOID
+$config['code']['1406'] = "请输入欲封禁的ID";
 //XW_JOKE
 $config['code']['9999'] = "WHAT DO YOU WANT TO DO?!";
 ?>

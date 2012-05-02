@@ -20,6 +20,7 @@
 <{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
 			<{if $islogin}><a href="javascript:void(0)" id="b_fav" class="button" _b="<{$bName}>">收藏</a><{/if}>
+			<{if $bm}><a href="<{$base}>/board/<{$bName}>/denylist" class="button">封禁列表</a><{/if}>
 			<a href="<{$base}>/rss/board-<{$bName}>" class="rss" target="_blank"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
