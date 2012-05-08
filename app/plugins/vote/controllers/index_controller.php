@@ -136,6 +136,7 @@ class IndexController extends VoteAppController {
         $end = @trim($this->params['form']['end']);
         $type = @trim($this->params['form']['type']);
         $limit = @trim($this->params['form']['limit']);
+        $result_voted = isset($this->params['form']['result_voted'])?1:0;
         
         if(empty($subject) || empty($end))
             $this->error();
@@ -158,7 +159,7 @@ class IndexController extends VoteAppController {
         $u = User::getInstance();
         $subject = nforum_iconv('UTF-8', $this->encoding, $subject);
         $desc = nforum_iconv('UTF-8', $this->encoding, $desc);
-        $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items);
+        $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items, $result_voted);
         $site = Configure::read("site");
         $a_title = $subject;
         $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n[vote=$vid][/vote]";
@@ -233,6 +234,7 @@ class IndexController extends VoteAppController {
         }
         $this->set("board", $this->_board);
         $this->set("admin", $u->userid === $vote->uid || $u->isAdmin());
+        $this->set("no_result", !$this->get('admin') && $vote->result_voted && !$voted);
         $this->set("vinfo", $info);
         $this->set("vitems", $item);
 

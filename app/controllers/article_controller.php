@@ -178,6 +178,7 @@ class ArticleController extends AppController {
                                 }
                                 $this->set("vinfo", $vinfo);
                                 $this->set("vitems", $item);
+                                $this->set("no_result", !($u->userid === $vote->uid || $u->isAdmin()) && $vote->result_voted && !$voted);
                             }
                         }catch(VoteNullException $e){}
                     }

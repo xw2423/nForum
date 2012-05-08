@@ -9,8 +9,8 @@
 <{foreach from=$vitems item=item}>
             <tr>
                 <td class="col1"><{$item.label}>:</td>
-                <td class="col2"><div class="vote-scroll corner"><span class="corner" style="width:0" _width="<{$item.percent}>"></span></div></td>
-                <td class="col3"><{$item.num}>(<{$item.percent}>%)</td>
+                <td class="col2"><div class="vote-scroll corner"><span class="corner" style="width:0" _width="<{if $no_result}>0<{else}><{$item.percent}><{/if}>"></span></div></td>
+                <td class="col3"><{if $no_result}>投票看结果<{else}><{$item.num}>(<{$item.percent}>%)<{/if}></td>
 <{if $vinfo.type=="0"}>
                 <td class="col4"><input type="radio" name="v<{$vinfo.vid}>" value="<{$item.viid}>"<{if $vinfo.voted || $vinfo.isEnd || $vinfo.isDel}> disabled="true"<{if $item.on}> checked="true"<{/if}><{/if}> /></td>
 <{else}>

@@ -33,6 +33,7 @@ CREATE TABLE `pl_vote` (
   `type` tinyint(4) NOT NULL default '0' COMMENT '0单选 1多选',
   `limit` tinyint(4) NOT NULL default '0' COMMENT '个人最大票数 0无限制',
   `aid` int(11) NOT NULL COMMENT '对应帖子id',
+  `result_voted` tinyint(4) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL default '1' COMMENT '有效1 删除0',
   PRIMARY KEY  (`vid`),
   KEY `status` (`status`),
