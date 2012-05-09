@@ -19,7 +19,7 @@ Cakephp 1.2.7
 或者
     wget -q http://github.com/cakephp/cakephp/tarball/1.2.7
 
-Smarty 2.x|3.x
+Smarty 2.x
 获取方法:
     http://www.smarty.net/download
 
