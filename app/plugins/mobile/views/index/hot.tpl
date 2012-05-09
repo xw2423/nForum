@@ -4,7 +4,7 @@
 	<a<{if !strcmp($k,$selected)}> class="plant"<{else}> href="<{$mbase}>/hot/<{$k}>"<{/if}>><{$item}></a>|
 <{/foreach}>
 </div>
-<ul class="list sec">
+<ul class="slist sec">
 <li class="f"><{$secs[$selected]}>热门话题</li>
 <{foreach from=$hot item=item key=k}>
 	<li><{$k+1}>|<a href="<{$mbase}><{$item.url}>"><{$item.text}></a></li>
