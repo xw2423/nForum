@@ -122,12 +122,12 @@
 			<td>
 <{if $bm}>
 				<ul class="a-status">
-<{if $item['m']}><li><samp class="ico-pos-article-m"></samp><{/if}>
-<{if $item['g']}><li><samp class="ico-pos-article-g"></samp><{/if}>
-<{if $item['l']}><li><samp class="ico-pos-article-lock"></samp><{/if}>
-<{if $item['x']}><li>X</li><{/if}>
-<{if $item['%']}><li>£¥</li><{/if}>
-<{if $item['#']}><li>©|</li><{/if}>
+<{if $item.m}><li><samp class="ico-pos-article-m"></samp><{/if}>
+<{if $item.g}><li><samp class="ico-pos-article-g"></samp><{/if}>
+<{if $item.l}><li><samp class="ico-pos-article-lock"></samp><{/if}>
+<{if $item.x}><li>X</li><{/if}>
+<{if $item.p}><li>£¥</li><{/if}>
+<{if $item.s}><li>©|</li><{/if}>
 				</ul>
 <{/if}>
             <a href="#" class="c63f a-back">·µ»Ø¶¥²¿</a></td>

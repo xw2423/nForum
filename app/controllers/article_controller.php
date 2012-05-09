@@ -196,8 +196,8 @@ class ArticleController extends AppController {
                 'g' => $v->isG(),
                 'm' => $v->isM(),
                 'l' => $v->isNoRe(),
-                '%' => $v->isPercent(),
-                '#' => $v->isSharp(),
+                'p' => $v->isPercent(),
+                's' => $v->isSharp(),
                 'x' => $v->isX(),
             );
         }
