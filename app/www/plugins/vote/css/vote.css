@@ -9,6 +9,12 @@
     margin-top:8px;
     float:right;
 }
+.vote-search{
+    padding-bottom:3px
+}
+.vote-search .input-text{
+    width:165px
+}
 .vote-submit{
     margin-top:10px;
     padding-top:10px;
