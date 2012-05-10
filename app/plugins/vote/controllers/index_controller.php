@@ -234,6 +234,7 @@ class IndexController extends VoteAppController {
         }
         $this->set("board", $this->_board);
         $this->set("admin", $u->userid === $vote->uid || $u->isAdmin());
+        $this->set("result_voted", $vote->result_voted);
         $this->set("no_result", !$this->get('admin') && $vote->result_voted && !$voted);
         $this->set("vinfo", $info);
         $this->set("vitems", $item);

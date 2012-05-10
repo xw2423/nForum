@@ -1,7 +1,7 @@
 <div class="view-wrap">
     <form action="<{$base}>/vote/ajax_vote/<{$vinfo.vid}>.json" method="post" id="f_view">
         <h1><{$vinfo.title}><span>(<{if $vinfo.type=="0"}>单选<{else}><{if $vinfo.limit==0}>无限制<{else}>可选<{$vinfo.limit}><{/if}><{/if}>)</span></h1>
-        <h2>发起时间:<{$vinfo.start}>&nbsp;&nbsp;&nbsp;截止日期:<{$vinfo.end}><{if $vinfo.isEnd}><font color="red">(已截止)</font><{/if}><{if $vinfo.isDel}><font color="red">(已删除)</font><{/if}>&nbsp;&nbsp;&nbsp;参与人数:<{$vinfo.num}></h2>
+        <h2>发起时间:<{$vinfo.start}>&nbsp;&nbsp;&nbsp;截止日期:<{$vinfo.end}><{if $vinfo.isEnd}><font color="red">(已截止)</font><{/if}><{if $vinfo.isDel}><font color="red">(已删除)</font><{/if}>&nbsp;&nbsp;&nbsp;结果显示:<{if $result_voted}>需投票<{else}>无需投票<{/if}>&nbsp;&nbsp;&nbsp;参与人数:<{$vinfo.num}></h2>
 <{if $vinfo.desc!=""}>
         <h3><{$vinfo.desc}></h3>
 <{/if}>
