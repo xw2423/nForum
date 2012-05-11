@@ -55,7 +55,7 @@
                 <section class="list-block">
                 <header>联系信息</header>
                 <ul>
-                    <li><span class="b-left-m">OICQ号码:&ensp;</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ地址，方便与他人的联系</span></li>
+                    <li><span class="b-left-m">QQ:&ensp;</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ，方便与他人的联系</span></li>
                     <li><span class="b-left-m">MSN:&ensp;</span><input class="input-text" type="text" name="msn" value="<{$msn}>" /><span class="b-right-m">填写您的MSN地址，方便与他人的联系</span></li>
                     <li><span class="b-left-m">主页:&ensp;</span><input class="input-text" type="text" name="homepage" value="<{$homepage}>" /><span class="b-right-m">填写您的个人主页地址，展示您的网上风采</span></li>
                     <li><span class="b-left-m">Email:&ensp;</span><input class="input-text" type="text" name="email" value="<{$email}>"/><span class="b-right-m">您的有效电子邮件地址</span></li>
