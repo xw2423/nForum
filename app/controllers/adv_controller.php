@@ -38,9 +38,6 @@ class AdvController extends AppController {
         $res = $page->getPage($p);
         $ret['page'] = $page->getCurPage();
         $ret['total'] = $adv->getTotalNum();
-        $ret['totalPage'] = $page->getTotalPage();
-        $ret['records'] = $page->getCurNum();
-        $ret['pageBar'] = $page->getPageBar($p, "?p=%page%");
         $ret['aPath'] = Configure::read("adv.path");
         foreach($res as $v){
             $ret['info'][] = $v;
@@ -50,6 +47,9 @@ class AdvController extends AppController {
         $this->set("type", ($this->_type == 1 || $this->_type == 2)?true:false);
         $this->set("thome", ($this->_type == 2 || $this->_type == 4)?true:false);
         $this->set("advType", $this->_type);
+
+        $this->set("pageBar", $page->getPageBar($p, "?p=%page%"));
+        $this->set("pagination", $page);
     }
 
     public function advSet(){

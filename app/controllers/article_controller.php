@@ -206,17 +206,15 @@ class ArticleController extends AppController {
         $link = "{$this->base}/article/{$this->_board->NAME}/{$gid}?p=%page%";
         if(false !== $auF)
             $link .= "&au=$au";
-        $pageBar = $pagination->getPageBar($p, $link);
+        $this->set("pageBar", $pagination->getPageBar($p, $link));
+        $this->set("pagination", $pagination);
+
         $this->set("bName", $this->_board->NAME);
         $this->set("gid", $gid);
         $this->set("anony", $this->_board->isAnony());
         $this->set("tmpl", $this->_board->isTmplPost());
         $this->set("info", $info);
-        $this->set("pageBar", $pageBar);
         $this->set("title", $this->title);
-        $this->set("totalNum", $pagination->getTotalNum());
-        $this->set("curPage", $pagination->getCurPage());
-        $this->set("totalPage", $pagination->getTotalPage());
         $this->set('hasSyn', $hasSyn);
         $this->set("au", $au);
         $this->set("bm", $bm);

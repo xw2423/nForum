@@ -74,7 +74,8 @@ class BoardController extends AppController {
         $this->set("info", $info);
         $this->set("noThreads", ECode::msg(ECode::$BOARD_NOTHREADS));
         $link = "{$this->base}/board/{$this->_board->NAME}?p=%page%";
-        $pageBar = $pagination->getPageBar($p, $link);
+        $this->set("pageBar", $pagination->getPageBar($p, $link));
+        $this->set("pagination", $pagination);
 
         $bms = split(" ", $this->_board->BM);
         foreach($bms as &$v){
@@ -85,21 +86,17 @@ class BoardController extends AppController {
             }
         }
 
-        $this->set("totalPage", $pagination->getTotalPage());
         $this->set("todayNum", $this->_board->getTodayNum());
         $this->set("curNum", $this->_board->CURRENTUSERS);
         if(isset($this->_board->MAXONLINE)){
             $this->set("maxNum", $this->_board->MAXONLINE);
             $this->set("maxTime", date("Y-m-d H:i:s", $this->_board->MAXTIME));
         }
-        $this->set("totalNum", $this->_board->getThreadsNum());
-        $this->set("curPage", $pagination->getCurPage());
         $this->set("bms", $bms);
         $this->set("bName", $this->_board->NAME);
         $this->set("bm", $bm);
         $this->set("tmpl", $this->_board->isTmplPost());
         $this->set("hasVote", count($this->_board->getVotes()) != 0);
-        $this->set("pageBar", $pageBar);
         //for default search day 
         $this->set("searchDay", Configure::read("search.day"));
         //for elite path

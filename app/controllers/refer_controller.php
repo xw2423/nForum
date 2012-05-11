@@ -55,12 +55,9 @@ class ReferController extends AppController {
             $this->set("info", $info);
         }
         $link = "{$this->base}/refer/{$type}?p=%page%";
-        $pageBar = $pagination->getPageBar($p, $link);
+        $this->set("pageBar", $pagination->getPageBar($p, $link));
+        $this->set("pagination", $pagination);
         $this->set("type", $type);
-        $this->set("pageBar", $pageBar);
-        $this->set("totalNum", $pagination->getTotalNum());
-        $this->set("curPage", $pagination->getCurPage());
-        $this->set("totalPage", $pagination->getTotalPage());
     }
 
     public function ajax_read(){

@@ -113,12 +113,8 @@ class SearchController extends AppController {
             $v = $k . '=' . rawurlencode($v);
         $query[] = "p=%page%";
         $link = "{$this->base}/s/article?". join("&", $query);
-        $pageBar = $page->getPageBar($p, $link);
-
-        $this->set("totalPage", $page->getTotalPage());
-        $this->set("totalNum", count($res));
-        $this->set("curPage", $page->getCurPage());
-        $this->set("pageBar", $pageBar);
+        $this->set("pageBar", $page->getPageBar($p, $link));
+        $this->set("pagination", $page);
     }
 
     public function board(){

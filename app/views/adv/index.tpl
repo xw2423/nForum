@@ -23,12 +23,7 @@
 		<li><a href="<{$base}>/adv/4" <{if $advType==4}>class="selected"<{/if}>>左侧广告</a></li>
 	</ul>
 	<div id="page">
-	<ul class="pagination" >
-		<li class="page-pre">总数:<{$total}>&emsp;分页:</li>
-		<li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-		<li class="page-suf">当前页:&ensp;<{$page}>/<{$totalPage}></li>
-		<li id="add"><input type="button" class="button" value="增加" id="b_add"/></li>
-	</ul>
+        <{include file="pagination.tpl" page_name='总数'}>
 	</div>
 	</div>
 	<div id="adv_main">

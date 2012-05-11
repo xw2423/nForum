@@ -23,15 +23,7 @@
 					<li>目前论坛上总共有 <{$webTotal}> 人在线，其中注册用户 <{$webUser}> 人，访客 <{$webGuest}> 人。</li>
                     </div>
                     <div class="page">
-                        <ul class="pagination" title="分页列表">
-                          <li class="page-pre">在线用户:<i><{$totalNum}></i>&emsp;分页:</li>
-						  <li>
-							  <ol title="分页列表" class="page-main">
-								<{$pageBar}>
-							  </ol>
-						  </li>
-						  <li class="page-suf"></li>	
-                        </ul>
+                        <{include file="pagination.tpl" page_name='在线用户'}>
                     </div>
                 </div>
                 <table class="m-table">
@@ -65,15 +57,7 @@
 					&nbsp;
 				</div>
 				<div class="page">
-					<ul class="pagination" title="分页列表">
-					  <li class="page-pre">在线用户:<i><{$totalNum}></i>&emsp;分页:</li>
-					  <li>
-						  <ol title="分页列表" class="page-main">
-							<{$pageBar}>
-						  </ol>
-					  </li>
-					  <li class="page-suf"></li>	
-					</ul>
+                    <{include file="pagination.tpl" page_name='在线用户'}>
 				</div>
              </div>
             </div>

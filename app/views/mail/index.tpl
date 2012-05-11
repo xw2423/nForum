@@ -31,15 +31,7 @@
 						<input type="button" class="button mail-clear" value="全部删除" />
                     </div>
                     <div class="page">
-                        <ul class="pagination" title="分页列表">
-                          <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
-						  <li>
-							  <ol title="分页列表" class="page-main">
-								<{$pageBar}>
-							  </ol>
-						  </li>
-						  <li class="page-suf"></li>	
-                        </ul>
+                        <{include file="pagination.tpl" page_name='邮件总数'}>
                     </div>
                 </div>
                 <table class="m-table">
@@ -65,15 +57,7 @@
                         <input type="button" class="button mail-clear" value="全部删除" />
                     </div>
                     <div class="page">
-                        <ul class="pagination" title="分页列表">
-                          <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
-                          <li>
-                              <ol title="分页列表" class="page-main">
-                                <{$pageBar}>
-                              </ol>
-                          </li>
-                          <li class="page-suf"></li>	
-                        </ul>
+                        <{include file="pagination.tpl" page_name='邮件总数'}>
                     </div>
                  </div>
             </div>
