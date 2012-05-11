@@ -214,7 +214,7 @@ class ArticleController extends AppController {
         $this->set("info", $info);
         $this->set("pageBar", $pageBar);
         $this->set("title", $this->title);
-        $this->set("totalNum", $this->_threads->getTotalNum());
+        $this->set("totalNum", $pagination->getTotalNum());
         $this->set("curPage", $pagination->getCurPage());
         $this->set("totalPage", $pagination->getTotalPage());
         $this->set('hasSyn', $hasSyn);
