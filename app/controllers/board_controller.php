@@ -233,8 +233,7 @@ class BoardController extends AppController {
         $ret['ajax_code'] = ECode::$SYS_AJAXOK;
         $ret['default'] = '/board/' . $this->_board->NAME . '/denylist';
         $ret['list'][] = array('text' => '版面封禁列表:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME . '/denylist');
-        $ret['list'][] = array('text' => '版面:' . $this->_board->DESC, 'url'
-            > '/board/' . $this->_board->NAME);
+        $ret['list'][] = array('text' => '版面:' . $this->_board->DESC, 'url' => '/board/' . $this->_board->NAME);
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
         $this->set('no_html_data', $ret);
     }
