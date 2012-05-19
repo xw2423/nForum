@@ -23,6 +23,7 @@
 		<li><a href="<{$base}>/adv/4" <{if $advType==4}>class="selected"<{/if}>>左侧广告</a></li>
 	</ul>
 	<div id="page">
+        <input type="button" class="button" value="增加" id="b_add"/>
         <{include file="pagination.tpl" page_name='总数'}>
 	</div>
 	</div>
