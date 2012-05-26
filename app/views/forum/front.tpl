@@ -131,7 +131,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
             <li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/vote">投票系统</a></span></li>
             <li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/elite/path">精华区</a></span></li>
             <li><span class="x-leaf"><span class="toggler"></span><a href="telnet://#" target="_blank">Telnet登录</a></span></li>
-            <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" placeholder="搜索讨论区" id="b_search"/></span></li>
+            <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" placeholder="搜索讨论区" id="b_search" x-webkit-speech lang="zh-CN"/></span></li>
         </ul>
 </script>
     </nav>

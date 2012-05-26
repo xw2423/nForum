@@ -512,13 +512,16 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 
 .x-search{
     padding-top:1px;
-    padding-bottom:1px
+    padding-bottom:3px
 }
 .x-search input{
     color:#999;
     width:100px;
-    height: 12px;
+    height: 16px;
     margin-top:4px;
+}
+.x-search .toggler{
+    margin-top:10px
 }
 /* tree end */
 
