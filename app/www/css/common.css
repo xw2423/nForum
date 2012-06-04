@@ -113,6 +113,14 @@ body .ui-button-text-only .ui-button-text { padding: .2em .5em;*padding0 .5em}
 body .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {width:100%}
 body .ui-dialog .ui-dialog-buttonpane {margin: 0; padding: .1em .5em .3em}
 body .ui-dialog .ui-dialog-buttonpane button { margin: .2em .2em 0 0;}
+
+/* jquery-ui timepicker*/
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 /* jquery-ui patch end */
 
 /* nforum base css */

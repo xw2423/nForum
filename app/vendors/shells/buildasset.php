@@ -8,8 +8,9 @@ class BuildassetShell extends Shell {
         $js_out = $css_out = '';
 
         /* handle js*/
-        $js = array('jquery-1.7.min.js'
-                ,'jquery-ui-1.8.16.min.js'
+        $js = array('jquery-1.7.2.min.js'
+                ,'jquery-ui-1.8.20.min.js'
+                ,'jquery-ui-timepicker-addon.js'
                 ,'underscore-min.js'
                 ,'backbone-min.js'
                 ,'plupload.min.js'
@@ -33,7 +34,7 @@ class BuildassetShell extends Shell {
 
         /* handle css */
         $css = array('common.css'
-            ,'jquery-ui-1.8.16.css'
+            ,'jquery-ui-1.8.20.css'
             ,'ansi.css'
             ,'ubb.css'
         );
