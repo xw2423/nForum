@@ -30,7 +30,7 @@ class ForumController extends AppController {
         $ret = $w = array();
         $ret = Widget::wGet($u);
         if(empty($ret)){
-            $this->set("widget", array());    
+            $this->set("widget", array());
             return;
         }
         $persistent = Configure::read("widget.persistent");
@@ -63,11 +63,11 @@ class ForumController extends AppController {
         if($persistent && $update) nforum_cache_write("widget_time", $time);
         foreach($w as &$v)
             ksort($v);
-        $this->set("widget", $w);    
+        $this->set("widget", $w);
         $this->jsr[] = 'SYS.widget.persistent=' . ($persistent?'true':'false');
         $this->jsr[] = "xWidget.init(SESSION.get('is_login'), SESSION.get('id'))";
     }
-    
+
     public function preIndex(){
         $this->front = true;
         if($this->ByrSession->isLogin)
@@ -87,7 +87,8 @@ class ForumController extends AppController {
             $content = file_get_contents($file);
             $contents = explode("*img*",$content);      //分开文字连接和图片链接
             $plant = explode("\n",$contents[0]);         //获取文字连接
-            $img = explode("\n",$contents[1]);
+            if(isset($contents[1]))
+                $img = explode("\n",$contents[1]);
         }
         foreach($plant as &$v){
             $v = split("[ \r\n\t]+", $v);
