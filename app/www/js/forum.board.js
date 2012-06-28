@@ -4,13 +4,16 @@ $(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
             v = encodeURIComponent(encodeURIComponent(v));
             return k + '=' + v;
-        }).join('&'));  
+        }).join('&'));
         return false;
     });
 
     var validPost = function(){
         if(!user_post){
-            DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
+            if(SESSION.get('is_login'))
+                DIALOG.alertDialog(SYS.code.MSG_NOPERM);
+            else
+                $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
             return false;
         }
     };
@@ -117,5 +120,5 @@ $(function(){
             return false;
         });
         $('#deny_list input[type="button"]').prop('disabled', false);
-    } 
+    }
 });

@@ -205,7 +205,7 @@ $.fn.extend({
             ico = ico || this.ICO_ALERT;
             option = _.extend({
                 title: SYS.code.COM_TITLE,
-                width:250,
+                width:350,
                 buttons:[
                     {text:SYS.code.COM_OK,click:function(){$(this).dialog('close');}}
                 ]}, option || {}) ;
@@ -321,7 +321,7 @@ $.fn.extend({
                 self.set(json);
                 self.updateTime = $.now();
                 if(self.ajaxOK()) self.trigger('login');
-                else {self.trigger('logerror');DIALOG.ajaxDialog(json);}
+                else {self.trigger('logerror', json);}
             }, 'json');
         },
         //session will trigger 'logout' event
@@ -442,9 +442,9 @@ $.fn.extend({
         },
         click_submit:function(){
             if($.trim($('#u_login_id').val()) == '')
-                DIALOG.alertDialog(SYS.code.MSG_USER);
+                $('#u_login_id').alertDialog(SYS.code.MSG_USER);
             else if($('#u_login_passwd').val() == '')
-                DIALOG.alertDialog(SYS.code.MSG_PWD);
+                $('#u_login_passwd').alertDialog(SYS.code.MSG_PWD);
             else{
                 this.tips(true);
                 this.session.login($('#u_login_form'));
@@ -511,8 +511,9 @@ $.fn.extend({
             SYS.clear();
             this.body.refresh();
         },
-        onLogerror:function(){
+        onLogerror:function(json){
             this.tips(false);
+            $('#u_login_passwd').val('').alertDialog(json.ajax_msg);
         },
         onLogout:function(){
             SYS.clear();
