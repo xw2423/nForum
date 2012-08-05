@@ -30,8 +30,7 @@
 							<{html_options options=$friends}>
 						</select>
 <{else}>
-						<input class="input-text post-title" type="text" id="id" style="width:300px" value="<{$rid}>" disabled="true"/>  
-						<input type="hidden" name="id" value="<{$rid}>" />
+						<input class="input-text post-title" type="text" id="id" name="id" style="width:300px" value="<{$rid}>" readonly="readonly"/>  
 <{/if}>
 					</li>
                     <li class="post-list-item">
