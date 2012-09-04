@@ -1,12 +1,10 @@
 <?php
-App::import("vendor", "db");
 class WeatherShell extends Shell {
     public function main() {
-        $db = DB::getInstance();
-        $week = array("ÈÕ", "Ò»", "¶þ", "Èý", "ËÄ", "Îå", "Áù");
-        $date[] = "ÖÜ".$week[intval(date("w"))];
-        $date[] = "ÖÜ".$week[intval(date("w",time() + 24*60*60))];
-        $date[] = "ÖÜ".$week[intval(date("w",time() + 2*24*60*60))];
+        $week = array("ï¿½ï¿½", "Ò»", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½", "ï¿½ï¿½");
+        $date[] = "ï¿½ï¿½".$week[intval(date("w"))];
+        $date[] = "ï¿½ï¿½".$week[intval(date("w",time() + 24*60*60))];
+        $date[] = "ï¿½ï¿½".$week[intval(date("w",time() + 2*24*60*60))];
         $file="http://php.weather.sina.com.cn/xml.php?city=%B1%B1%BE%A9&password=DJOYnieT8234jlsK&day=";
         $res = "";
         for($j = 0; $j <=2; $j++){
@@ -58,12 +56,12 @@ class WeatherShell extends Shell {
                         $img .= ("" . $this->st2img($curStatE));
                     }
                     if($curWind1 != $curWind2){
-                        $curWind1 .= ("ÖÁ".$curWind2."¼¶");
+                        $curWind1 .= ("ï¿½ï¿½".$curWind2."ï¿½ï¿½");
                     }else{
-                        $curWind1 .= "¼¶";
+                        $curWind1 .= "ï¿½ï¿½";
                     }
                     
-                    $res .= "|".$date[$j]." ".$curStatB." ".$curTemp1."¡æ£­".$curTemp2."¡æ"."&·çÁ¦:".$curWind1.(empty($zwx)?"":" ×ÏÍâÏß:".$zwx)."#".$img;
+                    $res .= "|".$date[$j]." ".$curStatB." ".$curTemp1."ï¿½æ£­".$curTemp2."ï¿½ï¿½"."&ï¿½ï¿½ï¿½ï¿½:".$curWind1.(empty($zwx)?"":" ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:".$zwx)."#".$img;
                 }
             }
         }
@@ -71,19 +69,19 @@ class WeatherShell extends Shell {
     }
 
     public function st2img($st){
-        if(preg_match("/Çç/", $st))
+        if(preg_match("/ï¿½ï¿½/", $st))
             return 1;
-        if(preg_match("/¶àÔÆ/", $st))
+        if(preg_match("/ï¿½ï¿½ï¿½ï¿½/", $st))
             return 2;
-        if(preg_match("/Òõ|Îí/", $st))
+        if(preg_match("/ï¿½ï¿½|ï¿½ï¿½/", $st))
             return 3;
-        if(preg_match("/Óê¼ÐÑ©|Ð¡Óê/", $st))
+        if(preg_match("/ï¿½ï¿½ï¿½ï¿½Ñ©|Ð¡ï¿½ï¿½/", $st))
             return 4;
-        if(preg_match("/ÕóÓê|À×/", $st))
+        if(preg_match("/ï¿½ï¿½ï¿½ï¿½|ï¿½ï¿½/", $st))
             return 8;
-        if(preg_match("/Óê/", $st))
+        if(preg_match("/ï¿½ï¿½/", $st))
             return 5;
-        if(preg_match("/ÕóÑ©|Ð¡Ñ©/", $st))
+        if(preg_match("/ï¿½ï¿½Ñ©|Ð¡Ñ©/", $st))
             return 6;
         if(preg_match("/Ñ©/", $st))
             return 7;
