@@ -125,7 +125,7 @@ class IndexController extends VoteAppController {
         $this->js['plugin']['vote'][] = "vote.js";
         $this->notice[] = array("url" => "", "text" => "ÐÂÍ¶Æ±");
         $this->cache(false);
-        
+
         $u = User::getInstance();
         $db = DB::getInstance();
         if(!$u->isAdmin()){
@@ -157,7 +157,7 @@ class IndexController extends VoteAppController {
         $type = @trim($this->params['form']['type']);
         $limit = @trim($this->params['form']['limit']);
         $result_voted = isset($this->params['form']['result_voted'])?1:0;
-        
+
         if(empty($subject) || empty($end))
             $this->error();
         if($type != "0" && $type != "1")
@@ -255,7 +255,7 @@ class IndexController extends VoteAppController {
         $this->set("board", $this->_board);
         $this->set("admin", $u->userid === $vote->uid || $u->isAdmin());
         $this->set("result_voted", $vote->result_voted);
-        $this->set("no_result", !$this->get('admin') && $vote->result_voted && !$voted);
+        $this->set("no_result", !$vote->isEnd() && !$this->get('admin') && $vote->result_voted && !$voted);
         $this->set("vinfo", $info);
         $this->set("vitems", $item);
 
@@ -268,7 +268,7 @@ class IndexController extends VoteAppController {
         $this->set("furl", Sanitize::html($furl));
         $this->set("fwidth", ($u->userface_width === 0)?"":$u->userface_width);
         $this->set("fheight", ($u->userface_height === 0)?"":$u->userface_height);
-        
+
     }
 
     public function ajax_vote(){
