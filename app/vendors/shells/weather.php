@@ -1,8 +1,6 @@
 <?php
-App::import("vendor", "db");
 class WeatherShell extends Shell {
     public function main() {
-        $db = DB::getInstance();
         $week = array("日", "一", "二", "三", "四", "五", "六");
         $date[] = "周".$week[intval(date("w"))];
         $date[] = "周".$week[intval(date("w",time() + 24*60*60))];
@@ -62,7 +60,7 @@ class WeatherShell extends Shell {
                     }else{
                         $curWind1 .= "级";
                     }
-                    
+
                     $res .= "|".$date[$j]." ".$curStatB." ".$curTemp1."℃－".$curTemp2."℃"."&风力:".$curWind1.(empty($zwx)?"":" 紫外线:".$zwx)."#".$img;
                 }
             }
