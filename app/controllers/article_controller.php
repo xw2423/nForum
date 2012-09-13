@@ -6,7 +6,7 @@
  */
 App::import("vendor", array("model/section", "model/board", "model/threads", "inc/ubb"));
 class ArticleController extends AppController {
-    
+
     private $_threads;
     private $_board;
 
@@ -91,7 +91,7 @@ class ArticleController extends AppController {
         $hasSyn = false;
         foreach($articles as $v){
             try{
-                $own = User::getInstance($v->OWNER); 
+                $own = User::getInstance($v->OWNER);
                 $astro = Astro::getAstro($own->birthmonth, $own->birthday);
 
                 if($own->getCustom("userdefine0", 29) == 0){
@@ -228,7 +228,7 @@ class ArticleController extends AppController {
         //hack for post with ajax,need utf-8 encoding
         $reTitle = nforum_iconv($this->encoding, 'utf-8', $reTitle);
         $this->set("reTitle", rawurlencode($reTitle));
-        //for default search day 
+        //for default search day
         $this->set("searchDay", Configure::read("search.day"));
         $this->set("searchDay", Configure::read("search.day"));
         $this->jsr[] = "window.user_post=" . ($this->_board->hasPostPerm($u) && !$this->_board->isDeny($u)?"true":"false") . ";";
@@ -320,7 +320,15 @@ class ArticleController extends AppController {
             $gid = Article::getInstance($id, $this->_board);
             $gid = $gid->GROUPID;
         }catch(ArticlePostException $e){
-            $this->error($e->getMessage());
+            if(ECode::$POST_WAIT == $e->getMessage()){
+                $ret['ajax_code'] = ECode::$POST_WAIT;
+                $ret['list'][] = array("text" => '°æÃæ:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+                $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
+                $this->set('no_html_data', $ret);
+                return;
+            }else{
+                $this->error($e->getMessage());
+            }
         }catch(ArticleNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
@@ -457,7 +465,7 @@ class ArticleController extends AppController {
         }catch(ArticleForwardException $e){
             $this->error($e->getMessage());
         }
-         
+
         $ret['ajax_code'] = ECode::$ARTICLE_FORWARDOK;
         $this->set('no_html_data', $ret);
     }
