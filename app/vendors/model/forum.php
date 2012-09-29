@@ -25,8 +25,8 @@ class Forum {
      */
     public static function initUser($id, $utmpnum, $utmpkey){
         $arr = array();
-        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr) == 0); 
-        
+        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr) == 0);
+
     }
 
     /**
@@ -34,12 +34,17 @@ class Forum {
      * current user will be set in self::checkPwd with bbs_checkpasswd function if no current user set, this funciton will login with guest
      *
      * @param boolean $kick kick out other login session if session is full
-     * @return int 
+     * @return int
      * @static
      * @access public
      */
     public static function setUser($kick = true){
         $ret = bbs_wwwlogin($kick?1:0);
+        return $ret;
+    }
+
+    public static function checkBanIP($id, $from) {
+        $ret = bbs_check_ban_ip($id, $from);
         return $ret;
     }
 
@@ -71,8 +76,8 @@ class Forum {
      * @access public
      */
     public static function checkPwd($id, $pwd, $md5, $log){
-        //bbs_checkuserpasswd only check no log 
-        //bbs_checkpasswd check, set current user and log error for login 
+        //bbs_checkuserpasswd only check no log
+        //bbs_checkpasswd check, set current user and log error for login
         $md5 = $md5?1:0;
         if($md5){
             return (bbs_checkpasswd($id, $pwd, $md5) == 0);

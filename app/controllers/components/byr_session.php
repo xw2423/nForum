@@ -1,12 +1,12 @@
 <?php
 /**
- * byr session component for nforum 
+ * byr session component for nforum
  * core session
- * 
- * @author xw       
+ *
+ * @author xw
  */
-class ByrSessionComponent extends Object {    
-    
+class ByrSessionComponent extends Object {
+
     public $components = array("Cookie");
     public $isLogin = false;
     public $isGuest = false;
@@ -41,7 +41,7 @@ class ByrSessionComponent extends Object {
         //param 2 is unused
         Forum::setFrom($this->from, "");
     }
-        
+
     public function initLogin(){
         @$utmpkey = $this->Cookie->read("UTMPKEY");
         @$utmpnum = $this->Cookie->read("UTMPNUM");
@@ -57,8 +57,8 @@ class ByrSessionComponent extends Object {
         if($this->userId == ""){
             $this->_guestLogin();
             $this->hasCookie = false;
-        }else if($this->userId == "guest"){
-            if($utmpkey != "" && $utmpnum != "" && Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey))){
+        }else if($this->userId == "guest" || Forum::checkBanIP($this->userId, $this->from) != 0){
+            if($utmpkey != "" && $utmpnum != "" && Forum::initUser('guest',intval($utmpnum),intval($utmpkey))){
                 $this->isLogin = false;
                 $this->isGuest = true;
                 $this->_isSetOnline = true;
@@ -68,7 +68,7 @@ class ByrSessionComponent extends Object {
             }
         }else{
             if(Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey))){
-                $this->isLogin = true;    
+                $this->isLogin = true;
                 $this->_isSetOnline = true;
             }else if($userpwd != "" && Forum::checkPwd($this->userId, base64_decode($userpwd), true, true)){
                 $ret = Forum::setUser(true);
@@ -86,7 +86,7 @@ class ByrSessionComponent extends Object {
 
     public function setCookie(){
         if($this->_isSetOnline)
-            return; 
+            return;
         $u = User::getInstance();
         $arr = array();
         Forum::initUser($this->userId, $u->index, $u->utmpkey);
@@ -103,6 +103,18 @@ class ByrSessionComponent extends Object {
     public function login($id, $pwd, $md5 = true, $cookieTime = null){
         if($this->isLogin || $this->isGuest)
             Forum::kickUser();
+        $ret = Forum::checkBanIP($id, $this->from);
+        switch($ret){
+            case 1:
+                throw new LoginException(ECode::$LOGIN_IPBAN);
+                break;
+            case 2:
+                throw new LoginException(ECode::$LOGIN_EPOS);
+                break;
+            case 3:
+                throw new LoginException(ECode::$LOGIN_ERROR);
+                break;
+        }
         if (($id != 'guest') && (!Forum::checkPwd($id, $pwd, $md5, true))){
             throw new LoginException(ECode::$LOGIN_ERROR);
         }
@@ -172,7 +184,7 @@ class ByrSessionComponent extends Object {
         $ip = $this->from;
         if(strpos($ip, ':') !== false)
             $ip = join(":", array_slice(explode(':', $ip, 5), 0, 4))."::1";
-        $hash = sha1($ip);  
+        $hash = sha1($ip);
         $key = substr($hash, 4, $len);
         return $key;
     }

@@ -2,6 +2,7 @@
 class ApiSessionComponent extends Object{
 
     public $isLogin = false;
+    public $from = "";
     private $_expire = 3600;
 
     public function initialize(&$controller) {
@@ -14,6 +15,20 @@ class ApiSessionComponent extends Object{
         if(false === $id)
             $this->controller->error(ECode::$LOGIN_ERROR);
         $this->isLogin = ($id !== 'guest');
+        if('guest' !== $id){
+            $ret = Forum::checkBanIP($id, $this->from);
+            switch($ret){
+                case 1:
+                    $this->controller->error(ECode::$LOGIN_IPBAN);
+                    break;
+                case 2:
+                    $this->controller->error(ECode::$LOGIN_EPOS);
+                    break;
+                case 3:
+                    $this->controller->error(ECode::$LOGIN_ERROR);
+                    break;
+            }
+        }
 
         $db = DB::getInstance();
         if($u = $db->one('select id, utmpnum, utmpkey from pl_api_session where id=?', array($id))){
@@ -47,7 +62,7 @@ class ApiSessionComponent extends Object{
             $val = array('k'=>array('id', 'utmpnum', 'utmpkey', 'expire'), 'v'=>array(array($user->userid, $user->index, $user->utmpkey, time() + $this->_expire)));
             $db->insert('pl_api_session', $val);
         }
-    } 
+    }
 
     public function setFromHost(){
         @$this->from = $_SERVER["REMOTE_ADDR"];
