@@ -714,7 +714,7 @@ function front_startup(){
 
     if($.isIE()){
         document.onpropertychange = function(){
-            if(window.event.propertyName == 'title' && document.title != window.origTitle)
+            if(window.event.propertyName == 'title' && document.title && document.title != window.origTitle)
                 setTimeout(function(){document.title = window.origTitle},1);
         };
     }
