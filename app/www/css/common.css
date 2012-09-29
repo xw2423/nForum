@@ -609,6 +609,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 #bot_info .c-total{ color:red}
 #bot_info .c-user{ color:blue}
 #bot_info .c-guest{ color:black}
+.copyright{
+    font-family:"Times New Roman",Times,serif;
+}
 /*footer end*/
 
 /* tips */
