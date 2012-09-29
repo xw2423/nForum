@@ -1,15 +1,15 @@
 <?php
 /**
  * auth img component using AuthImg
- * 
+ *
  * @author xw
  */
-class AuthImgComponent extends Object {    
+class AuthImgComponent extends Object {
 
     public $components = array("Session");
 
     public function initialize(&$controller, $settings = array()) {
-        $this->controller =& $controller;    
+        $this->controller =& $controller;
     }
 
     public function getImage(){
@@ -45,7 +45,7 @@ class AuthImgComponent extends Object {
     public function check($num){
         $this->Session->activate();
         $authNum = $this->Session->read('authNum');
-        if(false === $authNum || intval($num) != $authNum)
+        if(null === $authNum || intval($num) != $authNum)
             return false;
         return true;
     }
