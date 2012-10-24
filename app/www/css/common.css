@@ -249,6 +249,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     display: inline-block;
     position: relative;
     vertical-align: middle;
+    width:99.9%;
     *display:inline;
     *zoom:1
 }
