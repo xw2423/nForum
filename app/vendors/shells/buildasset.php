@@ -18,6 +18,7 @@ class BuildassetShell extends Shell {
                 ,'jquery.placeholder.min.js'
                 ,'jquery.cookie.js'
                 ,'jquery.simpletree.js'
+                ,'jquery.jplayer.min.js'
                 ,'forum.config.js'
                 ,'forum.lib.js'
                 ,'forum.xwidget.js'
@@ -35,6 +36,7 @@ class BuildassetShell extends Shell {
         /* handle css */
         $css = array('common.css'
             ,'jquery-ui-1.8.20.css'
+            ,'jplayer.blue.monday.css'
             ,'ansi.css'
             ,'ubb.css'
         );
