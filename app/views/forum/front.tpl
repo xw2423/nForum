@@ -46,7 +46,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
         <div id="ban_ner_wrapper">
             <ul>
 <{foreach from=$banner_adv item=item}>
-                <li><a href="<{$item.url|default:"javascript:void(0);"}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" alt="<{$item.remark}>" width="600px" height="80px" /></a></li>
+                <li><a href="<{$item.url|default:"javascript:void(0);"}>"<{if $item.url && 0 !== strpos($item.url, $domain|cat:$base)}> target="_blank"<{/if}>><img src="<{$static}><{$base}><{$item.file}>" alt="<{$item.remark}>" width="600px" height="80px" /></a></li>
 <{/foreach}>
             </ul>
         </div>
@@ -146,7 +146,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
 
     <section id="left_adv">
 <{foreach from=$left_adv item=item}>
-        <a href="<{$item.url|default:"javascript:void(0);"}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" /></a>
+        <a href="<{$item.url|default:"javascript:void(0);"}>"<{if $item.url && 0 !== strpos($item.url, $domain|cat:$base)}> target="_blank"<{/if}>><img src="<{$static}><{$base}><{$item.file}>" /></a>
 <{/foreach}>
     </section>
 </aside>
