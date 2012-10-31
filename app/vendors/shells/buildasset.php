@@ -26,6 +26,7 @@ class BuildassetShell extends Shell {
                 ,'jquery.cookie.js'
                 ,'jquery.simpletree.js'
                 ,'jquery.jplayer.min.js'
+                ,'jquery.xslider.min.js'
                 ,'forum.config.js'
                 ,'forum.lib.js'
                 ,'forum.xwidget.js'

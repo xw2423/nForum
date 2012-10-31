@@ -41,8 +41,15 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     </figure>
     <!--logo end-->
 
+    <!--ban_ner start-->
     <article id="ban_ner">
-        <div id="ban_ner_border"></div>
+        <div id="ban_ner_wrapper">
+            <ul>
+<{foreach from=$banner_adv item=item}>
+                <li><a href="<{$item.url|default:"javascript:void(0);"}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" alt="<{$item.remark}>" width="600px" height="80px" /></a></li>
+<{/foreach}>
+            </ul>
+        </div>
     </article>
     <!--ban_ner end-->
 
@@ -138,7 +145,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     <!--nav list end-->
 
     <section id="left_adv">
-<{foreach from=$advs item=item}>
+<{foreach from=$left_adv item=item}>
         <a href="<{$item.url|default:"javascript:void(0);"}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" /></a>
 <{/foreach}>
     </section>

@@ -14,10 +14,10 @@ class ForumController extends AppController {
         $this->set("refer", Configure::read('refer.enable'));
 
         //load adv
-        //banner use js
-        Configure::write('jsr.adv', $this->Adv->getParams());
+        //banner
+        $this->set("banner_adv", $this->Adv->getBanner());
         //left
-        $this->set("advs", $this->Adv->getLeft());
+        $this->set("left_adv", $this->Adv->getLeft());
     }
 
     public function index(){

@@ -61,7 +61,7 @@ $(function(){
     $('.b_pre').click(function(){
         DIALOG.formDialog(tmpl_adv_preview({img:$(this).parent().parent().find('.c_2 a').attr('href')}),
             {title:SYS.code.COM_PREVIEW, width:660}
-        ); 
+        );
     });
 
     $('#b_add').click(function(){
@@ -86,4 +86,5 @@ $(function(){
              ]
         }).find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
     });
+    $('#adv_filter').find('input[name="sTime"],input[name="eTime"]').datepicker({dateFormat:"yy-mm-dd"});
 });

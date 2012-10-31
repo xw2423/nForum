@@ -2,7 +2,7 @@
 /**
  * Application controller for nforum
  * all of controllors extend from it
- * 
+ *
  * @author xw
  */
 
@@ -10,10 +10,10 @@
 App::import("vendor", array("model/forum", "model/user", "model/code"));
 class AppController extends Controller {
 
-    
+
     //default components for all the controller
     public $components = array('RequestHandler', 'IpAcl', 'UaAcl');
-    
+
     public $uses = null;
 
     //use javascript tmpl & show header,footer,left or not
@@ -26,13 +26,13 @@ class AppController extends Controller {
     public $css = array();
     //js for run
     public $jsr = array();
-    
+
     //normal for nav,special for notice
     public $notice = array();
 
     //title
     public $title = "";
-    
+
     //debug array
     public $dp = array();
 
@@ -109,7 +109,7 @@ class AppController extends Controller {
             $data = $this->get('no_html_data');
             if(null === $data)
                 $data = array();
-            //use no_ajax_info param to ignore ajax info, 
+            //use no_ajax_info param to ignore ajax info,
             //sometimes data may be a array
             if(!isset($data['ajax_st']) && null === $this->get('no_ajax_info')){
                 $data['ajax_st'] = 1;
@@ -132,10 +132,10 @@ class AppController extends Controller {
         }catch(UserNullException $e){
             $uid = 'guest';
             $admin = false;
-            $reg = false; 
+            $reg = false;
         }
 
-        //handle js & css 
+        //handle js & css
         $this->_initAsset();
         //add pack js&css
         $asset_pack = nforum_cache_read('asset_pack');
@@ -158,7 +158,7 @@ class AppController extends Controller {
         if($this->path != $site['home'])
             $this->notice= array_merge(array(array("url" => $site['home'], "text" => $site['name'])), $this->notice);
 
-        /* handle jsr end*/
+        /* handle jsr start*/
         if(!$this->spider){
             if($this->front){
                 $site = Configure::read("site");
@@ -224,7 +224,7 @@ EOT;
 
         $this->set($arr);
     }
-    
+
     /**
      * use AppView for render view
      * if viewVars has key 'data' using json or xml
@@ -242,7 +242,7 @@ EOT;
             App::import("vendor", "inc/view");
             try{
                 $this->view = AppView::getInstance($this->params['url']['ext'], $this);
-                $this->output .= $this->view->render($action, $path);    
+                $this->output .= $this->view->render($action, $path);
             }catch(AppViewException $e){
                 $this->_stop();
             }
@@ -292,7 +292,7 @@ EOT;
     }
 
     /**
-     * add redirect for ajax page 
+     * add redirect for ajax page
      * using 'location:URL' as text
      * @param string $url
      * @param int $status
@@ -352,7 +352,7 @@ EOT;
         if(!empty($other))
             $params = array_merge($params, $other);
         $this->cakeError("error", $params);
-    } 
+    }
 
     public function error404($msg = ''){
         if(is_a($this, 'CakeErrorController'))
@@ -364,7 +364,7 @@ EOT;
      * make cache in respones
      * @param $switch cache or not
      * @param $modified
-     * @param $expires 
+     * @param $expires
      */
     public function cache($switch = false, $modified = 0, $expires = null){
         if($switch){
@@ -393,7 +393,7 @@ EOT;
             $this->header("Pragma: no-cache");
         }
     }
-    
+
     /**
      * check whehter login or redirect
      * @param $from
@@ -451,7 +451,7 @@ EOT;
         if(!in_array(strtolower($this->params['plugin']), Configure::read("plugins.install")))
             $this->error(ECode::$SYS_PLUGINBAN);
     }
-    
+
     protected function _initAsset(){
         App::import('vendor', 'inc/packer');
         $p = new Packer();

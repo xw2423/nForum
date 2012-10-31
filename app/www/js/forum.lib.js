@@ -773,17 +773,17 @@ function front_startup(){
     if($.isIE(6)){
         document.execCommand("BackgroundImageCache", false, true);
     }
-    //load flash
-    $('#ban_ner_border').flashembed({
-        src:SYS.static + SYS.base + "/files//swf/adv.swf"
-        ,width:600
-        ,height:80
-        ,wmode: 'opaque'
-    },{
-        borderwidth:600
-        ,borderheight:80
-        ,links:SYS.adv.links
-        ,pics:SYS.adv.pics
+    //load banner
+    $('#ban_ner_wrapper ul').xslider({
+        timeout: 5000
+        ,effect: 'fade'
+        ,prevNext: false
+        ,autoPlay: true
+        ,navigation: true
+        ,onComplete: function(current, last, currentItem, lastItem, elements){
+            var self = $('#ban_ner_wrapper ul');
+            if(self.data('xslider:playback') != 'play') self.xslider('play');
+        }
     });
 
     //parse hash & load body

@@ -325,6 +325,8 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 #top_menu ul a:hover{ color:#06C; }
 #top_logo{ margin:14px 0px 0 10px;}
 #top_logo img{ position:relative;z-index:1}
+
+/* banner start */
 #ban_ner{
     margin:auto;
     margin-top:-94px;
@@ -333,15 +335,48 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     height:90px;
     padding:4px 0 0 110px;
 }
-#ban_ner_border{
+#ban_ner_wrapper{
     border: 1px outset #BBB;
     width: 600px;
     height: 80px;
     padding: 1px;
+    position:relative;
+    overflow:hidden;
     -moz-box-shadow:0 0 3px #bbb;
     -webkit-box-shadow:0 0 3px #bbb;
     -box-shadow:0 0 3px #bbb;
 }
+#ban_ner_wrapper .xslider nav {
+    position:absolute;
+    right:3px;
+    bottom:3px;
+    z-index:10;
+}
+#ban_ner_wrapper .xslider nav li{
+    display: inline;
+    float: left;
+    margin-left:2px;
+}
+#ban_ner_wrapper .xslider nav a{
+    font-family:Verdana,Arial;
+    font-size:10px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height:16px;
+    background-color:#000;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    opacity:0.75;
+}
+#ban_ner_wrapper .xslider nav a.current{
+    background-color: #a00000;
+    opacity:1;
+    font-weight:bold;
+}
+/* banner end */
 /*head end*/
 
 /*menu start*/
