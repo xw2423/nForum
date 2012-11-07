@@ -19,9 +19,7 @@ class AdvComponent extends Object {
             $res = $db->all($sql);
         }
         $aPath = Configure::read("adv.path");
-        if(empty($res))
-            return "";
-        shuffle($res);
+        if(count($res) > 1) shuffle($res);
         foreach($res as &$v){
             $v['file'] = '/' . $aPath . "/" . $v['file'];
         }
@@ -33,8 +31,6 @@ class AdvComponent extends Object {
         $sql = "select url, file, remark from adv where type='4' and switch='1' order by weight,aid desc";
         $aPath = Configure::read("adv.path");
         $ret = $db->all($sql);
-        if(empty($ret))
-            return array();
         foreach($ret as &$v){
             $v['file'] = '/' . $aPath . "/" . $v['file'];
         }
