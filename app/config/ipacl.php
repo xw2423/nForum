@@ -1,5 +1,8 @@
 <?php
-$config['ipacl']['global'] = array(); 
+/**
+ * plz set ipacl.on=TRUE in app/config/nforum.php
+ */
+$config['ipacl']['global'] = array();
 $config['ipacl']['wsapi']['sys_checkpwd'] = array(
     array("0.0.0.1", 0, false),
     array("::1", 0, false)
