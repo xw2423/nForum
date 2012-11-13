@@ -241,7 +241,7 @@ abstract class Archive extends OverloadObject{
 
     protected function _getMp3($link, $name, $size){
         $pre = $this->_getCommon($link, $name . "(在新窗口打开)", $size);
-        $templete = '<br /><br /><div class="a-audio" _src="%link%">';
+        $templete = '<br /><br /><div class="a-audio" _src="%link%"></div>';
         return $pre . str_replace("%link%", $link, $templete);
     }
 
