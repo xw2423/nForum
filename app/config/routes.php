@@ -51,6 +51,7 @@
     Router::connect('/article/:name/:gid', array('controller' => 'article', 'action' => 'index'), array('gid' => '\d+'));
     Router::connect('/article/:name/:action/:id', array('controller' => 'article', 'id' => null), array('id'=> '\d+'));
     Router::connect('/att/:name/:id/:pos/:type', array('controller' => 'attachment', 'action' => 'download'), array('id'=> '\d+', 'pos'=>'\d+'));
+    Router::connect('/att/:hash', array('controller' => 'attachment', 'action' => 'download'), array('hash'=> '[0-9A-Za-z+/ ]+\.\w+'));
     Router::connect('/att/:name/:action/:id', array('controller' => 'attachment', 'id' => null), array('id'=> '\d+'));
     Router::connect('/refer/:type/:action', array('controller' => 'refer'));
     Router::connect('/section/:num', array('controller' => 'section', 'action' => 'index'));

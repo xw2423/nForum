@@ -354,10 +354,15 @@ EOT;
         $this->cakeError("error", $params);
     }
 
-    public function error404($msg = ''){
+    public function error404($code = null, $args = array(), $other = array()){
         if(is_a($this, 'CakeErrorController'))
             return;
-        $this->cakeError("error404", array('html' => $this->html, 'msg' => $msg));
+        $msg = ECode::msg($code);
+        if($msg == strval($code))
+            $code = null;
+        if(!empty($args))
+            $msg = vsprintf($msg, $args);
+        $this->cakeError("error404", array('html' => $this->html, 'code' => $code, 'msg' => $msg));
     }
 
     /**

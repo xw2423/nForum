@@ -18,6 +18,8 @@ class ByrSessionComponent extends Object {
     private $_updateID = true;
     //true when setonline ok
     private $_isSetOnline = false;
+    //use sid login
+    private $_sid = false;
 
     public function initialize(&$controller) {
         $this->controller = $controller;
@@ -42,22 +44,46 @@ class ByrSessionComponent extends Object {
         Forum::setFrom($this->from, "");
     }
 
-    public function initLogin(){
-        @$utmpkey = $this->Cookie->read("UTMPKEY");
-        @$utmpnum = $this->Cookie->read("UTMPNUM");
-        @$this->userId = $this->Cookie->read("UTMPUSERID");
-        @$userpwd = $this->Cookie->read("PASSWORD");
-        if(Configure::read("cookie.encryption")){
-            $utmpkey = $this->decrypt($utmpkey);
-            $userpwd = $this->decrypt($userpwd);
+    public function initLogin($sid = false){
+        if(false === $sid) $sid = $this->_sid;
+        if(false !== $sid && !is_string($sid)){
+            if(isset($this->controller->params['url']['sid']))
+                $sid = $this->controller->params['url']['sid'];
+            else if(isset($this->controller->params['form']['sid']))
+                $sid = $this->controller->params['form']['sid'];
+            else
+                $sid = false;
+        }
+        $telnet = false;
+        if(is_string($sid)){
+            $utmpnum = $this->_decodesessionchar($sid[0])
+                + $this->_decodesessionchar($sid[1]) * 36
+                + $this->_decodesessionchar($sid[2]) * 36 * 36;
+            $utmpkey = $this->_decodesessionchar($sid[3])
+                + $this->_decodesessionchar($sid[4]) * 36
+                + $this->_decodesessionchar($sid[5]) * 36 * 36
+                + $this->_decodesessionchar($sid[6]) * 36 *36 * 36
+                + $this->_decodesessionchar($sid[7]) * 36 * 36 * 36 * 36
+                + $this->_decodesessionchar($sid[8]) * 36 * 36 * 36 * 36 * 36;
+            $this->userId = '';
+            $userpwd = '';
+            $telnet = true;
+        }else{
+            @$utmpkey = $this->Cookie->read("UTMPKEY");
+            @$utmpnum = $this->Cookie->read("UTMPNUM");
+            @$this->userId = $this->Cookie->read("UTMPUSERID");
+            @$userpwd = $this->Cookie->read("PASSWORD");
+            if(Configure::read("cookie.encryption")){
+                $utmpkey = $this->decrypt($utmpkey);
+                $userpwd = $this->decrypt($userpwd);
+            }
         }
 
         $arr = array();
-        //valid cookie integrity
-        if($this->userId == ""){
+        if($this->userId == "" && !$telnet){
             $this->_guestLogin();
             $this->hasCookie = false;
-        }else if($this->userId == "guest" || Forum::checkBanIP($this->userId, $this->from) != 0){
+        }else if($this->userId == "guest"){
             if($utmpkey != "" && $utmpnum != "" && Forum::initUser('guest',intval($utmpnum),intval($utmpkey))){
                 $this->isLogin = false;
                 $this->isGuest = true;
@@ -67,7 +93,9 @@ class ByrSessionComponent extends Object {
                 $this->hasCookie=false;
             }
         }else{
-            if(Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey))){
+            if(!$telnet && Forum::checkBanIP($this->userId, $this->from) != 0){
+                $this->isLogin = false;
+            }else if(Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey), $telnet)){
                 $this->isLogin = true;
                 $this->_isSetOnline = true;
             }else if($userpwd != "" && Forum::checkPwd($this->userId, base64_decode($userpwd), true, true)){
@@ -167,6 +195,10 @@ class ByrSessionComponent extends Object {
         return $this->_getKey(strlen(urldecode($var))) ^ urldecode("$var");
     }
 
+    public function setSession($sid){
+        $this->_sid = $sid;
+    }
+
     private function _guestLogin(){
         if($this->isGuest)
             return;
@@ -187,6 +219,10 @@ class ByrSessionComponent extends Object {
         $hash = sha1($ip);
         $key = substr($hash, 4, $len);
         return $key;
+    }
+
+    private function _decodesessionchar($ch){
+        return strpos('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',$ch);
     }
 }
 class LoginException extends Exception{}

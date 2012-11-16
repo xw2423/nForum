@@ -23,9 +23,10 @@ class Forum {
      * @static
      * @access public
      */
-    public static function initUser($id, $utmpnum, $utmpkey){
+    public static function initUser($id, $utmpnum, $utmpkey, $telnet = false){
         $arr = array();
-        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr) == 0);
+        $telnet = $telnet?1:0;
+        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr, $telnet) == 0);
 
     }
 
@@ -144,6 +145,20 @@ class Forum {
         $ret = bbs_upload_del_file($name);
         if($ret != 0)
             throw new AttException(ECode::kbs2code($ret));
+    }
+
+    public static function decodeAttHash($hash){
+        $hash = explode(".", $hash);
+        if($hash[0] && ($ret = bbs_decode_att_hash($hash[0], "24244"))){
+            $ret['sid'] = $ret[0];
+            $ret['bid'] = $ret[1];
+            $ret['id'] = $ret[2];
+            $ret['ftype'] = $ret[3];
+            $ret['num'] = $ret[4];
+            $ret['ap'] = $ret[5];
+            return $ret;
+        }
+        return false;
     }
 }
 

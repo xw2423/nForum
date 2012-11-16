@@ -16,6 +16,13 @@ class AttachmentController extends AppController {
     }
 
     public function beforeFilter(){
+        if(isset($this->params['hash'])){
+            $hash = str_replace(' ', '+', $this->params['hash']);
+            $info = Forum::decodeAttHash($hash);
+            if(false === $info)
+                $this->error404(ECode::$SYS_NOFILE);
+            $this->ByrSession->setSession($info['sid']);
+        }
         //flash mode will post cookie data, so parse to system cookie first
         if ($this->RequestHandler->isFlash()) {
             if (isset($this->params['form']['cookie'])) {
@@ -39,17 +46,23 @@ class AttachmentController extends AppController {
     }
 
     public function download(){
-        if(!isset($this->params['name'])
-        || !isset($this->params['id'])
-        || !isset($this->params['pos']))
-            $this->error(ECode::$SYS_NOFILE);
+        if(isset($this->params['hash'])){
+            $hash = str_replace(' ', '+', $this->params['hash']);
+            $info = Forum::decodeAttHash($hash);
+            $name = $info['bid'];
+            $id = $info['id'];
+            $pos = $info['ap'];
+        }else if(isset($this->params['name']) && isset($this->params['id']) && isset($this->params['pos'])){
+            if($this->ByrSession->Cookie->read("XWJOKE") == "" && Configure::read("article.att_check"))
+                $this->error404(ECode::$SYS_NOFILE);
+            $name = $this->params['name'];
+            $id = $this->params['id'];
+            $pos = $this->params['pos'];
+            $type = $this->params['type'];
+        }else{
+            $this->error404(ECode::$SYS_NOFILE);
+        }
 
-        if($this->ByrSession->Cookie->read("XWJOKE") == "" && Configure::read("article.att_check"))
-            $this->error(ECode::$SYS_NOFILE);
-        $name = $this->params['name'];
-        $id = $this->params['id'];
-        $pos = $this->params['pos'];
-        $type = $this->params['type'];
 
         $archive = null;
         App::import("vendor", "model/mail");
@@ -61,14 +74,14 @@ class AttachmentController extends AppController {
             }else{
                 $board = Board::getInstance($name);
                 if(!$board->hasReadPerm(User::getInstance()))
-                    $this->error(ECode::$SYS_NOFILE);
+                    $this->error404(ECode::$SYS_NOFILE);
                 $archive = Article::getInstance($id, $board);
                 $file = $archive->getFileName();
                 if($board->isNormal())
                     $this->cache(true, @filemtime($file));
             }
         }catch(Exception $e){
-            $this->error(ECode::$SYS_NOFILE);
+            $this->error404(ECode::$SYS_NOFILE);
         }
 
         //check thumbnail

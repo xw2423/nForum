@@ -77,6 +77,8 @@ JS;
         }else{
             $this->controller->header('HTTP/1.0 404 Not Found');
             $this->controller->header('Content-Type:text/html;charset=' . $this->controller->encoding);
+            if(!empty($params['code']))
+                echo $params['code'] . ':';
             echo $params['msg'];
             $this->controller->_stop();
         }
