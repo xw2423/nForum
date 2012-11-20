@@ -533,6 +533,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     height:1.2em;
     display:inline-block;
     overflow:hidden;
+    width: 100%
 }
 .x-child a {
     font-weight:bold;
