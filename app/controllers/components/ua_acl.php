@@ -43,6 +43,7 @@ class UaAclComponent extends Object {
     public function check($acl, $ua = null){
         $ua = (string)(is_null($ua)?env("HTTP_USER_AGENT"):$ua);
         foreach((array)$acl as $v){
+            if(!is_string($v[0])) continue;
             if(preg_match($v[0], $ua))
                 return $v[1];
         }

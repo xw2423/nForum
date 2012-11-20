@@ -46,6 +46,7 @@ class IpAclComponent extends Object {
     public function check($ip, $list){
         $v4 = !nforum_is_ipv6($ip);
         foreach((array)$list as $v){
+            if(!is_string($v[0])) continue;
             $tv4 = (strpos($v[0], ':') === false);
             if($v4 && $tv4){
                 if(mask_equal(ip2long($ip), ip2long($v[0]), $v[1]))
