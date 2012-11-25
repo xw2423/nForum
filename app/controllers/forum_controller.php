@@ -44,7 +44,10 @@ class ForumController extends AppController {
             if($persistent){
                 try{
                     $ww = Widget::getInstance($v['name']);
-                    if(strpos($v['name'], "favor-") === 0){
+                    if(!$ww->wHasPerm(User::getInstance())){
+                        $ww = new EWidget('你无权访问此应用');
+                        $html = Widget::html($ww->wGetList());
+                    }else if(strpos($v['name'], "favor-") === 0){
                         $html = Widget::html($ww->wGetList());
                     }else if(!isset($time[$v['name']]) || $time[$v['name']] < $ww->wGetTime() || false === ($html = nforum_cache_read("widget_" . $v['name']))){
                         $time[$v['name']] = $ww->wGetTime();

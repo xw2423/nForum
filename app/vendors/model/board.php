@@ -34,10 +34,10 @@ App::import("vendor", array("model/overload", "model/threads", "model/iwidget", 
  * @author xw
  */
 class Board extends OverloadObject implements Pageable, iWidget{
-    
+
     /**
      * dir mode of board
-     * @var string 
+     * @var string
      */
     public static $NORMAL = 0;
     public static $DIGEST = 1;
@@ -86,14 +86,14 @@ class Board extends OverloadObject implements Pageable, iWidget{
     /**
      * function search match with board name
      *
-     * @param $name 
+     * @param $name
      * @return array
      * @static
      * @access public
      */
     public static function search($name){
         $boards = array();
-        if (!bbs_searchboard(trim($name),0,$boards)) 
+        if (!bbs_searchboard(trim($name),0,$boards))
             return array();
         $ret = array();
         foreach($boards as $v){
@@ -174,9 +174,9 @@ class Board extends OverloadObject implements Pageable, iWidget{
             foreach($articles as $v){
                 $ret[] = array("text"=>Sanitize::html($v->TITLE), "url"=>"/article/{$this->NAME}/{$v->GROUPID}");
             }
-            return array("s"=>"w-list-line", "v"=>$ret);    
+            return array("s"=>"w-list-line", "v"=>$ret);
         }else{
-            return array("s"=>"w-list-line", "v"=>array(array("text" => ECode::msg(ECode::$BOARD_NOTHREADS), "url" => "")));    
+            return array("s"=>"w-list-line", "v"=>array(array("text" => ECode::msg(ECode::$BOARD_NOTHREADS), "url" => "")));
         }
     }
 
@@ -185,6 +185,10 @@ class Board extends OverloadObject implements Pageable, iWidget{
         if(!file_exists($file))
             return time();
         return filemtime($file);
+    }
+
+    public function wHasPerm($u){
+        return $this->hasReadPerm($u);
     }
 
     /**
@@ -313,7 +317,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
     }
 
     /**
-     * function setMode change current board mode 
+     * function setMode change current board mode
      *
      * @param int $mode
      * @return void
@@ -334,11 +338,11 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * @access public
      */
     public function getMode(){
-        return $this->_mode;    
+        return $this->_mode;
     }
 
     /**
-     * function hasReadPerm whether board can read 
+     * function hasReadPerm whether board can read
      * it also check the current mode can be read
      *
      * @param User $user
@@ -410,20 +414,20 @@ class Board extends OverloadObject implements Pageable, iWidget{
     /**
      * function getVotes get vote list of board
      * array(
-     *     'USERID' => string 
-     *     'TITLE' => string 
-     *     'DATE' => int 
+     *     'USERID' => string
+     *     'TITLE' => string
+     *     'DATE' => int
      *     'TYPE' => string '是非' (length=4)
-     *     'MAXDAY' => int 
+     *     'MAXDAY' => int
      * )
      *
      * @return array
      * array(
-     *     'owner' => string 
-     *     'title' => string 
-     *     'start' => int 
+     *     'owner' => string
+     *     'title' => string
+     *     'start' => int
      *     'type' => string '是非' (length=4)
-     *     'day' => int 
+     *     'day' => int
      * )
      * @access public
      */
@@ -434,25 +438,25 @@ class Board extends OverloadObject implements Pageable, iWidget{
             return array();
         return $arr;
     }
-    
+
     /**
      * function getVote get vote of board via num
      * array(
-     *     'USERID' => string 
-     *     'TITLE' => string 
-     *     'DATE' => int 
+     *     'USERID' => string
+     *     'TITLE' => string
+     *     'DATE' => int
      *     'TYPE' => string '是非' (length=4)
-     *     'MAXDAY' => int 
+     *     'MAXDAY' => int
      *     'MAXTKT' => int 1
-     *     'DESC' => int 
-     *     'TOTALITEMS' => int 
-     *     'ITEM1' => string 
-     *     'ITEM2' => string 
-     *     'ITEM3' => string 
-     *     'ITEM4' => string 
-     *     'ITEM5' => string 
-     *     'ITEM6' => string 
-     *     'ITEM7' => string 
+     *     'DESC' => int
+     *     'TOTALITEMS' => int
+     *     'ITEM1' => string
+     *     'ITEM2' => string
+     *     'ITEM3' => string
+     *     'ITEM4' => string
+     *     'ITEM5' => string
+     *     'ITEM6' => string
+     *     'ITEM7' => string
      *     'VOTED1' => int 1
      *     'VOTED2' => int 1
      *     'MSG1' => string
@@ -519,7 +523,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
         $ret = bbs_vote_num($this->NAME, $num, intval($val1), intval($val2), $msg);
         return ($ret > 0);
     }
-    
+
     /**
      * function setOnBoard set current user on this board
      *
@@ -529,7 +533,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public function setOnBoard(){
         bbs_set_onboard($this->BID, 1);
     }
-    
+
     public function isReadOnly(){
         return $this->_checkFlag(BBS_BOARD_READONLY);
     }
@@ -585,7 +589,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
         }catch(BoardNullException $e){
             return null;
         }
-        
+
     }
 
     public function getTitleKey($sys = true){

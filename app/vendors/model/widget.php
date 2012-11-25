@@ -9,7 +9,7 @@ App::import("vendor", array("model/board", "model/section", "model/favor", "inc/
  * class Widget
  * widget is divided to core widget and ext widget.
  * core widget is from board, section, favor.
- * ext widget is in the same name php file in directory vendor/widget  
+ * ext widget is in the same name php file in directory vendor/widget
  * the name of wigdget is like "[core-]name", if it is core widget it should be add core prefix like "board-Flash".
  * the name is the variable that can be used to create the object.
  * the ext widget only has a name that mapped to the class nameWidget, name will be lower.
@@ -37,20 +37,20 @@ class Widget {
      * @access public
      * @throws WidgetNullException
      */
-    public static function getInstance($name){
+    public static function getInstance($name, $cache = true){
         $wid = $name;
         if(isset(self::$_instance[$wid]))
             return self::$_instance[$wid];
         $core = Configure::read("widget.core");
         $ext = Configure::read("widget.ext");
-        $names = split('-', $name, 2); 
+        $names = split('-', $name, 2);
         $name = strtolower($names[0]);
         if(!in_array($name, $core)){
             $in = false;
             foreach($ext as $v){
                 if(in_array($name, $v[1])){
                     $in = true;
-                    if(!App::import('vendor', 'widget/' . $name) 
+                    if(!App::import('vendor', 'widget/' . $name)
                         && isset($v[2])){
                         foreach($v[2] as $file)
                             App::import('vendor', 'widget/' . $file);
@@ -63,15 +63,17 @@ class Widget {
             $className = $name . "Widget";
             if(!class_exists($className))
                 throw new WidgetNullException("no such widget");
-            return (self::$_instance[$wid] = new $className());
+            $obj = new $className();
         }else{
             try{
                 $name = ucfirst($name);
-                return (self::$_instance[$wid] = call_user_func(array($name, "getInstance"), $names[1]));
+                $obj = call_user_func(array($name, "getInstance"), $names[1]);
             }catch(Exception $e){
                 throw new WidgetNullException("no such widget");
             }
         }
+        if($cache) self::$_instance[$wid] = $obj;
+        return $obj;
     }
 
     /**
@@ -85,7 +87,7 @@ class Widget {
     public static function wInit($user){
         try{
             $uid = $user->userid;
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $default = Configure::read("widget.default");
             foreach($default as $k=>$v){
                 $w = self::getInstance($k);
@@ -148,7 +150,7 @@ class Widget {
         }else{
             //two columns
             $two = ($user->getCustom("userdefine1", 31) == 0)?" and (col=1 or col=2)":"";
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $sql = "select * from " . self::$table . " where uid=? {$two} order by col,row";
             $res = $db->all($sql, array($uid));
             if(empty($res))
@@ -157,7 +159,7 @@ class Widget {
                 try{
                     $title = self::getInstance($v['wid'])->wGetTitle();
                 }catch(WidgetNullException $e){
-                    $title = array('text' => 'NO TITLE' ,'url' => '');
+                    $title = array('text' => 'WIDGET MISS' ,'url' => '');
                 }
                 $ret[] = array("color" => $colors[$v['color']][0]
                     ,"title"=> empty($v['title'])?$title['title']:Sanitize::html($v['title'])
@@ -196,7 +198,7 @@ class Widget {
             throw new WidgetOpException("add out of bound");
 
         try{
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $update = array("\\row"=>"row+1");
             $where = "where col=? and row>=? and uid=?";
             $db->update(self::$table, $update, $where, array($col, $row, $uid));
@@ -220,7 +222,7 @@ class Widget {
         $uid = $user->userid;
 
         try{
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $sql = "select count(*) as num from " . self::$table . " where uid=?";
             $ret = $db->one($sql, array($uid));
             if($ret['num'] == 1)
@@ -262,7 +264,7 @@ class Widget {
         $ret = false;
         $uid = $user->userid;
         try{
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $sql = "select col,row from " . self::$table . " where uid=? and wid=?";
             $ret = $db->one($sql, array($uid, $wid));
         }catch(DBException $e){
@@ -284,7 +286,7 @@ class Widget {
         if($orow < 1 || $orow > $maxoRow)
             throw new WidgetOpException("move out of bound");
         $maxnRow = self::_getRow($uid, $ncol);
-        if($ocol == $ncol && ($nrow < 1 || $nrow > $maxnRow) 
+        if($ocol == $ncol && ($nrow < 1 || $nrow > $maxnRow)
             || $ocol != $ncol && ($nrow < 1 || $nrow > $maxnRow + 1))
             throw new WidgetOpException("move out of bound");
 
@@ -329,7 +331,7 @@ class Widget {
         try{
             if(!self::_validWidget($uid, $wid))
                 throw new WidgetOpException("set no widget");
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $val = array("title"=>$title, "color"=>$color);
             $where = "where wid=? and uid=?";
             $db->update(self::$table, $val, $where, array($wid, $uid));
@@ -349,7 +351,7 @@ class Widget {
                 ($r1 <= $r2)?$r1++:$r2++;
                 $i--;
             }
-            $db = DB::getInstance();    
+            $db = DB::getInstance();
             $val = array("\\row"=>"row+".$row1, "col"=>"1");
             $where = "where uid=? and col=3 and row>=1 and row<=?";
             $db->update(self::$table, $val, $where, array($uid, $r1));
@@ -368,7 +370,7 @@ class Widget {
         switch($style){
             case "tab":
                 if(!isset($val["s"])){
-                    $ret .= '<div class="w-tab"><div class="w-tab-title"><ul>';    
+                    $ret .= '<div class="w-tab"><div class="w-tab-title"><ul>';
                     $li = $t_con = "";
                     foreach($val as $k=>$v){
                         $li .= ('<li _index="'. $k .'" class="tab-normal'. (($k == 0)?' tab-down"':'') . '">' . $v['t'] . '</li>');

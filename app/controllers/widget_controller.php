@@ -14,9 +14,11 @@ class WidgetController extends AppController {
         if(!$this->ByrSession->isLogin && !in_array($name, array_keys(Configure::read("widget.default"))))
             $this->error();
         try{
-            $widget = Widget::getInstance($name);    
+            $widget = Widget::getInstance($name);
+            if(!$widget->wHasPerm(User::getInstance()))
+                $widget = new EWidget('你无权访问此应用');
         }catch(WidgetNullException $e){
-            $widget = new EWidget($name);
+            $widget = new EWidget();
         }
         $this->cache(true, $widget->wGetTime(), 10);
         $arr = array(
@@ -44,7 +46,7 @@ class WidgetController extends AppController {
             $this->_stop();
         $t = $this->params['url']['t'];
         $wid = $this->params['url']['w'];
-    
+
         $u = User::getInstance();
         switch($t){
             case Widget::$ADD:
@@ -166,7 +168,7 @@ class WidgetController extends AppController {
                 $this->set("selected", "$type-$first");
                 $this->set("search", true);
                 break;
-            default: 
+            default:
                 $type = "section";
                 $filter = array("$type-0"=>"分区", "$type-1"=>"目录");
                 $this->set("filter", $filter);
@@ -207,11 +209,11 @@ class WidgetController extends AppController {
             switch($type){
                 case 'section':
                     //$tt is for 0:root or 1:dir
-                    $tt = $this->params['url']['tt'];    
+                    $tt = $this->params['url']['tt'];
                     if($tt != 0 && $tt != 1){
                         $this->error();
                     }
-                    
+
                     $secs = Configure::read('section');
                     foreach($secs as $k=>$v){
                         $w = Widget::getInstance("section-" . $k);
@@ -236,7 +238,7 @@ class WidgetController extends AppController {
                 case 'favor':
                     //tt is for favor level
                     //favor is only one level!!! the structure error!!!
-                    $tt = intval($this->params['url']['tt']);    
+                    $tt = intval($this->params['url']['tt']);
                     $favor = Favor::getInstance($tt);
                     if(!in_array($favor->wGetName(), $my)){
                         $title = $favor->wGetTitle();
@@ -254,7 +256,7 @@ class WidgetController extends AppController {
                         $this->error();
                     }
                     //$tt is for section num
-                    $tt = intval($this->params['url']['tt']);    
+                    $tt = intval($this->params['url']['tt']);
                     $secs = Configure::read('section');
                     if(!in_array($tt, array_keys($secs))){
                         $this->error();
@@ -274,7 +276,7 @@ class WidgetController extends AppController {
                         $this->error();
                     }
                     //$tt is for category
-                    $tt = $this->params['url']['tt'];    
+                    $tt = $this->params['url']['tt'];
                     $ext = Configure::read('widget.ext');
                     if(!in_array($tt, array_keys($ext))){
                         $this->error();
@@ -297,7 +299,7 @@ class WidgetController extends AppController {
                         $this->error();
                     }
                     //$tt is for widget name
-                    $tt = urldecode(urldecode($this->params['url']['tt']));    
+                    $tt = urldecode(urldecode($this->params['url']['tt']));
                     $tt = nforum_iconv('utf-8', $this->encoding, $tt);
                     $ext = Configure::read('widget.ext');
                     foreach($ext as $v){
