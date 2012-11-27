@@ -688,6 +688,7 @@ $.fn.extend({
     var MainRouter = Backbone.Router.extend({
 
         body:null,
+        _prev:null,
 
         initialize:function(body) {
             this.body = body;
@@ -697,6 +698,16 @@ $.fn.extend({
             ,"*other":"err_handler"
         },
         handler:function(path) {
+            if(null !== this._prev){
+                var self = this;
+                DIALOG.confirmDialog(SYS.code.MSG_UNLOAD, function(){
+                    self.navigate('!' + path);
+                    self.preventJump(false);
+                    self.body.jump(path);
+                });
+                this.navigate('!' + this._prev);
+                return;
+            }
             if(path.match(/^[\w\d]/))
                 this.body.jump(path);
             else
@@ -704,6 +715,17 @@ $.fn.extend({
         },
         err_handler:function(other) {
             this.body.jump(SYS.home.substr(1));
+        },
+        preventJump:function(enable){
+            if(enable){
+                this._prev = this.body.get('path');
+                window.onbeforeunload = function(){
+                    return SYS.code.MSG_UNLOAD;
+                }
+            }else{
+                this._prev = window.onbeforeunload = null;
+            }
+
         }
     });
 
