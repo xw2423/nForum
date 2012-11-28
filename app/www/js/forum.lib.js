@@ -231,18 +231,25 @@ $.fn.extend({
             });
         },
         open:function(content, option){
-            option = option || {};
-            var d = this.getContainer().html(content)
-            .removeClass(this.ICO_ALERT + ' ' +this.ICO_INFO)
+            var _adust = function(d){
+                var p = d.parent();
+                if(p.height() > $(window).height() - 50)
+                    d.dialog('option',{height:$(window).height() - 50}).scrollTop(0);
+                var t = $(window).height() - p.height();
+                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+            }
+            ,d = this.getContainer().html(content),p = d.parent();
+            d.removeClass(this.ICO_ALERT + ' ' +this.ICO_INFO)
             .dialog('option',{close:function(){}})
-            .dialog('option',option)
+            .dialog('option',option || {})
             .dialog('open');
+            d.height('auto');
+            _adust(d);
 
             d.find('img').one('load', function(){
                 if($(this).width() > d.width())
                     $(this).width(d.width() - 20);
-                var p = d.parent(), t = $(window).height()-p.height();
-                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+                _adust(d);
             });
             return d;
         },
