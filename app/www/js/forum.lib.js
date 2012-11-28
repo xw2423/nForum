@@ -209,6 +209,7 @@ $.fn.extend({
                 if (!t.dialog('isOpen')) return t.off('.nforum').off('img');
             t = $('<div />').appendTo($('body')).dialog({
                 modal: true,
+                height: 0,
                 autoOpen: false
             });
             this.containers.push(t);
