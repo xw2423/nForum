@@ -15,7 +15,6 @@ $(function(){
     });
     if(f = window.BODY.get('path').match(/&f=([^&]*)/)){
         f = encodeURIComponent(f[1]);
-        console.log('#body a[href$="' + f + '"]');
         $('#body a[href$="' + f + '"]').click();
         window.ROUTER.navigate(window.BODY.get('path').replace(/&f=([^&]*)/, ''));
     }
