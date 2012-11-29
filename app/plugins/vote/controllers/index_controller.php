@@ -151,6 +151,14 @@ class IndexController extends VoteAppController {
             $this->error(ECode::$SYS_REQUESTERROR);
 
         $this->requestLogin();
+        $db = DB::getInstance();
+        $u = User::getInstance();
+        if(!$u->isAdmin()){
+            $sql = "select count(*) as num from pl_vote where status=1 and start>=? and uid=?";
+            $res = $db->one($sql, array(strtotime(date("Y-m-d",time())), $u->userid));
+            if($res !== false && $res['num'] >=2)
+                $this->error("每天你最多开启两次投票");
+        }
         $subject = @trim($this->params['form']['subject']);
         $desc = @trim($this->params['form']['desc']);
         $end = @trim($this->params['form']['end']);
@@ -176,7 +184,6 @@ class IndexController extends VoteAppController {
             $this->error("选项数量错误，发起投票失败");
         if($limit > $realNum)
             $limit = $realNum;
-        $u = User::getInstance();
         $subject = nforum_iconv('UTF-8', $this->encoding, $subject);
         $desc = nforum_iconv('UTF-8', $this->encoding, $desc);
         $vid = Vote::add($u->userid, $subject, $desc, strtotime($end), $type, $limit, $items, $result_voted);
@@ -185,7 +192,6 @@ class IndexController extends VoteAppController {
         $a_content = "主题:$subject\n描述:$desc\n发起人:{$u->userid}\n类型:".(($type==0)?'单选':'多选')."\n截止日期:$end\n链接:[url={$site['domain']}{$site['prefix']}/vote/view/$vid]{$site['domain']}{$site['prefix']}/vote/view/{$vid}[/url]\n[vote=$vid][/vote]";
         App::import("vendor", "model/article");
         $aid = Article::autoPost($this->_board, $a_title, $a_content);
-        $db = DB::getInstance();
         $db->update("pl_vote", array("aid"=>$aid), "where vid=?", array($vid));
 
         if(isset($this->params['form']['b'])){
