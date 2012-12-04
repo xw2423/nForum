@@ -182,6 +182,25 @@ $.fn.extend({
             this.removeAttr('disabled');
         }
         return this;
+    },
+    showInWindow:function(top, bottom, lockTop){
+        if(this.length == 0) return this;
+        if(typeof top !== 'number') top = 50;
+        if(typeof bottom !== 'number') bottom = 50;
+        if(typeof lockTop !== 'boolean') lockTop = true;
+        var w = $(window);
+        if(this.height() + top + bottom > w.height()){
+            if(lockTop)
+                w.scrollTop(this.offset().top - top);
+            else
+                w.scrollTop(bottom + this.height() + this.offset().top - w.height());
+        }else{
+            if(this.offset().top - top < w.scrollTop())
+                w.scrollTop(this.offset().top - top);
+            else if(bottom + this.height() + this.offset().top> w.height() + w.scrollTop())
+                w.scrollTop(bottom + this.height() + this.offset().top - w.height());
+        }
+        return this;
     }
 });
 /* jquery extention */
@@ -820,4 +839,6 @@ function front_startup(){
     $(function(){
         Backbone.history.start({pushState: false});
     });
+
+    window.KB.init();
 }

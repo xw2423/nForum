@@ -1,7 +1,7 @@
 $(function(){
     var ubb = false, isPost = false, sub = null
         ,tmpl_preview = _.template($('#tmpl_preview').html() || '');
-    $('#body').on('click', '#post_content', function(){
+    $('#body').on('focus', '#post_content', function(){
         if(ubb) return true;
         $(this).ubb({
             ubb_img_path:SYS.base + "/img/ubb/",

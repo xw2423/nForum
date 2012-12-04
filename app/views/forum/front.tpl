@@ -74,20 +74,20 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
 <script id="tmpl_u_login_info" type="text/template">
         <div class="u-login-id"><samp class="ico-pos-cdot"></samp>欢迎<a href="<{$base}>/user/query/<%=id%>" title="<%=id%>"><%=id.length<11?id:(id.substr(0,10)+'...')%></a></div>
         <ul class="u-login-list">
-            <li><a href="<{$base}>/mail">我的收件箱
+            <li><a href="<{$base}>/mail" id="m_inbox">我的收件箱
 <%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a>
             </li>
 <%if(typeof new_at !== 'undefined' && false !== new_at){%>
-            <li><a href="<{$base}>/refer/at">@我的文章</a>
+            <li><a href="<{$base}>/refer/at" id="m_at">@我的文章</a>
 <%if(new_at>0){%><span class="new_mail">(<%=new_at%>)</span><%}%></a>
             </li>
 <%}%>
 <%if(typeof new_reply !== 'undefined' && false !== new_reply){%>
-            <li><a href="<{$base}>/refer/reply">回复我的文章</a>
+            <li><a href="<{$base}>/refer/reply" id="m_reply">回复我的文章</a>
 <%if(new_reply>0){%><span class="new_mail">(<%=new_reply%>)</span><%}%></a>
             </li>
 <%}%>
-            <li><a href="<{$base}>/fav">我的收藏夹</a></li>
+            <li><a href="<{$base}>/fav" id="u_fav">我的收藏夹</a></li>
             <li><a href="<{$base}>/widget/add">个性首页设置</a></li>
             <li><a href="javascript:void(0)" id="u_login_out">退出登录</a></li>
         </ul>
@@ -131,7 +131,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
                     <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏版面</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <%}%>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/user/query" ><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/query" id="u_query"><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/s" ><samp class="ico-pos-dot"></samp>搜索文章</a></span></li>
                 </ul>
             </li>

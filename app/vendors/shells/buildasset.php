@@ -31,6 +31,7 @@ class BuildassetShell extends Shell {
                 ,'forum.lib.js'
                 ,'forum.xwidget.js'
                 ,'forum.xubb.js'
+                ,'forum.keyboard.js'
         );
 
         foreach($js as $v){
@@ -47,6 +48,7 @@ class BuildassetShell extends Shell {
             ,'jplayer.blue.monday.css'
             ,'ansi.css'
             ,'ubb.css'
+            ,'keyboard.css'
         );
         foreach($css as $v){
             $css_out .= $p->pack(APP . 'www/css/' . $v, 'css', false);

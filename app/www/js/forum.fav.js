@@ -114,10 +114,11 @@ $(function(){
             html = this.model.reduce(function(html,fav){
                 html += self.tmpl_fav(fav.toJSON());
                 return html;
-            },''); 
+            },'');
 
             this.$('#fav_list').empty().append(html)
             .find('tr:odd td').addClass('bg-odd');
+            window.KB.page.action('init', BODY.get('path'));
         }
     });
     var favs = new FavCollection();
