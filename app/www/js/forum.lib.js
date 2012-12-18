@@ -330,11 +330,12 @@ $.fn.extend({
                 text += ',' + SYS.code.COM_REDIRECT;
                 opt['buttons'] = buttons;
             }
-            if(repo['default']){
+            if(repo['default'] || repo['refresh']){
                 opt['close'] = function(){
                     if(!_prevent_default){
                         _prevent_default = true;
-                        BODY.open(repo['default']);
+                        if(repo['refresh']) BODY.refresh();
+                        else BODY.open(repo['default']);
                     }
                 };
                 setTimeout(function(){

@@ -616,6 +616,7 @@ class ArticleController extends AppController {
         }
 
         $id = $this->params['id'];
+        $ret['refresh'] = true;
         if(isset($this->params['form']['op'])){
             $op = explode('|', $this->params['form']['op']);
             try{
@@ -663,9 +664,10 @@ class ArticleController extends AppController {
             try{
                 $t = Threads::getInstance($gid, $this->_board);
                 $s = ($gid == $id)?null:$id;
-                if(in_array('d', $top))
+                if(in_array('d', $top)){
                     $t->manage(1, $s);
-                else{
+                    $ret['refresh'] = false;
+                }else{
                     foreach($top as $v){
                         switch($v){
                             case 'm':
@@ -688,6 +690,7 @@ class ArticleController extends AppController {
                                 break;
                             case 'dx':
                                 $t->manage(4, $s);
+                                $ret['refresh'] = false;
                                 break;
                         }
                     }
@@ -698,11 +701,8 @@ class ArticleController extends AppController {
                 $this->error($e->getMessage);
             }
         }
-
         $ret['ajax_code'] = ECode::$SYS_AJAXOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $ret['list'][] = array("text" => '°æÃæ:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
-        $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
         $this->set('no_html_data', $ret);
     }
 
