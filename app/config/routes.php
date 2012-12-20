@@ -108,8 +108,8 @@
     Router::connect($base . '/user/login', array('controller' => 'user', 'action' => 'login', 'plugin'=>'api'));
     Router::connect($base . '/user/logout', array('controller' => 'user', 'action' => 'logout', 'plugin'=>'api'));
     Router::connect($base . '/user/:action/:id', array('controller' => 'user', 'plugin'=>'api'), array("id"=>"\w+"));
-    Router::connect($base . '/board/:action/:name', array('controller' => 'board', 'plugin'=>'api'), array("name"=>"\w+"));
-    Router::connect($base . '/section/:action/:name', array('controller' => 'section', 'plugin'=>'api'), array("name"=>"\w+"));
+    Router::connect($base . '/board/:action/:name', array('controller' => 'board', 'plugin'=>'api'), array("name"=>"[-\w]+"));
+    Router::connect($base . '/section/:action/:name', array('controller' => 'section', 'plugin'=>'api'), array("name"=>"[-\w]+"));
     Router::connect($base . '/attachment/:name/:id/:pos/:type', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download'), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+'));
     Router::connect($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'plugin'=>'api'), array("id"=>"\d+"));
     Router::connect($base . '/attachment/:name/:action', array('controller' => 'attachment', 'plugin'=>'api'));
