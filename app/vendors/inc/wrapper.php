@@ -17,7 +17,7 @@ class Wrapper {
             ,'content' => false
         );
         $options = $this->_init_options($options, $default);
-        
+
         $u = User::getInstance();
         $ret = array();
         $ret['id'] = $article->ID;
@@ -196,7 +196,7 @@ class Wrapper {
     public function mail($mail, $options = array()){
         $default = array('content' => false);
         $options = $this->_init_options($options, $default);
-        
+
         $u = User::getInstance();
         $ret = array();
         $ret['index'] = $mail->num;
@@ -246,6 +246,15 @@ class Wrapper {
         $ret['title'] = $refer['TITLE'];
         $ret['time'] = $refer['TIME'];
         $ret['is_read'] = $refer['FLAG'] === Refer::$FLAG_READ;
+        return $ret;
+    }
+
+    public function widget($widget){
+        $ret = array();
+        $ret['name'] = $widget->wGetName();
+        $title = $widget->wGetTitle();
+        $ret['title'] = $title['text'];
+        $ret['time'] = $widget->wGetTime();
         return $ret;
     }
 
