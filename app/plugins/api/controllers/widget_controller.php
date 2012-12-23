@@ -15,12 +15,10 @@ class WidgetController extends ApiAppController {
         $wrapper = Wrapper::getInstance();
         $data = $wrapper->widget($widget);
         $list = $widget->wGetList();
-        if(!is_array($list['v'])){
-            $this->error('no such widget');
-        }
-        switch($name){
+        switch(array_shift(split('-', $name))){
             case 'topten':
             case 'recommend':
+                if(!is_array($list['v'])) break;
                 App::import('vendor', array('model/board', 'model/threads'));
                 $article = array();
                 foreach($list['v'] as $v){
@@ -47,6 +45,27 @@ class WidgetController extends ApiAppController {
                                 $t['title'] .= "($c)";
                             }
                             $article[] = $t;
+                        }catch(Exception $e){
+                            continue;
+                        }
+                    }
+                }
+                $data['article'] = $article;
+                break;
+            case 'section':
+                if(!is_array($list[0]['v']['v'])) break;
+                App::import('vendor', array('model/board', 'model/threads'));
+                $article = array();
+                foreach($list[0]['v']['v'] as $v){
+                    if(isset($v['text'])){
+                        $ret = array();
+                        preg_match("|/article/(.+?)/(\d+)|", $v['text'], $ret);
+                        if(empty($ret[1]) || empty($ret[2]))
+                            continue;
+                        $board = $ret[1];
+                        $id = $ret[2];
+                        try{
+                            $article[] = $wrapper->article(Threads::getInstance($id, Board::getInstance($board)), array('threads' => true));
                         }catch(Exception $e){
                             continue;
                         }
