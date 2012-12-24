@@ -3,9 +3,9 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
     error404();
 }
 $filter = array();
-if (!preg_match("/plugins\/([^\/]+)\/c(css)\/([^\/]+\.css)$/i", $url, $match) 
+if (!preg_match("/plugins\/([^\/]+)\/c(css)\/([^\/]+\.css)$/i", $url, $match)
     && !preg_match("/plugins\/([^\/]+)\/c(js)\/([^\/]+\.js)$/i", $url, $match)
-    && !preg_match("/c(css)\/([^\/]+\.css)$/i", $url, $match) 
+    && !preg_match("/c(css)\/([^\/]+\.css)$/i", $url, $match)
     && !preg_match("/c(js)\/([^\/]+\.js)$/i", $url, $match)){
     error404();
 }
@@ -21,7 +21,7 @@ if(!file_exists($file)){
     error404();
 }
 $fileModified = filemtime($file);
-make_cache(true, $fileModified, 86400);
+make_cache(true, $fileModified, 259200);
 $encoding = Configure::read("App.encoding");
 if($type === "css"){
     header("Content-Type: text/css;charset=$encoding");
@@ -32,8 +32,8 @@ foreach($filter as $v){
     if(strpos($file, $v) !== false){
         echo file_get_contents($file);
         exit();
-    }   
-}   
+    }
+}
 APP::import('vendor', 'inc/packer');
 $p = new Packer();
 echo $p->pack($file, $type);
@@ -69,5 +69,5 @@ function make_cache($switch = false, $modified = 0, $expires = null){
 function error404(){
     header('HTTP/1.1 404 Not Found');
     exit();
-} 
+}
 ?>
