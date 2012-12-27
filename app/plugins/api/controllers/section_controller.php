@@ -51,7 +51,9 @@ class SectionController extends ApiAppController {
             }
             $data[] = $wrapper->section($sec, array('status' => true));
         }
+        $data = array('section_count' => count($data), 'section' => $data);
         $this->set('data', $data);
+        $this->set('root', 'sections');
     }
 }
 ?>
