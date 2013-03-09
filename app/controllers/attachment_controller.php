@@ -52,12 +52,15 @@ class AttachmentController extends AppController {
             $name = $info['bid'];
             $id = $info['id'];
             $pos = $info['ap'];
+            $mode = $info['ftype'];
+            $num = $info['num'];
         }else if(isset($this->params['name']) && isset($this->params['id']) && isset($this->params['pos'])){
             if($this->ByrSession->Cookie->read("XWJOKE") == "" && Configure::read("article.att_check"))
                 $this->error404(ECode::$SYS_NOFILE);
             $name = $this->params['name'];
-            $id = $this->params['id'];
-            $pos = $this->params['pos'];
+            $mode = ('' == $this->params['mode'])?Board::$THREAD:intval($this->params['mode']);
+            $num = $id = intval($this->params['id']);
+            $pos = intval($this->params['pos']);
             $type = $this->params['type'];
         }else{
             $this->error404(ECode::$SYS_NOFILE);
@@ -73,6 +76,8 @@ class AttachmentController extends AppController {
                 $archive = Mail::getInstance($id, $box);
             }else{
                 $board = Board::getInstance($name);
+                $board->setMode($mode);
+                if(!$board->isSortMode()) $id = $num;
                 if(!$board->hasReadPerm(User::getInstance()))
                     $this->error404(ECode::$SYS_NOFILE);
                 $archive = Article::getInstance($id, $board);

@@ -15,7 +15,7 @@ App::import("vendor", array("model/archive", "model/code"));
 class Article extends Archive{
 
     /**
-     * the reference of the board which article in 
+     * the reference of the board which article in
      * @var Board $_board
      */
     protected $_board;
@@ -58,7 +58,7 @@ class Article extends Archive{
                 throw new ArticleNullException();
             $info = $info[0];
         }
-        return new Article($info, $board);
+        return new Article($info, $board, $id);
     }
 
     /**
@@ -306,10 +306,10 @@ class Article extends Archive{
     public function getFileName(){
         return "boards" . DS . $this->_board->NAME . DS . $this->FILENAME;
     }
-    
+
     public function getAttLink($pos){
-        $base = Configure::read('site.prefix');
-        return "$base/att/{$this->_board->NAME}/{$this->ID}/$pos";
+        $mode = $this->_board->getMode();
+        return "/{$this->_board->NAME}" . ($mode == Board::$THREAD?'':('/' . $mode)) . '/' . ($this->_board->isSortMode()?$this->ID:$this->_pos) . '/' . $pos;
     }
 
     /**

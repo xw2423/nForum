@@ -150,11 +150,7 @@ class Wrapper {
         $abase = Configure::read('plugins.api.base');
         if(!is_array($archive)){
             $list = $archive->getAttList(false);
-            if(is_a($archive, 'Article')){
-                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBoard()->NAME . '/' . $archive->ID . '/';
-            }else if(is_a($archive, 'Mail')){
-                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBox()->type . '/' . $archive->ID . '/';
-            }
+            $url_prefix = $domain  . $base . $abase . '/attachment';
         }else{
             $list = $archive;
             $url_prefix = '';
@@ -166,7 +162,7 @@ class Wrapper {
             $size += intval($v['size']);
             $v['size'] = nforum_size_format($v['size']);
             $tmp = array('name' => $v['name']
-                ,'url' => ('' === $url_prefix)?'':($url_prefix . $v['pos'])
+                ,'url' => ('' === $url_prefix)?'':($url_prefix . $archive->getAttLink($v['pos']))
                 ,'size' => $v['size']
                 ,'thumbnail_small' => ''
                 ,'thumbnail_middle' => ''

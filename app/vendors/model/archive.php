@@ -168,6 +168,7 @@ abstract class Archive extends OverloadObject{
      * @access public
      */
     public function getAttHtml($thumbnail = ''){
+        $base = Configure::read('site.prefix');
         $list = $this->getAttList(false);
         $ret = array();
         foreach($list as $v){
@@ -177,17 +178,17 @@ abstract class Archive extends OverloadObject{
                 case 'jpeg':
                 case 'png':
                 case 'gif':
-                    $ret[] = $this->_getImg($this->getAttLink($v['pos']), $v['size'], $thumbnail);
+                    $ret[] = $this->_getImg($base . '/att' . $this->getAttLink($v['pos']), $v['size'], $thumbnail);
                     break;
                 case 'swf':
-                    $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getSwf($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 case 'mp3':
                 case 'wma':
-                    $ret[] = $this->_getMp3($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getMp3($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 default:
-                    $ret[] = $this->_getCommon($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getCommon($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
             }
         }
         return $ret;

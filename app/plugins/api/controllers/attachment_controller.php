@@ -10,12 +10,13 @@ class AttachmentController extends ApiAppController {
     }
 
     public function download(){
-        if(!isset($this->params['name']) 
+        if(!isset($this->params['name'])
         || !isset($this->params['id'])
         || !isset($this->params['pos']))
             $this->error(ECode::$SYS_NOFILE);
 
         $name = $this->params['name'];
+        $mode = ('' == $this->params['mode'])?Board::$THREAD:intval($this->params['mode']);
         $id = $this->params['id'];
         $pos = $this->params['pos'];
         $type = $this->params['type'];
@@ -26,9 +27,10 @@ class AttachmentController extends ApiAppController {
             if(in_array($name, get_class_vars("MailBox"))){
                 $this->requestLogin();
                 $box = new MailBox(User::getInstance(), $name);
-                $archive = Mail::getInstance($id, $box);    
+                $archive = Mail::getInstance($id, $box);
             }else{
                 $board = Board::getInstance($name);
+                $board->setMode($mode);
                 if(!$board->hasReadPerm(User::getInstance()))
                     $this->error(ECode::$SYS_NOFILE);
                 $archive = Article::getInstance($id, $board);
@@ -63,7 +65,7 @@ class AttachmentController extends ApiAppController {
         }else{
             $article = Forum::listAttach();
         }
-        
+
         $wrapper = Wrapper::getInstance();
         $this->set('data', $wrapper->attachment($article));
     }
@@ -94,7 +96,7 @@ class AttachmentController extends ApiAppController {
             $size += intval($v['size']);
         }
         $upload = Configure::read("article");
-        if($num >= intval($upload['att_num'])){ 
+        if($num >= intval($upload['att_num'])){
             $this->error(ECode::$ATT_NLIMIT);
         }
 
@@ -147,7 +149,7 @@ class AttachmentController extends ApiAppController {
         }
         $this->error($msg);
     }
-    
+
     public function delete(){
         if(!$this->RequestHandler->isPost())
             $this->error(ECode::$SYS_REQUESTERROR);

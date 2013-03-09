@@ -208,8 +208,15 @@ class Elite extends Archive{
         return $this->_path;
     }
     public function getAttLink($pos){
+        return "/download?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
+    }
+    public function getAttHtml($thumbnail = ''){
         $base = Configure::read('site.prefix');
-        return "$base/elite/download?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
+        $ret = parent::getAttHtml($thumbnail);
+        foreach($ret as &$v){
+            $v = str_replace($base . '/att', $base . '/elite', $v);
+        }
+        return $ret;
     }
     public function addAttach($file, $fileName){}
     public function delAttach($num){}
