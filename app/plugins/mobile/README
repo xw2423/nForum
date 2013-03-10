@@ -8,7 +8,7 @@ The default value is '/m'
 2. If you want to use another domain on mobile plugin,like HTTP://NEWDOMAIN/
 
 setup 1:
-    set $config['plugins']['mobile']['use_domain'] to true in app/config/nforum.php
+    set $config['plugins']['mobile']['use_domain'] to true and add NEWDOMAIN to $config['site']['domain'] in app/config/nforum.php
 
 setup 2:
     set the directory of nForum as your NEWDOMAIN's DocumentRoot in httpd.conf
