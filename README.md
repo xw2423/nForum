@@ -18,16 +18,16 @@
 
 ### 相关文档
 
-* [安装文档](nForum/wiki/nForum-Install)
+* [安装文档](https://github.com/xw2423/nForum/wiki/nForum-Install)
 
-* [前端架构文档](nForum/wiki/nForum-Front)
+* [前端架构文档](https://github.com/xw2423/nForum/wiki/nForum-Front)
 
-* [缓存策略文档](nForum/wiki/nForum-Cache)
+* [缓存策略文档](https://github.com/xw2423/nForum/wiki/nForum-Cache)
 
-* [Widget文档](nForum/wiki/nForum-Widget)
+* [Widget文档](https://github.com/xw2423/nForum/wiki/nForum-Widget)
 
-* [nForum-API文档](nForum/wiki/nForum-API)
+* [nForum-API文档](https://github.com/xw2423/nForum/wiki/nForum-API)
 
 ### Changelog
 
-* [nForum1.1 Changelog](nForum/wiki/nForum-1.1-Changelog)
+* [nForum1.1 Changelog](https://github.com/xw2423/nForum/wiki/nForum-1.1-Changelog)
