@@ -121,4 +121,7 @@ $(function(){
         });
         $('#deny_list input[type="button"]').prop('disabled', false);
     }
+    if($('.a-single').length > 0){
+        $('#body').attachSingleArticle('.a-single');
+    }
 });

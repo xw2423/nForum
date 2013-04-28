@@ -46,9 +46,6 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public static $DELETED = 4;
     public static $JUNK = 5;
     public static $ORIGIN = 6;
-    public static $AUTHOR = 7;
-    public static $TITLE = 8;
-    public static $ZHIDING = 9;
 
     /**
      * number of threads in board
@@ -312,23 +309,24 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public function isValidMode($mode = null){
         if(null === $mode)
             $mode = $this->_mode;
-        $modes = array(Board::$NORMAL,Board::$DIGEST,Board::$THREAD,Board::$MARK,Board::$DELETED,Board::$JUNK);
-        return in_array($mode, $modes);
+        $o = new ReflectionClass('Board');
+        return in_array($mode, $o->getStaticProperties());
     }
 
     /**
      * function setMode change current board mode
      *
      * @param int $mode
-     * @return void
+     * @return boolean
      * @access public
      */
     public function setMode($mode){
-        $o = new ReflectionClass('Board');
         $mode = intval($mode);
-        if(in_array($mode, $o->getStaticProperties())){
+        if($this->isValidMode($mode)){
             $this->_mode = $mode;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -350,12 +348,10 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * @access public
      */
     public function hasReadPerm($user){
-        if(!$this->isValidMode())
-            return false;
         if($this->_mode === Board::$DELETED && !$user->isBM($this) && !$user->isAdmin())
             return false;
         if($this->_mode === Board::$JUNK && !$user->isAdmin())
-                return false;
+            return false;
 
         if(bbs_checkreadperm($user->uid, $this->BID) == 0)
             return false;

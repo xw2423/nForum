@@ -22,7 +22,8 @@ class BoardController extends MobileAppController {
 
         if(isset($this->params['mode'])){
             $mode = (int)trim($this->params['mode']);
-            $this->_board->setMode($mode);
+            if(!$this->_board->setMode($mode))
+                $this->error(ECode::$BOARD_NOPERM);
         }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             $this->error(ECode::$BOARD_NOPERM);

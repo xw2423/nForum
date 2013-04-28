@@ -1,16 +1,16 @@
     <div class="t-pre">
         <div class="bmode">
             <span>版面模式:</span>
-            <a class="tab-normal tab-down" href="<{$base}>/board/<{$bName}>">主题</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/6">时间</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/0">经典</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/3">精华</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/1">文摘</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>">主题</a>
+            <a class="tab-normal<{if $mode==6}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/6">时间</a>
+            <a class="tab-normal<{if $mode==0}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/0">经典</a>
+            <a class="tab-normal<{if $mode==3}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/3">精华</a>
+            <a class="tab-normal<{if $mode==1}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/1">文摘</a>
 <{if $isAdmin || $bm}>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/4">回收</a>
+            <a class="tab-normal<{if $mode==4}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/4">回收</a>
 <{/if}>
 <{if $isAdmin}>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/5">纸篓</a>
+            <a class="tab-normal<{if $mode==5}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/5">纸篓</a>
 <{/if}>
         </div>
 		<div class="t-btn">
@@ -44,9 +44,6 @@
                     <th class="title_9 middle">主题</th>
                     <th class="title_10">发帖时间</th>
                     <th class="title_12">|&ensp;作者</th>
-                    <th class="title_11 middle">回复</th>
-                    <th class="title_10">最新回复</th>
-                    <th class="title_12">|&ensp;作者</th>
             	</tr>
                 </thead>
                 <tbody>
@@ -55,15 +52,17 @@
 				<tr <{if $item.tag == "T"}>class="top"<{/if}>>
 					<td class="title_8">
                     <{if $bm || $isAdmin}>
-                    <a class="a-func-manage" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.gid}>.json" title="管理" _gid="<{$item.gid}>">
+                    <a class="a-func-manage" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json" title="管理" _gid="<{$item.gid}>">
+                    <{elseif $mode!=6}>
+                    <a href="<{$base}>/article/<{$bName}>/ajax_single/<{$item.id}>.json" class="a-single">
                     <{else}>
-					<a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题">
+					<a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.id}>" title="在新窗口打开此主题">
                     <{/if}>
                     <samp class="tag
 					<{if $item.tag == "T"}> ico-pos-article-top
                     <{elseif $item.tag == "B"}> ico-pos-article-b
-					<{elseif $item.tag == "M"}> ico-pos-article-m
-					<{elseif $item.tag == "G"}> ico-pos-article-g
+					<{elseif $item.tag == "M" || $mode==3}> ico-pos-article-m
+					<{elseif $item.tag == "G" || $mode==1}> ico-pos-article-g
 					<{elseif $item.tag == ";"}> ico-pos-article-lock
 					<{elseif $item.tag == "L"}> ico-pos-article-light
                     <{elseif $item.tag == "L2"}> ico-pos-article-fire
@@ -71,24 +70,21 @@
 					<{else}> ico-pos-article-normal
 					<{/if}>"></samp></a></td>
 					<td class="title_9">
-						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>"><{$item.title}></a>
+<{if $mode == 6}>
+						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="<{$item.title}>"><{$item.title}></a>
+<{else}>
+						<a href="<{$base}>/article/<{$bName}>/ajax_single/<{$item.id}>.json" class="a-single" title="<{$item.title}>"><{$item.title}></a>
+<{/if}>
+
                     <{if $item.att}><samp class="tag-att ico-pos-article-attach"></samp><{/if}>
-		<{if $item.page>7}>
-		<span class="threads-tab">[<{section name=temp loop=7 start=2}><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>..<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>"><{$item.page}></a>]</span>
-		<{elseif $item.page>1}>
-		<span class="threads-tab">[<{section name=temp loop=$item.page+1 start=2}><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$smarty.section.temp.index}>"><{$smarty.section.temp.index}></a><{/section}>]</span>
-		<{/if}>
 					</td>
                     <td class="title_10"><{$item.postTime}></td>
                     <td class="title_12">|&ensp;<a href="<{$base}>/user/query/<{$item.poster}>" class="c63f"><{$item.poster}></a></td>
-                    <td class="title_11 middle"><{$item.num}></td>
-                    <td class="title_10"><a href="<{$base}>/article/<{$bName}>/<{$item.gid}>?p=<{$item.page}>#a<{$item.num}>" title="跳转至最后回复"><{$item.replyTime}></a></td>
-                    <td class="title_12">|&ensp;<a href="<{$base}>/user/query/<{$item.last}>" class="c09f"><{$item.last}></a></td>
 				</tr>
 <{/foreach}>
 <{else}>
 				<tr>
-					<td colspan="7" style="text-align:center">该版面没有任何主题</td>
+					<td colspan="4" style="text-align:center">该版面没有任何主题</td>
 				</tr>
 <{/if}>
                 </tbody>
@@ -112,3 +108,4 @@
         </div>
     </div>
 <{if $bm || $isAdmin}><{include file="article/manage.tpl"}><{/if}>
+<{if $mode!=6}><{include file="article/single.tpl"}><{/if}>

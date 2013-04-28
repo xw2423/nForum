@@ -201,6 +201,90 @@ $.fn.extend({
                 w.scrollTop(bottom + this.height() + this.offset().top - w.height());
         }
         return this;
+    },
+    attachSingleArticle:function(selector, open){
+        var tmpl_article_single = _.template($('#tmpl_article_single').html() || '');
+        $(this).on('click', selector, function(){
+            APP.tips(true);
+            if(typeof open === 'function') open.call(this);
+            $.getJSON($(this).attr('href'), function(json){
+                APP.tips(false);
+                if(json.ajax_st == 0)
+                    DIALOG.ajaxDialog(json);
+                else{
+                    var d = DIALOG.formDialog(tmpl_article_single(json),
+                        {title:SYS.code.COM_DETAIL, width:600
+                        }
+                    ),
+                    validPost = function(){
+                        if(!json.allow_post){
+                            DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
+                            return false;
+                        }
+                        return true;
+                    };
+                    d.on('click.nforum', '.a-post', function(){
+                        if(!validPost())
+                            return false;
+                        d.dialog('close');
+                        BODY.open(this);
+                        return false;
+                    }).on('click.nforum', '.a-close', function(){
+                        d.dialog('close');
+                        BODY.open(this);
+                        return false;
+                    }).on('click.nforum', '.a-single', function(){
+                        APP.tips(true);
+                        $.getJSON($(this).attr('href'), function(json){
+                            APP.tips(false);
+                            if(json.ajax_st == 0)
+                                DIALOG.ajaxDialog(json);
+                            else
+                                DIALOG.updateTop(tmpl_article_single(json));
+                        });
+                        return false;
+                    }).on('click.nforum', '.a-func-forward', function(){
+                        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:SYS.cache('friends') || []}), {
+                                 buttons:[
+                                    {text:SYS.code.COM_SUBMIT,click:function(){
+                                        var f = $(this).find('#a_forward');
+                                        $.post(f.attr('action'), f.getPostData(), function(repo){
+                                            DIALOG.ajaxDialog(repo);
+                                        });
+                                        $(this).dialog('close');
+                                    }},
+                                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                                 ]
+                        }).on('change', 'select', function(){
+                            $(this).prev().val($(this).val());
+                        });
+                        if(SYS.cache('friends')) return false;
+                        $.getJSON(SYS.ajax.friend_list, function(json){
+                            if(!_.isArray(json)) return;
+                            d.find('#a_forward_list').append(
+                                _.reduce(json,function(ret,item){
+                                    ret += ('<option value="' + item + '">' + item + '</option>');
+                                    return ret;
+                                },'')
+                            );
+                            SYS.cache('friends', json);
+                        });
+                        return false;
+                    }).on('click.nforum', '.a-func-del', function(){
+                        var url = $(this).attr('href');
+                        DIALOG.confirmDialog(SYS.code.MSG_DELETE,function(){
+                            $.post(url, function(json){
+                                d.dialog('close');
+                                DIALOG.ajaxDialog(json);
+                            }, 'json');
+                        });
+                        return false;
+                    });
+                    if(typeof sh_init !== 'undefined') sh_init();
+                }
+            });
+            return false;
+        });
     }
 });
 /* jquery extention */
