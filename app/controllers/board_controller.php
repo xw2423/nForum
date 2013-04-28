@@ -130,7 +130,7 @@ class BoardController extends AppController {
             case BOARD::$DELETED:
                 $tmp = '回收模式';
                 break;
-            case BOARD::$DELETED:
+            case BOARD::$JUNK:
                 $tmp = '纸篓模式';
                 break;
             case BOARD::$ORIGIN:
