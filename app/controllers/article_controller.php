@@ -27,6 +27,11 @@ class ArticleController extends AppController {
             $this->error(ECode::$BOARD_UNKNOW);
         }
 
+        if(isset($this->params['url']['mode'])){
+            $mode = (int)trim($this->params['url']['mode']);
+            if(!$this->_board->setMode($mode))
+                $this->error(ECode::$BOARD_NOPERM);
+        }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             if(!$this->ByrSession->isLogin)
                 $this->requestLogin();

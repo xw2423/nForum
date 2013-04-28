@@ -2,9 +2,9 @@
         <div class="bmode">
             <span>版面模式:</span>
             <a class="tab-normal" href="<{$base}>/board/<{$bName}>">主题</a>
-            <a class="tab-normal<{if $mode==6}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/6">时间</a>
+            <a class="tab-normal<{if $mode==6}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/6">原作</a>
             <a class="tab-normal<{if $mode==0}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/0">经典</a>
-            <a class="tab-normal<{if $mode==3}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/3">精华</a>
+            <a class="tab-normal<{if $mode==3}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/3">保留</a>
             <a class="tab-normal<{if $mode==1}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/1">文摘</a>
 <{if $isAdmin || $bm}>
             <a class="tab-normal<{if $mode==4}> tab-down<{/if}>" href="<{$base}>/board/<{$bName}>/mode/4">回收</a>
@@ -73,7 +73,7 @@
 <{if $mode == 6}>
 						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="<{$item.title}>"><{$item.title}></a>
 <{else}>
-						<a href="<{$base}>/article/<{$bName}>/ajax_single/<{$item.id}>.json" class="a-single" title="<{$item.title}>"><{$item.title}></a>
+						<a href="<{$base}>/article/<{$bName}>/ajax_single/<{$item.id}>.json?mode=<{$mode}>" class="a-single" title="<{$item.title}>"><{$item.title}></a>
 <{/if}>
 
                     <{if $item.att}><samp class="tag-att ico-pos-article-attach"></samp><{/if}>

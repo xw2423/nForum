@@ -2,9 +2,9 @@
         <div class="bmode">
             <span>版面模式:</span>
             <a class="tab-normal tab-down" href="<{$base}>/board/<{$bName}>">主题</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/6">时间</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/6">原作</a>
             <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/0">经典</a>
-            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/3">精华</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/3">保留</a>
             <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/1">文摘</a>
 <{if $isAdmin || $bm}>
             <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/4">回收</a>

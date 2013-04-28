@@ -125,7 +125,7 @@ class BoardController extends AppController {
                 $tmp = '文摘模式';
                 break;
             case BOARD::$MARK:
-                $tmp = '精华模式';
+                $tmp = '保留模式';
                 break;
             case BOARD::$DELETED:
                 $tmp = '回收模式';
@@ -134,7 +134,7 @@ class BoardController extends AppController {
                 $tmp = '纸篓模式';
                 break;
             case BOARD::$ORIGIN:
-                $tmp = '时间排序模式';
+                $tmp = '原作模式';
                 break;
             default:
                 $tmp = '主题模式';
@@ -152,6 +152,7 @@ class BoardController extends AppController {
             $this->js[] = "forum.manage.js";
         $info = false;
         $curTime = strtotime(date("Y-m-d", time()));
+        $sort = $this->_board->isSortMode();
         foreach($articles as $v){
             $postTime = ($curTime > $v->POSTTIME)?date("Y-m-d", $v->POSTTIME):(date("H:i:s", $v->POSTTIME)."&emsp;");
             $info[] = array(
@@ -159,7 +160,7 @@ class BoardController extends AppController {
                 "title" => Sanitize::html($v->TITLE),
                 "poster" => $v->OWNER,
                 "postTime" => $postTime,
-                "id" => $v->ID,
+                "id" => $sort?$v->ID:$v->getPos(),
                 "gid" => $v->GROUPID,
                 "att" => $v->hasAttach()
             );
