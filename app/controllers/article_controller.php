@@ -342,7 +342,8 @@ class ArticleController extends AppController {
 
         $ret['ajax_code'] = ECode::$POST_OK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
@@ -366,7 +367,8 @@ class ArticleController extends AppController {
         }
         $ret['ajax_code'] = ECode::$ARTICLE_DELOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
         $this->set('no_html_data', $ret);
@@ -420,7 +422,8 @@ class ArticleController extends AppController {
 
         $ret['ajax_code'] = ECode::$ARTICLE_EDITOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $article->GROUPID);
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
@@ -565,7 +568,8 @@ class ArticleController extends AppController {
 
             $ret['ajax_code'] = ECode::$POST_OK;
             $ret['default'] = "/board/" . $this->_board->NAME;
-            if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+            $mode = $this->Cookie->read('BMODE');
+            if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
             $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
             $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
             $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
@@ -714,7 +718,8 @@ class ArticleController extends AppController {
         }
         $ret['ajax_code'] = ECode::$SYS_AJAXOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
         $this->set('no_html_data', $ret);
     }
 
@@ -816,7 +821,8 @@ class ArticleController extends AppController {
         foreach($boards as $v)
             $this->notice[] = $v;
         $url = "/board/{$this->_board->NAME}";
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $url .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . $this->Cookie->read('BMODE');
         $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }

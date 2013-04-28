@@ -40,7 +40,7 @@ class BoardController extends AppController {
         }
         $this->_board->setOnBoard();
         if($this->_board->getMode() != $this->Cookie->read('BMODE'))
-            $this->Cookie->write('BMODE', $this->_board->getMode());
+            $this->Cookie->write('BMODE', $this->_board->getMode(), false);
     }
 
     public function index(){
@@ -275,7 +275,8 @@ class BoardController extends AppController {
 
         $ret['ajax_code'] = ECode::$BOARD_VOTESUCCESS;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '投票列表', "url" => '/board/' .  $this->_board->NAME . '/vote/');
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
@@ -427,7 +428,8 @@ class BoardController extends AppController {
         foreach($boards as $v)
             $this->notice[] = $v;
         $url = "/board/{$this->_board->NAME}";
-        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $url .= '/mode/' . $this->Cookie->read('BMODE');
+        $mode = $this->Cookie->read('BMODE');
+        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . $this->Cookie->read('BMODE');
         $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }
