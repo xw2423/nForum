@@ -7,6 +7,8 @@
 App::import("vendor", array("model/section", "model/board", "model/threads", "inc/pagination"));
 class BoardController extends AppController {
 
+    public $components = array("Cookie");
+
     private $_board;
 
     public function beforeFilter(){
@@ -37,6 +39,8 @@ class BoardController extends AppController {
             $this->error(ECode::$BOARD_NOPERM);
         }
         $this->_board->setOnBoard();
+        if($this->_board->getMode() != $this->Cookie->read('BMODE'))
+            $this->Cookie->write('BMODE', $this->_board->getMode());
     }
 
     public function index(){
@@ -270,7 +274,8 @@ class BoardController extends AppController {
 
         $ret['ajax_code'] = ECode::$BOARD_VOTESUCCESS;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => "/board/" . $this->_board->NAME);
+        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $ret['default'] .= '/mode/' . $this->Cookie->read('BMODE');
+        $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '投票列表', "url" => '/board/' .  $this->_board->NAME . '/vote/');
         $ret['list'][] = array("text" => Configure::read("site.name"), "url" => Configure::read("site.home"));
         $this->set('no_html_data', $ret);
@@ -420,7 +425,9 @@ class BoardController extends AppController {
         }
         foreach($boards as $v)
             $this->notice[] = $v;
-        $this->notice[] = array("url"=>"/board/{$this->_board->NAME}", "text"=>$this->_board->DESC);
+        $url = "/board/{$this->_board->NAME}";
+        if($this->Cookie->read('BMODE') != BOARD::$THREAD) $url .= '/mode/' . $this->Cookie->read('BMODE');
+        $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }
 ?>

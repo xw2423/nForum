@@ -204,7 +204,7 @@ $.fn.extend({
     },
     attachSingleArticle:function(selector, open){
         var tmpl_article_single = _.template($('#tmpl_article_single').html() || '');
-        $(this).on('click', selector, function(){
+        $(this).on('click.nforum', selector, function(){
             APP.tips(true);
             if(typeof open === 'function') open.call(this);
             $.getJSON($(this).attr('href'), function(json){
