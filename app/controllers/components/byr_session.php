@@ -45,26 +45,25 @@ class ByrSessionComponent extends Object {
     }
 
     public function initLogin($sid = false){
-        if(false === $sid) $sid = $this->_sid;
-        if(false !== $sid && !is_string($sid)){
+        if(false !== $sid){
+            $this->_sid = $sid;
+        }else{
             if(isset($this->controller->params['url']['sid']))
-                $sid = $this->controller->params['url']['sid'];
+                $this->_sid = $this->controller->params['url']['sid'];
             else if(isset($this->controller->params['form']['sid']))
-                $sid = $this->controller->params['form']['sid'];
-            else
-                $sid = false;
+                $this->_sid = $this->controller->params['form']['sid'];
         }
         $telnet = false;
-        if(is_string($sid)){
-            $utmpnum = $this->_decodesessionchar($sid[0])
-                + $this->_decodesessionchar($sid[1]) * 36
-                + $this->_decodesessionchar($sid[2]) * 36 * 36;
-            $utmpkey = $this->_decodesessionchar($sid[3])
-                + $this->_decodesessionchar($sid[4]) * 36
-                + $this->_decodesessionchar($sid[5]) * 36 * 36
-                + $this->_decodesessionchar($sid[6]) * 36 *36 * 36
-                + $this->_decodesessionchar($sid[7]) * 36 * 36 * 36 * 36
-                + $this->_decodesessionchar($sid[8]) * 36 * 36 * 36 * 36 * 36;
+        if(is_string($this->_sid)){
+            $utmpnum = $this->_decodesessionchar($this->_sid[0])
+                + $this->_decodesessionchar($this->_sid[1]) * 36
+                + $this->_decodesessionchar($this->_sid[2]) * 36 * 36;
+            $utmpkey = $this->_decodesessionchar($this->_sid[3])
+                + $this->_decodesessionchar($this->_sid[4]) * 36
+                + $this->_decodesessionchar($this->_sid[5]) * 36 * 36
+                + $this->_decodesessionchar($this->_sid[6]) * 36 *36 * 36
+                + $this->_decodesessionchar($this->_sid[7]) * 36 * 36 * 36 * 36
+                + $this->_decodesessionchar($this->_sid[8]) * 36 * 36 * 36 * 36 * 36;
             $this->userId = '';
             $userpwd = '';
             $telnet = true;
@@ -197,6 +196,10 @@ class ByrSessionComponent extends Object {
 
     public function setSession($sid){
         $this->_sid = $sid;
+    }
+
+    public function getSession(){
+        return $this->_sid;
     }
 
     private function _guestLogin(){

@@ -12,7 +12,6 @@ class AttachmentController extends AppController {
         parent::__construct();
         $this->components[] = "Exif";
         $this->components[] = "Thumbnail";
-        $this->front = true;
     }
 
     public function beforeFilter(){
@@ -95,6 +94,72 @@ class AttachmentController extends AppController {
 
         $archive->getAttach($pos);
         $this->_stop();
+    }
+
+    public function edit(){
+        //check sid
+        if(false === $this->ByrSession->getSession()){
+            $this->error404();
+        }
+        if(!isset($this->params['name'])){
+            $this->error(ECode::$BOARD_NONE);
+        }
+        try{
+            $boardName = $this->params['name'];
+            if(preg_match("/^\d+$/", $boardName))
+                throw new BoardNullException();
+            $this->_board = Board::getInstance($boardName);
+        }catch(BoardNullException $e){
+            $this->error(ECode::$BOARD_UNKNOW);
+        }
+        if(!$this->_board->hasReadPerm(User::getInstance())){
+            if(!$this->ByrSession->isLogin)
+                $this->requestLogin();
+            $this->error(ECode::$BOARD_NOPERM);
+        }
+        if($this->_board->isReadOnly()){
+            $this->error(ECode::$BOARD_READONLY);
+        }
+        if(!$this->_board->hasPostPerm(User::getInstance())){
+            $this->error(ECode::$BOARD_NOPOST);
+        }
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        $id = intval($this->params['id']);
+        try{
+            $article = Article::getInstance($id, $this->_board);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }
+        $u = User::getInstance();
+        if(!$article->hasEditPerm($u))
+            $this->error(ECode::$ARTICLE_NOEDIT);
+        $root = Configure::read("section.{$this->_board->SECNUM}");
+        $this->notice[] = array("url"=>"/section/{$this->_board->SECNUM}", "text"=>$root[0]);
+        $boards = array(); $tmp = $this->_board;
+        while(!is_null($tmp = $tmp->getDir())){
+            $boards[] = array("url"=>"/section/{$tmp->NAME}", "text"=>$tmp->DESC);
+        }
+        foreach($boards as $v)
+            $this->notice[] = $v;
+        $this->notice[] = array("url"=>"/board/{$this->_board->NAME}", "text"=>$this->_board->DESC);
+        $this->notice[] = array("url"=>"", "text"=>"±à¼­¸½¼þ");
+
+        $this->js[] = "forum.upload.js";
+        $this->css[] = "post.css";
+
+        $article = Article::getInstance($id, $this->_board);
+        App::import('Sanitize');
+        $title = Sanitize::html($article->TITLE);
+        $this->set("bName", $this->_board->NAME);
+        $this->set("title", $title);
+        $this->set("aid", $article->ID);
+        $this->set("gid", $article->GROUPID);
+        $this->set("sessionid", $this->ByrSession->getSession());
+
+        $upload = Configure::read("article");
+        $this->set("maxNum", $upload['att_num']);
+        $this->set("maxSize", $upload['att_size']);
     }
 
     public function ajax_list(){
