@@ -233,7 +233,7 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 .pagination i{ padding-right:1px; }
 .pagination li{margin-left:2px; display:inline-block;*display:inline;*zoom:1}
-.page-pre,.page-suf{*height:16px;}
+.page-pre{*height:16px;}
 .page-main li{}
 .page-main a{padding:2px 3px 1px 4px;padding-bottom:0\9;text-decoration:none;text-align:center;*zoom:1}
 .page-main a:hover{text-decoration:none;}
@@ -242,6 +242,8 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 .page-select a{ border:3px double #fff; *border-color:#598ede; background:#598ede; color:#fff; }
 .page-select a:hover{cursor:default;}
 .page-main .page-omit {}
+.page-jump .input-text{padding:1px 0;margin-top:-3px;width:20px}
+.page-jump .button{padding:2px 3px;margin-left:1px;margin-top:-3px}
 /* pagination end */
 
 /* auto vertical-middle */

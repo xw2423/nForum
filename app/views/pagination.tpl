@@ -5,5 +5,8 @@
         <{$pageBar}>
       </ol>
     </li>
-    <li class="page-suf"></li>	
+    <li class="page-jump">
+        <input type="text" class="input-text" />
+        <input type="button" class="button" title="Ìø×ª" value="Ìø" />
+    </li>
 </ul>

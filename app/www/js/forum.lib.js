@@ -574,6 +574,8 @@ $.fn.extend({
            'click #u_query_mail' : 'click_u_mail',
            'click #u_query_add' : 'click_u_add',
            'click #left_line samp' : 'click_hide_left',
+           'click .page-jump .button' : 'click_page_jump',
+           'keydown .page-jump .input-text' : 'keydown_page_jump',
            'click a' : 'click_a'
         },
 
@@ -662,6 +664,21 @@ $.fn.extend({
             self.toggleClass('ico-pos-show', 'ico-pos-hide').data("_show", s?1:0).css('right',s?-7:-12);
             $('#menu').width(s?156:0).children(':not(#left_line)')[s?"show":"hide"]().end().next().css("margin-left", s?162:3);
             $.cookie("left-show", s?1:0,{path:'/', domain:SYS.cookie_domain,expires:30});
+        },
+        click_page_jump:function(e){
+            var page = parseInt($(e.currentTarget).prev().val()),url = this.body.get('path');
+            if(!isNaN(page) && page >= 1){
+                if(url.match(/([&\?]p=)\d+/))
+                    this.body.open(url.replace(/([&\?]p=)\d+/, "\$1" + page));
+                else if(url.indexOf('?') === -1)
+                    this.body.open(url + '?p=' + page);
+                else
+                    this.body.open(url + '&p=' + page);
+            }
+            return false;
+        },
+        keydown_page_jump:function(e){
+            if(e.keyCode == 13) $(e.currentTarget).next().click();
         },
         onBodyJump:function(){
             this.tips(true);
