@@ -143,9 +143,11 @@
             var self = this;
             scanner.register(function(str){
                 var n = parseInt(str);
-                if(n < 1) n = 1;
-                else if(n > p.mPage) n = p.mPage;
-                self.openPage(self._url, n);
+                if(!isNaN(n)){
+                    if(n < 1) n = 1;
+                    else if(n > p.mPage) n = p.mPage;
+                    self.openPage(self._url, n);
+                }
             }).filter(function(e){
                 if(e.keyCode >=48 && e.keyCode <=57)
                     return String.fromCharCode(e.keyCode);
