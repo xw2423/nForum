@@ -27,8 +27,8 @@ class WidgetController extends ApiAppController {
                         preg_match("|^/article/(.*?)/(.*?)$|", $v['url'], $ret);
                         if(empty($ret[1]) || empty($ret[2]))
                             continue;
-                        $board = $ret[1];
-                        $id = $ret[2];
+                        $board = rawurldecode($ret[1]);
+                        $id = (int)$ret[2];
                         if($widget->wGetName() == 'topten'){
                             $text = $v['text'];
                             $text = preg_replace("|<[^>]*?>|", '', $text);
@@ -62,8 +62,8 @@ class WidgetController extends ApiAppController {
                         preg_match("|/article/(.+?)/(\d+)|", $v['text'], $ret);
                         if(empty($ret[1]) || empty($ret[2]))
                             continue;
-                        $board = $ret[1];
-                        $id = $ret[2];
+                        $board = rawurldecode($ret[1]);
+                        $id = (int)$ret[2];
                         try{
                             $article[] = $wrapper->article(Threads::getInstance($id, Board::getInstance($board)), array('threads' => true));
                         }catch(Exception $e){
