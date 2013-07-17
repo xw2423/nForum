@@ -241,237 +241,235 @@
     function _helper(){
         if(this._open && this._open === true) return;
         this._open = true;
-        var html = '
-        <div class="helper-title">键盘快捷键帮助</div>
-        <table class="helper-table">
-            <tr>
-                <td class="helper-cell">
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">全局</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">w/W:</td>
-                            <td class="helper-cell-desc">显示主页</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">依次按e 数字 回车:</td>
-                            <td class="helper-cell-desc">跳转到指定数字的分区</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">s/S:</td>
-                            <td class="helper-cell-desc">搜索版面</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">v/V:</td>
-                            <td class="helper-cell-desc">进入收件箱</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">m/M:</td>
-                            <td class="helper-cell-desc">撰写邮件</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">f/F:</td>
-                            <td class="helper-cell-desc">进入收藏夹</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">a/A:</td>
-                            <td class="helper-cell-desc">进入@我的文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">z/Z:</td>
-                            <td class="helper-cell-desc">进入回复我的文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">u/U:</td>
-                            <td class="helper-cell-desc">搜索用户</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">q/Q:</td>
-                            <td class="helper-cell-desc">返回上一页或关闭打开的对话框</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">翻页（跳转）</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">h/l或←/→:</td>
-                            <td class="helper-cell-desc">上一页/下一页</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">依次按g 数字 回车:</td>
-                            <td class="helper-cell-desc">跳转到指定数字页面</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">首页</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k/h/l或↑/↓/←/→:</td>
-                            <td class="helper-cell-desc">在不同的模块之间切换</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">J/K或SHIFT+↑/↓:</td>
-                            <td class="helper-cell-desc">选中模块的上一个/下一个条目</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">进入模块中选中的条目</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">收藏夹</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一版面/下一版面</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">进入分区/版面/目录</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">q/Q:</td>
-                            <td class="helper-cell-desc">返回上一层目录</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">编辑文章/撰写邮件</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">t/T</td>
-                            <td class="helper-cell-desc">编辑标题</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">i/I:</td>
-                            <td class="helper-cell-desc">编辑内容</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">CTRL+回车:</td>
-                            <td class="helper-cell-desc">发表</td>
-                        </tr>
-                    </table>
-                </td>
-                <td class="helper-cell">
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">分区</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一版面/下一版面</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">进入版面或子分区</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">版面</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一主题/下一主题</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">进入主题</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">p/P:</td>
-                            <td class="helper-cell-desc">发表话题</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">/:</td>
-                            <td class="helper-cell-desc">搜索文章</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一楼/下一楼</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">p/P:</td>
-                            <td class="helper-cell-desc">发表话题</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">i/I:</td>
-                            <td class="helper-cell-desc">快捷回复</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">CTRL+回车:</td>
-                            <td class="helper-cell-desc">快捷回复发表</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R:</td>
-                            <td class="helper-cell-desc">回复当前楼</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">/:</td>
-                            <td class="helper-cell-desc">搜索文章</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">邮箱</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一封/下一封邮件</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">打开邮件</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">m/M:</td>
-                            <td class="helper-cell-desc">撰写邮件</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R:</td>
-                            <td class="helper-cell-desc">回复打开的邮件</td>
-                        </tr>
-                    </table>
-                    <table class="helper-cell-table">
-                        <tr>
-                            <td class="helper-cell-key"></td>
-                            <td class="helper-cell-desc helper-cell-title">@我/回复我的文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">j/k或↑/↓:</td>
-                            <td class="helper-cell-desc">上一篇/下一篇@我/回复我的文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R或o/O或回车</td>
-                            <td class="helper-cell-desc">打开@我/回复我的文章</td>
-                        </tr>
-                        <tr>
-                            <td class="helper-cell-key">r/R:</td>
-                            <td class="helper-cell-desc">回复打开的文章</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-'
+        var html = '<div class="helper-title">键盘快捷键帮助</div>'
+        + '<table class="helper-table">'
+            + '<tr>'
+                + '<td class="helper-cell">'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">全局</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">w/W:</td>'
+                            + '<td class="helper-cell-desc">显示主页</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">依次按e 数字 回车:</td>'
+                            + '<td class="helper-cell-desc">跳转到指定数字的分区</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">s/S:</td>'
+                            + '<td class="helper-cell-desc">搜索版面</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">v/V:</td>'
+                            + '<td class="helper-cell-desc">进入收件箱</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">m/M:</td>'
+                            + '<td class="helper-cell-desc">撰写邮件</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">f/F:</td>'
+                            + '<td class="helper-cell-desc">进入收藏夹</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">a/A:</td>'
+                            + '<td class="helper-cell-desc">进入@我的文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">z/Z:</td>'
+                            + '<td class="helper-cell-desc">进入回复我的文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">u/U:</td>'
+                            + '<td class="helper-cell-desc">搜索用户</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">q/Q:</td>'
+                            + '<td class="helper-cell-desc">返回上一页或关闭打开的对话框</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">翻页（跳转）</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">h/l或←/→:</td>'
+                            + '<td class="helper-cell-desc">上一页/下一页</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">依次按g 数字 回车:</td>'
+                            + '<td class="helper-cell-desc">跳转到指定数字页面</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">首页</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k/h/l或↑/↓/←/→:</td>'
+                            + '<td class="helper-cell-desc">在不同的模块之间切换</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">J/K或SHIFT+↑/↓:</td>'
+                            + '<td class="helper-cell-desc">选中模块的上一个/下一个条目</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">进入模块中选中的条目</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">收藏夹</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一版面/下一版面</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">进入分区/版面/目录</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">q/Q:</td>'
+                            + '<td class="helper-cell-desc">返回上一层目录</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">编辑文章/撰写邮件</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">t/T</td>'
+                            + '<td class="helper-cell-desc">编辑标题</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">i/I:</td>'
+                            + '<td class="helper-cell-desc">编辑内容</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">CTRL+回车:</td>'
+                            + '<td class="helper-cell-desc">发表</td>'
+                        + '</tr>'
+                    + '</table>'
+                + '</td>'
+                + '<td class="helper-cell">'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">分区</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一版面/下一版面</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">进入版面或子分区</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">版面</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一主题/下一主题</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">进入主题</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">p/P:</td>'
+                            + '<td class="helper-cell-desc">发表话题</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">/:</td>'
+                            + '<td class="helper-cell-desc">搜索文章</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一楼/下一楼</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">p/P:</td>'
+                            + '<td class="helper-cell-desc">发表话题</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">i/I:</td>'
+                            + '<td class="helper-cell-desc">快捷回复</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">CTRL+回车:</td>'
+                            + '<td class="helper-cell-desc">快捷回复发表</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R:</td>'
+                            + '<td class="helper-cell-desc">回复当前楼</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">/:</td>'
+                            + '<td class="helper-cell-desc">搜索文章</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">邮箱</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一封/下一封邮件</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">打开邮件</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">m/M:</td>'
+                            + '<td class="helper-cell-desc">撰写邮件</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R:</td>'
+                            + '<td class="helper-cell-desc">回复打开的邮件</td>'
+                        + '</tr>'
+                    + '</table>'
+                    + '<table class="helper-cell-table">'
+                        + '<tr>'
+                            + '<td class="helper-cell-key"></td>'
+                            + '<td class="helper-cell-desc helper-cell-title">@我/回复我的文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">j/k或↑/↓:</td>'
+                            + '<td class="helper-cell-desc">上一篇/下一篇@我/回复我的文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R或o/O或回车</td>'
+                            + '<td class="helper-cell-desc">打开@我/回复我的文章</td>'
+                        + '</tr>'
+                        + '<tr>'
+                            + '<td class="helper-cell-key">r/R:</td>'
+                            + '<td class="helper-cell-desc">回复打开的文章</td>'
+                        + '</tr>'
+                    + '</table>'
+                + '</td>'
+            + '</tr>'
+        + '</table>'
         ,self = this;
         DIALOG.formDialog(html, {width:'90%', title:'键盘快捷键帮助',close:function(){
             self._open = false;
