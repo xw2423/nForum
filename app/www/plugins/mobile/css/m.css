@@ -20,14 +20,17 @@ a.m{color:#f60}
 .hla{
     background-color:#E4E8EF;
 }
-.hlb{
-    background-color:#E4E8EF;
-}
 .sec{
     border-bottom:solid 1px #999;
 }
+.slist li{
+    border-top:1px dashed #ccc;
+}
 .list li{
     border-top:1px solid #ccc;
+}
+.slist li:first-child,.list li:first-child{
+    border-top:0 none;
 }
 .f{
     border:0 none;

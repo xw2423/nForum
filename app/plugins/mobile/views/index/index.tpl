@@ -1,7 +1,7 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
 <form action="<{$mbase}>/user/login" method="post">
 <{if $islogin}>
-<ul class="sec list">
+<ul class="sec slist">
 <li class="f">当前用户:<{$id}></li>
 <li>等级:<{$level}></li>
 <li>发帖数:<{$postNum}></li>
@@ -22,7 +22,7 @@
 <{/if}>
 </ul>
 </form>
-<ul class="list sec">
+<ul class="slist sec">
 <li class="f">十大热门话题</li>
 <{foreach from=$top item=item key=k}>
 <li><{$k+1}>|<a href="<{$mbase}><{$item.url}>"><{$item.text}></a></li>

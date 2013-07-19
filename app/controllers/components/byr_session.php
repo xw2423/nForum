@@ -1,12 +1,12 @@
 <?php
 /**
- * byr session component for nforum 
+ * byr session component for nforum
  * core session
- * 
- * @author xw       
+ *
+ * @author xw
  */
-class ByrSessionComponent extends Object {    
-    
+class ByrSessionComponent extends Object {
+
     public $components = array("Cookie");
     public $isLogin = false;
     public $isGuest = false;
@@ -18,6 +18,8 @@ class ByrSessionComponent extends Object {
     private $_updateID = true;
     //true when setonline ok
     private $_isSetOnline = false;
+    //use sid login
+    private $_sid = false;
 
     public function initialize(&$controller) {
         $this->controller = $controller;
@@ -41,24 +43,47 @@ class ByrSessionComponent extends Object {
         //param 2 is unused
         Forum::setFrom($this->from, "");
     }
-        
-    public function initLogin(){
-        @$utmpkey = $this->Cookie->read("UTMPKEY");
-        @$utmpnum = $this->Cookie->read("UTMPNUM");
-        @$this->userId = $this->Cookie->read("UTMPUSERID");
-        @$userpwd = $this->Cookie->read("PASSWORD");
-        if(Configure::read("cookie.encryption")){
-            $utmpkey = $this->decrypt($utmpkey);
-            $userpwd = $this->decrypt($userpwd);
+
+    public function initLogin($sid = false){
+        if(false !== $sid){
+            $this->_sid = $sid;
+        }else{
+            if(isset($this->controller->params['url']['sid']))
+                $this->_sid = $this->controller->params['url']['sid'];
+            else if(isset($this->controller->params['form']['sid']))
+                $this->_sid = $this->controller->params['form']['sid'];
+        }
+        $telnet = false;
+        if(is_string($this->_sid)){
+            $utmpnum = $this->_decodesessionchar($this->_sid[0])
+                + $this->_decodesessionchar($this->_sid[1]) * 36
+                + $this->_decodesessionchar($this->_sid[2]) * 36 * 36;
+            $utmpkey = $this->_decodesessionchar($this->_sid[3])
+                + $this->_decodesessionchar($this->_sid[4]) * 36
+                + $this->_decodesessionchar($this->_sid[5]) * 36 * 36
+                + $this->_decodesessionchar($this->_sid[6]) * 36 *36 * 36
+                + $this->_decodesessionchar($this->_sid[7]) * 36 * 36 * 36 * 36
+                + $this->_decodesessionchar($this->_sid[8]) * 36 * 36 * 36 * 36 * 36;
+            $this->userId = '';
+            $userpwd = '';
+            $telnet = true;
+        }else{
+            @$utmpkey = $this->Cookie->read("UTMPKEY");
+            @$utmpnum = $this->Cookie->read("UTMPNUM");
+            @$this->userId = $this->Cookie->read("UTMPUSERID");
+            @$userpwd = $this->Cookie->read("PASSWORD");
+            if(Configure::read("cookie.encryption")){
+                $utmpkey = $this->decrypt($utmpkey);
+                $userpwd = $this->decrypt($userpwd);
+            }
         }
 
         $arr = array();
-        //valid cookie integrity
-        if($this->userId == ""){
+        if($this->userId == "" && !$telnet){
             $this->_guestLogin();
             $this->hasCookie = false;
         }else if($this->userId == "guest"){
-            if($utmpkey != "" && $utmpnum != "" && Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey))){
+            if($utmpkey != "" && $utmpnum != "" && Forum::initUser('guest',intval($utmpnum),intval($utmpkey))){
                 $this->isLogin = false;
                 $this->isGuest = true;
                 $this->_isSetOnline = true;
@@ -67,8 +92,10 @@ class ByrSessionComponent extends Object {
                 $this->hasCookie=false;
             }
         }else{
-            if(Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey))){
-                $this->isLogin = true;    
+            if(!$telnet && Forum::checkBanIP($this->userId, $this->from) != 0){
+                $this->isLogin = false;
+            }else if(Forum::initUser($this->userId,intval($utmpnum),intval($utmpkey), $telnet)){
+                $this->isLogin = true;
                 $this->_isSetOnline = true;
             }else if($userpwd != "" && Forum::checkPwd($this->userId, base64_decode($userpwd), true, true)){
                 $ret = Forum::setUser(true);
@@ -86,7 +113,7 @@ class ByrSessionComponent extends Object {
 
     public function setCookie(){
         if($this->_isSetOnline)
-            return; 
+            return;
         $u = User::getInstance();
         $arr = array();
         Forum::initUser($this->userId, $u->index, $u->utmpkey);
@@ -103,6 +130,18 @@ class ByrSessionComponent extends Object {
     public function login($id, $pwd, $md5 = true, $cookieTime = null){
         if($this->isLogin || $this->isGuest)
             Forum::kickUser();
+        $ret = Forum::checkBanIP($id, $this->from);
+        switch($ret){
+            case 1:
+                throw new LoginException(ECode::$LOGIN_IPBAN);
+                break;
+            case 2:
+                throw new LoginException(ECode::$LOGIN_EPOS);
+                break;
+            case 3:
+                throw new LoginException(ECode::$LOGIN_ERROR);
+                break;
+        }
         if (($id != 'guest') && (!Forum::checkPwd($id, $pwd, $md5, true))){
             throw new LoginException(ECode::$LOGIN_ERROR);
         }
@@ -155,6 +194,14 @@ class ByrSessionComponent extends Object {
         return $this->_getKey(strlen(urldecode($var))) ^ urldecode("$var");
     }
 
+    public function setSession($sid){
+        $this->_sid = $sid;
+    }
+
+    public function getSession(){
+        return $this->_sid;
+    }
+
     private function _guestLogin(){
         if($this->isGuest)
             return;
@@ -172,9 +219,13 @@ class ByrSessionComponent extends Object {
         $ip = $this->from;
         if(strpos($ip, ':') !== false)
             $ip = join(":", array_slice(explode(':', $ip, 5), 0, 4))."::1";
-        $hash = sha1($ip);  
+        $hash = sha1($ip);
         $key = substr($hash, 4, $len);
         return $key;
+    }
+
+    private function _decodesessionchar($ch){
+        return strpos('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',$ch);
     }
 }
 class LoginException extends Exception{}

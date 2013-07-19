@@ -6,37 +6,21 @@
                 	<div class="post-m">标题:</div>
                     <input class="input-text post-title" type="text" name="subject" id="post_subject" value="<{$title}>"/>
                 </li>
+<{if ($subject && $titKey && !empty($titKey))}>
+                <li class="post-list-item">
+                    <div class="post-m">关键字(可选):</div>
+                    <ul class="post-tag">
+<{foreach from=$titKey item=item}>
+                    <li class="tab-normal"><{$item}></li>
+<{/foreach}>
+                    </ul>
+                    <div class="clearfix"></div>
+                </li>
+<{/if}>
 <{if ($isAtt)}>
-            	<li class="upload post-list-item">
-                	<div class="post-m">文件上传:</div>
-                    <div id="upload">
-                        <div id="upload_op">
-                            <input id="upload_select" type="button" value="选择文件" class="submit" />
-                            <input id="upload_upload" type="button" value="上传文件" class="submit" />
-                            <span id="upload_info">
-                                个数限制:<span class="upload-max-num"><{$maxNum}></span>
-                                大小限制:<span class="upload-max-size"><{$maxSize}></span>
-                                <span class="upload-msg"></span>
-                            </span>
-                        </div>
-                        <table id="upload_result">
-                            <thead>
-                                <tr>
-                                    <th style="width:40px;">序号</td>
-                                    <th>文件名</td>
-                                    <th style="width:60px;">大小</td>
-                                    <th style="width:60px;">操作</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4">共<span style="color:red" id="upload_num_count"></span>个文件，总大小<span style="color:red" id="upload_size_count"></span></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                <li class="upload post-list-item">
+                    <div class="post-m">文件上传:</div>
+<{include file="attachment/upload.tpl"}>
                 </li>
 <{/if}>
             	<li class="post-list-item">
@@ -55,4 +39,3 @@
 		   <form id="f_preview" action="<{$base}>/article/<{$bName}>/ajax_preview.json" method="post"></form>
     	</div>
 <{include file="article/preview.tpl"}>
-<{include file="article/upload.tpl"}>

@@ -1,6 +1,6 @@
-#f_link{ border:1px solid #598edd; }
-#f_link h6{ font-size:14px; color:#598ede; padding:2px 10px 2px 7px; border-bottom:1px solid #c9d7f1; margin:10px 13px; margin-bottom:0px; clear:both;}
+#f_link{ border:1px solid #598edd;padding:10px 13px}
 #f_link ul{ 
+    padding:0;
     border-left:1px solid #c9d7f1; 
     border-top:1px solid #c9d7f1; 
     margin:10px auto; 
@@ -8,6 +8,7 @@
     width:756px;
 }
 #f_link li{ 
+    margin:0;
     border-right:1px solid #c9d7f1; 
     border-bottom:1px solid #c9d7f1; 
     width:125px;

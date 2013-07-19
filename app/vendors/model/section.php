@@ -37,7 +37,7 @@ class Section extends collection implements iWidget{
     private $_root;
 
     /**
-     * the reference of board 
+     * the reference of board
      * if root section $_board is null
      * @var Board $_board
      */
@@ -117,11 +117,11 @@ class Section extends collection implements iWidget{
         $arr = array();
         $brds = $this->getList();
         if(empty($brds)){
-            $arr[] = array("text"=>ECode::msg(ECode::$SEC_NOBOARD), "url"=>"");    
+            $arr[] = array("text"=>ECode::msg(ECode::$SEC_NOBOARD), "url"=>"");
             $arr = array("s"=>"w-list-line", "v"=>$arr);
         }else{
             foreach($brds as $v){
-                $arr[] = array("text"=>$v->DESC, "url"=>"/board/{$v->NAME}");    
+                $arr[] = array("text"=>$v->DESC, "url"=>"/board/{$v->NAME}");
             }
             $arr = array("s"=>"w-list-float", "v"=>$arr);
         }
@@ -165,6 +165,10 @@ class Section extends collection implements iWidget{
         }
     }
 
+    public function wHasPerm($u){
+        return true;
+    }
+
     /**
      * function getName get the id string of section
      * root section is its number
@@ -198,7 +202,7 @@ class Section extends collection implements iWidget{
         $this->_num = $root?$mixed:$mixed->SECNUM;
         $this->_desc = $desc;
         $this->_root = $root;
-        if(!$root) 
+        if(!$root)
             $this->_board = $mixed;
     }
 }

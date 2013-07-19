@@ -7,21 +7,21 @@
  * class AuthImg
  * It is a simple class that change text to image
  * you can set image width,height,format,font and confusing rate
- * 
- * @example 
+ *
+ * @example
  * $img = new AuthImg();
  * $img->getImg();
- * 
+ *
  * @author xw
  */
 class AuthImg{
-    
+
     /**
      * support image format
      *
-     * @var string $PNG 
+     * @var string $PNG
      * @var string $JPEG
-     * @var string $GIF 
+     * @var string $GIF
      * @acesss public
      * @static
      */
@@ -69,7 +69,7 @@ class AuthImg{
     private $_format = 'png';
 
     public function __destruct(){
-        if(!is_null($this->_img))
+        if(is_resource($this->_img))
             imagedestroy($this->_img);
     }
 
@@ -130,7 +130,7 @@ class AuthImg{
         for($i=0; $i<=$cNum - 1; $i++){
             $pixel = imagecolorallocate($this->_img, mt_rand(0,255), mt_rand(0,255), mt_rand(0,255));
             $j = $loop;
-            while(($j--) > 0)    
+            while(($j--) > 0)
                 imagesetpixel($this->_img, mt_rand(0, $this->_width), mt_rand(0, $this->_height),$pixel);
         }
     }
@@ -155,7 +155,7 @@ class AuthImg{
         for($i = 0; $i <= $len - 1; $i++){
             $color = imagecolorallocate($this->_img, mt_rand(0,150), mt_rand(0,120), mt_rand(0,220));
             $x = $i * ($fw + $xgap) + round($xgap * 1.5) - mt_rand(0, $xgap);
-            $y = $ygap + round($ygap / 2) - mt_rand(0, $ygap); 
+            $y = $ygap + round($ygap / 2) - mt_rand(0, $ygap);
             if(false === $this->_font){
                 imagechar($this->_img, $size, $x, $y, $this->_text[$i], $color);
             }else{

@@ -16,6 +16,15 @@
 		<div class="b-content vote-main">
 			<div class="vote-title"><{$voteTitle}></div>
 			<div id="vote_rank" class="vote-right">
+				<div class="vote-search">
+                    <form action="<{$base}>/vote" method="get">
+                        <input type="text" class="input-text" placeholder="标题,发起人,描述关键字" name="s" value="<{$search|default:''}>"/>&ensp;<input type="submit" class="button" value="筛选"/>
+                        <input type="hidden" name="c" value="<{$category}>"/>
+<{if isset($vote_user)}>
+                        <input type="hidden" name="u" value="<{$vote_user}>"/>
+<{/if}>
+                    </form>
+				</div>
 				<li class="widget color-red">  
 					<div class="widget-head">
 						<span class="widget-title vote-hot">一周热门投票排行榜</span>	

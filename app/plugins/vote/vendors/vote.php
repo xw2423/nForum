@@ -40,10 +40,10 @@ class Vote{
     private $_total = null;
     private $_viids = null;
 
-    public static function add($uid, $subject, $desc, $end, $type, $limit,  $items){
+    public static function add($uid, $subject, $desc, $end, $type, $limit,  $items, $result_voted = 0){
         $db = DB::getInstance();    
-        $val = array("k"=>array('uid', 'subject', 'desc', 'start', 'end', 'type', 'limit', 'status'),
-            "v" => array(array($uid, $subject, $desc, time(), $end, $type, $limit, 1)));
+        $val = array("k"=>array('uid', 'subject', 'desc', 'start', 'end', 'type', 'limit', 'status', 'result_voted'),
+            "v" => array(array($uid, $subject, $desc, time(), $end, $type, $limit, 1, $result_voted)));
         $db->insert('pl_vote', $val);
         $vid = $db->lastInsertId();
         $vars = array();

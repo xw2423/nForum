@@ -36,8 +36,9 @@
     </figure>
     <!--logo end-->
 
+    <!--ban_ner start-->
     <article id="ban_ner">
-        <div id="ban_ner_border"></div>
+        <div id="ban_ner_wrapper"></div>
     </article>
     <!--ban_ner end-->
 

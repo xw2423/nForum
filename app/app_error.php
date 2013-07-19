@@ -2,7 +2,7 @@
 /**
  * Application error for nforum
  * error page & director page
- * 
+ *
  * @author xw
  */
 class AppError extends ErrorHandler {
@@ -15,6 +15,10 @@ class AppError extends ErrorHandler {
         $this->controller->html = ($params['html'] !== false);
         unset($params['html']);
         if($this->controller->html){
+            if(!$this->controller->RedirectAcl->isRedirect()){
+                echo $params['ajax_code'] . ':' . $params['ajax_msg'];
+                return;
+            }
             $time = Configure::read("redirect.error");
             $this->controller->brief = true;
             $this->controller->css[] = "error.css";
@@ -25,7 +29,7 @@ class AppError extends ErrorHandler {
             unset($params['html']);
             $this->controller->set('no_html_data', $params);
         }
-        $this->_outputMessage('error');    
+        $this->_outputMessage('error');
     }
 
     /**
@@ -53,7 +57,7 @@ JS;
         }else{
             $this->controller->set('no_html_data', $params);
         }
-        $this->_outputMessage('redirect');    
+        $this->_outputMessage('redirect');
     }
 
     /**
@@ -65,7 +69,7 @@ JS;
             $this->controller->html = ($params['html'] !== false);
             unset($params['html']);
         }
-        if($this->controller->html){
+        if($this->controller->html && $this->controller->RedirectAcl->isRedirect()){
             $this->controller->notice[] = array("url"=>"", "text"=>"该页面不存在");
             $this->controller->brief = true;
             $this->controller->base = Configure::read('site.prefix');
@@ -73,6 +77,8 @@ JS;
         }else{
             $this->controller->header('HTTP/1.0 404 Not Found');
             $this->controller->header('Content-Type:text/html;charset=' . $this->controller->encoding);
+            if(!empty($params['code']))
+                echo $params['code'] . ':';
             echo $params['msg'];
             $this->controller->_stop();
         }

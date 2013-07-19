@@ -17,7 +17,7 @@ class Wrapper {
             ,'content' => false
         );
         $options = $this->_init_options($options, $default);
-        
+
         $u = User::getInstance();
         $ret = array();
         $ret['id'] = $article->ID;
@@ -150,11 +150,7 @@ class Wrapper {
         $abase = Configure::read('plugins.api.base');
         if(!is_array($archive)){
             $list = $archive->getAttList(false);
-            if(is_a($archive, 'Article')){
-                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBoard()->NAME . '/' . $archive->ID . '/';
-            }else if(is_a($archive, 'Mail')){
-                $url_prefix = $domain  . $base . $abase . '/attachment/' . $archive->getBox()->type . '/' . $archive->ID . '/';
-            }
+            $url_prefix = $domain  . $base . $abase . '/attachment';
         }else{
             $list = $archive;
             $url_prefix = '';
@@ -166,7 +162,7 @@ class Wrapper {
             $size += intval($v['size']);
             $v['size'] = nforum_size_format($v['size']);
             $tmp = array('name' => $v['name']
-                ,'url' => ('' === $url_prefix)?'':($url_prefix . $v['pos'])
+                ,'url' => ('' === $url_prefix)?'':($url_prefix . $archive->getAttLink($v['pos']))
                 ,'size' => $v['size']
                 ,'thumbnail_small' => ''
                 ,'thumbnail_middle' => ''
@@ -196,7 +192,7 @@ class Wrapper {
     public function mail($mail, $options = array()){
         $default = array('content' => false);
         $options = $this->_init_options($options, $default);
-        
+
         $u = User::getInstance();
         $ret = array();
         $ret['index'] = $mail->num;
@@ -246,6 +242,15 @@ class Wrapper {
         $ret['title'] = $refer['TITLE'];
         $ret['time'] = $refer['TIME'];
         $ret['is_read'] = $refer['FLAG'] === Refer::$FLAG_READ;
+        return $ret;
+    }
+
+    public function widget($widget){
+        $ret = array();
+        $ret['name'] = $widget->wGetName();
+        $title = $widget->wGetTitle();
+        $ret['title'] = $title['text'];
+        $ret['time'] = $widget->wGetTime();
         return $ret;
     }
 

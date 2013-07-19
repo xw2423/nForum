@@ -23,13 +23,19 @@
 		<li><a href="<{$base}>/adv/4" <{if $advType==4}>class="selected"<{/if}>>左侧广告</a></li>
 	</ul>
 	<div id="page">
-	<ul class="pagination" >
-		<li class="page-pre">总数:<{$total}>&emsp;分页:</li>
-		<li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-		<li class="page-suf">当前页:&ensp;<{$page}>/<{$totalPage}></li>
-		<li id="add"><input type="button" class="button" value="增加" id="b_add"/></li>
-	</ul>
+        <input type="button" class="button" value="增加" id="b_add"/>
+        <{include file="pagination.tpl" page_name='总数'}>
 	</div>
+	</div>
+	<div id="adv_filter" class="ui-corner-all">
+        <form action="" method="get">
+        <ul>
+            <li><span>备注:</span><input type="text" name="remark" class="input-text" value="<{$remark|default:''}>"/></li>
+            <li><span>开始时间:</span><input type="text" name="sTime" class="input-text" value="<{$sTime|default:''}>"/></li>
+            <li><span>结束时间:</span><input type="text" name="eTime" class="input-text" value="<{$eTime|default:''}>"/></li>
+            <li><input type="submit" class="button" value="筛选"/></li>
+        </ul>
+        </form>
 	</div>
 	<div id="adv_main">
 	<table class="ui-corner-all" cellpadding="0" cellspacing="0">
@@ -45,15 +51,12 @@
 			<th class="ui-state-default c_4">启用</th>
 			<th class="ui-state-default c_5">顺序</th>
 <{/if}>
-<{if ($thome)}>
-			<th class="ui-state-default c_9">首页</th>
-<{/if}>
 			<th class="ui-state-default c_8">备注</th>
 			<th class="ui-state-default c_7">操作</th>
 		</tr>
 <{if isset($info)}>
 <{foreach from=$info item=item key=k}>
-		<tr class="ui-widget-content<{if (strtotime($item.sTime)<time() && (strtotime($item.eTime)+86400)>time()) || $item.switch == 1}> used<{/if}>">
+		<tr class="ui-widget-content<{if $hasPrivilege && $item.privilege == '1' || !$hasPrivilege && isset($item.used) && $item.used == '1' || $item.switch == '1'}> used<{/if}>">
 			<td class="c_1" id="<{$item.aid}>"><{$k+1}></td>
 			<td class="c_2"><a href="<{$base}>/<{$dir}>/<{$item.file}>"><{$item.file}></a></td>
 			<td class="c_3"><a href="<{$item.url}>"><{$item.url|default:"&nbsp;"}></a></td>
@@ -65,9 +68,6 @@
 			<td class="c_4"><{if $item.switch == 1}>是<{else}>否<{/if}></td>
 			<td class="c_5"><{$item.weight}></td>
 <{/if}>
-<{if ($thome)}>
-			<td class="c_9"><{if $item.home == 1}>是<{else}>否<{/if}></td>
-<{/if}>
 			<td class="c_8"><{$item.remark|default:"&nbsp;"}></td>
 			<td class="c_7">
 				<input type="button" class="button b_pre" value="预览" />
@@ -78,12 +78,10 @@
 <{/foreach}>
 <{else}>
 		<tr class="ui-widget-content">
-<{if ($type && $thome)}>
-			<td colspan="9">没有文件</td>
-<{elseif !($type || $thome)}>
-			<td colspan="7">没有文件</td>
-<{else}>
+<{if ($type)}>
 			<td colspan="8">没有文件</td>
+<{else}>
+			<td colspan="7">没有文件</td>
 <{/if}>
 		</tr>
 <{/if}>
@@ -110,9 +108,6 @@
 	<li><span>开启:</span><input type="checkbox" name="switch"<%if(sw){%> checked="checked"<%}%>/></li>
 	<li><span>顺序:</span><input type="text" value="<%=weight%>" name="weight" class="input-text"/></li>
 <{/if}>
-<{if ($thome)}>
-	<li><span>首页:</span><input type="checkbox" name="home"<%if(home){%> checked="checked"<%}%> /></li>
-<{/if}>
 	<li><span>备注:</span><input type="text" value="<%=remark%>" name="remark" class="input-text"/></li>
 	</ul>
 <%if(aid){%>
@@ -138,9 +133,6 @@
 <{else}>
 	<li><span>开启:</span><input type="checkbox" name="switch" /></li>
 	<li><span>顺序:</span><input type="text" name="weight" class="input-text"/></li>
-<{/if}>
-<{if ($thome)}>
-	<li><span>首页:</span><input type="checkbox" name="home" /></li>
 <{/if}>
 	<li><span>备注:</span><input type="text" name="remark" class="input-text"/></li>
 	<li><input type="submit" class="submit" value="添加"/></li>

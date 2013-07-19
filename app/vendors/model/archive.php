@@ -31,6 +31,24 @@ App::import("vendor", array("model/overload"));
  */
 abstract class Archive extends OverloadObject{
 
+    //accessed0
+    public static $SIGN = 0x1;
+    public static $TOTAL = 0x2;
+    public static $PERCENT = 0x4;
+    public static $MARKED = 0x8;
+    public static $DIGEST = 0x10;
+    public static $REPLIED = 0x20;
+    public static $FORWARDED = 0x40;
+    public static $IMPORTED = 0x80;
+
+    //accessed1
+    public static $READ = 0x1;
+    public static $DEL = 0x2;
+    public static $MAILBACK = 0x4;
+    public static $COMMEND = 0x8;
+    public static $CENSOR = 0x20;
+    public static $TEX = 0x80;
+
     private $_att = null;
 
     public function __construct($info){
@@ -150,6 +168,7 @@ abstract class Archive extends OverloadObject{
      * @access public
      */
     public function getAttHtml($thumbnail = ''){
+        $base = Configure::read('site.prefix');
         $list = $this->getAttList(false);
         $ret = array();
         foreach($list as $v){
@@ -159,17 +178,17 @@ abstract class Archive extends OverloadObject{
                 case 'jpeg':
                 case 'png':
                 case 'gif':
-                    $ret[] = $this->_getImg($this->getAttLink($v['pos']), $v['size'], $thumbnail);
+                    $ret[] = $this->_getImg($base . '/att' . $this->getAttLink($v['pos']), $v['size'], $thumbnail);
                     break;
                 case 'swf':
-                    $ret[] = $this->_getSwf($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getSwf($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 case 'mp3':
                 case 'wma':
-                    $ret[] = $this->_getMp3($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getMp3($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
                     break;
                 default:
-                    $ret[] = $this->_getCommon($this->getAttLink($v['pos']), $v['name'], $v['size']);
+                    $ret[] = $this->_getCommon($base . '/att' . $this->getAttLink($v['pos']), $v['name'], $v['size']);
             }
         }
         return $ret;
@@ -223,7 +242,7 @@ abstract class Archive extends OverloadObject{
 
     protected function _getMp3($link, $name, $size){
         $pre = $this->_getCommon($link, $name . "(在新窗口打开)", $size);
-        $templete = '<br /><br /><EMBED src="%link%" width="560px" height="45px" type="audio/x-ms-wma" nojava="true" controls="ImageWindow,ControlPanel,StatusBar" mute="false" autostart="0">';
+        $templete = '<br /><br /><div class="a-audio" _src="%link%"></div>';
         return $pre . str_replace("%link%", $link, $templete);
     }
 
@@ -290,6 +309,58 @@ abstract class Archive extends OverloadObject{
      * @abstract
      */
     abstract public function delAttach($num);
+
+    public function isM(){
+        return ($this->ACCESSED0 & self::$MARKED) !== 0;
+    }
+
+    public function isG(){
+        return ($this->ACCESSED0 & self::$DIGEST) !== 0;
+    }
+
+    public function isNoRe(){
+        return ($this->ACCESSED1 & self::$READ) !== 0;
+    }
+
+    public function isB(){
+        return $this->isM() && $this->isG();
+    }
+
+    public function isU(){
+        return $this->isM() && $this->isNoRe();
+    }
+
+    public function isO(){
+        return $this->isG() && $this->isNoRe();
+    }
+
+    public function is8(){
+        return $this->isB() && $this->isNoRe();
+    }
+
+    public function isSharp(){
+        return ($this->ACCESSED0 & self::$SIGN) !== 0;
+    }
+
+    public function isPercent(){
+        return ($this->ACCESSED0 & self::$PERCENT) !== 0;
+    }
+
+    public function isX(){
+        return ($this->ACCESSED1 & self::$DEL) !== 0;
+    }
+
+    public function isCommend(){
+        return ($this->ACCESSED1 & self::$COMMEND) !== 0;
+    }
+
+    public function isCensor(){
+        return ($this->ACCESSED1 & self::$CENSOR) !== 0;
+    }
+
+    public function isTex(){
+        return ($this->ACCESSED1 & self::$TEX) !== 0;
+    }
 }
 
 class ArchiveNullException extends Exception {}

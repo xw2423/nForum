@@ -131,4 +131,12 @@ $(function(){
             }, 'json');
         })
     });
+    $('#vote_rank .vote-search input[placeholder]').placeholder();
+    $('#vote_rank .vote-search form').submit(function(){
+        BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
+            v = encodeURIComponent(encodeURIComponent(v));
+            return k + '=' + v;
+        }).join('&'));
+        return false;
+    });
 });

@@ -41,8 +41,15 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     </figure>
     <!--logo end-->
 
+    <!--ban_ner start-->
     <article id="ban_ner">
-        <div id="ban_ner_border"></div>
+        <div id="ban_ner_wrapper">
+            <ul>
+<{foreach from=$banner_adv item=item}>
+                <li><a href="<{$item.url|default:"javascript:void(0);"}>"<{if $item.url}> target="_blank"<{/if}>><img src="<{$static}><{$base}><{$item.file}>" alt="<{$item.remark}>" width="600px" height="80px" /></a></li>
+<{/foreach}>
+            </ul>
+        </div>
     </article>
     <!--ban_ner end-->
 
@@ -67,20 +74,20 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
 <script id="tmpl_u_login_info" type="text/template">
         <div class="u-login-id"><samp class="ico-pos-cdot"></samp>欢迎<a href="<{$base}>/user/query/<%=id%>" title="<%=id%>"><%=id.length<11?id:(id.substr(0,10)+'...')%></a></div>
         <ul class="u-login-list">
-            <li><a href="<{$base}>/mail">我的收件箱
+            <li><a href="<{$base}>/mail" id="m_inbox">我的收件箱
 <%if (full_mail){%><span class="new_mail">(满!)</span><%}else if(new_mail){%><span class="new_mail">(新)</span><%}%></a>
             </li>
 <%if(typeof new_at !== 'undefined' && false !== new_at){%>
-            <li><a href="<{$base}>/refer/at">@我的文章</a>
+            <li><a href="<{$base}>/refer/at" id="m_at">@我的文章</a>
 <%if(new_at>0){%><span class="new_mail">(<%=new_at%>)</span><%}%></a>
             </li>
 <%}%>
 <%if(typeof new_reply !== 'undefined' && false !== new_reply){%>
-            <li><a href="<{$base}>/refer/reply">回复我的文章</a>
+            <li><a href="<{$base}>/refer/reply" id="m_reply">回复我的文章</a>
 <%if(new_reply>0){%><span class="new_mail">(<%=new_reply%>)</span><%}%></a>
             </li>
 <%}%>
-            <li><a href="<{$base}>/fav">我的收藏夹</a></li>
+            <li><a href="<{$base}>/fav" id="u_fav">我的收藏夹</a></li>
             <li><a href="<{$base}>/widget/add">个性首页设置</a></li>
             <li><a href="javascript:void(0)" id="u_login_out">退出登录</a></li>
         </ul>
@@ -124,22 +131,22 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
                     <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏版面</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <%}%>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/user/query" ><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/user/query" id="u_query"><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/s" ><samp class="ico-pos-dot"></samp>搜索文章</a></span></li>
                 </ul>
             </li>
             <li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/vote">投票系统</a></span></li>
             <li><span class="x-leaf"><span class="toggler"></span><a href="<{$base}>/elite/path">精华区</a></span></li>
             <li><span class="x-leaf"><span class="toggler"></span><a href="telnet://#" target="_blank">Telnet登录</a></span></li>
-            <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" value="搜索讨论区" id="b_search"/></span></li>
+            <li><span class="x-leaf x-search"><span class="toggler"></span><input type="text" class="input-text" placeholder="搜索讨论区" id="b_search" x-webkit-speech lang="zh-CN"/></span></li>
         </ul>
 </script>
     </nav>
     <!--nav list end-->
 
     <section id="left_adv">
-<{foreach from=$advs item=item}>
-        <a href="<{$item.url|default:"javascript:void(0);"}>" target="_blank"><img src="<{$static}><{$base}><{$item.file}>" /></a>
+<{foreach from=$left_adv item=item}>
+        <a href="<{$item.url|default:"javascript:void(0);"}>"<{if $item.url}> target="_blank"<{/if}>><img src="<{$static}><{$base}><{$item.file}>" /></a>
 <{/foreach}>
     </section>
 </aside>
@@ -171,7 +178,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     </figure>
     <aside id='bot_info'>
         当前论坛上总共有<span class="c-total"><{$webTotal}></span>人在线，其中注册用户<span class="c-user"><{$webUser}></span>人，访客<span class="c-guest"><{$webGuest}></span>人。<br />
-        powered by BYR-Team&copy;2009-<{$smarty.now|date_format:"%Y"}>.<br />
+        powered by BYR-Team<span class="copyright">&copy;</span>2009-<{$smarty.now|date_format:"%Y"}>.<br />
         all rights reserved
     </aside>
 </footer>

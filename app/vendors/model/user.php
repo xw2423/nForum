@@ -99,7 +99,7 @@
  * @see bbs_getuser in phpbbs_user.c
  * @see bbs_getonlinefriends in phpbbs_friend.c
  * @see bbs_getfriends in phpbbs_friend.c
- * @author xw       
+ * @author xw
  */
 App::import("vendor", array("model/overload" ,"model/code"));
 class User extends OverloadObject{
@@ -137,7 +137,7 @@ class User extends OverloadObject{
      * @access public
      * @throws UserNullException
      */
-    public static function getInstance($id = null){
+    public static function getInstance($id = null, $cache = true){
         $info = $uinfo = array();
         if(is_null($id)){
             if(is_null(self::$_instance)){
@@ -156,7 +156,7 @@ class User extends OverloadObject{
             throw new UserNullException();
         }
         $u = new User($info, $uinfo);
-        self::$_users[$id] = $u;
+        if($cache) self::$_users[$id] = $u;
         return $u;
     }
 
@@ -212,7 +212,7 @@ class User extends OverloadObject{
 
     /**
      * function setPerm set userlevel via $val base on current
-     * the structure of $val is 
+     * the structure of $val is
      * array("pos"=>int, "val"=>1|0)
      *
      * @param array $val
@@ -223,9 +223,9 @@ class User extends OverloadObject{
         $prop = $this->userlevel;
         foreach($val as $v){
             if($v['val'] == 1)
-                $prop |= (1 << $v['pos']);    
+                $prop |= (1 << $v['pos']);
             else
-                $prop &= ~(1 << $v['pos']);    
+                $prop &= ~(1 << $v['pos']);
         }
         bbs_admin_setuserperm($this->userid, $prop);
     }
@@ -272,7 +272,7 @@ class User extends OverloadObject{
     public function isOnline(){
         return bbs_isonline($this->userid);
     }
-    
+
     /**
      * function getStatus get all status string of current user
      * current user will have many clients
@@ -335,20 +335,20 @@ class User extends OverloadObject{
             $gender,$year, $month,$day,$email,
             $phone,//电话
             $phone,//手机
-            $qq, 
+            $qq,
             "",//icq
-            $msn,  $homepage, intval($uface), $furl, 
-            intval($fwidth), intval($fheight), 
+            $msn,  $homepage, intval($uface), $furl,
+            intval($fwidth), intval($fheight),
             0,//门派
-            "", //国家 
-            "", //省份 
-            "", //城市 
-            0, //生肖 
-            0, //血型 
-            0, //信仰 
-            0, //职业 
-            0, //婚姻 
-            0, //教育 
+            "", //国家
+            "", //省份
+            "", //城市
+            0, //生肖
+            0, //血型
+            0, //信仰
+            0, //职业
+            0, //婚姻
+            0, //教育
             "", //大学
             0, //性格
             0, //个人照片
@@ -358,16 +358,16 @@ class User extends OverloadObject{
             case 0:
                 break;
             case -1:
-                throw new UserSaveException(ECode::$USER_EWIDTH);    
+                throw new UserSaveException(ECode::$USER_EWIDTH);
                 break;
             case -2:
-                throw new UserSaveException(ECode::$USER_EHEIGHT);    
+                throw new UserSaveException(ECode::$USER_EHEIGHT);
                 break;
             case 3:
-                throw new UserSaveException(ECode::$USER_NOID);    
+                throw new UserSaveException(ECode::$USER_NOID);
                 break;
             default:
-                throw new UserSaveException(ECode::$SYS_ERROR);    
+                throw new UserSaveException(ECode::$SYS_ERROR);
         }
     }
 
@@ -377,13 +377,13 @@ class User extends OverloadObject{
             case 0:
                 break;
             case 1:
-                throw new UserRegException(ECode::$REG_HAVAFORM);    
+                throw new UserRegException(ECode::$REG_HAVAFORM);
                 break;
             case 4:
-                throw new UserRegException(ECode::$REG_REGED);    
+                throw new UserRegException(ECode::$REG_REGED);
                 break;
             default:
-                throw new UserRegException(ECode::$SYS_ERROR);    
+                throw new UserRegException(ECode::$SYS_ERROR);
         }
     }
 
@@ -405,7 +405,7 @@ class User extends OverloadObject{
 
     /**
      * function setCustom set user custom via $val
-     * the structure of $val is 
+     * the structure of $val is
      * array($k => array("pos"=>int, "val"=>))
      * the $k must in $this->_customList
      *
@@ -420,9 +420,9 @@ class User extends OverloadObject{
             $prop = $this->{$p};
             foreach($val[$p] as $v){
                 if($v['val'] == 1)
-                    $prop |= (1 << $v['pos']);    
+                    $prop |= (1 << $v['pos']);
                 else
-                    $prop &= ~(1 << $v['pos']);    
+                    $prop &= ~(1 << $v['pos']);
             }
             $$p = $prop;
         }
@@ -512,7 +512,7 @@ class User extends OverloadObject{
      */
     public function getFace(){
         if($this->userface_url != "" && strpos($this->userface_url, Configure::read("user.face.dir"). "/") === 0){
-            $furl = "/" . $this->userface_url; 
+            $furl = "/" . $this->userface_url;
         }else{
             $furl = "/img/face_default_" . (($this->gender == "77")?"m":"f") . ".jpg";
         }

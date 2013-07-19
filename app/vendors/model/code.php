@@ -51,6 +51,8 @@ class ECode {
     public static $ARTICLE_REERROR =     '0308';
     public static $ARTICLE_REOK =        '0309';
     public static $ARTICLE_FORWARDOK =   '0310';
+    public static $ARTICLE_NOMANAGE =    '0311';
+    public static $ARTICLE_NOTORIGIN =   '0312';
     public static $POST_NOSUB =          '0400';
     public static $POST_NOCON =          '0401';
     public static $POST_ISDIR =          '0402';
@@ -120,6 +122,12 @@ class ECode {
     public static $REFER_NONE =          '1301';
     public static $REFER_DELETEOK =      '1302';
     public static $REFER_DISABLED =      '1303';
+    public static $DENY_DENIED =         '1401';
+    public static $DENY_NOTDENIED =      '1402';
+    public static $DENY_INVALIDDAY =     '1403';
+    public static $DENY_NOREASON =       '1404';
+    public static $DENY_CANTPOST =       '1405';
+    public static $DENY_NOID  =          '1406';
 
     //no use just remember some time
     public static $XW_JOKE =             '9999';

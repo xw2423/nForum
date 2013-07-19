@@ -2,9 +2,10 @@ $(function(){
     if($('#upload').length <= 0)
         return false;
 
-    var url = BODY.get('path').match(/[^\/]*(\/[^\/]*)(\/[^\/]*)(\/?[^\/]*)/), bName = url[1] || '', id = url[2] === '/post'?'':(url[3] || '')
+    var url = BODY.get('path').match(/[^\/]*(\/[^\/]*)(\/[^\/]*)(\/?[^\/?]*)/), bName = url[1] || '', id = url[2] === '/post'?'':(url[3] || '')
     ,maxNum = parseInt($('#upload .upload-max-num').html())
-    ,maxSize = parseInt($('#upload .upload-max-size').html());
+    ,maxSize = parseInt($('#upload .upload-max-size').html())
+    ,sessionid = $('#sessionid').val()?('?sid=' + $('#sessionid').val()):'';
 
     $('#upload .upload-max-size').html($.sizeFormat(maxSize));
     plupload.XWNONE = 218;
@@ -15,7 +16,7 @@ $(function(){
             browse_button: 'upload_select',
             drop_element: 'upload',
             container: 'upload',
-            url: SYS.base + '/att' + bName + '/ajax_add' + id + '.json',
+            url: SYS.base + '/att' + bName + '/ajax_add' + id + '.json' + sessionid,
             flash_swf_url: SYS.static + SYS.base + '/files/swf/plupload.flash.swf'
         }),
         init:function(collection){
@@ -78,10 +79,12 @@ $(function(){
                 var json = eval('[' + resp.response + ']')[0];
                 if(json.ajax_st == 1){
                     var f = collection.get(file.id).set(file);
-                    $('#post_content').get(0).value += '[upload=' + f.get('no') + '][/upload]';
-                    if(json.exif != '')
-                        $('#post_content').get(0).value += "\n" +
-                        json.exif.replace(/\\n/g, "\n");
+                    if($('#post_content').length > 0){
+                        $('#post_content').get(0).value += '[upload=' + f.get('no') + '][/upload]';
+                        if(json.exif != '')
+                            $('#post_content').get(0).value += "\n" +
+                            json.exif.replace(/\\n/g, "\n");
+                    }
                 }else{
                     collection.get(file.id)
                         .set({status:plupload.FAILED, err:json.ajax_msg || ''})
@@ -103,7 +106,7 @@ $(function(){
 
     var FileModel = BaseModel.extend({
         defaults:{
-            id:'',
+            id:null,
             no:0,
             loaded:0,
             name:'',
@@ -119,13 +122,14 @@ $(function(){
             this.trigger('destroy');
         },
         'delete':function(){
-            this.destroy({url:SYS.base + '/att' + bName + '/ajax_delete' + id + '.json?name=' + encodeURIComponent(this.get('name'))});
+            this.id = this.get('name');
+            this.destroy({url:SYS.base + '/att' + bName + '/ajax_delete' + id + '.json?name=' + encodeURIComponent(this.get('name')) + sessionid.replace(/^\?/, '&')});
         }
     });
     var FilesModel = Backbone.Collection.extend({
         model:FileModel,
         url:function(){
-            return SYS.base + '/att' + bName + '/ajax_list' + id + '.json';
+            return SYS.base + '/att' + bName + '/ajax_list' + id + '.json' + sessionid;
         },
         num:function(){
             return this.length;
@@ -195,7 +199,7 @@ $(function(){
             e.preventDefault();
         },
         one:function(file, key){
-            file.set({no:_.isNumber(key)?key+1:this.model.length}, {slient:true});
+            file.set({no:this.model.indexOf(file)+1}, {slient:true});
             var fv = new FileView({model:file});
             this.$('tbody').append(fv.render().el);
         },

@@ -10,11 +10,11 @@
     <article class="u-info">
         <header>基本信息</header>
         <figure>
-        <img src="<%=face_url%>"<%if(face_width != 0){%> width="<%=face_width%>px"<%}%><%if(face_height != 0){%> height="<%=face_height%>px"<%}%> />
+        <img src="<%-face_url%>"<%if(face_width != 0){%> width="<%=face_width%>px"<%}%><%if(face_height != 0){%> height="<%=face_height%>px"<%}%> />
         </figure>
         <dl>
             <dt>昵 称：</dt>
-            <dd><%=user_name%></dd>
+            <dd><%-user_name%></dd>
         <%if(id == session_id || !is_hide || session_is_admin){%>
             <dt>性 别：</dt>
             <dd><%if(gender=='m'){%>男生<%}else{%>女生<%}%></dd>
@@ -22,11 +22,11 @@
             <dd><%=astro%></dd>
         <%}%>
             <dt>QQ：</dt>
-            <dd><%=qq%></dd>
+            <dd><%-qq%></dd>
             <dt>MSN：</dt>
-            <dd><%=msn%></dd>
+            <dd><%-msn%></dd>
             <dt>主 页：</dt>
-            <dd><%=home_page%></dd>
+            <dd><%-home_page%></dd>
         </dl>
     </article>
     <div class="clearfix"></div>

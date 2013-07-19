@@ -31,15 +31,7 @@
 						<input type="button" class="button mail-clear" value="全部删除" />
                     </div>
                     <div class="page">
-                        <ul class="pagination" title="分页列表">
-                          <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
-						  <li>
-							  <ol title="分页列表" class="page-main">
-								<{$pageBar}>
-							  </ol>
-						  </li>
-						  <li class="page-suf"></li>	
-                        </ul>
+                        <{include file="pagination.tpl" page_name='邮件总数'}>
                     </div>
                 </div>
                 <table class="m-table">
@@ -65,15 +57,7 @@
                         <input type="button" class="button mail-clear" value="全部删除" />
                     </div>
                     <div class="page">
-                        <ul class="pagination" title="分页列表">
-                          <li class="page-pre">邮件总数:<i><{$totalNum}></i>&emsp;分页:</li>
-                          <li>
-                              <ol title="分页列表" class="page-main">
-                                <{$pageBar}>
-                              </ol>
-                          </li>
-                          <li class="page-suf"></li>	
-                        </ul>
+                        <{include file="pagination.tpl" page_name='邮件总数'}>
                     </div>
                  </div>
             </div>
@@ -97,7 +81,7 @@
             <li><samp class="ico-pos-reply"></samp><a href="mail/<%=type%>/reply/<%=num%>" class="mail-reply">回复</a></li> 
             <li><samp class="ico-pos-forward"></samp><a href="mail/<%=type%>/ajax_forward/<%=num%>.json" class="mail-forward">转寄</a></li> 
             <li><samp class="ico-pos-del"></samp><a href="mail/<%=type%>/ajax_delete/<%=num%>.json" class="mail-delete">删除</a></li> 
-            <li><samp class="ico-pos-edit" class="mail-new"></samp><a href="mail/send">撰写</a></li> 
+            <li><samp class="ico-pos-edit"></samp><a href="mail/send" class="mail-new">撰写</a></li>
         </ul>
     </div>
 </div>

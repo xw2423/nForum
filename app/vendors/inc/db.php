@@ -42,7 +42,7 @@ class DB extends PDO{
         if(isset(self::$_db) && self::$_config == $dbConfig)
             return self::$_db;
         self::_initConfig($dbConfig);
-        if (!class_exists('PDO')) 
+        if (!class_exists('PDO'))
             throw new DBException("PDO isn't supported");
         self::$_db = new DB();
         return self::$_db;
@@ -59,9 +59,11 @@ class DB extends PDO{
         $configs = self::$_config;
         try {
             parent::__construct($configs['dsn'], $configs['user'], $configs['pwd']);
-            $this->setAttribute(self::ATTR_ERRMODE, self::ERRMODE_EXCEPTION);  
+            $this->setAttribute(self::ATTR_ERRMODE, self::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            throw new DBException($e->getMessage());
+            echo "can't connect database!";
+            trigger_error($e->getMessage(), E_USER_ERROR);
+            exit();
         }
         $this->exec('SET NAMES '.$configs['charset']);
         $this->_connected = true;
@@ -75,7 +77,7 @@ class DB extends PDO{
 
     /**
      * fuction one
-     * get the first record of query 
+     * get the first record of query
      * if no result return false
      *
      * @param string $sql
@@ -93,7 +95,7 @@ class DB extends PDO{
 
     /**
      * fuction all
-     * get all the record of query 
+     * get all the record of query
      * if no result return false
      *
      * @param string $sql
@@ -113,8 +115,8 @@ class DB extends PDO{
     /**
      * fuction find
      * find value from sql result
-     * the sql result will be cached 
-     * if $val is array ,it will match a row of result 
+     * the sql result will be cached
+     * if $val is array ,it will match a row of result
      * and the sequence of $val must be the same as that in sql result
      * be careful the sql result is string
      *
@@ -153,7 +155,7 @@ class DB extends PDO{
     public function insert($table, $val){
         $key = $vals = "";
         $kcount = 0;
-        if(isset($val['k'])){    
+        if(isset($val['k'])){
             $key = "(" . join(",", array_map(array($this, '_addSpecialChar'), $val['k'])) . ")";
             $kcount = count($val['k']);
         }
@@ -212,7 +214,7 @@ class DB extends PDO{
             else
                 $update[] = $this->_addSpecialChar($k) . "='" . $this->_addslashes($v) . "' ";
         }
-        $sql = "UPDATE $table SET " . join(" , ", $update) . " $where"; 
+        $sql = "UPDATE $table SET " . join(" , ", $update) . " $where";
         $this->stm = $this->_query($sql, $param);
         return $this->stm->rowCount();
     }
@@ -220,7 +222,7 @@ class DB extends PDO{
     private static function _initConfig($dbConfig){
         if(empty($dbConfig))
             throw new DBException("no db config");
-        if(empty(self::$_config['params'])) 
+        if(empty(self::$_config['params']))
             self::$_config['params'] = array();
         self::$_config = $dbConfig;
     }
@@ -228,10 +230,10 @@ class DB extends PDO{
     private function _addSpecialChar($val){
         if(self::$_config['dbms'] !== "mysql")
             return $val;
-        if('*' == $val || 
-            false !== strpos($val,'(') || 
-            false !== strpos($val,'.') || 
-            false !== stripos($val,'null') || 
+        if('*' == $val ||
+            false !== strpos($val,'(') ||
+            false !== strpos($val,'.') ||
+            false !== stripos($val,'null') ||
             false !== strpos($val,'`')) {
         }else if(false === strpos($val,'`')){
             $val = '`' . trim($val) . '`';

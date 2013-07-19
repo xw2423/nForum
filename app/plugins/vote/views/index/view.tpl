@@ -25,7 +25,7 @@
 						<ul class="w-list-line">
 						<li><a href="<{$base}>/article/<{$board}>/<{$vinfo.aid}>">查看评论</a></li>
 <{if $islogin}>
-						<li><a href="<{$base}>/article/<{$board}>/post?reid=<{$vinfo.aid}>">我要评论</a></li>
+						<li><a href="<{$base}>/article/<{$board}>/post/<{$vinfo.aid}>">我要评论</a></li>
 <{/if}>
 <{if $admin}>
 						<li><a href="<{$base}>/vote/ajax_delete/<{$vinfo.vid}>.json" class="vote-delete">删除此投票</a></li>

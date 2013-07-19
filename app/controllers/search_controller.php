@@ -53,7 +53,9 @@ class SearchController extends AppController {
 
         $res = array();
         $u = User::getInstance();
-        if($full && $site && $u->isAdmin()){
+        if($title1 == '' && $title3 == '' && $author == '' && !$m && !$a){
+            $res = array();
+        }else if($full && $site && $u->isAdmin()){
             App::import('vendor', 'model/section');
             $secs = array_keys(Configure::read("section"));
             foreach($secs as $v){
@@ -108,15 +110,11 @@ class SearchController extends AppController {
         unset($query['p']);
         unset($query['ext']);
         foreach($query as $k=>&$v)
-            $v = $k . '=' . rawurlencode(rawurlencode($v));
+            $v = $k . '=' . rawurlencode($v);
         $query[] = "p=%page%";
         $link = "{$this->base}/s/article?". join("&", $query);
-        $pageBar = $page->getPageBar($p, $link);
-
-        $this->set("totalPage", $page->getTotalPage());
-        $this->set("totalNum", count($res));
-        $this->set("curPage", $page->getCurPage());
-        $this->set("pageBar", $pageBar);
+        $this->set("pageBar", $page->getPageBar($p, $link));
+        $this->set("pagination", $page);
     }
 
     public function board(){

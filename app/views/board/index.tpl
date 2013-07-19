@@ -1,14 +1,17 @@
     <div class="t-pre">
-        <div class="page">
-            <ul class="pagination">
-				<li class="page-pre">主题数:<i><{$totalNum}></i>&emsp;分页:</li>
-				<li>
-                  <ol title="分页列表" class="page-main">
-					<{$pageBar}>
-                  </ol>
-				</li>
-				<li class="page-suf"></li>	
-            </ul>
+        <div class="bmode">
+            <span>版面模式:</span>
+            <a class="tab-normal tab-down" href="<{$base}>/board/<{$bName}>">主题</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/6">原作</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/0">经典</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/3">保留</a>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/1">文摘</a>
+<{if $isAdmin || $bm}>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/4">回收</a>
+<{/if}>
+<{if $isAdmin}>
+            <a class="tab-normal" href="<{$base}>/board/<{$bName}>/mode/5">纸篓</a>
+<{/if}>
         </div>
 		<div class="t-btn">
 <{if !$tmpl}>
@@ -20,14 +23,15 @@
 <{/if}>
 			<a href="<{$base}>/elite/path?v=<{$elitePath}>" class="button">精华区</a>
 			<{if $islogin}><a href="javascript:void(0)" id="b_fav" class="button" _b="<{$bName}>">收藏</a><{/if}>
+			<{if $bm || $isAdmin}><a href="<{$base}>/board/<{$bName}>/denylist" class="button">封禁列表</a><{/if}>
 			<a href="<{$base}>/rss/board-<{$bName}>" class="rss" target="_blank"><samp class="ico-pos-rss"></samp></a>
 		</div>
     </div>
 	<{capture name=n_left}>本版当前共有<{$curNum}>人在线<{if isset($maxNum)}><span title="发生于<{$maxTime}>">[最高<{$maxNum}>人]</span><{/if}>&emsp;今日帖数<{$todayNum}><{/capture}>
 	<{capture name=n_right}>
 	版主:
-		<{foreach from=$bms item=bm}>
-			&ensp;<{if $bm[1]}><a href="<{$base}>/user/query/<{$bm[0]}>"><{$bm[0]}></a><{else}><{$bm[0]}><{/if}>
+		<{foreach from=$bms item=item}>
+			&ensp;<{if $item[1]}><a href="<{$base}>/user/query/<{$item[0]}>"><{$item[0]}></a><{else}><{$item[0]}><{/if}>
 		<{/foreach}>
 	<{/capture}>
 
@@ -49,16 +53,22 @@
 <{if ($info)}>
 <{foreach from=$info item=item}>
 				<tr <{if $item.tag == "T"}>class="top"<{/if}>>
-					<td class="title_8"><a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题"><samp class="tag 
-					<{if $item.tag == "N"}> ico-pos-article-normal
-					<{elseif $item.tag == "L"}> ico-pos-article-light
-                    <{elseif $item.tag == "L2"}> ico-pos-article-fire
-                    <{elseif $item.tag == "L3"}> ico-pos-article-huo
-					<{elseif $item.tag == "T"}> ico-pos-article-top
+					<td class="title_8">
+                    <{if $bm || $isAdmin}>
+                    <a class="a-func-manage" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.gid}>.json" title="管理" _gid="<{$item.gid}>">
+                    <{else}>
+					<a target="_blank" href="<{$base}>/article/<{$bName}>/<{$item.gid}>" title="在新窗口打开此主题">
+                    <{/if}>
+                    <samp class="tag
+					<{if $item.tag == "T"}> ico-pos-article-top
                     <{elseif $item.tag == "B"}> ico-pos-article-b
 					<{elseif $item.tag == "M"}> ico-pos-article-m
 					<{elseif $item.tag == "G"}> ico-pos-article-g
-					<{else}> ico-pos-article-lock
+					<{elseif $item.tag == ";"}> ico-pos-article-lock
+					<{elseif $item.tag == "L"}> ico-pos-article-light
+                    <{elseif $item.tag == "L2"}> ico-pos-article-fire
+                    <{elseif $item.tag == "L3"}> ico-pos-article-huo
+					<{else}> ico-pos-article-normal
 					<{/if}>"></samp></a></td>
 					<td class="title_9">
 						<a href="<{$base}>/article/<{$bName}>/<{$item.gid}>"><{$item.title}></a>
@@ -86,19 +96,12 @@
     	</div>
     <div class="t-pre-bottom">
         <div class="page">
-            <ul class="pagination">
-				<li class="page-pre">主题数:<i><{$totalNum}></i>&emsp;分页:</li>
-				<li>
-                  <ol title="分页列表" class="page-main">
-					<{$pageBar}>
-                  </ol>
-				</li>
-				<li class="page-suf"></li>	
-            </ul>
+            <{include file="pagination.tpl" page_name='主题数'}>
         </div>
     	<div class="t-btn">
         	<form method="get" action="<{$base}>/s/article" id="board_search">
-        		<input type="text" class="input-text input" name="t1" value="输入关键字" />
+        		<input type="text" class="input-text input" name="t1" placeholder="输入关键字" size="16"/>
+        		<input type="text" class="input-text input" name="au" placeholder="输入作者ID" size="12"/>
                 <input type="checkbox" name="m" id="c_m"/>
                 <label for="c_m">精华帖</label>
                 <input type="checkbox" name="a" id="c_a"/>
@@ -108,3 +111,4 @@
             </form>
         </div>
     </div>
+<{if $bm || $isAdmin}><{include file="article/manage.tpl"}><{/if}>

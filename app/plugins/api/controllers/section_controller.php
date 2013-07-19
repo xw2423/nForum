@@ -35,5 +35,25 @@ class SectionController extends ApiAppController {
 
         $this->set('data', $data);
     }
+
+    public function root(){
+        App::import("vendor", "model/section");
+        $secs = Configure::read('section');
+        $wrapper = Wrapper::getInstance();
+        $data = array();
+        foreach(array_keys($secs) as $v){
+            try{
+                $sec = Section::getInstance($v, Section::$NORMAL);
+            }catch(SectionNullException $e){
+                $this->error(ECode::$SEC_NOSECTION);
+            }catch(BoardNullException $e){
+                $this->error(ECode::$BOARD_NOBOARD);
+            }
+            $data[] = $wrapper->section($sec, array('status' => true));
+        }
+        $data = array('section_count' => count($data), 'section' => $data);
+        $this->set('data', $data);
+        $this->set('root', 'sections');
+    }
 }
 ?>

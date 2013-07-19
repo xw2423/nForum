@@ -288,4 +288,5 @@ $config['jsr']['iframe'] = false;
 $config['jsr']['allowFrame'] = "";
 $config['jsr']['session']['timeout'] = 60;
 $config['jsr']['redirect'] = $config['redirect']['time'];
+$config['jsr']['keyboard'] = true;
 ?>

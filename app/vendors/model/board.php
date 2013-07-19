@@ -34,10 +34,10 @@ App::import("vendor", array("model/overload", "model/threads", "model/iwidget", 
  * @author xw
  */
 class Board extends OverloadObject implements Pageable, iWidget{
-    
+
     /**
      * dir mode of board
-     * @var string 
+     * @var string
      */
     public static $NORMAL = 0;
     public static $DIGEST = 1;
@@ -46,9 +46,6 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public static $DELETED = 4;
     public static $JUNK = 5;
     public static $ORIGIN = 6;
-    public static $AUTHOR = 7;
-    public static $TITLE = 8;
-    public static $ZHIDING = 9;
 
     /**
      * number of threads in board
@@ -86,14 +83,14 @@ class Board extends OverloadObject implements Pageable, iWidget{
     /**
      * function search match with board name
      *
-     * @param $name 
+     * @param $name
      * @return array
      * @static
      * @access public
      */
     public static function search($name){
         $boards = array();
-        if (!bbs_searchboard(trim($name),0,$boards)) 
+        if (!bbs_searchboard(trim($name),0,$boards))
             return array();
         $ret = array();
         foreach($boards as $v){
@@ -174,9 +171,9 @@ class Board extends OverloadObject implements Pageable, iWidget{
             foreach($articles as $v){
                 $ret[] = array("text"=>Sanitize::html($v->TITLE), "url"=>"/article/{$this->NAME}/{$v->GROUPID}");
             }
-            return array("s"=>"w-list-line", "v"=>$ret);    
+            return array("s"=>"w-list-line", "v"=>$ret);
         }else{
-            return array("s"=>"w-list-line", "v"=>array(array("text" => ECode::msg(ECode::$BOARD_NOTHREADS), "url" => "")));    
+            return array("s"=>"w-list-line", "v"=>array(array("text" => ECode::msg(ECode::$BOARD_NOTHREADS), "url" => "")));
         }
     }
 
@@ -185,6 +182,10 @@ class Board extends OverloadObject implements Pageable, iWidget{
         if(!file_exists($file))
             return time();
         return filemtime($file);
+    }
+
+    public function wHasPerm($u){
+        return $this->hasReadPerm($u);
     }
 
     /**
@@ -308,23 +309,24 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public function isValidMode($mode = null){
         if(null === $mode)
             $mode = $this->_mode;
-        $modes = array(Board::$NORMAL,Board::$DIGEST,Board::$THREAD,Board::$MARK,Board::$DELETED,Board::$JUNK);
-        return in_array($mode, $modes);
+        $o = new ReflectionClass('Board');
+        return in_array($mode, $o->getStaticProperties());
     }
 
     /**
-     * function setMode change current board mode 
+     * function setMode change current board mode
      *
      * @param int $mode
-     * @return void
+     * @return boolean
      * @access public
      */
     public function setMode($mode){
-        $o = new ReflectionClass('Board');
         $mode = intval($mode);
-        if(in_array($mode, $o->getStaticProperties())){
+        if($this->isValidMode($mode)){
             $this->_mode = $mode;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -334,11 +336,11 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * @access public
      */
     public function getMode(){
-        return $this->_mode;    
+        return $this->_mode;
     }
 
     /**
-     * function hasReadPerm whether board can read 
+     * function hasReadPerm whether board can read
      * it also check the current mode can be read
      *
      * @param User $user
@@ -346,12 +348,10 @@ class Board extends OverloadObject implements Pageable, iWidget{
      * @access public
      */
     public function hasReadPerm($user){
-        if(!$this->isValidMode())
-            return false;
         if($this->_mode === Board::$DELETED && !$user->isBM($this) && !$user->isAdmin())
             return false;
         if($this->_mode === Board::$JUNK && !$user->isAdmin())
-                return false;
+            return false;
 
         if(bbs_checkreadperm($user->uid, $this->BID) == 0)
             return false;
@@ -410,20 +410,20 @@ class Board extends OverloadObject implements Pageable, iWidget{
     /**
      * function getVotes get vote list of board
      * array(
-     *     'USERID' => string 
-     *     'TITLE' => string 
-     *     'DATE' => int 
+     *     'USERID' => string
+     *     'TITLE' => string
+     *     'DATE' => int
      *     'TYPE' => string '是非' (length=4)
-     *     'MAXDAY' => int 
+     *     'MAXDAY' => int
      * )
      *
      * @return array
      * array(
-     *     'owner' => string 
-     *     'title' => string 
-     *     'start' => int 
+     *     'owner' => string
+     *     'title' => string
+     *     'start' => int
      *     'type' => string '是非' (length=4)
-     *     'day' => int 
+     *     'day' => int
      * )
      * @access public
      */
@@ -434,25 +434,25 @@ class Board extends OverloadObject implements Pageable, iWidget{
             return array();
         return $arr;
     }
-    
+
     /**
      * function getVote get vote of board via num
      * array(
-     *     'USERID' => string 
-     *     'TITLE' => string 
-     *     'DATE' => int 
+     *     'USERID' => string
+     *     'TITLE' => string
+     *     'DATE' => int
      *     'TYPE' => string '是非' (length=4)
-     *     'MAXDAY' => int 
+     *     'MAXDAY' => int
      *     'MAXTKT' => int 1
-     *     'DESC' => int 
-     *     'TOTALITEMS' => int 
-     *     'ITEM1' => string 
-     *     'ITEM2' => string 
-     *     'ITEM3' => string 
-     *     'ITEM4' => string 
-     *     'ITEM5' => string 
-     *     'ITEM6' => string 
-     *     'ITEM7' => string 
+     *     'DESC' => int
+     *     'TOTALITEMS' => int
+     *     'ITEM1' => string
+     *     'ITEM2' => string
+     *     'ITEM3' => string
+     *     'ITEM4' => string
+     *     'ITEM5' => string
+     *     'ITEM6' => string
+     *     'ITEM7' => string
      *     'VOTED1' => int 1
      *     'VOTED2' => int 1
      *     'MSG1' => string
@@ -519,7 +519,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
         $ret = bbs_vote_num($this->NAME, $num, intval($val1), intval($val2), $msg);
         return ($ret > 0);
     }
-    
+
     /**
      * function setOnBoard set current user on this board
      *
@@ -529,7 +529,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
     public function setOnBoard(){
         bbs_set_onboard($this->BID, 1);
     }
-    
+
     public function isReadOnly(){
         return $this->_checkFlag(BBS_BOARD_READONLY);
     }
@@ -585,7 +585,128 @@ class Board extends OverloadObject implements Pageable, iWidget{
         }catch(BoardNullException $e){
             return null;
         }
-        
+
+    }
+
+    public function getTitleKey($sys = true){
+        $tmp = array();
+        $ret = bbs_gettitkey($this->NAME, $tmp, $sys?1:0);
+        if(false === $ret)
+            return false;
+        foreach($tmp as &$v)
+            $v = $v['desc'];
+        return $tmp;
+    }
+
+    public function addDeny($userid = '', $reason, $day, $article = 0){
+        $ret = bbs_denyadd($this->NAME, $userid, $reason, $day, $article, 0);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$USER_NOID;
+                break;
+            case -4:
+                $code = ECode::$DENY_DENIED;
+                break;
+            case -5:
+                $code = ECode::$DENY_INVALIDDAY;
+                break;
+            case -6:
+                $code = ECode::$DENY_NOREASON;
+                break;
+            case -7:
+                $code = ECode::$DENY_CANTPOST;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    public function modDeny($userid, $reason, $day){
+        $ret = bbs_denymod($this->NAME, $userid, $reason, $day, 0);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$USER_NOID;
+                break;
+            case -4:
+                $code = ECode::$DENY_NOTDENIED;
+                break;
+            case -5:
+                $code = ECode::$DENY_INVALIDDAY;
+                break;
+            case -6:
+                $code = ECode::$DENY_NOREASON;
+                break;
+            case -7:
+                $code = ECode::$DENY_CANTPOST;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    public function delDeny($userid){
+        $ret = bbs_denydel($this->NAME, $userid);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+                $code = ECode::$DENY_NOTDENIED;
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+    }
+
+    // $all == false indicates custom reasons only
+    public function getDenyReasons($all = true){
+        $ret = array();
+        bbs_getdenyreason($this->NAME, $ret, $all);
+        return $ret;
+    }
+
+    public function getDeny() {
+        $data = array();
+        $ret = bbs_denyusers($this->NAME, $data);
+        $code = null;
+        switch ($ret) {
+            case -1:
+                $code = ECode::$SYS_ERROR;
+                break;
+            case -2:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -3:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            default:
+                break;
+        }
+        if (!is_null($code))
+            throw new BoardDenyException($code);
+        return $data;
     }
 
     private function _checkFlag($flag){
@@ -593,4 +714,5 @@ class Board extends OverloadObject implements Pageable, iWidget{
     }
 }
 class BoardNullException extends Exception {}
+class BoardDenyException extends Exception {}
 ?>

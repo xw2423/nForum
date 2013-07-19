@@ -15,7 +15,7 @@ App::import("vendor", array("model/archive", "model/code"));
 class Article extends Archive{
 
     /**
-     * the reference of the board which article in 
+     * the reference of the board which article in
      * @var Board $_board
      */
     protected $_board;
@@ -58,7 +58,7 @@ class Article extends Archive{
                 throw new ArticleNullException();
             $info = $info[0];
         }
-        return new Article($info, $board);
+        return new Article($info, $board, $id);
     }
 
     /**
@@ -306,10 +306,10 @@ class Article extends Archive{
     public function getFileName(){
         return "boards" . DS . $this->_board->NAME . DS . $this->FILENAME;
     }
-    
+
     public function getAttLink($pos){
-        $base = Configure::read('site.prefix');
-        return "$base/att/{$this->_board->NAME}/{$this->ID}/$pos";
+        $mode = $this->_board->getMode();
+        return "/{$this->_board->NAME}" . ($mode == Board::$THREAD?'':('/' . $mode)) . '/' . ($this->_board->isSortMode()?$this->ID:$this->_pos) . '/' . $pos;
     }
 
     /**
@@ -402,36 +402,51 @@ class Article extends Archive{
         return new Article($info[0], $this->_board);
     }
 
+    /**
+     * function manage set article flag
+     *
+     * @param int $op
+     *     0: do nth;
+     *     1: del;
+     *     2: mark;
+     *     3: digest;
+     *     4: noreplay;
+     *     5: zhiding;
+     *     7-9: % X #
+     */
+    public function manage($op, $top = false){
+        $code = null;
+        $ret = bbs_bmmanage($this->_board->NAME, $this->ID, $op, $top?1:0);
+        switch ($ret) {
+            case -1:
+                $code = ECode::$BOARD_NONE;
+                break;
+            case -2:
+                $code = ECode::$ARTICLE_NOMANAGE;
+                break;
+            case -3:
+            case -9:
+                $code = ECode::$SYS_ERROR;
+                break;
+            case -4:
+                $code = ECode::$ARTICLE_NONE;
+                break;
+            default:
+                break;
+        }
+        if(!is_null($code))
+            throw new ArticleManageException($code);
+        if($top || $op == 5){
+            touch('boards/' . $this->_board->NAME . '/.DIR');
+        }
+    }
+
+    public function addDeny($reason, $day){
+        $this->_board->addDeny('', $reason, $day, $this->ID);
+    }
+
     public function getBoard(){
         return $this->_board;
-    }
-
-    public function isM(){
-        return (strtolower($this->FLAGS[4]) == "m");
-    }
-
-    public function isG(){
-        return (strtolower($this->FLAGS[4]) == "g");
-    }
-
-    public function isNoRe(){
-        return (strtolower($this->FLAGS[2]) == "y");
-    }
-
-    public function isB(){
-        return (strtolower($this->FLAGS[4]) == "b");
-    }
-
-    public function isU(){
-        return $this->isM() && $this->isNoRe();
-    }
-
-    public function isO(){
-        return $this->isG() && $this->isNoRe();
-    }
-
-    public function is8(){
-        return $this->isB() && $this->isNoRe();
     }
 
     public function isTop(){
@@ -450,10 +465,16 @@ class Article extends Archive{
         return ($this->O_BID == 0);
     }
 
+    public function isReallyTop(){
+        $a = array();
+        return (bbs_get_records_from_id($this->_board->NAME, $this->ID, 11, $a) != 0);
+    }
+
 }
 
 class ArticleNullException extends Exception {}
 class ArticlePostException extends Exception {}
 class ArticleDeleteException extends Exception {}
 class ArticleForwardException extends Exception {}
+class ArticleManageException extends Exception {}
 ?>

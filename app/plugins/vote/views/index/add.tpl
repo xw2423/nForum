@@ -36,6 +36,8 @@
 				<dd><input type="radio" name="type" value="0" checked onclick="$('#v_limit').attr('disabled',true)"/>单选&nbsp;&nbsp;<input type="radio" name="type" value="1" onclick="$('#v_limit').attr('disabled',false)"/>多选</dd>
 				<dt>多选限制:</dt>
 				<dd><select id="v_limit" disabled="1" name="limit"><option value="0">无限制</option><{html_options options=$limit}></select></dd>
+				<dt>结果显示:</dt>
+				<dd><input type="checkbox" name="result_voted" value="1" />&ensp;投票后显示结果</dd>
 				<dt>相关版面:</dt>
 				<dd>
 					<select id="vote_section">

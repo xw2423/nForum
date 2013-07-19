@@ -5,7 +5,7 @@
  *****************************************************/
 
 /**
- * interface iWidget define the method of widget 
+ * interface iWidget define the method of widget
  *
  * @author xw
  */
@@ -13,20 +13,20 @@ interface iWidget{
 
     /**
      * get widget name
-     * @return String 
+     * @return String
      */
     public function wGetName();
 
     /**
      * get widget title
      * if no url set it to ''
-     * @return Array array("text"=>"", url=>"") 
+     * @return Array array("text"=>"", url=>"")
      */
     public function wGetTitle();
 
     /**
      * get widget content
-     * @return Array 
+     * @return Array
      */
     public function wGetList();
 
@@ -35,6 +35,12 @@ interface iWidget{
      * @return int
      */
     public function wGetTime();
+
+    /**
+     * whether user has permit to access widget
+     * @return boolean
+     */
+    public function wHasPerm($u);
 }
 
 /**
@@ -48,8 +54,8 @@ interface iWidget{
  * public function wGetList()
  * //get widget modify time cache
  * public function wGetTime()
- * 
- * style list:w-free w-tab w-list-line w-list-float 
+ *
+ * style list:w-free w-tab w-list-line w-list-float
  * A=[{t:w-tab, v:A|B}+]|B
  * B={s:w-free|w-list-line|w-list-float, v:[C+]}
  * C={text:"", url:""}
@@ -83,6 +89,11 @@ abstract class WidgetAdapter implements iWidget{
         return time();
     }
 
+    //all user can access default
+    public function wHasPerm($u){
+        return true;
+    }
+
     protected function _error($msg){
         return array("s"=>self::$S_LINE, "v"=>array(array("text"=>$msg, "url"=>"")));
     }
@@ -90,13 +101,17 @@ abstract class WidgetAdapter implements iWidget{
 
 /**
  * class EWideget
- * use for show error when widget is not found
+ * use for show error when widget has some error
  *
  * @extends WidgetAdapter
  * @author xw
  */
 class EWidget extends WidgetAdapter {
 
+    private $_err = '该应用不存在或被关闭';
+    public function __construct($err = ''){
+        if(!empty($err)) $this->_err = $err;
+    }
     //the two functions below is useless , i will not use them
     public function wGetName(){return '';}
     public function wGetTitle(){return array("text"=>"Error", "url"=>"");}
@@ -104,6 +119,6 @@ class EWidget extends WidgetAdapter {
     //it will update content by ajax with cache immediately
     //so if no error, you will update widget time to a new time
     public function wGetTime(){return parent::wGetTime();}
-    public function wGetList(){return $this->_error('该应用不存在或被关闭');}
+    public function wGetList(){return $this->_error($this->_err);}
 }
 ?>

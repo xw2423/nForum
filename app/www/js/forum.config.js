@@ -76,6 +76,8 @@ SYS.code = {
     MSG_SUBJECT:'请输入标题!',
     MSG_REPEAT:'请不要重复发文!',
     MSG_NULL:'不要回复空内容嘛!',
+    MSG_UNLOAD:'当前内容将被丢弃,你确定离开此页?',
+    MSG_DELETE:'确认删除文章?',
     WIG_LAST:'你只剩下一个模块了!',
     WIG_DEL:'模块删除后您可以在左侧"个性首页设置"中重新添加',
     WIG_NONE:'该应用不存在或被关闭',

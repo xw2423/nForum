@@ -23,10 +23,11 @@ class Forum {
      * @static
      * @access public
      */
-    public static function initUser($id, $utmpnum, $utmpkey){
+    public static function initUser($id, $utmpnum, $utmpkey, $telnet = false){
         $arr = array();
-        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr) == 0); 
-        
+        $telnet = $telnet?1:0;
+        return (bbs_setonlineuser($id, $utmpnum, $utmpkey, $arr, $telnet) == 0);
+
     }
 
     /**
@@ -34,12 +35,17 @@ class Forum {
      * current user will be set in self::checkPwd with bbs_checkpasswd function if no current user set, this funciton will login with guest
      *
      * @param boolean $kick kick out other login session if session is full
-     * @return int 
+     * @return int
      * @static
      * @access public
      */
     public static function setUser($kick = true){
         $ret = bbs_wwwlogin($kick?1:0);
+        return $ret;
+    }
+
+    public static function checkBanIP($id, $from) {
+        $ret = bbs_check_ban_ip($id, $from);
         return $ret;
     }
 
@@ -71,8 +77,8 @@ class Forum {
      * @access public
      */
     public static function checkPwd($id, $pwd, $md5, $log){
-        //bbs_checkuserpasswd only check no log 
-        //bbs_checkpasswd check, set current user and log error for login 
+        //bbs_checkuserpasswd only check no log
+        //bbs_checkpasswd check, set current user and log error for login
         $md5 = $md5?1:0;
         if($md5){
             return (bbs_checkpasswd($id, $pwd, $md5) == 0);
@@ -139,6 +145,20 @@ class Forum {
         $ret = bbs_upload_del_file($name);
         if($ret != 0)
             throw new AttException(ECode::kbs2code($ret));
+    }
+
+    public static function decodeAttHash($hash){
+        $hash = explode(".", $hash);
+        if($hash[0] && ($ret = bbs_decode_att_hash($hash[0], "24244"))){
+            $ret['sid'] = $ret[0];
+            $ret['bid'] = $ret[1];
+            $ret['id'] = $ret[2];
+            $ret['ftype'] = $ret[3];
+            $ret['num'] = $ret[4];
+            $ret['ap'] = $ret[5];
+            return $ret;
+        }
+        return false;
     }
 }
 

@@ -9,6 +9,12 @@
     margin-top:8px;
     float:right;
 }
+.vote-search{
+    padding-bottom:3px
+}
+.vote-search .input-text{
+    width:165px
+}
 .vote-submit{
     margin-top:10px;
     padding-top:10px;
@@ -152,7 +158,7 @@
     margin-top:4px;
     padding:4px 0;
 }
-#vote_view h3{color:#444;}
+#vote_view h3{color:#444;word-wrap:break-word;overflow:hidden;}
 #vote_view .vote-submit{
     padding-left:0;
 }

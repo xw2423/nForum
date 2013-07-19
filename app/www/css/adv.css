@@ -25,9 +25,29 @@
     *display:inline;
     *zoom:1;
 }
+#adv_filter{
+    margin:auto;
+    margin-top:4px;
+    padding:6px 0;
+    border: 1px solid #aaa;
+    width:574px;
+}
+#adv_filter li{
+    margin-left:14px;
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+#adv_filter .input-text{
+    width:80px;
+}
+#adv_filter .input-text[name="remark"]{
+    width:150px;
+}
 #add{margin-top:-5px;*margin-top:-1px}
 #adv_main{
-    margin-top:20px;
+    margin-top:4px;
+    margin-bottom:20px;
     min-width:1024px;
 }
 #adv_main table{ 
@@ -42,7 +62,7 @@
 }
 #adv_main th{ height:25px; }
 #adv_main td{ height:28px; }
-.button{margin-left:5px;}
+.button{margin-right:5px;}
 .c_1{width:30px}
 .c_2{width:150px}
 .c_3{width:auto}

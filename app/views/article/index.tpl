@@ -1,10 +1,6 @@
     <div class="t-pre">
         <div class="page">
-            <ul class="pagination">
-			  <li class="page-pre">贴数:<i><{$totalNum}></i>&emsp;分页:</li>
-              <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-			  <li class="page-suf"></li>	
-            </ul>
+            <{include file="pagination.tpl" page_name='贴数'}>
         </div>
 		<div class="t-btn">
 <{if !$tmpl}>
@@ -55,14 +51,18 @@
 					<li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/<{$bName}>/ajax_forward/<{$item.id}>.json" class="a-func-forward">转寄</a></li>
 					<li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 <{if $au}>
-					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a></li>
+					<li><samp class="ico-pos-user"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?s=<{$item.id}>">展开</a></li>
 <{else}>
-					<li><samp class="ico-pos-query"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a></li>
+					<li><samp class="ico-pos-user"></samp><a href="<{$base}>/article/<{$bName}>/<{$gid}>?au=<{$item.poster}>">只看此ID</a></li>
 <{/if}>
 				<{if $item.op == "1"}>
 					<li><samp class="ico-pos-edit"></samp><a href="<{$base}>/article/<{$bName}>/edit/<{$item.id}>">编辑</a></li>
 					<li><samp class="ico-pos-del"></samp><a href="<{$base}>/article/<{$bName}>/ajax_delete/<{$item.id}>.json" class="a-func-del">删除</a></li>
 				<{/if}>
+                <{if $bm}>
+                    <li><samp class="ico-pos-deny"></samp><a href="<{$base}>/article/<{$bName}>/ajax_deny/<{$item.id}>.json" class="a-func-deny" _b="<{$bName}>" _u="<{$item.poster}>">封禁</a></li>
+                    <li><samp class="ico-pos-manage"></samp><a href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json" class="a-func-manage" _gid="<{$gid}>">管理</a></li>
+                <{/if}>
 				</ul>
 				<span class="a-pos">
 					<{if $item.pos == "0"}>
@@ -115,7 +115,18 @@
 				</ul>
 <{/if}>
 			</td>
-			<td><a href="#" class="c63f a-back">返回顶部</a></td>
+			<td>
+<{if $bm}>
+				<ul class="a-status">
+<{if $item.m}><li><samp class="ico-pos-article-m"></samp><{/if}>
+<{if $item.g}><li><samp class="ico-pos-article-g"></samp><{/if}>
+<{if $item.l}><li><samp class="ico-pos-article-lock"></samp><{/if}>
+<{if $item.x}><li>X</li><{/if}>
+<{if $item.p}><li>％</li><{/if}>
+<{if $item.s}><li>﹟</li><{/if}>
+				</ul>
+<{/if}>
+            <a href="#" class="c63f a-back">返回顶部</a></td>
 		</tr>
 	</table>
     </div>
@@ -124,15 +135,12 @@
         </div>
     <div class="t-pre-bottom">
         <div class="page">
-            <ul class="pagination">
-			  <li class="page-pre">贴数:<i><{$totalNum}></i>&emsp;分页:</li>
-              <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-			  <li class="page-suf"></li>	
-            </ul>
+            <{include file="pagination.tpl" page_name='文章数'}>
         </div>
     	<div class="t-btn">
         	<form id="f_search" method="get" action="<{$base}>/s/article">
-        		<input id="a_search" type="text" class="input-text input" name="t1" value="输入关键字" />
+        		<input type="text" class="input-text input" name="t1" placeholder="输入关键字" size="16"/>
+        		<input type="text" class="input-text input" name="au" placeholder="输入作者ID" size="12"/>
                 <input type="checkbox" name="m" id="c_m"/>
                 <label for="c_m">精华帖</label>
                 <input type="checkbox" name="a" id="c_a"/>
@@ -162,4 +170,5 @@
     </form>
     <!--quick_reply end-->
 <{include file="article/forward.tpl"}>
+<{if $bm}><{include file="article/manage.tpl"}><{/if}>
 <{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

@@ -93,7 +93,14 @@ class EliteController extends AppController {
         $this->notice[] = array("url" => "", "text" => "精华区列表");
     }
 
+
     public function file(){
+        if(!isset($this->params['url']['pos'])
+            && !preg_match("/ajax_file.json$/", $this->here)
+            && !$this->spider){
+            $this->redirect('elite/path?v=' . preg_replace("|/([^/]+)/*$|","&f=", trim($this->params['url']['v'])) . trim($this->params['url']['v']));
+        }
+
         $path = Configure::read("elite.root") . "/";
         $boardName = "";
         $articles = array();
@@ -128,12 +135,9 @@ class EliteController extends AppController {
             $pos = intval($this->params['url']['pos']);
             if($pos == 0)
                 $this->_stop();
-            $e->getAttach($pos); 
+            $e->getAttach($pos);
             $this->_stop();
         }
-        //make a json output
-        $this->html = false;
-        $this->params['url']['ext'] = 'json';
 
         $content = $e->getHtml(true);
         $subject = '';
@@ -144,7 +148,15 @@ class EliteController extends AppController {
             $content = preg_replace("'^(.*?<br \/>.*?<br \/>)'e", "XUBB::remove('\\1')", $content);
             $content = XUBB::parse($content);
         }
-        $this->set("no_html_data", array('subject'=>$subject, 'content'=>$content));
+        $this->set(array(
+            'subject' => $subject
+            ,'content' => $content
+        ));
+    }
+
+    public function ajax_file(){
+        $this->file();
+        $this->set("no_html_data", array('subject'=>$this->get('subject'), 'content'=>$this->get('content')));
     }
 
     public function download(){
@@ -196,8 +208,15 @@ class Elite extends Archive{
         return $this->_path;
     }
     public function getAttLink($pos){
+        return "/download?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
+    }
+    public function getAttHtml($thumbnail = ''){
         $base = Configure::read('site.prefix');
-        return "$base/elite/download?v=" . urlencode(preg_replace('/' . Configure::read('elite.root') . '/', "", $this->_path)) . "&pos={$pos}";
+        $ret = parent::getAttHtml($thumbnail);
+        foreach($ret as &$v){
+            $v = str_replace($base . '/att', $base . '/elite', $v);
+        }
+        return $ret;
     }
     public function addAttach($file, $fileName){}
     public function delAttach($num){}

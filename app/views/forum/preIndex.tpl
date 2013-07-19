@@ -66,6 +66,6 @@
     </aside>
 </footer>
 <!--footer end-->
-</body>
 <{include file="script.tpl"}>
+</body>
 </html>

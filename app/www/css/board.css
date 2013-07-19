@@ -3,6 +3,18 @@
     width:100%;
 }
 .t-pre-bottom .t-btn {margin-left:5px;}
+.bmode{
+    float:right;
+}
+.bmode span{
+    display:inline-block;
+    margin-right:2px;
+}
+.bmode a{
+    display:inline-block;
+    margin-left:2px;
+    padding:2px 5px 1px;
+}
 .t-btn a{
     display:inline-block;
     text-align:center;
@@ -61,3 +73,23 @@
 }
 .board-list .threads-tab{ font-weight:bold; padding-left:4px;}
 .board-list .threads-tab a{margin:0 3px}
+
+/*denylist*/
+#deny_list th.c_op{padding-left:5px}
+#deny_list .c_num{width:37px;padding-left:7px}
+#deny_list .c_userid{width:120px}
+#deny_list .c_userid input{width:90px}
+#deny_list .c_reason input{width:150px;margin-right:10px}
+#deny_list select{background-color:#ffffff}
+#deny_list .c_desc{width:160px}
+#deny_list .c_desc input{width:30px}
+#deny_list .c_op{width:85px}
+#deny_list .c_op input{margin-left:5px}
+#m_deny li span {
+    padding-right:4px;
+    vertical-align: middle;
+}
+#m_deny .input-text{
+    width:150px;
+    margin-right:4px;
+}

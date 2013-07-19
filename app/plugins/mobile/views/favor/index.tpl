@@ -1,10 +1,10 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
 <{if $parent}>
-<div class="sp">
+<div class="sec sp">
 	<a href="<{$mbase}><{$parent}>">上一层</a>
 </div>
 <{/if}>
-<ul class="list sec">
+<ul class="slist sec">
 <{if $info}>
 <{foreach from=$info item=item}>
 <li<{cycle values=', class="hl"'}>><{if $item.dir}><font color="#f60">目录</font><{else}>版面<{/if}>|<a href="<{$mbase}><{$item.url}>"><{$item.desc}><{if $item.name != ""}>(<{$item.name}>)<{/if}></a></li>

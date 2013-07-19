@@ -12,7 +12,8 @@
         <div class="b-content corner">
         	<div id="c_content" class="corner">
 				<form method="post" action="<{$base}>/user/ajax_info.json">
-                <h6>基本信息</h6>
+                <section class="list-block">
+                <header>基本信息</header>
                 <ul>
                     <li>
 						<span class="b-left-m">性别:&ensp;</span>
@@ -26,7 +27,9 @@
 						<input size="2" class="input-text" size="2" type="text" name="day" value="<{$day}>" />日
 						<span class="b-right-m">如果不想填，请全部留空</span></li>
                 </ul>
-                <h6>头像设置</h6>
+                </section>
+                <section class="list-block">
+                <header>头像设置</header>
                 <ul>
                     <li class="def">
 						<span class="b-left-m">自定义头像:&ensp;</span>
@@ -45,17 +48,21 @@
                         <div class="u-img-show">
                             <img src="<{$static}><{$base}><{$myface}>" id="fpreview" <{if $myface_w != ""}>width="<{$myface_w}>px"<{/if}> <{if $myface_h != ""}>height="<{$myface_h}>px"<{/if}> />
                         </div>
+                        <div class="clearfix"></div>
                     </li>
                 </ul>
-                <h6>联系信息</h6>
+                </section>
+                <section class="list-block">
+                <header>联系信息</header>
                 <ul>
-                    <li><span class="b-left-m">OICQ号码:&ensp;</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ地址，方便与他人的联系</span></li>
+                    <li><span class="b-left-m">QQ:&ensp;</span><input class="input-text" type="text" name="qq" value="<{$qq}>" /><span class="b-right-m">填写您的QQ，方便与他人的联系</span></li>
                     <li><span class="b-left-m">MSN:&ensp;</span><input class="input-text" type="text" name="msn" value="<{$msn}>" /><span class="b-right-m">填写您的MSN地址，方便与他人的联系</span></li>
                     <li><span class="b-left-m">主页:&ensp;</span><input class="input-text" type="text" name="homepage" value="<{$homepage}>" /><span class="b-right-m">填写您的个人主页地址，展示您的网上风采</span></li>
                     <li><span class="b-left-m">Email:&ensp;</span><input class="input-text" type="text" name="email" value="<{$email}>"/><span class="b-right-m">您的有效电子邮件地址</span></li>
                     <li><span class="b-left-m">签名档:&ensp;</span><textarea class="input-text b-textarea" name="signature"><{$sig}></textarea></li>
+                    <li class="b-op"><input type="submit" class="button" value="提交修改" /><input class="button" type="reset" value="重写" /></li>
                 </ul>
-                <div class="b-op"><input type="submit" class="button" value="提交修改" /><input class="button" type="reset" value="重写" /></div>
+                </section>
                 </form>
             </div>
     	</div>

@@ -22,13 +22,13 @@ class MailBox implements Pageable{
      */
     public $type;
 
-    /** 
-     * chinese desc of mail box 
+    /**
+     * chinese desc of mail box
      * @var string $desc
      */
     public $desc;
 
-    /** 
+    /**
      * reference of User
      * @var User $user
      */
@@ -53,7 +53,7 @@ class MailBox implements Pageable{
      * @return MailBox object
      * @access public
      * @throws MailBoxNullException
-     * @example 
+     * @example
      * try{
      *         $box = new MailBox(User::getInstance(), MailBox::$IN);
      * }catch(MailBoxNullException){}
@@ -63,8 +63,8 @@ class MailBox implements Pageable{
             throw new MailBoxNullException();
         $this->user = $user;
         $this->type = $type;
-        switch($type){       
-            case self::$IN: 
+        switch($type){
+            case self::$IN:
                 $this->desc = "ÊÕ¼þÏä";
                 $this->path = ".DIR";
                 break;
@@ -98,7 +98,7 @@ class MailBox implements Pageable{
         }
         return array_reverse($arr);
     }
-    
+
     public function getMailNum(){
          return bbs_getmailnum2($this->getFullPath());
     }
@@ -132,7 +132,7 @@ class MailBox implements Pageable{
  * @author xw
  */
 class Mail extends Archive {
-    
+
     /** the position is mail box */
     public $num;
 
@@ -151,7 +151,7 @@ class Mail extends Archive {
      * @throws MailNullException
      */
     public static function getInstance($num, $box){
-        $arr = array();    
+        $arr = array();
         if(bbs_get_records_from_num($box->getFullPath(), $num, $arr))
             return new Mail($arr[0], $box, $num);
         else
@@ -168,7 +168,7 @@ class Mail extends Archive {
         unlink($file);
         return $ret;
     }
-    
+
     /**
      * function canSend check current user has send right
      *
@@ -332,8 +332,7 @@ class Mail extends Archive {
     }
 
     public function getAttLink($pos){
-        $base = Configure::read('site.prefix');
-        return "$base/att/{$this->_box->type}/{$this->num}/$pos";
+        return "/{$this->_box->type}/{$this->num}/$pos";
     }
 
     public function getBox(){

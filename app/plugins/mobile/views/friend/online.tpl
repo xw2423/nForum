@@ -1,5 +1,5 @@
 <{include file="../plugins/mobile/views/header.tpl"}>
-<ul class="sec list">
+<ul class="sec slist">
 <{if isset($friends)}>
 <li class="f">ÐòºÅ|
 ID|

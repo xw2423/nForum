@@ -1,16 +1,19 @@
 $(function(){
     $('#quick_text').ubb({enable:false, ubb_img_path:SYS.base + "/img/ubb/", ubb_em:$('#em_img')});
-        
+
     var validPost = function(){
         if(!user_post){
-            DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
+            if(SESSION.get('is_login'))
+                DIALOG.alertDialog(SYS.code.MSG_NOPERM);
+            else
+                $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
             return false;
         }
         return true;
     };
     $('#quick_post').submit(function(){
         if($.trim($('#quick_text').val()) == ''){
-            DIALOG.alertDialog(SYS.code.MSG_NULL);
+            $('#quick_text').alertDialog(SYS.code.MSG_NULL);
             return false;
         }
         if(validPost()){
@@ -23,11 +26,11 @@ $(function(){
     $('#f_search').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
             v = encodeURIComponent(encodeURIComponent(v));
-            if($.isIE(7) || $.isIE(6)) v = encodeURIComponent(v);
             return k + '=' + v;
-        }).join('&'));  
+        }).join('&'));
         return false;
     });
+    $('#f_search input[placeholder]').placeholder();
     $('#body').on('click','.a-post',validPost)
         .on('click','#a_reply',function(){
             $('#quick_text').focus();
@@ -35,13 +38,9 @@ $(function(){
             $.post($(this).attr('href'), function(json){
                 delete json['default'];
                 delete json['list'];
-                DIALOG.ajaxDialog(json);   
+                DIALOG.ajaxDialog(json);
             }, 'json');
             return false;
-        }).on('mouseover','#a_search',function(){
-            $(this).select();
-        }).on('mouseover','#quick_text',function(){
-            $(this).focus();
         }).on('keydown','#quick_text',function(event){
             if(event.ctrlKey && event.keyCode == 13){
                 $('#quick_post').submit();
@@ -68,7 +67,7 @@ $(function(){
     var friends = SYS.cache('friends');
     $('#body').on('click','.a-func-forward',function(){
         if(!SESSION.get('is_login')){
-            DIALOG.alertDialog(SYS.code.MSG_LOGIN);
+            $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
             return false;
         }
         var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {

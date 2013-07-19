@@ -1,6 +1,8 @@
 <?php
-$config['uaacl']['global'] = array(
-); 
+/**
+ * plz set uaacl.on=TRUE in app/config/nforum.php
+ */
+$config['uaacl']['global'] = array();
 $config['uaacl']['attachment']['att'] = array(
     //xunlei
     array("|^Mozilla/4\.0\s\(compatible;\sMSIE\s6\.0;Windows\sNT\s5\.1\)$|", false),

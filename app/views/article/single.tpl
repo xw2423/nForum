@@ -8,7 +8,7 @@
         <li><samp class="ico-pos-forward"></samp><a href="article/<%=board_name%>/ajax_forward/<%=id%>.json" class="a-func-forward">转寄</a></li> 
         <li><samp class="ico-pos-search"></samp><a href="s/article?b=<%=board_name%>&au=<%=user.id||user%>" class="a-close">搜索</a></li>
 <%if(is_admin){%>
-        <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/edit/<%=id%>.json" class="a-close">编辑</a></li> 
+        <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/edit/<%=id%>" class="a-close">编辑</a></li>
         <li><samp class="ico-pos-del"></samp><a href="article/<%=board_name%>/ajax_delete/<%=id%>.json" class="a-func-del">删除</a></li> 
 <%}%>
         <li><samp class="ico-pos-edit"></samp><a href="article/<%=board_name%>/post" class="a-post">发文</a></li>
@@ -33,9 +33,9 @@
         <li><a href="article/<%=board_name%>/ajax_single/<%=threads_next_id%>.json" class="a-single">同主题下一篇</a></li> 
 <%}%>
         <li><a href="article/<%=board_name%>/<%=group_id%>?s=<%=id%>" class="a-close">展开</a></li>
-        <li><a href="article/<%=board_name%>/ajax_single/<%=group_id%>.json" class="a-single">溯源</a></li> 
+        <li><a href="article/<%=board_name%>/ajax_single/<%=group_id%>.json" class="a-single">楼主</a></li> 
         <li><a href="article/<%=board_name%>/<%=group_id%>" class="a-close">同主题展开</a></li>
-        <li><a href="article/<%=board_name%>/ajax_single/<%=reply_id%>.json" class="a-single">引文</a></li>
+        <li><a href="article/<%=board_name%>/ajax_single/<%=reply_id%>.json" class="a-single">溯源</a></li>
     </ul>
 </div>
 </script>

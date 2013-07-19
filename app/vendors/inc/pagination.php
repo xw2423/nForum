@@ -5,7 +5,7 @@
  *****************************************************/
 
 /**
- * interface Pageable 
+ * interface Pageable
  *
  * @author xw
  */
@@ -74,7 +74,7 @@ class Pagination {
      * @var int $_totalPage
      */
     private $_curPage;
-    
+
     /**
      * number of element in current page,if the last page may be not equal $this->_num
      * @var int $_curNum
@@ -85,7 +85,7 @@ class Pagination {
      * link format, %page% is page number
      * @var string $_link
      */
-    private $_link;        
+    private $_link;
 
     /**
      * omit format
@@ -196,11 +196,11 @@ class Pagination {
     }
 
     private function _getTags($mid) {
-        if($this->_totalPage <= self::$MIDNUM + 2) 
+        if($this->_totalPage <= self::$MIDNUM + 2)
             return range(1, $this->_totalPage);
-        if($mid < (self::$MIDNUM + 3) / 2) 
+        if($mid < (self::$MIDNUM + 3) / 2)
             $mid = (self::$MIDNUM + 3) / 2;
-        if($mid > $this->_totalPage - (self::$MIDNUM + 1) / 2) 
+        if($mid > $this->_totalPage - (self::$MIDNUM + 1) / 2)
             $mid = $this->_totalPage - (self::$MIDNUM + 1) / 2;
         $range = range($mid - (self::$MIDNUM - 1) / 2, $mid + (self::$MIDNUM - 1) / 2);
         $ret = array(1);
@@ -212,7 +212,7 @@ class Pagination {
             $ret[] = $this->_omit;
         }
         $ret[] = $this->_totalPage;
-        
+
         return $ret;
     }
 

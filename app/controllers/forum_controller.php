@@ -14,10 +14,10 @@ class ForumController extends AppController {
         $this->set("refer", Configure::read('refer.enable'));
 
         //load adv
-        //banner use js
-        Configure::write('jsr.adv', $this->Adv->getParams());
+        //banner
+        $this->set("banner_adv", $this->Adv->getBanner());
         //left
-        $this->set("advs", $this->Adv->getLeft());
+        $this->set("left_adv", $this->Adv->getLeft());
     }
 
     public function index(){
@@ -30,7 +30,7 @@ class ForumController extends AppController {
         $ret = $w = array();
         $ret = Widget::wGet($u);
         if(empty($ret)){
-            $this->set("widget", array());    
+            $this->set("widget", array());
             return;
         }
         $persistent = Configure::read("widget.persistent");
@@ -44,7 +44,10 @@ class ForumController extends AppController {
             if($persistent){
                 try{
                     $ww = Widget::getInstance($v['name']);
-                    if(strpos($v['name'], "favor-") === 0){
+                    if(!$ww->wHasPerm(User::getInstance())){
+                        $ww = new EWidget('你无权访问此应用');
+                        $html = Widget::html($ww->wGetList());
+                    }else if(strpos($v['name'], "favor-") === 0){
                         $html = Widget::html($ww->wGetList());
                     }else if(!isset($time[$v['name']]) || $time[$v['name']] < $ww->wGetTime() || false === ($html = nforum_cache_read("widget_" . $v['name']))){
                         $time[$v['name']] = $ww->wGetTime();
@@ -63,11 +66,11 @@ class ForumController extends AppController {
         if($persistent && $update) nforum_cache_write("widget_time", $time);
         foreach($w as &$v)
             ksort($v);
-        $this->set("widget", $w);    
+        $this->set("widget", $w);
         $this->jsr[] = 'SYS.widget.persistent=' . ($persistent?'true':'false');
         $this->jsr[] = "xWidget.init(SESSION.get('is_login'), SESSION.get('id'))";
     }
-    
+
     public function preIndex(){
         $this->front = true;
         if($this->ByrSession->isLogin)
@@ -87,7 +90,8 @@ class ForumController extends AppController {
             $content = file_get_contents($file);
             $contents = explode("*img*",$content);      //分开文字连接和图片链接
             $plant = explode("\n",$contents[0]);         //获取文字连接
-            $img = explode("\n",$contents[1]);
+            if(isset($contents[1]))
+                $img = explode("\n",$contents[1]);
         }
         foreach($plant as &$v){
             $v = split("[ \r\n\t]+", $v);
@@ -126,11 +130,8 @@ class ForumController extends AppController {
             $this->set("friends", $info);
         }
         $link = "{$this->base}/online?p=%page%";
-        $pageBar = $pagination->getPageBar($p, $link);
-        $this->set("pageBar", $pageBar);
-        $this->set("totalNum", $f->getTotalNum());
-        $this->set("curPage", $pagination->getCurPage());
-        $this->set("totalPage", $pagination->getTotalPage());
+        $this->set("pageBar", $pagination->getPageBar($p, $link));
+        $this->set("pagination", $pagination);
     }
 }
 ?>

@@ -2,7 +2,7 @@
 <form action="<{$mbase}>/article/<{$bName}>/<{if isset($edit)}>edit<{else}>post<{/if}><{if $reid!=0}>/<{$reid}><{/if}>" method="post">
 <ul class="sec list">
 <li>标题:<br /><input type="text" name="subject" value="<{$title}>" style="width:100%" /></li>
-<li>内容:<br /><textarea name="content" style="width:100%" rows="8"/><{$content}></textarea></li>
+<li>内容:<br /><textarea name="content" style="width:100%" rows="8"><{$content}></textarea></li>
 <{if $email}>
 <li><input type="checkbox" name="email" />回文转寄
 <{/if}>

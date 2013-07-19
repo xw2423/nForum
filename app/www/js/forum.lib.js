@@ -65,6 +65,11 @@ $.extend({
     isTop:function(){
         return (window.top == window.self);
     },
+    setTitle:function(title){
+        if($.isIE())
+            window.origTitle = title;
+        document.title = title;
+    },
     sizeFormat:function(num){
         var sizes = [
             ['TB',1024 * 1024 * 1024 * 1024],
@@ -96,9 +101,11 @@ $.fn.extend({
         });
     },
     autoVerMiddle:function(){
-        this.wrapInner('<div class="auto-ver-middle" />');
-        this.css({'height':this.height()}).append('<div class="auto-ver-middle-max" />');
-        return this;
+        return this.each(function(i,e){
+            var e = $(e);
+            e.wrapInner('<div class="auto-ver-middle" />');
+            e.css({'height':e.height()}).append('<div class="auto-ver-middle-max" />');
+        });
     },
     getPostData:function(){
         var data = {};
@@ -115,6 +122,55 @@ $.fn.extend({
            });
         return data;
     },
+    audioembed:function(option){
+        option = _.extend({
+        }, option || []);
+        return this.each(function(i, e){
+            var e = $(e), _id = '_jp_container' + $.random() + '_' + i;
+            e.after('<div id="' + _id + '" class="jp-audio">
+            <div class="jp-type-single">
+                <div class="jp-gui jp-interface">
+                    <ul class="jp-controls">
+                        <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+                        <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+                        <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+                        <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+                        <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+                    </ul>
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar"></div>
+                        </div>
+                    </div>
+                    <div class="jp-volume-bar">
+                        <div class="jp-volume-bar-value"></div>
+                    </div>
+                    <div class="jp-time-holder">
+                        <div class="jp-current-time"></div>
+                        <div class="jp-duration"></div>
+                        <ul class="jp-toggles">
+                            <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+                            <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="jp-no-solution"><span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.</div>
+            </div></div> ')
+            .jPlayer({
+                ready:function() {
+                    $(this).jPlayer('setMedia', {
+                        mp3:e.attr('_src')
+                    });
+                    if(e.attr('_auto') == '1')
+                        $(this).jPlayer('play');
+                },
+                cssSelectorAncestor: '#' + _id,
+                swfPath:SYS . base + '/files/swf',
+                wmode: "window"
+            });
+        });
+    },
     loading:function(enable){
         var v = this.data('v');
         if(enable){
@@ -126,6 +182,109 @@ $.fn.extend({
             this.removeAttr('disabled');
         }
         return this;
+    },
+    showInWindow:function(top, bottom, lockTop){
+        if(this.length == 0) return this;
+        if(typeof top !== 'number') top = 50;
+        if(typeof bottom !== 'number') bottom = 50;
+        if(typeof lockTop !== 'boolean') lockTop = true;
+        var w = $(window);
+        if(this.height() + top + bottom > w.height()){
+            if(lockTop)
+                w.scrollTop(this.offset().top - top);
+            else
+                w.scrollTop(bottom + this.height() + this.offset().top - w.height());
+        }else{
+            if(this.offset().top - top < w.scrollTop())
+                w.scrollTop(this.offset().top - top);
+            else if(bottom + this.height() + this.offset().top> w.height() + w.scrollTop())
+                w.scrollTop(bottom + this.height() + this.offset().top - w.height());
+        }
+        return this;
+    },
+    attachSingleArticle:function(selector, open){
+        var tmpl_article_single = _.template($('#tmpl_article_single').html() || '');
+        $(this).on('click.nforum', selector, function(){
+            APP.tips(true);
+            if(typeof open === 'function') open.call(this);
+            $.getJSON($(this).attr('href'), function(json){
+                APP.tips(false);
+                if(json.ajax_st == 0)
+                    DIALOG.ajaxDialog(json);
+                else{
+                    var d = DIALOG.formDialog(tmpl_article_single(json),
+                        {title:SYS.code.COM_DETAIL, width:600
+                        }
+                    ),
+                    validPost = function(){
+                        if(!json.allow_post){
+                            DIALOG.alertDialog(SESSION.get('is_login')?SYS.code.MSG_NOPERM:SYS.code.MSG_LOGIN);
+                            return false;
+                        }
+                        return true;
+                    };
+                    d.on('click.nforum', '.a-post', function(){
+                        if(!validPost())
+                            return false;
+                        d.dialog('close');
+                        BODY.open(this);
+                        return false;
+                    }).on('click.nforum', '.a-close', function(){
+                        d.dialog('close');
+                        BODY.open(this);
+                        return false;
+                    }).on('click.nforum', '.a-single', function(){
+                        APP.tips(true);
+                        $.getJSON($(this).attr('href'), function(json){
+                            APP.tips(false);
+                            if(json.ajax_st == 0)
+                                DIALOG.ajaxDialog(json);
+                            else
+                                DIALOG.updateTop(tmpl_article_single(json));
+                        });
+                        return false;
+                    }).on('click.nforum', '.a-func-forward', function(){
+                        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:SYS.cache('friends') || []}), {
+                                 buttons:[
+                                    {text:SYS.code.COM_SUBMIT,click:function(){
+                                        var f = $(this).find('#a_forward');
+                                        $.post(f.attr('action'), f.getPostData(), function(repo){
+                                            DIALOG.ajaxDialog(repo);
+                                        });
+                                        $(this).dialog('close');
+                                    }},
+                                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                                 ]
+                        }).on('change', 'select', function(){
+                            $(this).prev().val($(this).val());
+                        });
+                        if(SYS.cache('friends')) return false;
+                        $.getJSON(SYS.ajax.friend_list, function(json){
+                            if(!_.isArray(json)) return;
+                            d.find('#a_forward_list').append(
+                                _.reduce(json,function(ret,item){
+                                    ret += ('<option value="' + item + '">' + item + '</option>');
+                                    return ret;
+                                },'')
+                            );
+                            SYS.cache('friends', json);
+                        });
+                        return false;
+                    }).on('click.nforum', '.a-func-del', function(){
+                        var url = $(this).attr('href');
+                        DIALOG.confirmDialog(SYS.code.MSG_DELETE,function(){
+                            $.post(url, function(json){
+                                d.dialog('close');
+                                DIALOG.ajaxDialog(json);
+                            }, 'json');
+                        });
+                        return false;
+                    });
+                    if(typeof sh_init !== 'undefined') sh_init();
+                }
+            });
+            return false;
+        });
     }
 });
 /* jquery extention */
@@ -153,6 +312,7 @@ $.fn.extend({
                 if (!t.dialog('isOpen')) return t.off('.nforum').off('img');
             t = $('<div />').appendTo($('body')).dialog({
                 modal: true,
+                height: 0,
                 autoOpen: false
             });
             this.containers.push(t);
@@ -175,18 +335,25 @@ $.fn.extend({
             });
         },
         open:function(content, option){
-            option = option || {};
-            var d = this.getContainer().html(content)
-            .removeClass(this.ICO_ALERT + ' ' +this.ICO_INFO)
+            var _adust = function(d){
+                var p = d.parent();
+                if(p.height() > $(window).height() - 50)
+                    d.dialog('option',{height:$(window).height() - 50}).scrollTop(0);
+                var t = $(window).height() - p.height();
+                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+            }
+            ,d = this.getContainer().html(content),p = d.parent();
+            d.removeClass(this.ICO_ALERT + ' ' +this.ICO_INFO)
             .dialog('option',{close:function(){}})
-            .dialog('option',option)
+            .dialog('option',option || {})
             .dialog('open');
+            d.height('auto');
+            _adust(d);
 
             d.find('img').one('load', function(){
                 if($(this).width() > d.width())
                     $(this).width(d.width() - 20);
-                var p = d.parent(), t = $(window).height()-p.height();
-                p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
+                _adust(d);
             });
             return d;
         },
@@ -200,7 +367,7 @@ $.fn.extend({
             ico = ico || this.ICO_ALERT;
             option = _.extend({
                 title: SYS.code.COM_TITLE,
-                width:250,
+                width:350,
                 buttons:[
                     {text:SYS.code.COM_OK,click:function(){$(this).dialog('close');}}
                 ]}, option || {}) ;
@@ -247,11 +414,12 @@ $.fn.extend({
                 text += ',' + SYS.code.COM_REDIRECT;
                 opt['buttons'] = buttons;
             }
-            if(repo['default']){
+            if(repo['default'] || repo['refresh']){
                 opt['close'] = function(){
                     if(!_prevent_default){
                         _prevent_default = true;
-                        BODY.open(repo['default']);
+                        if(repo['refresh']) BODY.refresh();
+                        else BODY.open(repo['default']);
                     }
                 };
                 setTimeout(function(){
@@ -316,7 +484,7 @@ $.fn.extend({
                 self.set(json);
                 self.updateTime = $.now();
                 if(self.ajaxOK()) self.trigger('login');
-                else {self.trigger('logerror');DIALOG.ajaxDialog(json);}
+                else {self.trigger('logerror', json);}
             }, 'json');
         },
         //session will trigger 'logout' event
@@ -367,8 +535,6 @@ $.fn.extend({
             else
                 return;
 
-            //fuck ie6
-            $.isIE(6) && (url = url.replace(/\?/g, '%3F'));
             if(url == '#!' + this.get('path'))
                 //if path no change refresh
                 this.refresh();
@@ -377,9 +543,6 @@ $.fn.extend({
         },
         //do not use jump, using function open
         jump:function(path){
-            //fuck ie6
-            if($.isIE(6)) path = path.replace(/%3[Ff]/g, '?');
-
             var self = this,
             handler = function(repo){
                 repo = _.isString(repo)?repo:repo.responseText;
@@ -407,11 +570,12 @@ $.fn.extend({
            'click #u_login_reg' : 'click_reg',
            'click #u_login_out' : 'click_out',
            'keydown #b_search' : 'keydown_search',
-           'mouseover #b_search' : 'mouseover_search',
            'click #u_query_search' : 'click_u_search',
            'click #u_query_mail' : 'click_u_mail',
            'click #u_query_add' : 'click_u_add',
            'click #left_line samp' : 'click_hide_left',
+           'click .page-jump .button' : 'click_page_jump',
+           'keydown .page-jump .input-text' : 'keydown_page_jump',
            'click a' : 'click_a'
         },
 
@@ -443,9 +607,9 @@ $.fn.extend({
         },
         click_submit:function(){
             if($.trim($('#u_login_id').val()) == '')
-                DIALOG.alertDialog(SYS.code.MSG_USER);
+                $('#u_login_id').alertDialog(SYS.code.MSG_USER);
             else if($('#u_login_passwd').val() == '')
-                DIALOG.alertDialog(SYS.code.MSG_PWD);
+                $('#u_login_passwd').alertDialog(SYS.code.MSG_PWD);
             else{
                 this.tips(true);
                 this.session.login($('#u_login_form'));
@@ -466,10 +630,6 @@ $.fn.extend({
                 this.body.open(url);
             }
         },
-        mouseover_search:function(e){
-            $(e.currentTarget).select();
-            return false;
-        },
         click_a:function(e){
             if(e.currentTarget.href && 0 === e.currentTarget.href.indexOf(SYS.protocol + SYS.domain + SYS.base + '/' + SYS.ajax.user))
                 this.userQuery(e.currentTarget);
@@ -488,7 +648,7 @@ $.fn.extend({
             return false;
         },
         click_u_mail:function(){
-            DIALOG.getTop().dialog('close');
+            DIALOG.close();
         },
         click_u_add:function(e){
             var id = DIALOG.getTop().find('.u-name span').html();
@@ -505,6 +665,21 @@ $.fn.extend({
             $('#menu').width(s?156:0).children(':not(#left_line)')[s?"show":"hide"]().end().next().css("margin-left", s?162:3);
             $.cookie("left-show", s?1:0,{path:'/', domain:SYS.cookie_domain,expires:30});
         },
+        click_page_jump:function(e){
+            var page = parseInt($(e.currentTarget).prev().val()),url = this.body.get('path');
+            if(!isNaN(page) && page >= 1){
+                if(url.match(/([&\?]p=)\d+/))
+                    this.body.open(url.replace(/([&\?]p=)\d+/, "\$1" + page));
+                else if(url.indexOf('?') === -1)
+                    this.body.open(url + '?p=' + page);
+                else
+                    this.body.open(url + '&p=' + page);
+            }
+            return false;
+        },
+        keydown_page_jump:function(e){
+            if(e.keyCode == 13) $(e.currentTarget).next().click();
+        },
         onBodyJump:function(){
             this.tips(true);
         },
@@ -516,8 +691,9 @@ $.fn.extend({
             SYS.clear();
             this.body.refresh();
         },
-        onLogerror:function(){
+        onLogerror:function(json){
             this.tips(false);
+            $('#u_login_passwd').val('').alertDialog(json.ajax_msg);
         },
         onLogout:function(){
             SYS.clear();
@@ -560,6 +736,7 @@ $.fn.extend({
                 return false;
             });
             /* fix end */
+            $('#b_search').placeholder();
         },
         serialize:function(){
             var data = [];
@@ -585,6 +762,7 @@ $.fn.extend({
                         ,allowscriptaccess:'never'
                         });
                 }).end()
+                .find('.a-audio').audioembed().end()
                 .find('.resizeable').each(function(){
                     $(this).load(function(){
                         $(this).adjust($('body').width() - 410);
@@ -639,6 +817,7 @@ $.fn.extend({
     var MainRouter = Backbone.Router.extend({
 
         body:null,
+        _prev:null,
 
         initialize:function(body) {
             this.body = body;
@@ -648,6 +827,16 @@ $.fn.extend({
             ,"*other":"err_handler"
         },
         handler:function(path) {
+            if(null !== this._prev){
+                var self = this;
+                DIALOG.confirmDialog(SYS.code.MSG_UNLOAD, function(){
+                    self.navigate('!' + path);
+                    self.preventJump(false);
+                    self.body.jump(path);
+                });
+                this.navigate('!' + this._prev);
+                return;
+            }
             if(path.match(/^[\w\d]/))
                 this.body.jump(path);
             else
@@ -655,6 +844,17 @@ $.fn.extend({
         },
         err_handler:function(other) {
             this.body.jump(SYS.home.substr(1));
+        },
+        preventJump:function(enable){
+            if(enable){
+                this._prev = this.body.get('path');
+                window.onbeforeunload = function(){
+                    return SYS.code.MSG_UNLOAD;
+                }
+            }else{
+                this._prev = window.onbeforeunload = null;
+            }
+
         }
     });
 
@@ -715,21 +915,32 @@ function front_startup(){
     //front_init
     window.front_init();
 
-    //load flash
-    $('#ban_ner_border').flashembed({
-        src:SYS.static + SYS.base + "/files//swf/adv.swf"
-        ,width:600
-        ,height:80
-        ,wmode: 'opaque'
-    },{
-        borderwidth:600
-        ,borderheight:80
-        ,links:SYS.adv.links
-        ,pics:SYS.adv.pics
+    if($.isIE()){
+        document.onpropertychange = function(){
+            if(window.event.propertyName == 'title' && document.title && document.title != window.origTitle)
+                setTimeout(function(){document.title = window.origTitle},1);
+        };
+    }
+    if($.isIE(6)){
+        document.execCommand("BackgroundImageCache", false, true);
+    }
+    //load banner
+    $('#ban_ner_wrapper ul').xslider({
+        timeout: 5000
+        ,effect: 'fade'
+        ,prevNext: false
+        ,autoPlay: true
+        ,navigation: true
+        ,onComplete: function(current, last, currentItem, lastItem, elements){
+            var self = $('#ban_ner_wrapper ul');
+            if(self.data('xslider:playback') != 'play') self.xslider('play');
+        }
     });
 
     //parse hash & load body
     $(function(){
         Backbone.history.start({pushState: false});
     });
+
+    window.KB.init();
 }

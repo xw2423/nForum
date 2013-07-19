@@ -59,13 +59,15 @@ $(function(){
             ,url = SYS.base + "/fav/op/" + this.model.getLevel() + '.json'
             ,data = {ac:el.attr('_ac'), v:el.attr('_npos')}
             ,m = this.model;
-            $.post(url, data, function(json){
-                DIALOG.ajaxDialog(json);
-                if(json.ajax_st == 1){
-                    m.fetch();
-                    APP.renderTree();
-                }
-            }, "json");
+            DIALOG.confirmDialog('确认删除此' + (el.attr('_ac') == 'dd'?'目录':'版面') + '?', function(){
+                $.post(url, data, function(json){
+                    DIALOG.ajaxDialog(json);
+                    if(json.ajax_st == 1){
+                        m.fetch();
+                        APP.renderTree();
+                    }
+                }, "json");
+            });
         },
         click_link:function(e){
             var l = $(e.currentTarget).parent().parent().attr('id').split('_');
@@ -112,10 +114,11 @@ $(function(){
             html = this.model.reduce(function(html,fav){
                 html += self.tmpl_fav(fav.toJSON());
                 return html;
-            },''); 
+            },'');
 
             this.$('#fav_list').empty().append(html)
             .find('tr:odd td').addClass('bg-odd');
+            window.KB.page.action('init', BODY.get('path'));
         }
     });
     var favs = new FavCollection();

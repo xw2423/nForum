@@ -1,0 +1,64 @@
+.board-list tr.kb td{
+    background-color:#C5E1FF
+}
+.a-wrap.kb{
+    border:2px solid #598EDE;
+}
+.m-table tr.kb td{
+    background-color:#C5E1FF
+}
+.widget.kb .widget-head{
+    border:2px solid #598EDE;
+    border-bottom-width:0;
+}
+.widget.kb .edit-box{
+    border-left:2px solid #598EDE;
+    border-right:2px solid #598EDE;
+}
+.widget.kb .widget-content{
+    border:2px solid #598EDE;
+    border-top-width:0;
+}
+.w-list-line li.kb,.w-list-float li.kb{
+    background-color:#C5E1FF
+}
+.helper-title{
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    padding:5px 20px 3px;
+    border-bottom:1px solid #aaa;
+    color:#444;
+}
+.helper-table, .helper-cell-table{
+    width:100%;
+    text-align:center;
+}
+.helper-cell-table{
+    margin-top:14px;
+}
+.helper-table{
+    margin-bottom:12px;
+}
+.helper-cell{
+    vertical-align:top;
+}
+.helper-cell-key, .helper-cell-desc{
+    font-size:16px;
+    font-weight:bold;
+    padding:3px 0;
+    color:#444;
+}
+.helper-cell-key{
+    width:40%;
+    padding-right:0.8em;
+    text-align:right;
+}
+.helper-cell-desc{
+    text-align:left;
+}
+.helper-cell-title{
+    font-size:16px;
+    font-weight:bold;
+    color:#598EDE;
+}

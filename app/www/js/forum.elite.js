@@ -1,7 +1,7 @@
 $(function(){
-    var tmpl_preview = _.template($('#tmpl_preview').html());
+    var tmpl_preview = _.template($('#tmpl_preview').html()),f;
     $('#body').on('click', '.elite-preview', function(){
-        $.getJSON($(this).attr('href'), function(repo){
+        $.getJSON($(this).attr('href').replace("/elite/file", "/elite/ajax_file.json"), function(repo){
             if(repo.ajax_st == 0)
                 DIALOG.ajaxDialog(repo);
             else{
@@ -13,4 +13,9 @@ $(function(){
         });
         return false;
     });
+    if(f = window.BODY.get('path').match(/&f=([^&]*)/)){
+        f = encodeURIComponent(f[1]);
+        $('#body a[href$="' + f + '"]').click();
+        window.ROUTER.navigate(window.BODY.get('path').replace(/&f=([^&]*)/, ''));
+    }
 });

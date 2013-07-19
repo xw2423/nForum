@@ -59,13 +59,13 @@ class Favor extends Collection implements iWidget {
         if(!$this->isNull()){
             $brds = $this->getList();
             foreach($brds as $v){
-                $arr[] = array("text"=>$v->DESC, "url"=>"/board/{$v->NAME}");    
+                $arr[] = array("text"=>$v->DESC, "url"=>"/board/{$v->NAME}");
             }
         }
         if(empty($arr))
             return array("s"=>"w-list-line", "v"=>array(array("text"=>"不存在任何版面", "url"=>"")));
         else
-            return array("s"=>"w-list-float", "v"=>$arr);    
+            return array("s"=>"w-list-float", "v"=>$arr);
     }
 
     public function wGetTime(){
@@ -75,6 +75,10 @@ class Favor extends Collection implements iWidget {
             return time();
         }
         return filemtime($file);
+    }
+
+    public function wHasPerm($u){
+        return true;
     }
 
     public function isRoot(){
@@ -90,7 +94,7 @@ class Favor extends Collection implements iWidget {
             return null;
         }
     }
-    
+
     /**
      * function add add a board or directory to favor in current level
      *
@@ -108,7 +112,7 @@ class Favor extends Collection implements iWidget {
             return false;
         return true;
     }
-    
+
     /**
      * function add add a board or directory to favor in current level
      *

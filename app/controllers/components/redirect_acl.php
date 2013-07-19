@@ -1,14 +1,16 @@
 <?php
 /**
- * redirect acl component for nforum 
- * @author xw       
+ * redirect acl component for nforum
+ * @author xw
  */
-class RedirectAclComponent extends Object {    
+class RedirectAclComponent extends Object {
 
-    // if [plugin][controller][action] = true 
+    private $_isRedirect = null;
+
+    // if [plugin][controller][action] = true
     // will not redirect to front
     public function initialize(&$controller, $settings = array()) {
-        $this->controller = $controller;    
+        $this->controller = $controller;
         //do not care pre defined ajax action
         if(0 === strpos($controller->params['action'], 'ajax_'))
             return;
@@ -28,25 +30,7 @@ class RedirectAclComponent extends Object {
         }
 
         //normal
-        $plugin = $controller->params['plugin'];
-        $con = $controller->params['controller'];
-        $action = $controller->params['action'];
-        $r = true;
-        if(null !== $plugin){
-            if(isset($acl[$plugin])){
-                if(true === $acl[$plugin])
-                    $r = false;
-                $acl = $acl[$plugin];
-            }else{
-                $acl = array();
-            }
-        }
-        if($r && isset($acl[$con])){
-            if(true === $acl[$con])
-                $r = false;
-            else if(isset($acl[$con][$action]) && true === $acl[$con][$action])
-                $r = false;
-        }
+        $r = $this->isRedirect();
         $ajax = $controller->RequestHandler->isAjax();
 
         //should redirect but no ajax,go front
@@ -73,6 +57,32 @@ class RedirectAclComponent extends Object {
         }
         $this->controller->front = true;
         $this->controller->redirect($url);
+    }
+
+    public function isRedirect(){
+        if(null !== $this->_isRedirect)
+            return $this->_isRedirect;
+        $acl = Configure::read('redirectacl');
+        $plugin = $this->controller->params['plugin'];
+        $con = $this->controller->params['controller'];
+        $action = $this->controller->params['action'];
+        $r = true;
+        if(null !== $plugin){
+            if(isset($acl[$plugin])){
+                if(true === $acl[$plugin])
+                    $r = false;
+                $acl = $acl[$plugin];
+            }else{
+                $acl = array();
+            }
+        }
+        if($r && isset($acl[$con])){
+            if(true === $acl[$con])
+                $r = false;
+            else if(isset($acl[$con][$action]) && true === $acl[$con][$action])
+                $r = false;
+        }
+        return $this->_isRedirect = $r;
     }
 }
 ?>
