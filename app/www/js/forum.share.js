@@ -2,7 +2,7 @@
     sites:[
         {
            "title":"·ÖÏíµ½ĞÂÀËÎ¢²©"
-           ,"url":"http://service.t.sina.com.cn/share/share.php?url=%url%&title=%content%&pic=&ralateUid="
+           ,"url":"http://service.weibo.com/share/share.php?url=%url%&title=%content%&pic=&ralateUid="
            ,"img":'http://www.sinaimg.cn/blog/developer/wiki/16x16.png'
         }
        ,{
