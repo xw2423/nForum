@@ -113,6 +113,7 @@
     Router::connect($base . '/section', array('controller' => 'section', 'action' => 'root', 'plugin'=>'api'));
     Router::connect($base . '/section/:action/:name', array('controller' => 'section', 'plugin'=>'api'), array("name"=>"[-\w]+"));
     Router::connect($base . '/attachment/:name/:mode/:id/:pos/:type', array('controller' => 'attachment', 'plugin'=>'api', 'action'=>'download', 'mode' => null, 'type' => null), array('name'=>"\w+", 'id'=>"\d+", 'pos'=>'\d+', 'mode'=>'\d+', 'type'=>'\w[\w\d-]*'));
+    Router::connect($base . '/attachment/:name/:id', array('controller' => 'attachment', 'plugin'=>'api'), array("id"=>"\d+"));
     Router::connect($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'plugin'=>'api', 'id'=>null), array("id"=>"\d+"));
     Router::connect($base . '/refer/:type/:action/:index', array('controller' => 'refer', 'plugin'=>'api', "index" => null), array("index"=>"\d+"));
     Router::connect($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'plugin'=>'api'), array("num"=>"\d+"));

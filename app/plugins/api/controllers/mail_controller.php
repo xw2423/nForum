@@ -119,7 +119,7 @@ class MailController extends ApiAppController {
         $content = nforum_iconv($this->encoding, $this->appEncoding, $content);
 
         $sig = User::getInstance()->signature;
-        $bak = $u->getCustom("mailbox_prop", 0);
+        $bak = User::getInstance()->getCustom("mailbox_prop", 0);
         if(isset($this->params['form']['signature']))
             $sig = intval($this->params['form']['signature']);
         if(isset($this->params['form']['backup']) && $this->params['form']['backup'] == 1)
