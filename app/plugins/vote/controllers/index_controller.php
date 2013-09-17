@@ -18,6 +18,7 @@ class IndexController extends VoteAppController {
         $time = time();
         $yes = $time - 86400;
         $search = '';
+        $params = array();
         if(isset($this->params['url']['s'])){
             $search = trim(rawurldecode($this->params['url']['s']));
             $search = nforum_iconv('utf-8', $this->encoding, $search);
@@ -31,22 +32,16 @@ class IndexController extends VoteAppController {
         switch($category){
             case 'hot':
                 $title = "热门投票";
-                $sql = "select * from pl_vote where status=1 and end>$yes $search order by num desc, vid desc";
+                $sql = "select * from pl_vote where status=1 and end>? $search order by num desc, vid desc";
+                $params = array($yes);
                 break;
             case 'list':
-                @$user = $this->params['url']['u'];
-                if($u->userid != $user){
-                    try{
-                        $user = User::getInstance($user);
-                    }catch(UserNullException $e){
-                        $this->error(ECode::$USER_NOID);
-                    }
-                }else{
-                    $user = $u;
-                }
-                $title = ($user->userid == $u->userid)?"我的投票":"{$user->userid}的投票";
-                $this->set("vote_user", $user->userid);
-                $sql = "select * from pl_vote where status=1 and uid='{$user->userid}' $search order by vid desc";
+                @$user = trim($this->params['url']['u']);
+                App::import('Sanitize');
+                $title = ($user === $u->userid)?"我的投票":Sanitize::html("{$user}的投票");
+                $this->set("vote_user", Sanitize::html($user));
+                $sql = "select * from pl_vote where status=1 and uid=? $search order by vid desc";
+                $params = array($user);
                 break;
             case 'all':
                 $title = "全部投票";
@@ -55,7 +50,8 @@ class IndexController extends VoteAppController {
             case 'join':
                 $this->requestLogin();
                 $title = "我参与的投票";
-                $sql = "select * from pl_vote where status=1 and vid in (select vid from pl_vote_result where uid='{$u->userid}') $search order by vid desc";
+                $sql = "select * from pl_vote where status=1 and vid in (select vid from pl_vote_result where uid=?) $search order by vid desc";
+                $params = array($u->userid);
                 break;
             case 'del':
                 if(!$u->isAdmin())
@@ -66,9 +62,10 @@ class IndexController extends VoteAppController {
             default:
                 $title = "最新投票";
                 $category = "new";
-                $sql = "select * from pl_vote where status=1 and end>$yes $search order by vid desc";
+                $sql = "select * from pl_vote where status=1 and end>? $search order by vid desc";
+                $params = array($yes);
         }
-        $list = new VoteList($sql);
+        $list = new VoteList($sql, $params);
         App::import("vendor", "inc/pagination");
         $page = new Pagination($list, 10);
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;

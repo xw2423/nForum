@@ -3,9 +3,9 @@ App::import("vendor", array("inc/pagination", "inc/db"));
 class VoteList implements Pageable{
 
     private $_sql = "";
-    private $_param = null; 
-    private $_num = null; 
-    
+    private $_param = null;
+    private $_num = null;
+
     public function __construct($sql, $param = null){
         $this->_sql = trim($sql);
         $this->_param = $param;
@@ -24,7 +24,7 @@ class VoteList implements Pageable{
     public function getRecord($start, $num){
         $sql = $this->_sql . " limit " . ($start - 1) . ",$num";
         $db = DB::getInstance();
-        $res = $db->all($sql);
+        $res = $db->all($sql, $this->_param);
         $ret = array();
         foreach($res as $v){
             $ret[] = new Vote($v['vid'], $v);
@@ -41,7 +41,7 @@ class Vote{
     private $_viids = null;
 
     public static function add($uid, $subject, $desc, $end, $type, $limit,  $items, $result_voted = 0){
-        $db = DB::getInstance();    
+        $db = DB::getInstance();
         $val = array("k"=>array('uid', 'subject', 'desc', 'start', 'end', 'type', 'limit', 'status', 'result_voted'),
             "v" => array(array($uid, $subject, $desc, time(), $end, $type, $limit, 1, $result_voted)));
         $db->insert('pl_vote', $val);
@@ -81,7 +81,7 @@ class Vote{
     }
 
     public function getResult($uid){
-        $sql = "select result,time from pl_vote_result where vid=? and uid=? limit 1"; 
+        $sql = "select result,time from pl_vote_result where vid=? and uid=? limit 1";
         $db = DB::getInstance();
         $res = $db->one($sql, array($this->_vid, $uid));
         if($res === false)
@@ -140,13 +140,13 @@ class Vote{
     public function isDeleted(){
         return $this->status == "0";
     }
-    
+
     public function isEnd(){
         return $this->end < (time() - 86400);
     }
 
     private function _initInfo(){
-        $sql = "select * from pl_vote where vid=? limit 1"; 
+        $sql = "select * from pl_vote where vid=? limit 1";
         $db = DB::getInstance();
         $this->_info = $db->one($sql, array($this->_vid));
         if($this->_info === false)
@@ -156,7 +156,7 @@ class Vote{
     private function _initItem(){
         if(!is_null($this->_items))
             return;
-        $sql = "select viid,label,num from pl_vote_item where vid=?"; 
+        $sql = "select viid,label,num from pl_vote_item where vid=?";
         $db = DB::getInstance();
         $this->_items = $db->all($sql, array($this->_vid));
     }
@@ -164,7 +164,7 @@ class Vote{
     private function _initTotal(){
         if(!is_null($this->_total))
             return;
-        $sql = "select sum(num) as total from pl_vote_item where vid=?"; 
+        $sql = "select sum(num) as total from pl_vote_item where vid=?";
         $db = DB::getInstance();
         $res = $db->one($sql, array($this->_vid));
         $this->_total = ($res === false)?0:intval($res['total']);
