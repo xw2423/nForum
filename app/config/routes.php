@@ -124,5 +124,6 @@
     Router::connect($base . '/favorite/:action', array('controller' => 'favorite', 'plugin'=>'api'));
     Router::connect($base . '/search/:action', array('controller' => 'search', 'plugin'=>'api'));
     Router::connect($base . '/widget/:name', array('controller' => 'widget', 'plugin'=>'api'));
+    Router::connect($base . '/vote/:action/:id', array('controller' => 'vote', 'plugin'=>'api'), array("id"=>"\w+"));
     Router::connect($base . '/*', array('controller' => 'ApiApp', 'action' => 'errorAPI', 'plugin'=>'api'));
 ?>

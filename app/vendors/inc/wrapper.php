@@ -254,6 +254,46 @@ class Wrapper {
         return $ret;
     }
 
+    public function vote($vote,$options = array()){
+        $default = array('items' => false);
+        $options = $this->_init_options($options, $default);
+
+        $ret = array();
+        $ret['vid'] = $vote->vid;
+        $ret['title'] = $vote->subject;
+        $ret['start'] = $vote->start;
+        $ret['end'] = $vote->end;
+        $ret['user_count'] = $vote->num;
+        $ret['vote_count'] = $vote->total;
+        $ret['type'] = $vote->type;
+        $ret['limit'] = $vote->limit;
+        $ret['aid'] = $vote->aid;
+        $ret['is_end'] = $vote->isEnd();
+        $ret['is_deleted'] = $vote->isDeleted();
+        $ret['is_result_voted'] = ($vote->result_voted == 1);
+        try{
+            $ret['user'] = $this->user(User::getInstance($vote->uid));
+        }catch(Exception $e){
+            $ret['user'] = $vote->uid;
+        }
+        $u = User::getInstance();
+        $ret['voted'] = false;
+        $res = $vote->getResult($u->userid);
+        if($res !== false){
+            $ret['voted']['viid'] = $res['items'];
+            $ret['voted']['time'] = $res['time'];
+        }
+        if($options['items']){
+            $ret['options'] = array();
+            $no_result = !$vote->isEnd() && !($u->userid === $vote->uid || $u->isAdmin()) && $vote->result_voted && ($ret['voted'] === false);
+            foreach($vote->items as $k=>$v){
+                if($no_result) $v['num'] = -1;
+                $ret['options'][] = $v;
+            }
+        }
+        return $ret;
+    }
+
     public function page($page){
         $ret = array();
         $ret['page_all_count'] = $page->getTotalPage();
