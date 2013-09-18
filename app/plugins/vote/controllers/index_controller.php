@@ -304,6 +304,8 @@ class IndexController extends VoteAppController {
             $vote->vote($u->userid, $viid);
         }else if($vote->type == "1"){
             $items = array_keys($this->params['form']);
+            if(count($items) == 0)
+                $this->error("请至少选择一个选项");
             if(count($items) > $vote->limit && $vote->limit != 0)
                 $this->error("投票个数超过限制，投票失败");
             $items = preg_replace("/v{$vote->vid}_/", "", $items);
