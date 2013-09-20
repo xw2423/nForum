@@ -264,7 +264,6 @@ class Wrapper {
         $ret['start'] = $vote->start;
         $ret['end'] = $vote->end;
         $ret['user_count'] = $vote->num;
-        $ret['vote_count'] = $vote->total;
         $ret['type'] = $vote->type;
         $ret['limit'] = $vote->limit;
         $ret['aid'] = $vote->aid;
@@ -290,6 +289,8 @@ class Wrapper {
                 if($no_result) $v['num'] = -1;
                 $ret['options'][] = $v;
             }
+            $ret['vote_count'] = -1;
+            if(!$no_result) $ret['vote_count'] = $vote->total;
         }
         return $ret;
     }
