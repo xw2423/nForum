@@ -192,6 +192,7 @@ class ArticleController extends AppController {
                     }
                 }
             }
+            bbs_brcaddread($this->_board->NAME, $v->ID);
             $info[] = array(
                 "id" => $v->ID,
                 "owner" => $user,
@@ -608,6 +609,7 @@ class ArticleController extends AppController {
             $content = XUBB::parse($content);
         }
         $ret['content'] = $content;
+        bbs_brcaddread($this->_board->NAME, $article->ID);
 
         $this->set('no_html_data', $ret);
     }

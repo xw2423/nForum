@@ -40,6 +40,8 @@ class Wrapper {
         if($options['content']){
             $ret['content'] = $article->getContent();
             $ret['attachment'] = $this->attachment($article);
+            bbs_brcaddread($article->getBoard()->NAME, $article->ID);
+
         }
         if($options['single']){
             $ret['previous_id'] = ($tmp = $article->pre())?$tmp->ID:null;

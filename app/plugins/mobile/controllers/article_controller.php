@@ -85,6 +85,7 @@ class ArticleController extends MobileAppController {
             if(Configure::read("ubb.parse")){
                 $content = XUBB::parse($content);
             }
+            bbs_brcaddread($this->_board->NAME, $v->ID);
             $info[] = array(
                 "id" => $v->ID,
                 "op" => ($v->OWNER == $u->userid || $bm)?1:0,
@@ -147,6 +148,7 @@ class ArticleController extends MobileAppController {
         if(Configure::read("ubb.parse")){
             $content = XUBB::parse($content);
         }
+        bbs_brcaddread($this->_board->NAME, $article->ID);
         $info = array(
             "aid" => $article->ID,
             "gid" => $article->GROUPID,
