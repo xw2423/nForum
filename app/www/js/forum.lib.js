@@ -338,7 +338,7 @@ $.fn.extend({
             var _adust = function(d){
                 var p = d.parent();
                 if(p.height() > $(window).height() - 50)
-                    d.dialog('option',{height:$(window).height() - 50}).scrollTop(0);
+                    d.dialog('option',{height:$(window).height() - 20}).scrollTop(0);
                 var t = $(window).height() - p.height();
                 p.css('top', $(window).scrollTop() + (t>=0?t/2:0));
             }

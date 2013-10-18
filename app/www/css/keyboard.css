@@ -23,7 +23,7 @@
     background-color:#C5E1FF
 }
 .helper-title{
-    font-size:22px;
+    font-size:14px;
     font-weight:bold;
     text-align:center;
     padding:5px 20px 3px;
@@ -35,7 +35,7 @@
     text-align:center;
 }
 .helper-cell-table{
-    margin-top:14px;
+    margin-top:8px;
 }
 .helper-table{
     margin-bottom:12px;
@@ -44,9 +44,9 @@
     vertical-align:top;
 }
 .helper-cell-key, .helper-cell-desc{
-    font-size:16px;
+    font-size:12;
     font-weight:bold;
-    padding:3px 0;
+    padding:2px 0;
     color:#444;
 }
 .helper-cell-key{
@@ -58,7 +58,7 @@
     text-align:left;
 }
 .helper-cell-title{
-    font-size:16px;
+    font-size:12;
     font-weight:bold;
     color:#598EDE;
 }

@@ -389,6 +389,10 @@
                             + '<td class="helper-cell-desc">进入主题</td>'
                         + '</tr>'
                         + '<tr>'
+                            + '<td class="helper-cell-key">J/K或SHIFT+↑/↓:</td>'
+                            + '<td class="helper-cell-desc">在版面模式之间切换</td>'
+                        + '</tr>'
+                        + '<tr>'
                             + '<td class="helper-cell-key">p/P:</td>'
                             + '<td class="helper-cell-desc">发表话题</td>'
                         + '</tr>'
@@ -471,7 +475,7 @@
             + '</tr>'
         + '</table>'
         ,self = this;
-        DIALOG.formDialog(html, {width:'90%', title:'键盘快捷键帮助',close:function(){
+        DIALOG.formDialog(html, {width:'75%', title:'键盘快捷键帮助',close:function(){
             self._open = false;
         }});
     }
@@ -500,6 +504,12 @@
         }
         ,post:function(){
             $('#body .t-pre:first .b-post:first').click();
+        }
+        ,subUp:function(){
+            $('#body .bmode a.tab-down').prev('a').click().length || $('#body .bmode a').last().click();
+        }
+        ,subDown:function(){
+            $('#body .bmode a.tab-down').next('a').click().length || $('#body .bmode a').first().click();
         }
     }).register('article',{
         init:function(){
