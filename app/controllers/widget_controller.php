@@ -255,8 +255,7 @@ class WidgetController extends AppController {
                     if(!isset($this->params['url']['tt'])){
                         $this->error();
                     }
-                    //$tt is for section num
-                    $tt = intval($this->params['url']['tt']);
+                    $tt = $this->params['url']['tt'];
                     $secs = Configure::read('section');
                     if(!in_array($tt, array_keys($secs))){
                         $this->error();
