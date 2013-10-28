@@ -85,7 +85,7 @@
 <{/foreach}>
                 <div class="vote-comment-comment corner">
 <{if $islogin}>
-                    <form id="vote_post" method="post" action="<{$base}>/article/<{$board}>/ajax_post.json?ajax_redirect=/vote/view/<{$vinfo.vid}>&ajax_title=投票:<{$vinfo.title}>">
+                    <form id="vote_post" method="post" action="<{$base}>/article/<{$board}>/ajax_post.json?ajax_redirect=/vote/view/<{$vinfo.vid}>&ajax_title=<{$ajax_title}>">
                     <div class="vote-comment-btn"><input type="submit" class="button" value="我要评论" /></div>
                     <div class="vote-comment-txt"><textarea name="content" placeholder="写下你的评论..."></textarea></div>
                     <input type="hidden" name="id" value="<{$reid|default:0}>" />

@@ -151,7 +151,7 @@ $(function(){
                 $('#vote_post textarea').alertDialog(SYS.code.MSG_NULL);
                 return false;
             }
-                $.post($('#vote_post').attr('action'), $('#vote_post').getPostData(), function(json){
+            $.post($('#vote_post').attr('action'), $('#vote_post').getPostData(), function(json){
                 DIALOG.ajaxDialog(json);
             }, 'json');
             return false;

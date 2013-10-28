@@ -323,6 +323,7 @@ class IndexController extends VoteAppController {
                 $this->set("title", $threads->TITLE);
             else
                 $this->set("title", 'Re: ' . $threads->TITLE);
+            $this->set("ajax_title", urlencode('ͶƱ:' . $threads->TITLE));
             $this->set("reid", $threads->ID);
             $this->set("more", $threads->getTotalNum() > $this->_commentNum + 1);
             $this->set("comments", $info);
