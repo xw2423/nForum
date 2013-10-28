@@ -8,8 +8,9 @@ class IndexController extends VoteAppController {
     private $_newVoteMax = 2;
 
     //show comment number
-    private $_commentNum = 20;
+    private $_commentNum = 10;
 
+    //max item for new vote
     private $_itemMax = 20;
 
     public function beforeFilter(){

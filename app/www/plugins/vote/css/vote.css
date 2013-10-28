@@ -207,8 +207,10 @@
   min-height:30px;
 }
 .vote-comment-id{
-  color:#4F7DC2;
   margin-bottom:5px;
+}
+.vote-comment-id a{
+  color:#4F7DC2;
 }
 .vote-comment-content{
   margin-bottom:5px;

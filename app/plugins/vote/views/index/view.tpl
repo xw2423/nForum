@@ -74,9 +74,9 @@
 <{/if}>
 <{foreach from=$comments item=item}>
                 <div class="vote-comment-item">
-                    <{if $item.furl}><a class="vote-comment-face" href=""><img src="<{$static}><{$base}><{$item.furl}>" /></a><{/if}>
+                    <{if $item.furl}><a class="vote-comment-face" href="<{$base}>/user/query/<{$item.uid}>"><img src="<{$static}><{$base}><{$item.furl}>" /></a><{/if}>
                     <div class="vote-comment-cell">
-                        <div class="vote-comment-id"><{$item.uid}></div>
+                        <div class="vote-comment-id"><a href="<{$base}>/user/query/<{$item.uid}>"><{$item.uid}></a></div>
                         <div class="vote-comment-content"><{$item.content}></div>
                         <div class="vote-comment-time"><{$item.time}></div>
                     </div>

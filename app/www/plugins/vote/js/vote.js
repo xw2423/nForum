@@ -140,16 +140,22 @@ $(function(){
         return false;
     });
     if($('#vote_post').length > 0){
-      $('#vote_post').submit(function(){
-          if($.trim($('#vote_post textarea').val()) == ''){
-              $('#vote_post textarea').alertDialog(SYS.code.MSG_NULL);
-              return false;
-          }
-          $.post($('#vote_post').attr('action'), $('#vote_post').getPostData(), function(json){
-              DIALOG.ajaxDialog(json);
-          }, 'json');
-          return false;
-      });
-    $('#vote_post textarea').placeholder();
+        $('#body').on('keydown','#vote_post textarea',function(event){
+            if(event.ctrlKey && event.keyCode == 13){
+                $('#vote_post').submit();
+                return false;
+            }
+        });
+        $('#vote_post').submit(function(){
+            if($.trim($('#vote_post textarea').val()) == ''){
+                $('#vote_post textarea').alertDialog(SYS.code.MSG_NULL);
+                return false;
+            }
+                $.post($('#vote_post').attr('action'), $('#vote_post').getPostData(), function(json){
+                DIALOG.ajaxDialog(json);
+            }, 'json');
+            return false;
+        });
+        $('#vote_post textarea').placeholder();
     }
 });
