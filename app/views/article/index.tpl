@@ -152,22 +152,18 @@
         </div>
     </div>
     <!--quick_reply start-->
-	<form id="quick_post" method="post" action="<{$base}>/article/<{$bName}>/ajax_post.json" >
-    <table id="quick_reply" class="corner">
-        <tr>
-            <td><textarea id="quick_text" name="content"></textarea></td>
-            <td id="quick_submit"><input type="submit" class="button" value="快捷回复" /></td>
-        </tr>
-        <tr>
-			<td colspan="2"><div id="em_img"></div></td>
-        </tr>
-    </table>
-	<input type="hidden" name="id" value="<{$reid|default:0}>" />
-	<input type="hidden" name="subject" value="<{$reTitle}>" />
-	<{if $anony}>
-	<input type="hidden" name="anony" value="1" />
-	<{/if}>
-    </form>
+    <div class="corner a-comment">
+        <form id="quick_post" method="post" action="<{$base}>/article/<{$bName}>/ajax_post.json" >
+        <div class="a-comment-btn"><input type="submit" class="button" value="快捷回复" /></div>
+        <div class="a-comment-txt"><textarea name="content" placeholder="写下你的评论..."></textarea></div>
+        <div id="em_img"></div>
+        <input type="hidden" name="id" value="<{$reid|default:0}>" />
+        <input type="hidden" name="subject" value="<{$reTitle}>" />
+        <{if $anony}>
+        <input type="hidden" name="anony" value="1" />
+        <{/if}>
+        </form>
+    </div>
     <!--quick_reply end-->
 <{include file="article/forward.tpl"}>
 <{if $bm}><{include file="article/manage.tpl"}><{/if}>

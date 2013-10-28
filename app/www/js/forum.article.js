@@ -1,5 +1,5 @@
 $(function(){
-    $('#quick_text').ubb({enable:false, ubb_img_path:SYS.base + "/img/ubb/", ubb_em:$('#em_img')});
+    $('#quick_post textarea').ubb({enable:false, ubb_img_path:SYS.base + "/img/ubb/", ubb_em:$('#em_img')});
 
     var validPost = function(){
         if(!user_post){
@@ -12,8 +12,8 @@ $(function(){
         return true;
     };
     $('#quick_post').submit(function(){
-        if($.trim($('#quick_text').val()) == ''){
-            $('#quick_text').alertDialog(SYS.code.MSG_NULL);
+        if($.trim($('#quick_post textarea').val()) == ''){
+            $('#quick_post textarea').alertDialog(SYS.code.MSG_NULL);
             return false;
         }
         if(validPost()){
@@ -23,6 +23,7 @@ $(function(){
         }
         return false;
     });
+    $('#quick_post textarea').placeholder();
     $('#f_search').submit(function(){
         BODY.open($(this).attr('action') + '?' + _.map($(this).getPostData(),function(v,k){
             v = encodeURIComponent(encodeURIComponent(v));
@@ -33,7 +34,7 @@ $(function(){
     $('#f_search input[placeholder]').placeholder();
     $('#body').on('click','.a-post',validPost)
         .on('click','#a_reply',function(){
-            $('#quick_text').focus();
+            $('#quick_post textarea').focus();
         }).on('click','.a-func-friend',function(){
             $.post($(this).attr('href'), function(json){
                 delete json['default'];
@@ -41,7 +42,7 @@ $(function(){
                 DIALOG.ajaxDialog(json);
             }, 'json');
             return false;
-        }).on('keydown','#quick_text',function(event){
+        }).on('keydown','#quick_post textarea',function(event){
             if(event.ctrlKey && event.keyCode == 13){
                 $('#quick_post').submit();
                 return false;

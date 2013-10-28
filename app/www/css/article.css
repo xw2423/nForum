@@ -26,9 +26,26 @@
     margin-top:0;
 }
 
-
-#quick_reply{width:100%; margin-top:4px; background:#f3f5fc;}
-#quick_reply td{}
-textarea{ width:99.5%; height:70px; border:1px solid #6688ee; font-size:12px;}
-#quick_submit{width:70px;vertical-align:middle;}
-#quick_submit .button{height:65px;width:65px;margin:3px;cursor:pointer}
+.a-comment{
+  margin-top:6px;
+  padding:10px;
+  border:1px solid #ddd;
+  background-color:#f9f9f9;
+}
+.a-comment-txt{
+  margin-right:88px;
+}
+.a-comment-txt textarea{
+  width:100%;
+  height:60px;
+  font-size:12px;
+  padding:5px;
+}
+.a-comment-btn{
+  float:right;
+}
+.a-comment-btn .button{
+  height:70px;
+  width:70px;
+  cursor:pointer
+}
