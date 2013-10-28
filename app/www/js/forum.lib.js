@@ -704,6 +704,7 @@ $.fn.extend({
                 return;
             var uid = this.session.get('id'), is_login = this.session.get('is_login');
             $('#u_login').html(this[is_login?'tmpl_u_login_info':'tmpl_u_login'].call(this,this.session.toJSON()));
+            if(!is_login) $('.u-login-input input[placeholder]').placeholder();
             if(this.session.hasChanged('id')){
                 this.renderTree();
                 SYS.clear();

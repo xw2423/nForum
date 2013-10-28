@@ -63,8 +63,8 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
     <section id="u_login" class="corner">
 <script id="tmpl_u_login" type="text/template">
         <form action="<{$base}>/login<{if isset($from)}>?from=<{$from}><{/if}>" method="post" id="u_login_form">
-        <div class="u-login-input"><span>帐号:</span><input type="text" id="u_login_id" class="input-text input" name="id"/></div>
-        <div class="u-login-input"><span>密码:</span><input type="password" id="u_login_passwd" class="input-text input" name="passwd"/></div>
+        <div class="u-login-input"><input type="text" id="u_login_id" class="input-text input" name="id" placeholder="用户名"/></div>
+        <div class="u-login-input"><input type="password" id="u_login_passwd" class="input-text input" name="passwd" placeholder="密码"/></div>
         <div class="u-login-check"><input type="checkbox" id="u_login_cookie" name="CookieDate" value="2"/><label for="u_login_cookie">下次自动登录</label></div>
         <div class="u-login-op">
             <input type="submit" id="u_login_submit" class="submit" value="登录" /><input class="submit" type="button" value="注册" id="u_login_reg"/>
