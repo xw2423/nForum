@@ -175,4 +175,67 @@
 .col5{width:auto;}
 .vote-scroll{width:230px;height:16px;margin:auto;background-color:#EEE;border:1px solid #C4AFF6}
 .vote-scroll span{width:10%;height:100%;display:inline-block;background-color:#8B58FF;}
+
+#vote_comment{
+  border: 1px solid #BDCAD8;
+  margin-right: 160px;
+}
+.vote-comment-more{
+  padding:10px 0 5px;
+  margin:0 20px;
+  border-bottom:1px solid #ddd;
+}
+.vote-comment-more a{
+  color:#4F7DC2;
+}
+.vote-comment-item{
+  padding:10px 0 5px;
+  margin:0 20px;
+}
+.vote-comment-item + .vote-comment-item{
+  border-top:1px solid #ddd;
+}
+.vote-comment-face{
+  float:left;
+  margin-top:3px;
+}
+.vote-comment-face img{
+  width:30px;
+}
+.vote-comment-cell{
+  margin-left:45px;
+  min-height:30px;
+}
+.vote-comment-id{
+  color:#4F7DC2;
+  margin-bottom:5px;
+}
+.vote-comment-content{
+  margin-bottom:5px;
+}
+.vote-comment-time{
+  color:#999;
+}
+.vote-comment-comment{
+  padding:10px 20px;
+  border-top:1px solid #ddd;
+  background-color:#f9f9f9;
+}
+.vote-comment-txt{
+  margin-right:84px;
+}
+.vote-comment-txt textarea{
+  width:100%;
+  height:50px;
+  font-size:12px;
+  padding:3px;
+}
+.vote-comment-btn{
+  float:right;
+}
+.vote-comment-btn .button{
+  height:56px;
+  width:70px;
+  cursor:pointer
+}
 /* vote view end*/

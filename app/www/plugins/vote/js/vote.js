@@ -6,7 +6,7 @@ $(function(){
             items:"#vote_item",
             opt:"#vote_opt",
             templete:"",
-            maxItem:20,
+            maxItem:$('#vote_item').attr('_itemMax'),
             itemNum:0,
             init:function(num){
                 num = (num >this.maxItem)?this.maxItem:num;
@@ -20,7 +20,7 @@ $(function(){
             },
             addItem:function(){
                 if(vote.itemNum >= vote.maxItem){
-                    DIALOG.alertDialog("最多只能添加20个选项");
+                    DIALOG.alertDialog("最多只能添加" + vote.maxItem + "个选项");
                     return false;
                 }
                 var name = "i" + Math.round(Math.random()*100000);
@@ -139,4 +139,17 @@ $(function(){
         }).join('&'));
         return false;
     });
+    if($('#vote_post').length > 0){
+      $('#vote_post').submit(function(){
+          if($.trim($('#vote_post textarea').val()) == ''){
+              $('#vote_post textarea').alertDialog(SYS.code.MSG_NULL);
+              return false;
+          }
+          $.post($('#vote_post').attr('action'), $('#vote_post').getPostData(), function(json){
+              DIALOG.ajaxDialog(json);
+          }, 'json');
+          return false;
+      });
+    $('#vote_post textarea').placeholder();
+    }
 });

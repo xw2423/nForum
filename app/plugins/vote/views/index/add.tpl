@@ -22,14 +22,14 @@
 				<dt>描述:</dt>
 				<dd class="a-desc"><textarea name="desc"></textarea></dd>
 			</dl>
-			<dl id="vote_item" class="vote-add">
+			<dl id="vote_item" class="vote-add" _itemMax="<{$itemMax}>">
 				<dt>选项:</dt>
 				<dd><input type="text" class="input-text" name="%name%"/><samp class="ico-pos-w-remove"></samp></dd>
 			</dl>
             <div class="clearfix" ></div>
 			<dl id="vote_opt" class="vote-add">
 				<dt>&nbsp;</dt>
-				<dd class="item-more"><samp class="ico-pos-tag-off"></samp>添加选项(最多20个)</dd>
+				<dd class="item-more"><samp class="ico-pos-tag-off"></samp>添加选项(最多<{$itemMax}>个)</dd>
 				<dt>截止日期:</dt>
 				<dd ><input type="text" name="end" class="input-text"/></dd>
 				<dt>选项类型:</dt>

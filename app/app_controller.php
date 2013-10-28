@@ -118,8 +118,15 @@ class AppController extends Controller {
                 //code may be a string,check msg == code to set default code
                 if($data['ajax_msg']  == strval($data['ajax_code']))
                     $data['ajax_code'] = ECode::$SYS_AJAXOK;
-                $this->set('no_html_data', $data);
             }
+            if(isset($this->params['url']['ajax_redirect'])){
+                $data['default'] = $this->params['url']['ajax_redirect'];
+                array_splice($data['list'], 0, 0, array(array(
+                    'text' => nforum_iconv('utf-8', $this->encoding, $this->params['url']['ajax_title'])
+                    ,'url' => $this->params['url']['ajax_redirect']
+                )));
+            }
+            $this->set('no_html_data', $data);
             return;
         }
 

@@ -68,4 +68,29 @@
 			<div id="vote_view" class="vote-left corner">
                 <{include file="../plugins/vote/views/index/vote.tpl"}>  
 			</div>
+            <div id="vote_comment" class="vote-left corner">
+<{if $more}>
+                <div class="vote-comment-more"><a href="<{$base}>/article/<{$board}>/<{$vinfo.aid}>">点击查看更多评论</a></div>
+<{/if}>
+<{foreach from=$comments item=item}>
+                <div class="vote-comment-item">
+                    <{if $item.furl}><a class="vote-comment-face" href=""><img src="<{$static}><{$base}><{$item.furl}>" /></a><{/if}>
+                    <div class="vote-comment-cell">
+                        <div class="vote-comment-id"><{$item.uid}></div>
+                        <div class="vote-comment-content"><{$item.content}></div>
+                        <div class="vote-comment-time"><{$item.time}></div>
+                    </div>
+                </div>
+<{/foreach}>
+<{if $islogin}>
+                <div class="vote-comment-comment corner">
+                    <form id="vote_post" method="post" action="<{$base}>/article/<{$board}>/ajax_post.json?ajax_redirect=/vote/view/<{$vinfo.vid}>&ajax_title=投票:<{$vinfo.title}>">
+                    <div class="vote-comment-btn"><input type="submit" class="button" value="我要评论" /></div>
+                    <div class="vote-comment-txt"><textarea name="content" placeholder="写下你的评论..."></textarea></div>
+                    <input type="hidden" name="id" value="<{$reid|default:0}>" />
+                    <input type="hidden" name="subject" value="<{$title}>" />
+                    </form>
+                </div>
+<{/if}>
+            </div>
 		</div>

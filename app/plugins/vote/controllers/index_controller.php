@@ -4,6 +4,14 @@ App::import("vendor", "vote.vote");
 class IndexController extends VoteAppController {
     private $_board = "nVote";
 
+    //new vote per day
+    private $_newVoteMax = 2;
+
+    //show comment number
+    private $_commentNum = 20;
+
+    private $_itemMax = 20;
+
     public function beforeFilter(){
         parent::beforeFilter();
         $this->notice[] = array("url" => "/vote", "text" => "投票");
@@ -128,12 +136,13 @@ class IndexController extends VoteAppController {
         if(!$u->isAdmin()){
             $sql = "select count(*) as num from pl_vote where status=1 and start>=? and uid=?";
             $res = $db->one($sql, array(strtotime(date("Y-m-d",time())), $u->userid));
-            if($res !== false && $res['num'] >=2)
-                $this->error("每天你最多开启两次投票");
+            if($res !== false && $res['num'] >= $this->_newVoteMax)
+                $this->error("每天你最多开启{$this->_newVoteMax}次投票");
         }
-        for($i = 2;$i<=19; $i++)
+        for($i = 2;$i<=$this->_itemMax - 1; $i++)
             $limit[$i] = $i;
         $this->set('limit', $limit);
+        $this->set('itemMax', $this->_itemMax);
 
         $secs = Configure::read("section");
         foreach($secs as $k=>&$v){
@@ -153,8 +162,8 @@ class IndexController extends VoteAppController {
         if(!$u->isAdmin()){
             $sql = "select count(*) as num from pl_vote where status=1 and start>=? and uid=?";
             $res = $db->one($sql, array(strtotime(date("Y-m-d",time())), $u->userid));
-            if($res !== false && $res['num'] >=2)
-                $this->error("每天你最多开启两次投票");
+            if($res !== false && $res['num'] >= $this->_newVoteMax)
+                $this->error("每天你最多开启{$this->_newVoteMax}次投票");
         }
         $subject = @trim($this->params['form']['subject']);
         $desc = @trim($this->params['form']['desc']);
@@ -167,7 +176,7 @@ class IndexController extends VoteAppController {
             $this->error();
         if($type != "0" && $type != "1")
             $type = 0;
-        if(empty($limit) || intval($limit) < 2 || intval($limit) > 19)
+        if(empty($limit) || intval($limit) < 2 || intval($limit) > $this->_itemMax - 1)
             $limit = 0;
         if(strtotime($end) === false || !preg_match("/\d{4}(-\d{2}){2}/", $end))
             $this->error("截止日期错误");
@@ -177,7 +186,7 @@ class IndexController extends VoteAppController {
                 $items[] = nforum_iconv('UTF-8', $this->encoding, trim($v));
         }
         $realNum = count($items);
-        if($realNum < 2 || $realNum > 20)
+        if($realNum < 2 || $realNum > $this->_itemMax)
             $this->error("选项数量错误，发起投票失败");
         if($limit > $realNum)
             $limit = $realNum;
@@ -272,6 +281,53 @@ class IndexController extends VoteAppController {
         $this->set("fwidth", ($u->userface_width === 0)?"":$u->userface_width);
         $this->set("fheight", ($u->userface_height === 0)?"":$u->userface_height);
 
+        App::import('vendor', array('model/board', 'model/threads', 'inc/ubb'));
+        try{
+            $threads = Threads::getInstance($vote->aid, Board::getInstance($this->_board));
+            $s = $threads->getTotalNum() - $this->_commentNum + 1;
+            $articles = $threads->getRecord($s > 1?$s:1, $this->_commentNum);
+            $info = array();
+            foreach($articles as $v){
+                if($v->OWNER === 'deliver') continue;
+                $tmp = array();
+                try{
+                    $own = User::getInstance($v->OWNER);
+                    $tmp['uid'] = $own->userid;
+                    $tmp['furl'] = Sanitize::html($own->getFace());
+                }catch(UserNullException $e){
+                    $tmp['uid'] = $v->OWNER;
+                    $tmp['furl'] = false;
+                }
+                $tmp['time'] = date("Y-m-d H:i:s", $v->POSTTIME);
+                $content = $v->getPlant();
+                $content = preg_replace("|<br/>【 在 deliver[\s\S]+<br/>: \.{5,}<br/>|", '', $content);
+                $content = preg_replace("/&nbsp;/", " ", $content);
+                $content = preg_replace("/  /", "&nbsp;&nbsp;", $content);
+                $content = preg_replace("|※ 修改:·([\S]+) .*?FROM:[\s]*([0-9a-zA-Z.:*]+)|", '', $content);
+                $content = preg_replace("|※ 来源:.*FROM:[\s]*([0-9a-zA-Z.:*]+)|", '', $content);
+                $s = (($pos = strpos($content, "<br/><br/>")) === false)?0:$pos + 10;
+                $e = (($pos = strpos($content, "<br/>--<br/>")) === false)?strlen($content):$pos + 7;
+                $content = preg_replace(
+                    array("'^(<br/>)+'", "|(<br/>)+--$|")
+                    ,array("", "")
+                    ,substr($content, $s, $e - $s)
+                );
+                if(Configure::read("ubb.parse")){
+                    $content = XUBB::parse($content);
+                }
+                $tmp['content'] = $content;
+                $info[] = $tmp;
+            }
+            if(!strncmp($threads->TITLE, "Re: ", 4))
+                $this->set("title", $threads->TITLE);
+            else
+                $this->set("title", 'Re: ' . $threads->TITLE);
+            $this->set("reid", $threads->ID);
+            $this->set("more", $threads->getTotalNum() > $this->_commentNum + 1);
+            $this->set("comments", $info);
+        }catch(ThreadsNullException $e){
+            $this->set("comments", false);
+        }
     }
 
     public function ajax_vote(){
