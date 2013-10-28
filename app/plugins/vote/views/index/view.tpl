@@ -68,6 +68,7 @@
 			<div id="vote_view" class="vote-left corner">
                 <{include file="../plugins/vote/views/index/vote.tpl"}>  
 			</div>
+<{if $comments !== false}>
             <div id="vote_comment" class="vote-left corner">
 <{if $more}>
                 <div class="vote-comment-more"><a href="<{$base}>/article/<{$board}>/<{$vinfo.aid}>">点击查看更多评论</a></div>
@@ -82,15 +83,18 @@
                     </div>
                 </div>
 <{/foreach}>
-<{if $islogin}>
                 <div class="vote-comment-comment corner">
+<{if $islogin}>
                     <form id="vote_post" method="post" action="<{$base}>/article/<{$board}>/ajax_post.json?ajax_redirect=/vote/view/<{$vinfo.vid}>&ajax_title=投票:<{$vinfo.title}>">
                     <div class="vote-comment-btn"><input type="submit" class="button" value="我要评论" /></div>
                     <div class="vote-comment-txt"><textarea name="content" placeholder="写下你的评论..."></textarea></div>
                     <input type="hidden" name="id" value="<{$reid|default:0}>" />
                     <input type="hidden" name="subject" value="<{$title}>" />
                     </form>
-                </div>
+<{else}>
+                    请登录后发表评论
 <{/if}>
+                </div>
             </div>
+<{/if}>
 		</div>
