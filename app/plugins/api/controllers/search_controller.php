@@ -25,11 +25,11 @@ class SearchController extends ApiAppController {
         $title1 = $title2 = $title3 = $author = $o = '';
 
         if(isset($this->params['url']['title1']))
-            $title1 = trim($this->params['url']['title1']);
+            $title1 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['title1'])));
         if(isset($this->params['url']['title2']))
-            $title2 = trim($this->params['url']['title2']);
+            $title2 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['title2'])));
         if(isset($this->params['url']['titlen']))
-            $title3 = trim($this->params['url']['titlen']);
+            $title3 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['titlen'])));
         if(isset($this->params['url']['author']))
             $author = trim($this->params['url']['author']);
         if(isset($this->params['url']['day']))
@@ -38,15 +38,13 @@ class SearchController extends ApiAppController {
         $a = isset($this->params['url']['a']) && $this->params['url']['a'] == '1';
         $o = isset($this->params['url']['o']) && $this->params['url']['o'] == '1';
         $res = array();
-        if(!isset($this->params['url']['boards']))
+        if(!isset($this->params['url']['board']))
             $this->error(ECode::$BOARD_UNKNOW);
-        $boards = $this->params['url']['boards'];    
-        foreach(explode('|', $boards) as $b){
-            try{
-                $brd = Board::getInstance($b);
-                $res = array_merge($res, Article::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $o));
-            }catch(BoardNullException $e){
-            }
+        $board = $this->params['url']['board'];
+        try{
+            $brd = Board::getInstance($board);
+            $res = array_merge($res, Article::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $o));
+        }catch(BoardNullException $e){
         }
 
         $count = isset($this->params['url']['count'])?$this->params['url']['count']:Configure::read("pagination.threads");
@@ -73,11 +71,11 @@ class SearchController extends ApiAppController {
         $title1 = $title2 = $title3 = $author = '';
 
         if(isset($this->params['url']['title1']))
-            $title1 = trim($this->params['url']['title1']);
+            $title1 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['title1'])));
         if(isset($this->params['url']['title2']))
-            $title2 = trim($this->params['url']['title2']);
+            $title2 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['title2'])));
         if(isset($this->params['url']['titlen']))
-            $title3 = trim($this->params['url']['titlen']);
+            $title3 = nforum_iconv($this->encoding, $this->appEncoding, rawurldecode(trim($this->params['url']['titlen'])));
         if(isset($this->params['url']['author']))
             $author = trim($this->params['url']['author']);
         if(isset($this->params['url']['day']))
@@ -86,15 +84,13 @@ class SearchController extends ApiAppController {
         $a = isset($this->params['url']['a']) && $this->params['url']['a'] == '1';
         $return =  Configure::read('search.max');
         $res = array();
-        if(!isset($this->params['url']['boards']))
+        if(!isset($this->params['url']['board']))
             $this->error(ECode::$BOARD_UNKNOW);
-        $boards = $this->params['url']['boards'];    
-        foreach(explode('|', $boards) as $b){
-            try{
-                $brd = Board::getInstance($b);
-                $res = array_merge($res, Threads::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $return));
-            }catch(BoardNullException $e){
-            }
+        $board = $this->params['url']['board'];
+        try{
+            $brd = Board::getInstance($board);
+            $res = array_merge($res, Threads::search($brd, $title1, $title2, $title3, $author, $day, $m, $a, $return));
+        }catch(BoardNullException $e){
         }
 
         $count = isset($this->params['url']['count'])?$this->params['url']['count']:Configure::read("pagination.threads");
