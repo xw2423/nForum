@@ -22,10 +22,8 @@
 
     <div id="login">
         <form id="f_login" method="post" action="<{$base}>/login">
-        <span>用户名:</span>
-        <input name="id" type="text" class="input-text"  id="id" size="10" onmouseover=this.focus() tabindex="1"/>
-        <span>密码:</span>
-        <input name="passwd" type="password" class="input-text" id="pwd" size="10" onmouseover=this.focus() tabindex="2" />
+        <input name="id" type="text" class="input-text"  id="id" size="10" onmouseover=this.focus() tabindex="1" placeholder="用户名" />
+        <input name="passwd" type="password" class="input-text" id="pwd" size="10" onmouseover=this.focus() tabindex="2" placeholder="密码" />
         <select name="mode" id="s-mode">
         <option value="0">nForum</option>
         </select>

@@ -5,9 +5,8 @@
 select,input{margin-right:5px;}
 select{height:22px;vertical-align:bottom}
 #login .input-text{height:14px;margin-left:2px;margin-right:4px;}
-#login span{font-size:14px;}
-#id{width:100px}
-#pwd{font-size: 12px;width:100px}
+#id{width:120px}
+#pwd{font-size: 12px;width:120px}
 .radio{ }
 #b_adv ul{margin-top:14px;}
 #b_adv li{display:inline;margin:0 7px;}

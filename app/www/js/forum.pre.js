@@ -1,7 +1,6 @@
 var login = [SYS.base + '/' + SYS.ajax.login],
 home = [SYS.base + '/#!' + SYS.home.substr(1)];
 $(function(){
-    $('#id').focus();
     $('#f_login').submit(function(){
         var v = $('#s-mode').val();
         if(v == '0'){
@@ -22,4 +21,5 @@ $(function(){
     $('#b_reg').click(function(){
         window.location.href = SYS.base + "/#!reg";
     });
+    $('#id, #pwd').placeholder();
 });
