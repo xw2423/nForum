@@ -775,7 +775,7 @@
                 break;
             case 'I': case 'i':
                 if(DIALOG.getTop() === null)
-                    $('#post_content,#quick_text').focus();
+                    $('#post_content,#quick_post textarea').focus();
                 else
                     $('#u_search_u').select();
                 break;
