@@ -56,6 +56,19 @@ class ArticleController extends ApiAppController {
         }catch(ThreadsNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
+
+        //filter author
+        $auF = $au = false;
+        if(isset($this->params['url']['au'])){
+            $tmp = $threads->getRecord(1, $threads->getTotalNum());
+            $auF = array();$au = trim($this->params['url']['au']);
+            foreach($tmp as $v){
+                if($v->OWNER == $au)
+                    $auF[] = $v;
+            }
+            $auF = new ArrayPageableAdapter($auF);
+        }
+
         $count = isset($this->params['url']['count'])?$this->params['url']['count']:Configure::read("pagination.article");
         if(($count = intval($count)) <= 0)
             $count = Configure::read("pagination.article");
@@ -63,7 +76,7 @@ class ArticleController extends ApiAppController {
             $count = Configure::read("pagination.article");
         $page = isset($this->params['url']['page'])?$this->params['url']['page']:1;
         $page = intval($page);
-        $pagination = new Pagination($threads, $count);
+        $pagination = new Pagination(false !== $au?$auF:$threads, $count);
         $articles = $pagination->getPage($page);
         $wrapper = Wrapper::getInstance();
         $info = array();
