@@ -478,6 +478,7 @@ $.fn.extend({
         },
         //session will trigger 'login' event
         login:function(form){
+            $.cookie('login-user', form.find('#u_login_id').val(),{path:'/', domain:SYS.cookie_domain,expires:30});
             var self = this;
             $.post(SYS.ajax.login,form.getPostData(),function(json){
                 //login will return session data, so force update here
@@ -489,6 +490,7 @@ $.fn.extend({
         },
         //session will trigger 'logout' event
         logout:function(){
+            $.cookie('login-user', this.get('id'),{path:'/', domain:SYS.cookie_domain,expires:30});
             var self = this;
             this.fetch({url:SYS.ajax.logout,success:function(){
                 self.update(true);
@@ -704,7 +706,8 @@ $.fn.extend({
                 return;
             var uid = this.session.get('id'), is_login = this.session.get('is_login');
             $('#u_login').html(this[is_login?'tmpl_u_login_info':'tmpl_u_login'].call(this,this.session.toJSON()));
-            if(!is_login) $('.u-login-input input[placeholder]').placeholder();
+            if(!is_login) $('.u-login-input input[placeholder]').placeholder().filter('#u_login_id').val($.cookie('login-user'));
+            $($('#u_login_id').val() == ''?'#u_login_id':'#u_login_passwd').focus();
             if(this.session.hasChanged('id')){
                 this.renderTree();
                 SYS.clear();

@@ -2,6 +2,7 @@ var login = [SYS.base + '/' + SYS.ajax.login],
 home = [SYS.base + '/#!' + SYS.home.substr(1)];
 $(function(){
     $('#f_login').submit(function(){
+        $.cookie('login-user', $('#id').val(),{path:'/', domain:SYS.cookie_domain,expires:30});
         var v = $('#s-mode').val();
         if(v == '0'){
             $.post(login[v], $(this).getPostData(), function(json){
@@ -21,5 +22,6 @@ $(function(){
     $('#b_reg').click(function(){
         window.location.href = SYS.base + "/#!reg";
     });
-    $('#id, #pwd').placeholder();
+    $('#id, #pwd').placeholder().filter('#id').val($.cookie('login-user'));
+    $($('#id').val() == ''?'#id':'#pwd').focus();
 });
