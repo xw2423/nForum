@@ -1,9 +1,8 @@
 *.swp
+www/files/adv/*
+www/uploadFace/*
+www/img/app/icon/*
+www/js/pack*
+www/css/pack*
+conf/nforum.php
 app/tmp/*
-app/www/files/adv/*
-app/www/uploadFace/*
-app/www/img/app/icon/*
-cake
-app/config/nforum.php
-app/www/js/pack*
-app/www/css/pack*

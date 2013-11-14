@@ -7,7 +7,7 @@
 <meta name="author" content="xw2423@BYR" />
 <title><{$webTitle}></title>
 <link rel="shortcut icon" type="image/x-icon" href="<{$static}><{$base}>/favicon.ico">
-<{if !$islogin && $preindex}>
+<{if !$isLogin && $preIndex}>
 <script>
 if(!location.hash.match(/^#.+$/)) location.href='index';
 </script>
@@ -27,7 +27,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
         <ul>
             <li><a href="<{$base}>#">合作交流</a></li>
             <li><a href="<{$base}>#">论坛帮助</a></li>
-            <li><a href="<{$base}>/flink">友情链接</a></li>
+            <li><a href="<{$base}>/forum/flink">友情链接</a></li>
             <li><a href="<{$base}>#">意见建议</a></li>
         </ul>
     </aside>
@@ -105,13 +105,13 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
         <ul>
             <li class="slist">
                 <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">全部讨论区</a></span>
-                <ul class="x-child ajax"><li>{url:<{$base}>/slist.json?uid=<%=id%>&root=list-section}</li>
+                <ul class="x-child ajax"><li>{url:<{$base}>/section/ajax_list.json?uid=<%=id%>&root=list-section}</li>
                 </ul>
             </li>
 <%if(is_login){ %>
             <li class="flist">
                 <span class="x-folder"><span class="toggler"></span><a href="javascript:void(0);">我的收藏夹</a></span>
-                <ul id="list-favor" class="x-child ajax"><li>{url:<{$base}>/flist.json?uid=<%=id%>&root=list-favor}</li></ul>
+                <ul id="list-favor" class="x-child ajax"><li>{url:<{$base}>/favor/ajax_list.json?uid=<%=id%>&root=list-favor}</li></ul>
             </li>
 <%}%>
             <li class="clist">
@@ -129,7 +129,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
 <{/if}>
                     <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友列表</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏版面</a></span></li>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/forum/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <%}%>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/query" id="u_query"><samp class="ico-pos-dot"></samp>查询用户</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/s" ><samp class="ico-pos-dot"></samp>搜索文章</a></span></li>

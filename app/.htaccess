@@ -1,6 +1,0 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteRule ^$ www/ [L] 
-    RewriteRule ^(.*)$ www/$1 [L]
-</IfModule>
-

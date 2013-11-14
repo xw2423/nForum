@@ -16,20 +16,20 @@
             </ul>
         </div>
         <div class="b-content">
-			<form id="refer_read" action="<{$base}>/refer/<{$type}>/ajax_read.json" method='post'>
-			<input type="hidden" name="index" value="all" />
+            <form id="refer_read" action="<{$base}>/refer/<{$type}>/ajax_read.json" method='post'>
+            <input type="hidden" name="index" value="all" />
             </form>
-			<form id="refer_clear" action="<{$base}>/refer/<{$type}>/ajax_delete.json" method="post">
-			<input type="hidden" name="all" value="all" />
-			</form>
-			<form id="refer_form" action="<{$base}>/refer/<{$type}>/ajax_delete.json" method="post">
+            <form id="refer_clear" action="<{$base}>/refer/<{$type}>/ajax_delete.json" method="post">
+            <input type="hidden" name="all" value="all" />
+            </form>
+            <form id="refer_form" action="<{$base}>/refer/<{$type}>/ajax_delete.json" method="post">
             <div class="mail-list">
                 <div class="t-pre">
                     <div class="t-btn">
-						<input type="checkbox" class="mail-select" />
-						<input type="button" class="button refer-del" value="删除" />
-						<input type="button" class="button refer-clear" value="全部删除" />
-						<input type="button" class="button refer-read" value="全部已读" />
+                        <input type="checkbox" class="mail-select" />
+                        <input type="button" class="button refer-del" value="删除" />
+                        <input type="button" class="button refer-clear" value="全部删除" />
+                        <input type="button" class="button refer-read" value="全部已读" />
                     </div>
                     <div class="page">
                         <{include file="pagination.tpl" page_name='文章总数'}>
@@ -38,8 +38,8 @@
                 <table class="m-table">
 <{if isset($info)}>
 <{foreach from=$info item=item}>
-                	<tr <{if !($item.read)}>class="no-read"<{/if}>>
-                    	<td class="title_1"><input type="checkbox" name="m_<{$item.index}>" class="mail-item"/></td>
+                    <tr <{if !($item.read)}>class="no-read"<{/if}>>
+                        <td class="title_1"><input type="checkbox" name="m_<{$item.index}>" class="mail-item"/></td>
                         <td class="title_2"><a href="<{$base}>/user/query/<{$item.user}>"><{$item.user}></a></td>
                         <td class="title_3"><a href="<{$base}>/article/<{$item.board}>/ajax_single/<{$item.id}>.json" class="m-single" _index="<{$item.index}>"><{$item.title}></a></td>
                         <td class="title_4"><{$item.time}></td>
@@ -56,7 +56,7 @@
                         <input type="checkbox" class="mail-select" />
                         <input type="button" class="button refer-del" value="删除" />
                         <input type="button" class="button refer-clear" value="全部删除" />
-						<input type="button" class="button refer-read" value="全部已读" />
+                        <input type="button" class="button refer-read" value="全部已读" />
                     </div>
                     <div class="page">
                         <{include file="pagination.tpl" page_name='文章总数'}>

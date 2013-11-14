@@ -22,7 +22,7 @@
         <ul>
             <li><a href="<{$base}>#">合作交流</a></li>
             <li><a href="<{$base}>#">论坛帮助</a></li>
-            <li><a href="<{$base}>/flink">友情链接</a></li>
+            <li><a href="<{$base}>/forum/flink">友情链接</a></li>
             <li><a href="<{$base}>#">意见建议</a></li>
         </ul>
     </aside>

@@ -1,0 +1,7 @@
+#!/bin/bash
+ROOT=$(dirname $(cd "$(dirname "$0")"; pwd))
+clear
+
+php -q ${ROOT}/lib/inc/cli.php "${ROOT}" "$@"
+
+exit;
