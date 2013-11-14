@@ -3,4 +3,4 @@
 #每小时从新浪获得天气信息
 9 * * * * /PATH/TO/NFORUM/bin/cli weather
 #每小时刷新投票排行榜
-9 * * * * /PATH/TO/NFORUM/bin/cli statistics
+9 * * * * /PATH/TO/NFORUM/bin/cli vote.statistics
