@@ -129,7 +129,8 @@ $(function(){
                     DIALOG.ajaxDialog(json)
                 }
             }, 'json');
-        })
+        });
+        return false;
     });
     $('#vote_rank .vote-search input[placeholder]').placeholder();
     $('#vote_rank .vote-search form').submit(function(){
