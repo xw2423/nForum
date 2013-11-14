@@ -149,9 +149,6 @@ function ip(){
     return $_SERVER["REMOTE_ADDR"];
 }
 
-function h(){
-}
-
 /**
  * fix the wrong gb2312 word
  * @param string $txt
