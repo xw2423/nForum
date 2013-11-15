@@ -170,24 +170,6 @@ $code['0804'] = "删除好友成功";
 $code['0900'] = "精华区目录不存在";
 //ELITE_DIRERROR
 $code['0901'] = "无法加载目录文件";
-//RESET_QUICKNOID
-$code['1000'] = "此ID不是通过快速通道注册";
-//RESET_OK
-$code['1001'] = "密码重置成功,您的密码为111111,请尽快改密码";
-//RESET_NONUM
-$code['1002'] = "您的ID绑定的手机号错误";
-//BIND_PWDERROR
-$code['1003'] = "您的密码错误";
-//BIND_PHONEERROR
-$code['1004'] = "请输入正确的手机号";
-//BIND_OK
-$code['1005'] = "绑定手机号成功";
-//BIND_ERROR
-$code['1006'] = "绑定手机号失败";
-//P2S_ERROR
-$code['1007'] = "绑定学号失败";
-//P2S_OK
-$code['1008'] = "绑定学号成功";
 //REG_FORMAT
 $code['1100'] = "用户ID，密码，昵称，其他信息不完全或不符合规范";
 //REG_IDUSED

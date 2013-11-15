@@ -90,15 +90,6 @@ class ECode {
     public static $FRIEND_DELETEOK =     '0804';
     public static $ELITE_NODIR =         '0900';
     public static $ELITE_DIRERROR =      '0901';
-    public static $RESET_QUICKNOID =     '1000';
-    public static $RESET_OK =            '1001';
-    public static $RESET_NONUM =         '1002';
-    public static $BIND_PWDERROR =       '1003';
-    public static $BIND_PHONEERROR =     '1004';
-    public static $BIND_OK =             '1005';
-    public static $BIND_ERROR =          '1006';
-    public static $P2S_ERROR =           '1007';
-    public static $P2S_OK =              '1008';
     public static $REG_FORMAT =          '1100';
     public static $REG_IDUSED =          '1101';
     public static $REG_PWD =             '1102';
