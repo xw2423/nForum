@@ -5,7 +5,7 @@ class voteWidget extends WidgetAdapter{
     public function wGetTitle(){ return array("text"=>"ͶƱ", "url"=>"/vote");}
     public function wGetTime(){
         $file = BBS_HOME . '/boards/nVote/.ORIGIN';
-        if(!in_array("vote", c("plugins.install")) || !file_exists($file))
+        if(!in_array("vote", c("modules.install")) || !file_exists($file))
             return time();
         $fTime = @filemtime($file);
         $loop = strtotime(date("Y-m-d H:00:00", time()));
