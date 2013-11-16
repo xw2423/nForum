@@ -35,7 +35,7 @@ class UserController extends AppController {
         $static = Configure::read('site.static');
         $base = Configure::read('site.prefix');
         $user = User::getInstance();
-        
+
         App::import('vendor', 'inc/wrapper');
         $wrapper = Wrapper::getInstance();
         $ret = $wrapper->user($user);
@@ -265,8 +265,8 @@ class UserController extends AppController {
                 if(isset($this->params['form']["{$k}_{$v[0]}"])){
                     $arr[] = array("pos"=>$v[0], "val"=>intval($this->params['form']["{$k}_{$v[0]}"]));
                     if($k == "userdefine1" && $v[0] == 31 && intval($this->params['form']["{$k}_{$v[0]}"]) === 0){
-                        App::import("vendor", array("mode/widget"));
-                        Widget::w3to2($u);    
+                        App::import("vendor", array("model/widget"));
+                        Widget::w3to2($u);
                     }
                 }
             }
@@ -317,7 +317,7 @@ class UserController extends AppController {
                     $msg = "上传错误";
                     break;
                 }
-                $ext = strrchr($tmpName, '.'); 
+                $ext = strrchr($tmpName, '.');
                 if(!in_array(strtolower($ext), $face['ext'])){
                     $msg = "上传文件扩展名有误";
                     break;
@@ -338,12 +338,12 @@ class UserController extends AppController {
                     $msg = "我觉得您今天可以买彩票了";
                     break;
                 }
-                if (isset($tmp_name)) { 
+                if (isset($tmp_name)) {
                     if(!rename($tmp_name, $faceFullPath)){
                         $msg = "上传错误";
                         break;
                     }
-                }else if (!move_uploaded_file($tmpFile, $faceFullPath)) { 
+                }else if (!move_uploaded_file($tmpFile, $faceFullPath)) {
                     $msg = "上传错误";
                     break;
                 }
@@ -404,12 +404,12 @@ class UserController extends AppController {
         $faceDir = Configure::read("user.face.dir"). DS . strtoupper(substr($u->userid,0,1));
         $faceFullDir = WWW_ROOT . $faceDir;
         if ($hDir = @opendir($faceFullDir)) {
-            while($file = readdir($hDir)){                                                                 
+            while($file = readdir($hDir)){
                 if(preg_match("/{$u->userid}\./", $file) && $file !== $exclude)
-                    unlink($faceFullDir . DS . $file); 
+                    unlink($faceFullDir . DS . $file);
             }
             closedir($hDir);
-        }                     
+        }
     }
 }
 ?>
