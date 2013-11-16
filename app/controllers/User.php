@@ -239,7 +239,7 @@ class UserController extends NF_Controller {
                 if(isset($this->params['form']["{$k}_{$v[0]}"])){
                     $arr[] = array("pos"=>$v[0], "val"=>intval($this->params['form']["{$k}_{$v[0]}"]));
                     if($k == "userdefine1" && $v[0] == 31 && intval($this->params['form']["{$k}_{$v[0]}"]) === 0){
-                        load(array("mode/widget"));
+                        load('model/widget');
                         Widget::w3to2($u);
                     }
                 }
