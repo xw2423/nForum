@@ -112,7 +112,7 @@ class IndexController extends NF_Controller {
 
         $pageBar = $page->getPageBar($p, $link);
         $this->set("pageBar", $pageBar);
-        $this->set("totalNum", $list->getTotalNum());
+        $this->set("pagination", $page);
         $this->set("info", $info);
         $this->set("category", $category);
         $this->set("voteTitle", $title);

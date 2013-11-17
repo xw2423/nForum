@@ -92,11 +92,7 @@
                 <div style="text-align:center;padding-top:20px;">尚无投票记录！</div>
 <{/if}>
                 <div class="page">
-                    <ul class="pagination">
-                      <li class="page-pre">投票总数:<i><{$totalNum}></i>&nbsp;&nbsp;分页:</li>
-                      <li><ol title="分页列表" class="page-main"><{$pageBar}></ol></li>
-                      <li class="page-suf"></li>
-                    </ul>
+                <{include file="$view/pagination.tpl" page_name='投票总数'}>
                 </div>
             </div>
         </div>
