@@ -39,6 +39,7 @@ class HtmlView extends NF_View{
 
     private function _getSmarty(){
         if(null === $this->_smarty){
+            define('SMARTY_RESOURCE_CHAR_SET', 'ISO-8859-1');
             require('Smarty.class.php');
             $this->_smarty = new Smarty();
             $this->_smarty->caching = false;
