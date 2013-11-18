@@ -16,7 +16,8 @@ $export[] = array('/section/:num', array('controller' => 'section', 'action' => 
 $export[] = array('/mail/send', array('controller' => 'mail', 'action' => 'send'));
 $export[] = array('/mail/ajax_preview', array('controller' => 'mail', 'action' => 'ajax_preview'));
 $export[] = array('/mail/:type/:action/:num', array('controller' => 'mail', 'action' => null, 'num' => null), array('num'=> '\d+'));
-$export[] = array('/s/:action', array('controller' => 'search', 'action' => null));
+$export[] = array('/s', array('controller' => 'search', 'action' => 'index'));
+$export[] = array('/s/:action', array('controller' => 'search'));
 $export[] = array('/authimg', array('controller' => 'reg', 'action' => 'authimg'));
 $export[] = array('/widget/set', array('controller' => 'widget', 'action' => 'ajax_set'));
 $export[] = array('/widget/add', array('controller' => 'widget', 'action' => 'add'));

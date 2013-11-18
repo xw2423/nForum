@@ -40,6 +40,8 @@ class NF_Route implements Yaf_Route_Interface{
 
         if(null === $strict)
             $this->_strict = false === strpos($match, '/:');
+        else
+            $this->_strict = $strict;
     }
 
     public function route($request){
