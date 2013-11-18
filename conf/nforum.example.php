@@ -101,7 +101,7 @@ $export['ubb']['parse'] = true;
 
 $export['ubb']['syntax'] = '';
 #类型: String
-#描述: 语法高亮的SyntaxHighlighter3.x的目录名称，请把SyntaxHighlighter3.x放在app/www目录下，为空即不启用语法高亮
+#描述: 语法高亮的SyntaxHighlighter3.x的目录名称，请把SyntaxHighlighter3.x放在www目录下，为空即不启用语法高亮
 
 /********* search config ******************/
 $export['search']['site'] = false;
