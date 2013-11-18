@@ -214,7 +214,7 @@ class WidgetController extends NF_Controller {
                             if(!in_array($w->wGetName(), $my)){
                                 $title = $w->wGetTitle();
                                 $title = $title["text"];
-                                $ret[] = array('wid' => $w->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
+                                $ret[] = array('wid' => $w->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . DS . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
                             }
                         }else if($tt == 1){
                             foreach($w->getDir() as $dir){
@@ -222,7 +222,7 @@ class WidgetController extends NF_Controller {
                                 if(!in_array($ww->wGetName(), $my)){
                                     $title = $ww->wGetTitle();
                                     $title = $title["text"];
-                                    $ret[] = array('wid' => $ww->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . 'app/icon/'.$ww->wGetName().'.png')?$ww->wGetName():"default");
+                                    $ret[] = array('wid' => $ww->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . DS . 'app/icon/'.$ww->wGetName().'.png')?$ww->wGetName():"default");
                                 }
                             }
                         }
@@ -237,7 +237,7 @@ class WidgetController extends NF_Controller {
                     if(!in_array($favor->wGetName(), $my)){
                         $title = $favor->wGetTitle();
                         $title = $title["text"];
-                        $ret[] = array('wid' => $favor->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . 'app/icon/'.$favor->wGetName().'.png')?$favor->wGetName():"default");
+                        $ret[] = array('wid' => $favor->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . DS . 'app/icon/'.$favor->wGetName().'.png')?$favor->wGetName():"default");
                     }
                     foreach($favor->getDir() as $w){
                         if(!in_array("favor-" . $w->BID, $my) && $w->NAME == ""){
@@ -261,7 +261,7 @@ class WidgetController extends NF_Controller {
                         if(!in_array($ww->wGetName(), $my)){
                             $title = $ww->wGetTitle();
                             $title = $title["text"];
-                            $ret[] = array('wid' => $ww->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . 'app/icon/'.$ww->wGetName().'.png')?$ww->wGetName():"default");
+                            $ret[] = array('wid' => $ww->wGetName(), 'title' => $title, 'p'=> file_exists(IMAGE . DS . 'app/icon/'.$ww->wGetName().'.png')?$ww->wGetName():"default");
                         }
                     }
                     break;
@@ -284,7 +284,7 @@ class WidgetController extends NF_Controller {
                         if(!in_array($w->wGetName(), $my)){
                             $title = $w->wGetTitle();
                             $title = $title["text"];
-                            $ret[] = array('wid' => $w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGE . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
+                            $ret[] = array('wid' => $w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGE . DS . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
                         }
                     }
                     break;
@@ -306,7 +306,7 @@ class WidgetController extends NF_Controller {
                             $title = $w->wGetTitle();
                             $title = $title["text"];
                             if(!in_array($w->wGetName(), $my) && strpos($title, $tt) !== false)
-                                $ret[] = array('wid' =>$w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGE . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
+                                $ret[] = array('wid' =>$w->wGetName(), 'title' => $title, "p"=>file_exists(IMAGE . DS . 'app/icon/'.$w->wGetName().'.png')?$w->wGetName():"default");
                         }
                     }
                     break;

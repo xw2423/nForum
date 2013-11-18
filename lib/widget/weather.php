@@ -4,10 +4,10 @@ load(array("model/iwidget", "inc/db"));
 class weatherWidget extends WidgetAdapter{
     public function wGetTitle(){ return array("text"=>"北京天气", "url"=>"/board/weather");}
     public function wGetTime(){
-        if (!file_exists(CACHE . 'nforum/weather_day')) {
+        if (!file_exists(CACHE . DS . 'nforum/weather_day')) {
             return time();
         }
-        return filemtime(CACHE . 'nforum/weather_day');
+        return filemtime(CACHE . DS . 'nforum/weather_day');
     }
 
     public function wGetList(){

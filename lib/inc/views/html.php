@@ -44,7 +44,7 @@ class HtmlView extends NF_View{
             $this->_smarty = new Smarty();
             $this->_smarty->caching = false;
             $this->_smarty->template_dir = VIEW;
-            $this->_smarty->compile_dir  = TMP . '/compile';
+            $this->_smarty->compile_dir  = TMP . DS . 'compile';
             $this->_smarty->cache_dir    = CACHE;
             $this->_smarty->left_delimiter = '<{';
             $this->_smarty->right_delimiter = '}>';

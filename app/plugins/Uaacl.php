@@ -7,7 +7,7 @@ class UaaclPlugin extends Yaf_Plugin_Abstract{
 
     public function routerShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response){
         $acl = array();
-        load(CONF . '/uaacl', $acl);
+        load(CONF . DS . 'uaacl', $acl);
 
         $request->spider = !self::check($acl['spider']);
 

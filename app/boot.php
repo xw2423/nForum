@@ -49,7 +49,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract{
         if($m = c('modules.domain_module')){
             load(MODULE . DS . ucfirst($m) . DS . 'route', $routes);
         }else{
-            load(CONF . '/route', $routes);
+            load(CONF . DS . 'route', $routes);
 
             foreach(c('modules.install') as $v){
                 $tmp = array();

@@ -6,7 +6,7 @@ define('LIB', ROOT . DS . 'lib');
 define('WWW', ROOT . DS . 'www');
 define('JS', WWW . DS . 'js');
 define('CSS', WWW . DS . 'css');
-define('IMAGE', WWW . DS . 'js');
+define('IMAGE', WWW . DS . 'img');
 
 require(LIB . DS . 'inc/func.php');
 

@@ -8,7 +8,7 @@ load('inc/iplib');
 class IpaclPlugin extends Yaf_Plugin_Abstract{
     public function routerShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response){
         $acl = array();
-        load(CONF . '/ipacl', $acl);
+        load(CONF . DS . 'ipacl', $acl);
 
         if(!self::check($acl['global']))
             exit(Ecode::msg(ECode::$SYS_IPBAN));

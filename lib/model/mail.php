@@ -155,7 +155,7 @@ class Mail extends Archive {
     }
 
     public static function autoMail($user, $title, $content = ""){
-        $file = tempnam(TMP . 'cache', "automail");
+        $file = tempnam(TMP . DS . 'cache', "automail");
         $fp = fopen($file,"w");
         $content = str_replace('\n', "\n", $content);
         fwrite($fp,"$content\n");

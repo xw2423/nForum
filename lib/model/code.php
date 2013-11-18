@@ -174,4 +174,4 @@ class ECode {
         }
     }
 }
-load(CONF . '/code', ECode::$codes);
+load(CONF . DS . 'code', ECode::$codes);

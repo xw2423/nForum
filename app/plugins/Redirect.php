@@ -75,7 +75,7 @@ class RedirectPlugin extends Yaf_Plugin_Abstract{
 
     public static function isRedirect($request){
         $acl = array();
-        load(CONF . '/redirectacl', $acl);
+        load(CONF . DS . 'redirectacl', $acl);
 
         $m = strtolower($request->getModuleName());
         $c = strtolower($request->getControllerName());

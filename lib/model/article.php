@@ -124,7 +124,7 @@ class Article extends Archive{
      * @access public
      */
     public static function autoPost($board, $title, $content = ""){
-        $file = tempnam(TMP . 'cache', "autopost");
+        $file = tempnam(TMP . DS . 'cache', "autopost");
         $fp = fopen($file,"w");
         $content = str_replace('\n', "\n", $content);
         fwrite($fp,"$content\n");
