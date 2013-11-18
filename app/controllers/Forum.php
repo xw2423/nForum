@@ -177,5 +177,10 @@ class ForumController extends NF_Controller {
         $link = "{$this->base}/online?p=%page%";
         $this->set("pageBar", $pagination->getPageBar($p, $link));
         $this->set("pagination", $pagination);
+        $this->set(array(
+            'webTotal' => Forum::getOnlineNum()
+            ,'webUser' => Forum::getOnlineUserNum()
+            ,'webGuest' => Forum::getOnlineGuestNum()
+        ));
     }
 }
