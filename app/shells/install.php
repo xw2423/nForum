@@ -7,7 +7,7 @@ class InstallShell extends NF_Shell{
             ,CACHE . DS . 'asset'
             ,CACHE . DS . 'nforum'
             ,CACHE . DS . 'thumbnail'
-            ,WWW . DS . 'files/adv'
+            ,WWW . DS . 'files/imgupload'
             ,WWW . DS . 'uploadFace'
         );
 

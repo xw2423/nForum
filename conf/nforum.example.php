@@ -81,7 +81,7 @@ $export['view']['pack']['css'] = true;
 #√Ë ˆ:  «∑Ò—πÀıcss
 
 /********* adv config ******************/
-$export['adv']['path'] = '/files/adv';
+$export['adv']['path'] = '/files/imgupload';
 
 #id which can access advertisment managment page
 $export['adv']['id'] = array('SYSOP');
