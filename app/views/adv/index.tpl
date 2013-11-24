@@ -58,7 +58,7 @@
 <{foreach from=$info item=item key=k}>
         <tr class="ui-widget-content<{if $hasPrivilege && $item.privilege == '1' || !$hasPrivilege && isset($item.used) && $item.used == '1' || $item.switch == '1'}> used<{/if}>">
             <td class="c_1" id="<{$item.aid}>"><{$k+1}></td>
-            <td class="c_2"><a href="<{$base}>/<{$dir}>/<{$item.file}>"><{$item.file}></a></td>
+            <td class="c_2"><a href="<{$base}><{$dir}>/<{$item.file}>"><{$item.file}></a></td>
             <td class="c_3"><a href="<{$item.url}>"><{$item.url|default:"&nbsp;"}></a></td>
 <{if ($type)}>
             <td class="c_4"><{$item.sTime}></td>

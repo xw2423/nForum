@@ -110,7 +110,7 @@ class AdvController extends NF_Controller {
         $adv = new Adv();
         $adv->type = $this->_type;
         $file = $adv->delete($aid);
-        @unlink(WWW. c('adv.path') . DS . $file);
+        @unlink(WWW . c('adv.path') . DS . $file);
         $this->redirect("/adv/{$this->_type}?p=$p");
     }
 
@@ -137,8 +137,8 @@ class AdvController extends NF_Controller {
                 $file = date("Y-m-d-H-i-s", time()) . $ext;
                 $dir = c('adv.path');
                 $path = $dir . DS . $file;
-                $fullDir = WWW. $dir;
-                $fullPath = WWW. $path;
+                $fullDir = WWW . $dir;
+                $fullPath = WWW . $path;
                 if(!is_dir($fullDir)){
                     @mkdir($fullDir);
                 }
