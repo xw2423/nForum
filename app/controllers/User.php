@@ -303,8 +303,8 @@ class UserController extends NF_Controller {
                 mt_srand();
                 $faceDir = $face['dir'] . DS . strtoupper(substr($u->userid,0,1));
                 $facePath = $faceDir . DS . $u->userid . "." . mt_rand(0, 10000) . $ext;
-                $faceFullDir = WWW. $faceDir;
-                $faceFullPath = WWW. $facePath;
+                $faceFullDir = WWW . DS . $faceDir;
+                $faceFullPath = WWW . DS . $facePath;
                 if(!is_dir($faceFullDir)){
                     @mkdir($faceFullDir);
                 }
@@ -376,7 +376,7 @@ class UserController extends NF_Controller {
     private function _clearFace($exclude){
         $u = User::getInstance();
         $faceDir = c("user.face.dir"). DS . strtoupper(substr($u->userid,0,1));
-        $faceFullDir = WWW. $faceDir;
+        $faceFullDir = WWW . DS . $faceDir;
         if ($hDir = @opendir($faceFullDir)) {
             while($file = readdir($hDir)){
                 if(preg_match("/{$u->userid}\./", $file) && $file !== $exclude)

@@ -157,7 +157,7 @@ $export['user']['face']['size'] = 1024 * 256;
 #类型: Int
 #描述: 用户自定义头像大小限制，单位字节
 
-$export['user']['face']['dir'] = '/uploadFace';
+$export['user']['face']['dir'] = 'uploadFace';
 #类型: String
 #描述: 用户自定义头像上传目录，为整合wForum，此目录设置为wForum建议的目录
 
