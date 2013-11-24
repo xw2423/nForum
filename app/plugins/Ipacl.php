@@ -28,7 +28,7 @@ class IpaclPlugin extends Yaf_Plugin_Abstract{
             $acl = array();
         }
         if(!self::check($acl))
-            nforum_error(ECode::$SYS_IPBAN, true);
+            nforum_error(ECode::$SYS_IPBAN, $request->front);
     }
 
     //true for allow false for deny
