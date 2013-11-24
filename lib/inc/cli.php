@@ -51,7 +51,7 @@ if($argc == 2){
 
     NF_Shell::line("nForum Shell");
     NF_Shell::line("\nexecute: $arg\n");
-    $app->execute(array(new $class, 'main'), $argc - 2, $argv);
+    $app->execute(array(new $class, 'main'), $argc - 3, $argv);
 }
 
 abstract class NF_Shell{
