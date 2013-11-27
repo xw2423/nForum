@@ -15,7 +15,8 @@ class WidgetController extends NF_ApiController {
         $wrapper = Wrapper::getInstance();
         $data = $wrapper->widget($widget);
         $list = $widget->wGetList();
-        switch(array_shift(split('-', $name))){
+        $tn = split('-', $name);
+        switch(array_shift($tn)){
             case 'topten':
             case 'recommend':
                 if(!is_array($list['v'])) break;

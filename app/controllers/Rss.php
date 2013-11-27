@@ -19,7 +19,8 @@ class RssController extends NF_Controller {
 
     public function boardAction(){
         try{
-            $brd = Board::getInstance(array_pop(explode('-', $this->params['board'], 2)));
+            $brd = explode('-', $this->params['board'], 2);
+            $brd = Board::getInstance(array_pop($brd));
             if(!$brd->isNormal() || $brd->isDir())
                 $this->_stop();
             $mTime = @filemtime('boards/' . $brd->NAME . '/.ORIGIN');
