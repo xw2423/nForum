@@ -14,7 +14,6 @@ class AttachmentController extends NF_ApiController {
         $mode = !isset($this->params['mode'])?Board::$THREAD:intval($this->params['mode']);
         $id = $this->params['id'];
         $pos = $this->params['pos'];
-        $type = $this->params['type'];
 
         $archive = null;
         load("model/mail");
@@ -38,9 +37,9 @@ class AttachmentController extends NF_ApiController {
         }
 
         //check thumbnail
-        if(!empty($type)){
+        if(isset($this->params['type']) && !empty($this->params['type'])){
             load('inc/thumbnail');
-            Thumbnail::archive($type, $archive, $pos);
+            Thumbnail::archive($this->params['type'], $archive, $pos);
         }
 
         $archive->getAttach($pos);
