@@ -156,7 +156,7 @@ class Widget {
                     $title = array('text' => 'WIDGET MISS' ,'url' => '');
                 }
                 $ret[] = array("color" => $colors[$v['color']][0]
-                    ,"title"=> empty($v['title'])?$title['title']:nforum_html($v['title'])
+                    ,"title"=> empty($v['title'])?$title['text']:nforum_html($v['title'])
                     ,"name" => $v['wid']
                     ,"url" => $title['url']
                     ,"col" => $v['col']
