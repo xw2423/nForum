@@ -1,6 +1,6 @@
 <{include file="header.tpl"}>
 <form action="<{$mbase}>/user/login" method="post">
-<{if $islogin}>
+<{if $isLogin}>
 <ul class="sec slist">
 <li class="f">当前用户:<{$id}></li>
 <li>等级:<{$level}></li>

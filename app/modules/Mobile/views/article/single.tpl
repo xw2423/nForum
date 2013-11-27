@@ -37,7 +37,7 @@
         <{if $canPost}>
             <a href="<{$mbase}>/article/<{$bName}>/post/<{$aid}>?s=1">回复</a>
         <{/if}>
-        <{if $islogin}>
+        <{if $isLogin}>
             |<a href="<{$mbase}>/mail/<{$bName}>/send/<{$aid}>">发信</a>
             |<a href="<{$mbase}>/article/<{$bName}>/forward/<{$aid}>?s=1">转寄</a>
         <{/if}>

@@ -8,7 +8,7 @@
     <a href="<{$mbase}>/" accesskey="0">首页</a>
     |<a href="<{$mbase}>/section" accesskey="2">分区</a>
     |<a href="<{$mbase}>/hot" accesskey="3">热推</a>
-<{if $islogin}>
+<{if $isLogin}>
     |<a href="<{$mbase}>/favor" accesskey="4">收藏</a>
     |<a href="<{$mbase}>/mail" accesskey="5">邮箱<{if $full_mail}>(满)<{elseif $new_mail}>(新)<{/if}></a>
 <{if false !== $newAt}>

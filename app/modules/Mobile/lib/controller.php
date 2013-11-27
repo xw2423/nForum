@@ -64,7 +64,7 @@ class NF_MobileController extends NF_Controller {
         $this->set("msg", ECode::msg($this->_msg));
         $this->set("pos", $this->notice);
         $this->set("css", $this->css);
-        $this->set("islogin", $login);
+        $this->set("isLogin", $login);
         $this->set("id", $id);
         $this->set("isAdmin", $isAdmin);
     }
