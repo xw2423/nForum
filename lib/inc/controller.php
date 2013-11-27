@@ -377,9 +377,12 @@ EOT;
         load(array('model/forum', 'model/user'));
 
         //init session
-        $this->_initSession();
+        try{
+            $this->_initSession();
+        }catch(LoginException $e){
+            nforum_error($e->getMessage(), true);
+        }
         $this->_initKbs = true;
-
     }
 
     protected function _initSession(){
