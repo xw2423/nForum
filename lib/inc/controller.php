@@ -215,6 +215,19 @@ EOT;
             $reg = false;
         }
 
+        if($this->getRequest()->front || $this->getRequest()->spider){
+            $this->set(array(
+                'refer' => c('refer.enable')
+                ,'webTotal' => Forum::getOnlineNum()
+                ,'webUser' => Forum::getOnlineUserNum()
+                ,'webGuest' => Forum::getOnlineGuestNum()
+                ,'keywords' => $site['keywords']
+                ,'description' => $site['description']
+                ,'home' => $site['home']
+                ,'preIndex' => $site['preIndex']
+            ));
+        }
+
         //basic variables
         $arr = array(
             'base' => $this->base

@@ -29,17 +29,6 @@ class ForumController extends NF_Controller {
         load('inc/json');
         $jsr = 'var sys_merge=' . NF_Json::encode($jsr);
         $this->jsr = array_merge(array($jsr), $this->jsr);
-
-        $this->set(array(
-            'refer' => c('refer.enable')
-            ,'webTotal' => Forum::getOnlineNum()
-            ,'webUser' => Forum::getOnlineUserNum()
-            ,'webGuest' => Forum::getOnlineGuestNum()
-            ,'keywords' => $site['keywords']
-            ,'description' => $site['description']
-            ,'home' => $site['home']
-            ,'preIndex' => $site['preIndex']
-        ));
     }
 
     public function indexAction(){
@@ -117,13 +106,6 @@ class ForumController extends NF_Controller {
         load('inc/json');
         $jsr = 'var sys_merge=' . NF_Json::encode($jsr);
         $this->jsr = array_merge(array($jsr), $this->jsr);
-
-        $this->set(array(
-            'keywords' => $site['keywords']
-            ,'description' => $site['description']
-            ,'home' => $site['home']
-            ,'preIndex' => $site['preIndex']
-        ));
     }
 
     public function flinkAction(){
