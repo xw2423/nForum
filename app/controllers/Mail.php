@@ -46,7 +46,7 @@ class MailController extends NF_Controller {
                     "sender" => $v->OWNER,
                     "title" => nforum_html($v->TITLE),
                     "time" => date("Y-m-d H:i:s", $v->POSTTIME),
-                    "size" => $v->EFFSIZE
+                    "size" => nforum_size_format($v->EFFSIZE)
                 );
             }
             $this->set("info", $info);

@@ -41,6 +41,7 @@
                         <td class="title_1"><input type="checkbox" name="m_<{$item.num}>" class="mail-item"/></td>
                         <td class="title_2"><a href="<{$base}>/user/query/<{$item.sender}>"><{$item.sender}></a></td>
                         <td class="title_3"><a href="<{$base}>/mail/<{$type}>/ajax_detail/<{$item.num}>.json" class="mail-detail"><{$item.title}></a></td>
+                        <td class="title_6"><{$item.size}></td>
                         <td class="title_4"><{$item.time}></td>
                     </tr>
 <{/foreach}>
