@@ -128,7 +128,7 @@ class MailController extends NF_MobileController {
             if(false === $mail){
                 //reply article
                 try{
-                    load('model/board');
+                    load(array('model/board', 'model/article'));
                     $b = Board::getInstance($type);
                     if(!$b->hasReadPerm($u))
                         $this->error(ECode::$BOARD_NOPERM);
