@@ -210,7 +210,7 @@ function nforum_cache_write($file, $obj, $serialize = true){
     if(!file_exists($dir) || !is_writeable($dir))
         return false;
     file_put_contents($file . 'tmp', serialize($obj));
-    rename($file . 'tmp', $file);
+    @rename($file . 'tmp', $file);
 }
 function nforum_cache_read($file, $serialize = true){
     $file = CACHE . DS . 'nforum' . DS . $file;
@@ -296,7 +296,7 @@ function nforum_redirect($url, $status = null, $exit = true){
             header("HTTP/1.1 {$status} {$codes[$status]}");
     }
 
-    if($url[0] === '/') $url = c('site.domain') . $url;
+    if(isset($url[0]) && $url[0] === '/') $url = c('site.domain') . $url;
 
     header('Location:' . $url);
     if($exit) exit();
