@@ -151,7 +151,7 @@ class UserController extends NF_Controller {
         extract($this->params['form']);
         if(empty($furl) || strpos($furl, c("user.face.dir"). "/") === 0){
             try{
-                $u->setInfo($gender, $year, $month,$day,$email, $qq, $msn,  $homepage, 0, $furl, intval($fwidth), intval($fheight));
+                $u->setInfo(intval($gender), intval($year), intval($month),intval($day),$email, $qq, $msn,  $homepage, 0, $furl, intval($fwidth), intval($fheight));
             }catch(UserSaveException $e){
                 $this->error($e->getMessage());
             }
