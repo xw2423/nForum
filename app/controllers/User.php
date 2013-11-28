@@ -333,7 +333,7 @@ class UserController extends NF_Controller {
                     //gif do not thumbnail
                     if($format != 1){
                         $facePath = preg_replace("/\.[^.]+$/", '.jpg', $facePath);
-                        $faceFullPath = WWW. $facePath;
+                        $faceFullPath = WWW . DS . $facePath;
                         $img->thumbnail($faceFullPath, 120, 120);
                     }
                 }catch(ImageNullException $e){
