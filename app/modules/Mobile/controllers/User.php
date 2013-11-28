@@ -29,6 +29,10 @@ class UserController extends NF_MobileController {
 
     public function queryAction(){
         $this->notice = "ÓÃ»§²éÑ¯";
+        if(!isset($this->params['id'])){
+            $this->set("noid", true);
+            return;
+        }
         $id = trim($this->params['id']);
         try{
             $u = User::getInstance($id);
