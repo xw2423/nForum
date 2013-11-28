@@ -123,10 +123,11 @@ class NF_Session extends NF_CoreSession{
     }
 
     public function init($sid = null){
+        $pwd = null;
+
         //get uid, utmpnum, utmpkey from sid or cookie
         if(null !== $sid){
             $this->setSession($sid);
-            $pwd = null;
         }else if(false === $this->_sid){
             $cookie = Cookie::getInstance();
             $this->utmpkey = $cookie->read("UTMPKEY", c('cookie.encryption'));
