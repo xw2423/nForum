@@ -14,14 +14,13 @@ class NF_CoreSession{
     public $telnet = false;
 
     //true when setonline ok
-    protected $_isSetOnline = false;
     protected $_isInit = false;
 
     /**
      * init via userid, utmpnum, utmpkey
      */
     public function init(){
-        if(null === $this->uid || null === $this->utmpnum || null === $this->utmpkey)
+        if(!$this->telnet && null === $this->uid || null === $this->utmpnum || null === $this->utmpkey)
             return false;
         if($this->uid !== 'guest' && !$this->telnet && Forum::checkBanIP($this->uid, $this->from) != 0)
             return false;
@@ -137,7 +136,7 @@ class NF_Session extends NF_CoreSession{
         }
 
         //check uid, utmpnum, utmpkey
-        if(!parent::init($pwd)){
+        if(!parent::init()){
             //if failed check pwd
             if($this->uid !== 'guest'
                 && $pwd && Forum::checkPwd($this->uid, base64_decode($pwd), true, true)){
@@ -195,7 +194,7 @@ class NF_Session extends NF_CoreSession{
             + $this->_decodesessionchar($this->_sid[6]) * 36 *36 * 36
             + $this->_decodesessionchar($this->_sid[7]) * 36 * 36 * 36 * 36
             + $this->_decodesessionchar($this->_sid[8]) * 36 * 36 * 36 * 36 * 36;
-        $this->userId = '';
+        $this->uid = null;
         $this->telnet = true;
     }
 
