@@ -127,7 +127,7 @@ class NF_Session extends NF_CoreSession{
         if(null !== $sid){
             $this->setSession($sid);
             $pwd = null;
-        }else{
+        }else if(false === $this->_sid){
             $cookie = Cookie::getInstance();
             $this->utmpkey = $cookie->read("UTMPKEY", c('cookie.encryption'));
             $this->utmpnum = $cookie->read("UTMPNUM", c('cookie.encryption'));

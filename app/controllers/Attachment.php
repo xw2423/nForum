@@ -9,6 +9,16 @@ class AttachmentController extends NF_Controller {
 
     private $_board;
 
+    public function init(){
+        if($this->getRequest()->getParam('hash')){
+            $hash = str_replace(' ', '+', str_replace('/att/', '', $this->getRequest()->url));
+            $info = Forum::decodeAttHash(strstr($hash, '.', true));
+            load('model/session');
+            NF_Session::getInstance()->setSession($info['sid']);
+        }
+        parent::init();
+    }
+
     public function downloadAction(){
         if(isset($this->params['hash'])){
             $hash = str_replace(' ', '+', str_replace('/att/', '', $this->getRequest()->url));
