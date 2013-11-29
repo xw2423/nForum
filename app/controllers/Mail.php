@@ -204,7 +204,7 @@ class MailController extends NF_Controller {
             if(false === $mail){
                 //send new
                 if(!isset($this->params['form']['id']))
-                    $this->error(ECode::$POST_NOID);
+                    $this->error(ECode::$MAIL_NOID);
                 $id = trim($this->params['form']['id']);
                 Mail::send($id, $title, $content, $sig, $bak);
             }else{
@@ -228,7 +228,7 @@ class MailController extends NF_Controller {
         if(false === $mail)
             $this->error(ECode::$MAIL_NOMAIL);
         if(!isset($this->params['form']['id']))
-            $this->error(ECode::$POST_NOID);
+            $this->error(ECode::$MAIL_NOID);
         $id = trim($this->params['form']['id']);
         $noansi = isset($this->params['form']['noansi']);
         $big5 = isset($this->params['form']['big5']);

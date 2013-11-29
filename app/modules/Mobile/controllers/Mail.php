@@ -108,7 +108,7 @@ class MailController extends NF_MobileController {
                 if(false === $mail){
                     //send new
                     if(!isset($this->params['form']['id']))
-                        $this->error(ECode::$POST_NOID);
+                        $this->error(ECode::$MAIL_NOID);
                     $id = trim($this->params['form']['id']);
                     Mail::send($id, $title, $content, $sig, $bak);
                     $this->redirect($this->_mbase . "/mail?m=" . ECode::$MAIL_SENDOK);
