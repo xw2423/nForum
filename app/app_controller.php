@@ -192,8 +192,9 @@ class AppController extends Controller {
                     $tmp[] = '<a href="' . (empty($v['url'])?'javascript:void(0)':($this->base.$v['url'])) . '">' . $v['text'] . '</a>';
                 }
                 $tmp = join('&ensp;>>&ensp;', $tmp);
+                $et = str_replace(array("\\", "'"), array("\\\\", "\'"), htmlspecialchars_decode($title));
                 $this->jsr[] = <<<EOT
-$('#notice_nav').html('{$tmp}');$.setTitle('{$title}');
+$('#notice_nav').html('{$tmp}');$.setTitle('{$et}');
 EOT;
 
                 $syn = Configure::read('ubb.syntax');
