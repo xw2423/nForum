@@ -19,7 +19,7 @@ class Exif{
     }
 
     public function getInfo(){
-        $exif = $this->img->exif();
+        $exif = $this->_img->exif();
         if($exif === false)
             return false;
         if(isset($exif['EXIF']['ExposureTime'])){
