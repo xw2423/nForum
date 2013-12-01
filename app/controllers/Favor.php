@@ -27,7 +27,7 @@ class FavorController extends NF_Controller {
         }catch(FavorNullException $e){
             $this->error(ECode::$USER_FAVERROR);
         }
-        $this->cache(true, $fav->wGetTime());
+        $this->cache(true, $fav->wGetTime(), 0);
         $ret = array();
         load('inc/wrapper');
         $wrapper = Wrapper::getInstance();
@@ -169,7 +169,7 @@ class FavorController extends NF_Controller {
                     }
                 }
             }
-            $this->cache(true, $fav->wGetTime(), 10);
+            $this->cache(true, $fav->wGetTime(), 0);
             $this->set('no_html_data', $ret);
             $this->set('no_ajax_info', true);
         }catch(FavorNullException $e){
