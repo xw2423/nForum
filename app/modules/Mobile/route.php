@@ -3,6 +3,7 @@ $base = c('modules.mobile.base');
 $export[] = array($base, array('controller' => 'index', 'module' => 'mobile'));
 $export[] = array($base . '/', array('controller' => 'index', 'module' => 'mobile'));
 $export[] = array($base . '/article/:name/:action/:gid/:mode', array('controller' => 'article', 'module' => 'mobile', 'action' => null, 'mode' => null), array('gid' => '\d+'));
+$export[] = array($base . '/article/:name/:action', array('controller' => 'article', 'module' => 'mobile'));
 $export[] = array($base . '/board/:name/:mode', array('controller' => 'board', 'module' => 'mobile', 'mode' => null));
 $export[] = array($base . '/att/:name/:mode/:id/:pos/:type', array('controller' => 'attachment', 'action' => 'download', 'mode' => null, 'type' => null), array('id' => '\d+', 'pos' => '\d+', 'mode' => '\d+', 'type' => '[A-Za-z][\w-]*'));
 $export[] = array($base . '/section/:name', array('controller' => 'section', 'module' => 'mobile', 'name' => null));
