@@ -26,7 +26,7 @@ class toptenWidget extends WidgetAdapter{
             $title = nforum_fix_gbk(urldecode($v->title));
             $board = ($v->o_board=="")?$v->board:$v->o_board;
             $id = ($v->o_groupid==0)?$v->groupid:$v->o_groupid;
-            $ret[] = array("text" => $title . "(<span style=\"color:red\">" . $v->number . "</span>)", "url"=> "/article/" . $board . "/" . $id);
+            $ret[] = array("text" => $title . "(<span style=\"color:red\">" . $v->number . "</span>)", "url"=> "/article/" . rawurldecode($board) . "/" . $id);
         }
         if(empty($ret))
             return $this->_error('十大热门话题不存在');
