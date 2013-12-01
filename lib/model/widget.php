@@ -64,6 +64,7 @@ class Widget {
             try{
                 $name = ucfirst($name);
                 $obj = call_user_func(array($name, "getInstance"), $names[1]);
+                if('Board' === $name) $obj->setMode(Board::$ORIGIN);
             }catch(Exception $e){
                 throw new WidgetNullException("no such widget");
             }

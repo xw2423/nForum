@@ -218,6 +218,10 @@ abstract class Archive extends OverloadObject{
         @bbs_file_output_attachment($this->getFileName(), $pos);
     }
 
+    public function getMTime(){
+        return filemtime(BBS_HOME . '/' . $this->getFileName());
+    }
+
     protected function _getCommon($link, $name, $size){
         $templete = '<br /><font color="blue">¸½¼þ(%size%)</font>&nbsp;<a href="%link%" target="_blank">%name%</a>';
         return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);

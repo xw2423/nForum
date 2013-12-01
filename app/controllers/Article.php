@@ -46,8 +46,6 @@ class ArticleController extends NF_Controller {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"ÔÄ¶ÁÎÄÕÂ");
 
-        load(array("inc/pagination", "inc/astro"));
-
         if(!isset($this->params['id']) || $this->params['id'] == '0')
             $this->error(ECode::$ARTICLE_NONE);
         try{
@@ -69,6 +67,7 @@ class ArticleController extends NF_Controller {
             $this->redirect("/article/{$this->_board->NAME}/{$gid}");
         }
 
+        load(array("inc/pagination", "inc/astro"));
         //filter author
         $auF = $au = false;
         if(isset($this->params['url']['au'])){
@@ -594,6 +593,7 @@ class ArticleController extends NF_Controller {
         }catch(ArticleNullException $e){
             $this->error(ECode::$ARTICLE_NONE);
         }
+        $this->cache(true, $article->getMTime(), 0);
         load('inc/wrapper');
         $wrapper = Wrapper::getInstance();
         $ret = $wrapper->article($article, array('single' => true, 'content' => false));

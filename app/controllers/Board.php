@@ -47,7 +47,9 @@ class BoardController extends NF_Controller {
         $this->css[] = "board.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"文章列表");
-        $this->cache(false);
+
+        $this->_board->setMode(Board::$NORMAL);
+        $this->cache(true, $this->_board->wGetTime(), 0);
 
         $this->_board->setMode(Board::$THREAD);
         load('inc/pagination');
@@ -147,7 +149,7 @@ class BoardController extends NF_Controller {
                 $tmp = '主题模式';
         }
         $this->notice[] = array("url"=>"", "text"=>$tmp);
-        $this->cache(false);
+        $this->cache(true, $this->_board->wGetTime(), 0);
 
         load('inc/pagination');
         $pageBar = "";

@@ -112,6 +112,7 @@ class Board extends OverloadObject implements Pageable, iWidget{
         if(!is_array($info))
             throw new BoardNullException();
         $this->_info = $info;
+        $this->_mode = self::$THREAD;
     }
 
     public function __get($name){
@@ -173,7 +174,29 @@ class Board extends OverloadObject implements Pageable, iWidget{
     }
 
     public function wGetTime(){
-        $file = 'boards/' . $this->NAME . '/.ORIGIN';
+        switch($this->_mode){
+            case BOARD::$NORMAL:
+                $tmp = '.DIR';
+                break;
+            case BOARD::$DIGEST:
+                $tmp = '.DIGEST';
+                break;
+            case BOARD::$MARK:
+                $tmp = '.MARK';
+                break;
+            case BOARD::$DELETED:
+                $tmp = '.DELETED';
+                break;
+            case BOARD::$JUNK:
+                $tmp = '.JUNK';
+                break;
+            case BOARD::$ORIGIN:
+                $tmp = '.ORIGIN';
+                break;
+            default:
+                $tmp = '.WEBTHREAD';
+        }
+        $file = BBS_HOME . ('.WEBTHREAD' === $tmp?'/cache':'') . '/boards/' . $this->NAME . '/' . $tmp;
         if(!file_exists($file))
             return time();
         return filemtime($file);

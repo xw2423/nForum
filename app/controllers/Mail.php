@@ -72,6 +72,7 @@ class MailController extends NF_Controller {
         }catch(Exception $e){
             $this->error(ECode::$MAIL_NOMAIL);
         }
+        $this->cache(true, $mail->getMTime(), 0);
         $mail->setRead();
         $content = $mail->getHtml(true);
         if(c("ubb.parse")){
