@@ -26,6 +26,11 @@ class BoardController extends NF_Controller {
             $this->error(ECode::$BOARD_UNKNOW);
         }
 
+        if('mode' === $this->getRequest()->getActionName()){
+            $mode = (int)trim($this->params['num']);
+            if(!$this->_board->setMode($mode))
+                $this->error(ECode::$BOARD_NOPERM);
+        }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             if(!NF_Session::getInstance()->isLogin)
                 $this->requestLogin();
@@ -107,9 +112,6 @@ class BoardController extends NF_Controller {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
 
-        $mode = (int)trim($this->params['num']);
-        if(!$this->_board->setMode($mode))
-            $this->error(ECode::$BOARD_NOPERM);
         $cookie = Cookie::getInstance();
         if($this->_board->getMode() != $cookie->read('BMODE'))
             $cookie->write('BMODE', $this->_board->getMode(), false);
