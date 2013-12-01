@@ -30,6 +30,9 @@ class BoardController extends NF_Controller {
             $mode = (int)trim($this->params['num']);
             if(!$this->_board->setMode($mode))
                 $this->error(ECode::$BOARD_NOPERM);
+        }else if(null !== ($mode = Cookie::getInstance()->read('BMODE'))){
+            if(!$this->_board->setMode($mode))
+                $this->error(ECode::$BOARD_NOPERM);
         }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             if(!NF_Session::getInstance()->isLogin)
@@ -46,6 +49,7 @@ class BoardController extends NF_Controller {
         $this->notice[] = array("url"=>"", "text"=>"ндубап╠М");
         $this->cache(false);
 
+        $this->_board->setMode(Board::$THREAD);
         load('inc/pagination');
         $pageBar = "";
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
@@ -112,11 +116,13 @@ class BoardController extends NF_Controller {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
 
-        $cookie = Cookie::getInstance();
-        if($this->_board->getMode() != $cookie->read('BMODE'))
-            $cookie->write('BMODE', $this->_board->getMode(), false);
-
         $this->_getNotice();
+
+        $mode = $this->_board->getMode();
+
+        $cookie = Cookie::getInstance();
+        if($mode != $cookie->read('BMODE'))
+            $cookie->write('BMODE', $mode, false);
 
         switch($mode){
             case BOARD::$NORMAL:
@@ -429,9 +435,8 @@ class BoardController extends NF_Controller {
         foreach($boards as $v)
             $this->notice[] = $v;
         $url = "/board/{$this->_board->NAME}";
-        $cookie = Cookie::getInstance();
-        $mode = $cookie->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . $cookie->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . $mode;
         $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }
