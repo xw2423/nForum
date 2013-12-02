@@ -29,7 +29,7 @@ $(function(){
             }
         },
         url:function(){
-            return ['fav/',this.level[this.level.length-1],'.json?_t=',$.random()].join('');
+            return ['fav/',this.level[this.level.length-1],'.json?_uid=',SESSION.get('id')].join('');
         }
     });
     var FavAppView = Backbone.View.extend({

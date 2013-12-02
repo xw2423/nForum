@@ -25,6 +25,7 @@ class ForumController extends NF_Controller {
         $jsr['prefix'] = $cookie['prefix'];
         $jsr['home'] = $site['home'];
         $jsr['static'] = $site['static'];
+        $jsr['uid'] = User::getInstance()->userid;
 
         load('inc/json');
         $jsr = 'var sys_merge=' . NF_Json::encode($jsr);
@@ -102,6 +103,7 @@ class ForumController extends NF_Controller {
         $jsr['prefix'] = $cookie['prefix'];
         $jsr['home'] = $site['home'];
         $jsr['static'] = $site['static'];
+        $jsr['uid'] = User::getInstance()->userid;
 
         load('inc/json');
         $jsr = 'var sys_merge=' . NF_Json::encode($jsr);

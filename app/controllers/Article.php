@@ -28,6 +28,9 @@ class ArticleController extends NF_Controller {
             $mode = (int)trim($this->params['url']['mode']);
             if(!$this->_board->setMode($mode))
                 $this->error(ECode::$BOARD_NOPERM);
+        }else if(null !== ($mode = Cookie::getInstance()->read('BMODE'))){
+            if(!$this->_board->setMode($mode))
+                $this->error(ECode::$BOARD_NOPERM);
         }
         if(!$this->_board->hasReadPerm(User::getInstance())){
             if(!NF_Session::getInstance()->isLogin)
@@ -341,8 +344,8 @@ class ArticleController extends NF_Controller {
 
         $ret['ajax_code'] = ECode::$POST_OK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $mode = Cookie::getInstance()->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . Cookie::getInstance()->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
         $ret['list'][] = array("text" => c("site.name"), "url" => c("site.home"));
@@ -366,8 +369,8 @@ class ArticleController extends NF_Controller {
         }
         $ret['ajax_code'] = ECode::$ARTICLE_DELOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $mode = Cookie::getInstance()->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . Cookie::getInstance()->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => c("site.name"), "url" => c("site.home"));
         $this->set('no_html_data', $ret);
@@ -420,8 +423,8 @@ class ArticleController extends NF_Controller {
 
         $ret['ajax_code'] = ECode::$ARTICLE_EDITOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $mode = Cookie::getInstance()->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . Cookie::getInstance()->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $article->GROUPID);
         $ret['list'][] = array("text" => c("site.name"), "url" => c("site.home"));
@@ -567,8 +570,8 @@ class ArticleController extends NF_Controller {
 
             $ret['ajax_code'] = ECode::$POST_OK;
             $ret['default'] = "/board/" . $this->_board->NAME;
-            $mode = Cookie::getInstance()->read('BMODE');
-            if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . Cookie::getInstance()->read('BMODE');
+            $mode = $this->_board->getMode();
+            if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
             $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
             $ret['list'][] = array("text" => '主题:' . str_replace('Re: ', '', $subject), "url" => '/article/' .  $this->_board->NAME . '/' . $gid);
             $ret['list'][] = array("text" => c("site.name"), "url" => c("site.home"));
@@ -722,8 +725,8 @@ class ArticleController extends NF_Controller {
         }
         $ret['ajax_code'] = ECode::$SYS_AJAXOK;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $mode = Cookie::getInstance()->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . Cookie::getInstance()->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
         $this->set('no_html_data', $ret);
     }
 
@@ -825,8 +828,8 @@ class ArticleController extends NF_Controller {
         foreach($boards as $v)
             $this->notice[] = $v;
         $url = "/board/{$this->_board->NAME}";
-        $mode = Cookie::getInstance()->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . Cookie::getInstance()->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $url .= '/mode/' . $mode;
         $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }

@@ -52,6 +52,9 @@ $.extend({
             return this._ie;
         }
     },
+    isFuckIE:function(){
+        return $.isIE(6) || $.isIE(7);
+    },
     isMultiFile:function(){
         if(typeof this._mf === 'undefined'){
             this._mf = (!!$.browser.webkit
@@ -494,6 +497,7 @@ $.fn.extend({
             var self = this;
             this.fetch({url:SYS.ajax.logout,success:function(){
                 self.update(true);
+                self.set('id', 'guest');
                 self.trigger('logout');
             }});
         }
@@ -557,7 +561,7 @@ $.fn.extend({
                 }
             };
             this.trigger('jump');
-            $.get(path, $.isIE()?{_t:$.random()}:{}).success(handler).error(handler);
+            $.get(path, $.isFuckIE()?{_uid:SESSION.get('id'), _t:$.random()}:{_uid:SESSION.get('id') || SYS.uid}).success(handler).error(handler);
         },
         refresh:function(){
             this.jump(this.get('path'));

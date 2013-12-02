@@ -45,13 +45,18 @@ class BoardController extends NF_Controller {
     public function indexAction(){
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
-        $this->_getNotice();
-        $this->notice[] = array("url"=>"", "text"=>"文章列表");
+
+        if(Board::$THREAD != Cookie::getInstance()->read('BMODE'))
+            Cookie::getInstance()->write('BMODE', Board::$THREAD, false);
 
         $this->_board->setMode(Board::$NORMAL);
         $this->cache(true, $this->_board->wGetTime(), 0);
 
         $this->_board->setMode(Board::$THREAD);
+
+        $this->_getNotice();
+        $this->notice[] = array("url"=>"", "text"=>"文章列表");
+
         load('inc/pagination');
         $pageBar = "";
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
@@ -118,14 +123,11 @@ class BoardController extends NF_Controller {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
 
-        $this->_getNotice();
-
         $mode = $this->_board->getMode();
+        if($mode != Cookie::getInstance()->read('BMODE'))
+            Cookie::getInstance()->write('BMODE', $mode, false);
 
-        $cookie = Cookie::getInstance();
-        if($mode != $cookie->read('BMODE'))
-            $cookie->write('BMODE', $mode, false);
-
+        $this->cache(true, $this->_board->wGetTime(), 0);
         switch($mode){
             case BOARD::$NORMAL:
                 $tmp = '经典模式';
@@ -148,8 +150,9 @@ class BoardController extends NF_Controller {
             default:
                 $tmp = '主题模式';
         }
+
+        $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>$tmp);
-        $this->cache(true, $this->_board->wGetTime(), 0);
 
         load('inc/pagination');
         $pageBar = "";
@@ -283,9 +286,8 @@ class BoardController extends NF_Controller {
 
         $ret['ajax_code'] = ECode::$BOARD_VOTESUCCESS;
         $ret['default'] = '/board/' .  $this->_board->NAME;
-        $cookie = Cookie::getInstance();
-        $mode = $cookie->read('BMODE');
-        if($mode != null && $mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $cookie->read('BMODE');
+        $mode = $this->_board->getMode();
+        if($mode != BOARD::$THREAD) $ret['default'] .= '/mode/' . $mode;
         $ret['list'][] = array("text" => '版面:' . $this->_board->DESC, "url" => $ret['default']);
         $ret['list'][] = array("text" => '投票列表', "url" => '/board/' .  $this->_board->NAME . '/vote/');
         $ret['list'][] = array("text" => c("site.name"), "url" => c("site.home"));
@@ -293,8 +295,8 @@ class BoardController extends NF_Controller {
     }
 
     public function denylistAction(){
-        $this->cache(false);
         $this->requestLogin();
+        $this->cache(false);
         $u = User::getInstance();
         try {
             $ret = $this->_board->getDeny();
@@ -438,7 +440,7 @@ class BoardController extends NF_Controller {
             $this->notice[] = $v;
         $url = "/board/{$this->_board->NAME}";
         $mode = $this->_board->getMode();
-        if($mode != null && $mode != BOARD::$THREAD) $url .= '/mode/' . $mode;
+        if($mode != BOARD::$THREAD) $url .= '/mode/' . $mode;
         $this->notice[] = array("url"=>$url, "text"=>$this->_board->DESC);
     }
 }
