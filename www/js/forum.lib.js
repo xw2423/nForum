@@ -496,8 +496,8 @@ $.fn.extend({
             $.cookie('login-user', this.get('id'),{path:'/', domain:SYS.cookie_domain,expires:30});
             var self = this;
             this.fetch({url:SYS.ajax.logout,success:function(){
+                self.set({id:'guest'}, {silent:true});
                 self.update(true);
-                self.set('id', 'guest');
                 self.trigger('logout');
             }});
         }
