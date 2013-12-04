@@ -708,8 +708,8 @@ $.fn.extend({
         onSessionUpdate:function(){
             if(!this.session.ajaxOK())
                 return;
-            var uid = this.session.get('id'), is_login = this.session.get('is_login');
-            $('#u_login').html(this[is_login?'tmpl_u_login_info':'tmpl_u_login'].call(this,this.session.toJSON()));
+            var uid = this.session.get('id'), is_login = this.session.get('is_login'), s = this.session.toJSON();
+            $('#u_login').html(this[is_login?'tmpl_u_login_info':'tmpl_u_login'].call(this, s));
             if(!is_login) $('.u-login-input input[placeholder]').placeholder().filter('#u_login_id').val($.cookie('login-user'));
             $($('#u_login_id').val() == ''?'#u_login_id':'#u_login_passwd').focus();
             if(this.session.hasChanged('id')){
@@ -719,9 +719,9 @@ $.fn.extend({
             }
 
             //update bottom number
-            $('#bot_info .c-total').html(this.session.get('forum_total_count'));
-            $('#bot_info .c-user').html(this.session.get('forum_user_count'));
-            $('#bot_info .c-guest').html(this.session.get('forum_guest_count'));
+            $('#bot_info .c-total').html(s.forum_total_count);
+            $('#bot_info .c-user').html(s.forum_user_count);
+            $('#bot_info .c-guest').html(s.forum_guest_count);
         },
         renderTree:function(){
             var uid = this.session.get('id'), is_login = this.session.get('is_login');

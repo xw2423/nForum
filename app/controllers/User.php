@@ -16,7 +16,7 @@ class UserController extends NF_Controller {
         $wrapper = Wrapper::getInstance();
         $ret = $wrapper->user($user);
         $ret['is_login'] = ($user->userid != 'guest');
-        $ret['forum_totol_count'] = Forum::getOnlineNum();
+        $ret['forum_total_count'] = Forum::getOnlineNum();
         $ret['forum_user_count'] = Forum::getOnlineUserNum();
         $ret['forum_guest_count'] = Forum::getOnlineGuestNum();
 
