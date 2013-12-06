@@ -55,16 +55,6 @@ $.extend({
     isFuckIE:function(){
         return $.isIE(6) || $.isIE(7);
     },
-    isMultiFile:function(){
-        if(typeof this._mf === 'undefined'){
-            this._mf = (!!$.browser.webkit
-                && parseFloat($.browser.version) > 535
-                || !!$.browser.mozilla
-                && parseFloat($.browser.version) >= 1.9
-            );
-        }
-        return this._mf;
-    },
     isTop:function(){
         return (window.top == window.self);
     },

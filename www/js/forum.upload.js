@@ -12,10 +12,11 @@ $(function(){
 
     var uploader = {
         plupload: new plupload.Uploader({
-            runtimes: $.isMultiFile()?'html5':'flash',
+            runtimes: 'html5,flash',
             browse_button: 'upload_select',
             drop_element: 'upload',
             container: 'upload',
+            urlstream_upload: true,
             url: SYS.base + '/att' + bName + '/ajax_add' + id + '.json' + sessionid,
             flash_swf_url: SYS.static + SYS.base + '/files/swf/plupload.flash.swf'
         }),
@@ -23,10 +24,10 @@ $(function(){
             this.plupload.bind('PostInit', function(up, params){
                 if(up.runtime == 'flash') {
                     // under non-IE browsers, FileReference will not pass headers/cookie
-                    up.settings.multipart_params = {'cookie' : document.cookie, 'emulate_ajax' : true};
+                    up.settings.multipart_params = {'emulate_ajax':true};
                 } else {
                     // HTML5, we use application/octet-stream instead of multipart/form-data
-                    up.settings.headers = {'X-Requested-With' : 'XMLHttpRequest'};
+                    up.settings.headers = {'X-Requested-With':'XMLHttpRequest'};
                     up.settings.multipart = false;
                 }
             });
@@ -69,7 +70,8 @@ $(function(){
                 collection.get(file.id).set(file);
             });
             this.plupload.bind('Error', function(up, err) {
-                collection.get(file.id)
+                if(!err.file) return;
+                collection.get(err.file.id)
                     .set({status:plupload.FAILED})
                     .cancel();
                 up.refresh();
@@ -172,8 +174,11 @@ $(function(){
             return this;
         },
         onRemove:function(){
+            var _this = this;
             if(this.model.get('status') === plupload.FAILED || this.model.get('status') < 0)
-                $(this.el).hide(3000, this.remove);
+                $(this.el).hide(3000, function(){
+                  _this.remove();
+                });
             else
                 this.remove();
         }

@@ -20,10 +20,11 @@ $(function(){
 
     if($('#face_upload_select').length > 0){
         var uploader = new plupload.Uploader({
-            runtimes: $.isMultiFile()?'html5':'flash',
+            runtimes: 'html5,flash',
             browse_button: 'face_upload_select',
             drop_element: 'face_upload',
             container: 'face_upload',
+            urlstream_upload: true,
             url: SYS.base + '/user/ajax_face.json',
             flash_swf_url: SYS.static + SYS.base + '/files/swf/plupload.flash.swf',
             filters:[
@@ -32,9 +33,9 @@ $(function(){
         });
         uploader.bind('PostInit', function(up, params){
             if(up.runtime == 'flash') {
-                up.settings.multipart_params = {'cookie' : document.cookie, 'emulate_ajax' : true};
+                up.settings.multipart_params = {'emulate_ajax':true};
             } else {
-                up.settings.headers = {'X-Requested-With' : 'XMLHttpRequest'};
+                up.settings.headers = {'X-Requested-With':'XMLHttpRequest'};
                 up.settings.multipart = false;
             }
         });

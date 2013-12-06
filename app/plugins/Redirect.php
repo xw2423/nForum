@@ -23,28 +23,10 @@ class RedirectPlugin extends Yaf_Plugin_Abstract{
             }
         }
 
-        //flash mode will post cookie data, so parse to system cookie first
-        if(preg_match('/^(Shockwave|Adobe) Flash/', $request->getServer('HTTP_USER_AGENT'))){
-            if ($cookie = $request->getPost('cookie')){
-                $prefix = c('cookie.prefix');
-                $cookie = explode('; ', $cookie);
-                foreach ($cookie as $c) {
-                    list($name, $content) = split('=', $c);
-                    if (preg_match("/^$prefix\[(.*)\]$/", $name, $matches)) {
-                        $_COOKIE[$prefix][$matches[1]] = $content;
-                    } else {
-                        $_COOKIE[$name] = $content;
-                    }
-                }
-            }
-            if ($request->getPost('emulate_ajax'))
-                putenv('HTTP_X_REQUESTED_WITH=XMLHttpRequest');
-        }
-
         //check ajax_* action via xhr in header
         if(0 === strpos($request->getActionName(), 'ajax_')){
             $request->html = false;
-            if(!$request->isXmlHttpRequest() && c('ajax.check'))
+            if(!$request->isXmlHttpRequest() && c('ajax.check') && $request->getPost('emulate_ajax') != 'true')
                 nforum_error404(true);
         }else if($request->spider){
             //this is a cheat for spider to access default page when spider visit '/'
