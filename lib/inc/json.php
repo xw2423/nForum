@@ -16,7 +16,42 @@ class NF_Json{
             return (float) $var;
 
         case 'string':
-            return '"' . preg_replace(array("/(?<=([".chr(0x81)."-".chr(0xff)."][".chr(0x40)."-".chr(0xff)."])|[".chr(0x1)."-".chr(0x7e)."]|^)\\\/", "|\"|", "|\n|", "|".chr(0x8)."|", "|\r|", "|\t|", "|[".chr(0x1)."-".chr(0x1f)."]|e"), array('\\\\\\', '\"', '\n', '\b', '\r', '\t', "'\u00' . bin2hex('$0')"), $var)  . '"';
+            $l = strlen($var);
+            $o = '';
+            $i = 0;
+            for(;$i < $l;){
+                if(ord($var[$i]) > 0x81){
+                    if($i === $l - 1) break;
+                    $o .= $var[$i] . $var[$i+1];
+                    $i += 2;
+                }else if($var[$i] === "\\" &&(
+                    ($i >= 2 && ord($var[$i - 2]) >= 0x81 && ord($var[$i - 1]) >= 0x40)
+                    || ($i >= 1 && ord($var[$i - 1]) >= 0x1 && ord($var[$i - 1]) <= 0x7e)
+                    || $i === 0)){
+                    $o .= "\\" . $var[$i++];
+                }else if($var[$i] === "\""){
+                    $o .= '\"';
+                    $i++;
+                }else if($var[$i] === "\n"){
+                    $o .= '\n';
+                    $i++;
+                }else if($var[$i] === "\r"){
+                    $o .= '\r';
+                    $i++;
+                }else if($var[$i] === "\t"){
+                    $o .= '\t';
+                    $i++;
+                }else if(ord($var[$i]) === 0x8){
+                    $o .= '\b';
+                    $i++;
+                }else if(ord($var[$i]) <= 0x1f){
+                    $o .= ('\u00' . bin2hex($var[$i]));
+                    $i++;
+                }else{
+                    $o .= $var[$i++];
+                }
+            }
+            return '"' . $o . '"';
 
         case 'array':
             if (is_array($var) && count($var) && (array_keys($var) !== range(0, count($var) - 1))) {
