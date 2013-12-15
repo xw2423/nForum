@@ -135,7 +135,7 @@ class ForumController extends NF_Controller {
     public function onlineAction(){
         $this->requestLogin();
         $this->css[] = "mail.css";
-        $this->notice[] = array("url"=>"/online", "text"=>"在线用户");
+        $this->notice[] = array("url"=>"/forum/online", "text"=>"在线用户");
 
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
         try{
@@ -158,7 +158,7 @@ class ForumController extends NF_Controller {
             }
             $this->set("friends", $info);
         }
-        $link = "{$this->base}/online?p=%page%";
+        $link = "{$this->base}/forum/online?p=%page%";
         $this->set("pageBar", $pagination->getPageBar($p, $link));
         $this->set("pagination", $pagination);
         $this->set(array(
