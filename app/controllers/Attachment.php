@@ -33,6 +33,7 @@ class AttachmentController extends NF_Controller {
                 $this->error404(ECode::$SYS_NOFILE);
             $name = $this->params['name'];
             $num = $id = intval($this->params['id']);
+            $mode = isset($this->params['mode'])?intval($this->params['mode']):Board::$THREAD;
             $pos = intval($this->params['pos']);
         }else{
             $this->error404(ECode::$SYS_NOFILE);
@@ -48,7 +49,6 @@ class AttachmentController extends NF_Controller {
                 $archive = Mail::getInstance($id, $box);
             }else{
                 $board = Board::getInstance($name);
-                $mode = !isset($this->params['mode'])?Board::$THREAD:intval($this->params['mode']);
                 $board->setMode($mode);
                 if(!$board->isSortMode()) $id = $num;
                 if(!$board->hasReadPerm(User::getInstance()))
