@@ -13,5 +13,6 @@
     &emsp;&emsp;<span>合集无引文:</span><input type="checkbox" name="noref" />
     </li>
     <li><span>不含附件:</span><input type="checkbox" name="noatt" /></li>
+    </ul>
 </form>
 </script>
