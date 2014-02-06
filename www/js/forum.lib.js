@@ -636,11 +636,8 @@ $.fn.extend({
         click_u_search:function(){
             var t = DIALOG.getTop(),u;
             if(!t) return false;
-            if('' != (u = this.$('#u_search_u').val())){
-                this.tips(true);
-                user = new UserModel({id:u});
-                user.bind('change', this._onUserQuery, this).fetch();
-            }
+            if('' != (u = this.$('#u_search_u').val()))
+                this._userQuery(u);
             return false;
         },
         click_u_mail:function(){
@@ -779,37 +776,30 @@ $.fn.extend({
             this.$('#nforum_tips')[!!show?'show':'hide']();
         },
         userQuery:function(el){
-            var re = new RegExp(SYS.ajax.user + '/?([\\w\\d]*)$')
-                , u, user;
+            var u, re = new RegExp(SYS.ajax.user + '/?([\\w\\d]*)$');
             u = el.href.match(re);
-            user = SYS.cache('user_' + u[1] || '');
-            var d = DIALOG.formDialog(this.tmpl_user(user || {id:null}), {width:600});
-            if(u[1] != '' && !user){
-                this.tips(true);
-                user = new UserModel({id:u[1]});
-                user.bind('change', this._onUserQuery, this).fetch();
-            }
+            var d = DIALOG.formDialog(this.tmpl_user({id:null}), {width:600});
+            if(u[1]) this._userQuery(u[1]);
             return false;
         },
         //only for user query,do not call by AppView
-        _onUserQuery:function(user){
-            if(!user.ajaxOK()){
-                DIALOG.ajaxDialog(user.toJSON());
-            }else{
-                var t = new Date();
-                t.setTime(user.get('first_login_time') * 1000);
-                user.set({first_login_time:t.toLocaleString()},{silent:true});
-                t.setTime(user.get('last_login_time') * 1000);
-                user.set({last_login_time:t.toLocaleString()},{silent:true});
-                var dd = user.toJSON();
-                dd.session_login = this.session.get('is_login');
-                dd.session_id = SESSION.get('id');
-                dd.session_is_admin = SESSION.get('is_admin');
-                SYS.cache('user_' + dd.id, dd);
-                DIALOG.updateTop(this.tmpl_user(dd));
-            }
-            this.tips(false);
-            delete user;
+        _userQuery:function(u){
+            SYS.cacheUser(u, function(user){
+                if(!user.ajaxOK()){
+                    DIALOG.ajaxDialog(user.toJSON());
+                }else{
+                    var t = new Date();
+                    t.setTime(user.get('first_login_time') * 1000);
+                    user.set({first_login_time:t.toLocaleString()},{silent:true});
+                    t.setTime(user.get('last_login_time') * 1000);
+                    user.set({last_login_time:t.toLocaleString()},{silent:true});
+                    var dd = user.toJSON();
+                    dd.session_login = SESSION.get('is_login');
+                    dd.session_id = SESSION.get('id');
+                    dd.session_is_admin = SESSION.get('is_admin');
+                    DIALOG.updateTop(this.tmpl_user(dd));
+                }
+            }, this);
         }
     });
     var MainRouter = Backbone.Router.extend({

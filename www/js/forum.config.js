@@ -42,7 +42,7 @@ window.SYS = {
     },
     //clear cache via key,if key null,clear all
     clear: function(key){
-        var ret = false;;
+        var ret = false;
         if(typeof key !== 'string'){
             ret = this._cache;
             delete this._cache;
@@ -52,6 +52,21 @@ window.SYS = {
             delete this._cache[key];
         }
         return ret;
+    },
+    cacheUser:function(uid, cb, caller){
+        if(typeof uid !== 'string' || uid === '') return null;
+        var u;
+        if(null === (u = this.cache('user_' + uid))){
+            u = new UserModel({id:uid});
+            u.bind('change', function(user){
+                if(user.ajaxOK())
+                    this.cache('user_' + user.get('id'), u);
+                if(typeof cb === 'function') cb.call(caller || this, user);
+                delete user;
+            }, this).fetch();
+        }else if(typeof cb === 'function'){
+            cb.call(caller || this, u);
+        }
     },
     _cache:{}
 };
