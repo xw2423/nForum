@@ -775,6 +775,53 @@ $.fn.extend({
         tips:function(show){
             this.$('#nforum_tips')[!!show?'show':'hide']();
         },
+        cacheUser:function(uid, cb, caller){
+            if(typeof uid !== 'string' || uid === '') return null;
+            var u;
+            if(null === (u = SYS.cache('user_' + uid))){
+                u = new UserModel({id:uid});
+                u.bind('change', function(user){
+                    if(user.ajaxOK())
+                        SYS.cache('user_' + user.get('id'), u);
+                    if(typeof cb === 'function') cb.call(caller || this, user);
+                    delete user;
+                }, this).fetch();
+            }else if(typeof cb === 'function'){
+                cb.call(caller || this, u);
+            }
+        },
+        cacheFriends:function(cb, caller){
+            var f;
+            if(null === (f = SYS.cache('friends'))){
+                $.getJSON(SYS.ajax.friend_list, function(json){
+                    if(typeof json === 'object')
+                        SYS.cache('friends', json);
+                    if(typeof cb === 'function') cb.call(caller || this, json);
+                });
+            }else if(typeof cb === 'function'){
+                cb.call(caller || this, f);
+            }
+        },
+        cacheSection:function(sec, cb, caller){
+            var s,data;
+            if(null === (s = SYS.cache('section_' + sec))){
+                var data = {root:'sec-' + sec, uid:SESSION.get('id'), bo:1};
+                $.getJSON(SYS.ajax.section_list, data, function(list){
+                    if(typeof json === 'object')
+                        SYS.cache('friends', json);
+                    if(typeof cb === 'function') cb.call(caller || this, json);
+                });
+                u = new UserModel({id:uid});
+                u.bind('change', function(user){
+                    if(user.ajaxOK())
+                        SYS.cache('user_' + user.get('id'), u);
+                    if(typeof cb === 'function') cb.call(caller || this, user);
+                    delete user;
+                }, this).fetch();
+            }else if(typeof cb === 'function'){
+                cb.call(caller || this, u);
+            }
+        },
         userQuery:function(el){
             var u, re = new RegExp(SYS.ajax.user + '/?([\\w\\d]*)$');
             u = el.href.match(re);
@@ -784,7 +831,7 @@ $.fn.extend({
         },
         //only for user query,do not call by AppView
         _userQuery:function(u){
-            SYS.cacheUser(u, function(user){
+            this.cacheUser(u, function(user){
                 if(!user.ajaxOK()){
                     DIALOG.ajaxDialog(user.toJSON());
                 }else{

@@ -84,7 +84,7 @@ $(function(){
         }).on('change', 'select', function(){
             $(this).prev().val($(this).val());
         });
-        SYS.cacheFriends(function(json){
+        APP.cacheFriends(function(json){
             if(!_.isArray(json)) return;
             d.find('#a_forward_list').append(
                 _.reduce(json,function(ret,item){

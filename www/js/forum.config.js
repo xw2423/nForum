@@ -53,33 +53,6 @@ window.SYS = {
         }
         return ret;
     },
-    cacheUser:function(uid, cb, caller){
-        if(typeof uid !== 'string' || uid === '') return null;
-        var u;
-        if(null === (u = this.cache('user_' + uid))){
-            u = new UserModel({id:uid});
-            u.bind('change', function(user){
-                if(user.ajaxOK())
-                    this.cache('user_' + user.get('id'), u);
-                if(typeof cb === 'function') cb.call(caller || this, user);
-                delete user;
-            }, this).fetch();
-        }else if(typeof cb === 'function'){
-            cb.call(caller || this, u);
-        }
-    },
-    cacheFriends:function(cb, caller){
-        var f;
-        if(null === (f = this.cache('friends'))){
-            $.getJSON(SYS.ajax.friend_list, function(json){
-                if(typeof json === 'object')
-                    SYS.cache('friends', json);
-                if(typeof cb === 'function') cb.call(caller || this, json);
-            });
-        }else if(typeof cb === 'function'){
-            cb.call(caller || this, f);
-        }
-    },
     _cache:{}
 };
 if(typeof sys_merge != 'undefined') SYS = $.extend(true, SYS, window.sys_merge);

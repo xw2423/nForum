@@ -1,6 +1,5 @@
 $(function(){
-    var tmpl_mail_detail = _.template($('#tmpl_mail_detail').html() || '')
-    ,friends = SYS.cache('friends');
+    var tmpl_mail_detail = _.template($('#tmpl_mail_detail').html() || '');
     $('#body').on('click', '.mail-select', function(){
         var val = ($(this).attr("checked") == 'checked');
         $(".mail-select").attr("checked", val);
@@ -55,7 +54,7 @@ $(function(){
                     }).on('change', 'select', function(){
                         $(this).prev().val($(this).val());
                     });
-                    SYS.cacheFriends(function(json){
+                    APP.cacheFriends(function(json){
                         if(!_.isArray(json)) return;
                         d.find('#a_forward_list').append(
                             _.reduce(json,function(ret,item){
