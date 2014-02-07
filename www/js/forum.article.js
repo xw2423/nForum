@@ -65,13 +65,12 @@ $(function(){
         nForumMap.loadJs('nForumMap.parseMap', null);
 
     //forward
-    var friends = SYS.cache('friends');
     $('#body').on('click','.a-func-forward',function(){
         if(!SESSION.get('is_login')){
             $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
             return false;
         }
-        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {
+        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:[]}), {
                  buttons:[
                     {text:SYS.code.COM_SUBMIT,click:function(){
                         var f = $(this).find('#a_forward');
@@ -85,18 +84,15 @@ $(function(){
         }).on('change', 'select', function(){
             $(this).prev().val($(this).val());
         });
-        if(!friends){
-            $.getJSON(SYS.ajax.friend_list, function(json){
-                if(!_.isArray(json)) return;
-                d.find('#a_forward_list').append(
-                    _.reduce(json,function(ret,item){
-                        ret += ('<option value="' + item + '">' + item + '</option>');
-                        return ret;
-                    },'')
-                );
-                SYS.cache('friends', json);
-            });
-        }
+        SYS.cacheFriends(function(json){
+            if(!_.isArray(json)) return;
+            d.find('#a_forward_list').append(
+                _.reduce(json,function(ret,item){
+                    ret += ('<option value="' + item + '">' + item + '</option>');
+                    return ret;
+                },'')
+            );
+        });
         return false;
     });
     if(typeof sh_init !== 'undefined') sh_init();

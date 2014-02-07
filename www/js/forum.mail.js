@@ -41,7 +41,7 @@ $(function(){
                     BODY.open(this);
                     return false;
                 }).on('click.nforum', '.mail-forward', function(){
-                    var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:friends || []}), {
+                    var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:[]}), {
                              buttons:[
                                 {text:SYS.code.COM_SUBMIT,click:function(){
                                     var f = $(this).find('#a_forward');
@@ -55,8 +55,7 @@ $(function(){
                     }).on('change', 'select', function(){
                         $(this).prev().val($(this).val());
                     });
-                    if(friends) return false;
-                    $.getJSON(SYS.ajax.friend_list, function(json){
+                    SYS.cacheFriends(function(json){
                         if(!_.isArray(json)) return;
                         d.find('#a_forward_list').append(
                             _.reduce(json,function(ret,item){
@@ -64,7 +63,6 @@ $(function(){
                                 return ret;
                             },'')
                         );
-                        SYS.cache('friends', json);
                     });
                     return false;
                 }).on('click.nforum', '.mail-delete', function(){

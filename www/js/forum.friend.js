@@ -2,6 +2,7 @@ $(function(){
     $('#friend_add').submit(function(){
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
+                SYS.clear('friends');
                 DIALOG.ajaxDialog(json);
             },'json');
         return false;
@@ -9,6 +10,7 @@ $(function(){
     $('#friend_form').submit(function(){
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
+                SYS.clear('friends');
                 DIALOG.ajaxDialog(json);
             }, 'json');
         return false;
@@ -19,7 +21,7 @@ $(function(){
         $(".friend-item").attr("checked", val);
     }).on('click', '.friend-del', function(){
         if($(".friend-item:checked").length <= 0){
-            DIALOG.alertDialog("请先选择要删除的好友!");    
+            DIALOG.alertDialog("请先选择要删除的好友!");
             return false;
         }
         DIALOG.confirmDialog("确认要删除这些好友?",function(){
