@@ -81,7 +81,7 @@ $(function(){
                     }},
                     {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
                  ]
-        }).on('change', 'select', function(){
+        }).on('change.nforum', 'select', function(){
             $(this).prev().val($(this).val());
         });
         APP.cacheFriends(function(json){
@@ -95,5 +95,40 @@ $(function(){
         });
         return false;
     });
+
+    //cross
+    $('#body').on('click','.a-func-cross',function(){
+        if(!SESSION.get('is_login')){
+            $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
+            return false;
+        }
+        var d = DIALOG.formDialog(_.template($('#tmpl_cross').html())({action:$(this).attr('href')}), {
+                 buttons:[
+                    {text:SYS.code.COM_SUBMIT,click:function(){
+                        var f = $(this).find('#a_cross');
+                        $.post(f.attr('action'), f.getPostData(), function(repo){
+                            DIALOG.ajaxDialog(repo);
+                        });
+                        $(this).dialog('close');
+                    }},
+                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                 ],width:400
+        }).on('change.nforum', '#a_cross_section', function(){
+            APP.cacheSection($(this).val(), function(list){
+                $('#a_cross_board').empty().append(_.reduce(list, function(ret, item){
+                    ret += '<option value="' + item.name + '">' + item.desc + '(' + item.name + ')</option>';
+                    return ret;
+                },''));
+            }, this);
+        });
+        APP.cacheSection('root', function(list){
+            $('#a_cross_section').empty().append(_.reduce(list, function(ret, item){
+                ret += '<option value="' + item.name + '">' + item.name + 'Çø:'+ item.desc + '</option>';
+                return ret;
+            },'')).change();
+        }, this);
+        return false;
+    });
+
     if(typeof sh_init !== 'undefined') sh_init();
 });

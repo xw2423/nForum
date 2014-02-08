@@ -48,6 +48,7 @@
 <{if $item.subject}>
                     <li><samp class="ico-pos-template"></samp><a href="<{$base}>/article/<{$bName}>/tmpl?id=<{$item.id}>" class="a-post">模版回复</a></li>
 <{/if}>
+                    <li><samp class="ico-pos-mess"></samp><a href="<{$base}>/article/<{$bName}>/ajax_cross/<{$item.id}>.json" class="a-func-cross">转载</a></li>
                     <li><samp class="ico-pos-forward"></samp><a href="<{$base}>/article/<{$bName}>/ajax_forward/<{$item.id}>.json" class="a-func-forward">转寄</a></li>
                     <li><samp class="ico-pos-search"></samp><a href="<{$base}>/s/article?b=<{$bName}>&au=<{$item.poster}>">搜索</a></li>
 <{if $au}>
@@ -166,5 +167,6 @@
     </div>
     <!--quick_reply end-->
 <{include file="article/forward.tpl"}>
+<{include file="article/cross.tpl"}>
 <{if $bm}><{include file="article/manage.tpl"}><{/if}>
 <{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>

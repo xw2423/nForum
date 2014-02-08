@@ -237,7 +237,11 @@ $.fn.extend({
                         });
                         return false;
                     }).on('click.nforum', '.a-func-forward', function(){
-                        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:SYS.cache('friends') || []}), {
+                        if(!SESSION.get('is_login')){
+                            $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
+                            return false;
+                        }
+                        var d = DIALOG.formDialog(_.template($('#tmpl_forward').html())({action:$(this).attr('href'), friends:[]}), {
                                  buttons:[
                                     {text:SYS.code.COM_SUBMIT,click:function(){
                                         var f = $(this).find('#a_forward');
@@ -248,11 +252,10 @@ $.fn.extend({
                                     }},
                                     {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
                                  ]
-                        }).on('change', 'select', function(){
+                        }).on('change.nforum', 'select', function(){
                             $(this).prev().val($(this).val());
                         });
-                        if(SYS.cache('friends')) return false;
-                        $.getJSON(SYS.ajax.friend_list, function(json){
+                        APP.cacheFriends(function(json){
                             if(!_.isArray(json)) return;
                             d.find('#a_forward_list').append(
                                 _.reduce(json,function(ret,item){
@@ -260,8 +263,38 @@ $.fn.extend({
                                     return ret;
                                 },'')
                             );
-                            SYS.cache('friends', json);
                         });
+                        return false;
+                    }).on('click.nforum', '.a-func-cross', function(){
+                        if(!SESSION.get('is_login')){
+                            $('#u_login_id').alertDialog(SYS.code.MSG_LOGIN);
+                            return false;
+                        }
+                        var d = DIALOG.formDialog(_.template($('#tmpl_cross').html())({action:$(this).attr('href')}), {
+                                 buttons:[
+                                    {text:SYS.code.COM_SUBMIT,click:function(){
+                                        var f = $(this).find('#a_cross');
+                                        $.post(f.attr('action'), f.getPostData(), function(repo){
+                                            DIALOG.ajaxDialog(repo);
+                                        });
+                                        $(this).dialog('close');
+                                    }},
+                                    {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
+                                 ],width:400
+                        }).on('change.nforum', '#a_cross_section', function(){
+                            APP.cacheSection($(this).val(), function(list){
+                                $('#a_cross_board').empty().append(_.reduce(list, function(ret, item){
+                                    ret += '<option value="' + item.name + '">' + item.desc + '(' + item.name + ')</option>';
+                                    return ret;
+                                },''));
+                            }, this);
+                        });
+                        APP.cacheSection('root', function(list){
+                            $('#a_cross_section').empty().append(_.reduce(list, function(ret, item){
+                                ret += '<option value="' + item.name + '">' + item.name + 'Çø:'+ item.desc + '</option>';
+                                return ret;
+                            },'')).change();
+                        }, this);
                         return false;
                     }).on('click.nforum', '.a-func-del', function(){
                         var url = $(this).attr('href');
@@ -803,23 +836,15 @@ $.fn.extend({
             }
         },
         cacheSection:function(sec, cb, caller){
-            var s,data;
+            var s;
             if(null === (s = SYS.cache('section_' + sec))){
-                var data = {root:'sec-' + sec, uid:SESSION.get('id'), bo:1};
-                $.getJSON(SYS.ajax.section_list, data, function(list){
-                    if(typeof json === 'object')
-                        SYS.cache('friends', json);
-                    if(typeof cb === 'function') cb.call(caller || this, json);
+                $.getJSON(SYS.ajax.section_list, {root:'root'===sec?'list-section':('sec-' + sec), uid:SESSION.get('id'), bo:1}, function(list){
+                    if(typeof list === 'object')
+                        SYS.cache('section_' + sec, list);
+                    if(typeof cb === 'function') cb.call(caller || this, list);
                 });
-                u = new UserModel({id:uid});
-                u.bind('change', function(user){
-                    if(user.ajaxOK())
-                        SYS.cache('user_' + user.get('id'), u);
-                    if(typeof cb === 'function') cb.call(caller || this, user);
-                    delete user;
-                }, this).fetch();
             }else if(typeof cb === 'function'){
-                cb.call(caller || this, u);
+                cb.call(caller || this, s);
             }
         },
         userQuery:function(el){

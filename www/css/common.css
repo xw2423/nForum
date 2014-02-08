@@ -810,6 +810,27 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
 }
 /* tmpl_forward end */
 
+/* tmpl_cross */
+#a_cross li {
+    padding:4px 0 4px 4px;
+}
+#a_cross li span {
+    padding-right:4px;
+}
+#a_cross .input-text{
+    width:120px;
+    margin-right:4px;
+}
+#a_cross .warning{
+    border:1px solid #C3D9FF;
+    background-color:#fafafa;
+}
+#a_cross .warning span{
+    color:red;
+    padding-right:0;
+}
+/* tmpl_cross end */
+
 /*corner default*/
 .rc-head, .rc-bottom{display:block;background:#FFF;}
 .rc1,.rc2,.rc3{display:block;border-width:0;border-style:solid;height:1px;line-height:1px;overflow:hidden}

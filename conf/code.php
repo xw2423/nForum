@@ -88,6 +88,12 @@ $code['0310'] = "转寄文章成功";
 $code['0311'] = "您无权进行管理操作";
 //ARTICLE_NOTORIGIN
 $code['0312'] = "非主题帖或原主题已删除，操作失败";
+//ARTICLE_CROSSOK
+$code['0313'] = "转载文章成功";
+//ARTICLE_CROSSED
+$code['0314'] = "该文已被转载过一次";
+//ARTICLE_CROSSERROR
+$code['0315'] = "转载文章失败";
 //POST_NOSUB
 $code['0400'] = "没有指定文章标题";
 //POST_NOCON

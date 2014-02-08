@@ -11,13 +11,6 @@ class SearchController extends NF_Controller {
         $this->js[] = "forum.search.js";
         $this->css[] = "search.css";
         $this->notice[] = array("url"=>"", "text"=>"ËÑË÷ÎÄÕÂ");
-
-        $secs = c("section");
-        foreach($secs as $k=>&$v){
-            $v = $k . "Çø:" . $v[0];
-        }
-        $this->set("sec", $secs);
-        $this->set("selected", 0);
         $this->set("site", c('search.site'));
 
         //for default search day

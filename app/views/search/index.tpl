@@ -6,7 +6,6 @@
                     <li>
                     <span>选择分区:</span>
                     <select id="search_section">
-                    <{html_options options=$sec selected=$selected }>
                     </select>&emsp;<span>选择版面:</span>
                     <select name="b" id="search_board">
                     </select>

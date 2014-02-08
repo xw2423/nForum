@@ -486,6 +486,33 @@ class ArticleController extends NF_Controller {
         $this->set('no_html_data', $ret);
     }
 
+    public function ajax_crossAction(){
+        if(!$this->getRequest()->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['target']))
+            $this->error(ECode::$BOARD_NONE);
+        $id = intval($this->params['id']);
+        $board = $this->params['form']['target'];
+        $outgo = isset($this->params['form']['outgo']);
+        try{
+            $board = Board::getInstance($board);
+            $article = Article::getInstance($id, $this->_board);
+            $article->cross($board, $outgo);
+        }catch(BoardNullException $e){
+            $this->error(ECode::$BOARD_UNKNOW);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }catch(ArticleCrossException $e){
+            $this->error($e->getMessage());
+        }
+
+        $ret['ajax_code'] = ECode::$ARTICLE_CROSSOK;
+        $this->set('no_html_data', $ret);
+    }
+
     public function tmplAction(){
         $article = $this->_postInit();
         load("model/template");

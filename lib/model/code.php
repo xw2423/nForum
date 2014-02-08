@@ -49,6 +49,9 @@ class ECode {
     public static $ARTICLE_FORWARDOK =   '0310';
     public static $ARTICLE_NOMANAGE =    '0311';
     public static $ARTICLE_NOTORIGIN =   '0312';
+    public static $ARTICLE_CROSSOK =     '0313';
+    public static $ARTICLE_CROSSED =     '0314';
+    public static $ARTICLE_CROSSERROR =  '0315';
     public static $POST_NOSUB =          '0400';
     public static $POST_NOCON =          '0401';
     public static $POST_ISDIR =          '0402';

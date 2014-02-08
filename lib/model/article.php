@@ -299,6 +299,39 @@ class Article extends Archive{
             throw new ArticleForwardException($code);
     }
 
+    public function cross($board, $outgo = false){
+        $code = null;
+        switch(bbs_docross($this->_board->NAME, $this->ID, $board->NAME, $outgo?1:0)){
+            case 0:
+                break;
+            case -1:
+            case -2:
+                $code = ECode::$BOARD_UNKNOW;
+                break;
+            case -3:
+                $code = ECode::$BOARD_READONLY;
+                break;
+            case -4:
+            case -5:
+                $code = ECode::$BOARD_NOPOST;
+                break;
+            case -6:
+                $code = ECode::$ARTICLE_NONE;
+                break;
+            case -7:
+                $code = ECode::$ARTICLE_CROSSED;
+                break;
+            case -8:
+            case -9:
+                $code = ECode::$ARTICLE_CROSSERROR;
+                break;
+            default:
+                $code = ECode::$ARTICLE_CROSSERROR;
+        }
+        if(!is_null($code))
+            throw new ArticleCrossException($code);
+    }
+
     public function getFileName(){
         return "boards" . DS . $this->_board->NAME . DS . $this->FILENAME;
     }
@@ -472,4 +505,5 @@ class ArticleNullException extends Exception {}
 class ArticlePostException extends Exception {}
 class ArticleDeleteException extends Exception {}
 class ArticleForwardException extends Exception {}
+class ArticleCrossException extends Exception {}
 class ArticleManageException extends Exception {}

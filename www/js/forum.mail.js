@@ -51,7 +51,7 @@ $(function(){
                                 }},
                                 {text:SYS.code.COM_CANCAL,click:function(){$(this).dialog('close');}}
                              ]
-                    }).on('change', 'select', function(){
+                    }).on('change.nforum', 'select', function(){
                         $(this).prev().val($(this).val());
                     });
                     APP.cacheFriends(function(json){

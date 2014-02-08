@@ -89,11 +89,16 @@ class SectionController extends NF_Controller {
         $root = $this->params['url']['root'];
         if($root == "list-section"){
             $sections = c("section");
+            $boardOnly = isset($this->params['url']['bo']);
             foreach($sections as $k=>$v){
-                $ret[] = array(
-                    "t" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
-                    "id" => "sec-$k"
-                    );
+                if($boardOnly){
+                    $ret[] = array('name'=>$k, 'desc'=>$v[0]);
+                }else{
+                    $ret[] = array(
+                        "t" => "<a href=\"{$this->base}/section/$k\">{$v[0]}</a>",
+                        "id" => "sec-$k"
+                        );
+                }
             }
             $this->set('no_html_data', $ret);
             $this->set('no_ajax_info', true);

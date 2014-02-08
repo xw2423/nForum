@@ -5,6 +5,7 @@
 <%if(id==group_id){%>
         <li><samp class="ico-pos-template"></samp><a href="article/<%=board_name%>/tmpl?id=<%=id%>" class="a-post">模版回复</a></li>
 <%}%>
+        <li><samp class="ico-pos-mess"></samp><a href="article/<%=board_name%>/ajax_cross/<%=id%>.json" class="a-func-cross">转载</a></li>
         <li><samp class="ico-pos-forward"></samp><a href="article/<%=board_name%>/ajax_forward/<%=id%>.json" class="a-func-forward">转寄</a></li>
         <li><samp class="ico-pos-search"></samp><a href="s/article?b=<%=board_name%>&au=<%=user.id||user%>" class="a-close">搜索</a></li>
 <%if(is_admin){%>
@@ -40,4 +41,5 @@
 </div>
 </script>
 <{include file="article/forward.tpl"}>
+<{include file="article/cross.tpl"}>
 <{if isset($syntax)}><{include file="syntax_high_lighter.tpl"}><{/if}>
