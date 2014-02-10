@@ -16,6 +16,7 @@ class NF_Route implements Yaf_Route_Interface{
     private $_match = array();
     private $_verify = array();
     private $_current = null;
+    private $_var_null = array();
     private $_strict = false;
 
     public function __construct ($match , $route = array(), $verify = array(), $strict = null){
@@ -66,11 +67,19 @@ class NF_Route implements Yaf_Route_Interface{
         return false;
     }
 
+    public function assemble(array $info, array $query = array()){
+        $url = $this->_routes[0]->assemble($info, $query);
+        foreach($this->_var_null as $v){
+            $url = str_replace('/:' . $v, '', $url);
+        }
+        return $url;
+    }
+
     private function _get_null($route){
         $tmp = array();
         foreach($route as $k=>$v){
             if($v === null) $tmp[] = $k;
         }
-        return $tmp;
+        return $this->_var_null = $tmp;
     }
 }
