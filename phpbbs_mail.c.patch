@@ -1,0 +1,37 @@
+Index: php/phpbbs_mail.c
+===================================================================
+--- php/phpbbs_mail.c	(revision 11724)
++++ php/phpbbs_mail.c	(working copy)
+@@ -926,14 +926,11 @@
+     struct userec *user;
+     int total_count=0,new_count=0;
+ 
++    MAKE_STD_ZVAL(total_num);
++    MAKE_STD_ZVAL(new_num);
+     if (ZEND_NUM_ARGS()!=4 || zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "slzz", &userid, &userid_len, &mode, &total_num, &new_num)==FAILURE)
+         WRONG_PARAM_COUNT;
+ 
+-    if (!PZVAL_IS_REF(total_num)||!PZVAL_IS_REF(new_num)) {
+-        zend_error(E_WARNING, "Parameter wasn't passed by reference");
+-        RETURN_FALSE;
+-    }
+-
+     if (userid_len>IDLEN)
+         RETURN_FALSE;
+ 
+@@ -1001,14 +998,10 @@
+     int total, num, i;    
+     struct refer *refers;    
+ 
++    MAKE_STD_ZVAL(list);
+     if (ZEND_NUM_ARGS()!=5 || zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "slllz", &userid, &userid_len, &mode, &start, &count, &list)==FAILURE)
+         WRONG_PARAM_COUNT;
+ 
+-    if (!PZVAL_IS_REF(list)) {
+-        zend_error(E_WARNING, "Parameter wasn't passed by reference");
+-        RETURN_LONG(-1);
+-    }
+-
+     if (userid_len>IDLEN)
+         RETURN_LONG(-2);
+     if (!getuser(userid, &user))
