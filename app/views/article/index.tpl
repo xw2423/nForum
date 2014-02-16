@@ -95,12 +95,14 @@
 <{/if}>
 			</td>
 			<td class="a-content">
+                <div class="a-content-wrap">
 				<{$item.content}>
                 <{if isset($vinfo) && $item.pos=="0"}>
                     <div id="vote_view" class="corner" style="margin:0;display:inline-block">
                     <{include file="../plugins/vote/views/index/vote.tpl"}>  
                     </div>
                 <{/if}>
+                </div>
 			</td>
 		</tr>
 		<tr class="a-bottom">

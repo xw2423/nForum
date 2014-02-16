@@ -764,6 +764,9 @@ samp{ display:inline-block;vertical-align:middle;background-image:url(../img/ico
     font-size:13px;
     line-height:1.4
 }
+.a-content .a-content-wrap{
+    vertical-align:bottom;
+}
 .a-content img{
     display:inline;
 }
