@@ -224,14 +224,14 @@ abstract class Archive extends OverloadObject{
 
     protected function _getCommon($link, $name, $size){
         $templete = '<br /><font color="blue">附件(%size%)</font>&nbsp;<a href="%link%" target="_blank">%name%</a>';
-        return str_replace(array("%link%", "%name%", "%size%"), array($link, $name, $size), $templete);
+        return str_replace(array("%link%", "%name%", "%size%"), array($link, htmlspecialchars($name), $size), $templete);
     }
 
     protected function _getImg($link, $name, $size, $thumbnail = ''){
-        $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="' . htmlspecialchars($name) . '" src="%link%" class="resizeable" /></a>';
+        $templete = '<br /><a target="_blank" href="%link%"><img border="0" title="%name%" src="%link%" alt="%name%" class="resizeable" /></a>';
         if('' !== $thumbnail)
-            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(' . $size . ')</a><br /><img border="0" src="%link%/' . $thumbnail . '" class="resizeable" title="' . htmlspecialchars($name) . '"/>';
-        return str_replace("%link%", $link, $templete);
+            $templete = '<br /><a target="_blank" href="%link%">单击此查看原图(%size%)</a><br /><img border="0" src="%link%/' . $thumbnail . '" alt="%name%" class="resizeable" title="%name%"/>';
+        return str_replace(array("%link%", "%name%", "%size%"), array($link, htmlspecialchars($name), $size), $templete);
     }
 
     protected function _getSwf($link, $name, $size){
