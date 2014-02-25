@@ -3,6 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cn">
 <head>
 <meta charset="<{$encoding}>">
+<meta name="keywords" content="<{$keywords}>" />
+<meta name="description" content="<{$description}>" />
+<meta name="author" content="xw2423@BYR" />
 <meta name="viewport" content="width=device-width,user-scalable=yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title><{$webTitle}></title>

@@ -58,6 +58,8 @@ class NF_MobileController extends NF_Controller {
         $this->set("siteName", $site['name'] . "手机版");
         $this->set("webTitle", empty($this->title)?$site['name']."手机版":$this->title);
         $this->set("encoding", $this->encoding);
+        $this->set("keywords", $site['keywords'] . ",手机版");
+        $this->set("description", $site['description']);
         $this->set("home", $site['home']);
         $this->set("base", $this->base);
         $this->set("mbase", $this->base . $this->_mbase);
