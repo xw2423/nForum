@@ -30,7 +30,7 @@ class XUBB {
         ),
         array(
             "<font color=\"blue\">¸½¼þ(\\2×Ö½Ú):</font>&nbsp;<a href=\"%base%\\1\">\\3</a>",
-            "<img src=\"%base%/img/ubb/\\1/\\2.gif\" style=\"display:inline;border-style:none\"/>",
+            "<img src=\"%base%/img/ubb/\\1/\\2.gif\" alt=\"\\1\\2\" style=\"display:inline;border-style:none\"/>",
             "<b>\\1</b>",
             "<i>\\1</i>",
             "<u>\\1</u>",
