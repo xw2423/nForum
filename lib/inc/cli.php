@@ -22,6 +22,7 @@ define('TMP', APP . DS . 'tmp');
 define('CACHE', TMP . DS . 'cache');
 define('SHELL', APP . DS . 'shells');
 
+load('inc/shell');
 
 if($argc == 2){
     NF_Shell::help();
@@ -52,55 +53,4 @@ if($argc == 2){
     NF_Shell::line("nForum Shell");
     NF_Shell::line("\nexecute: $arg\n");
     $app->execute(array(new $class, 'main'), $argc - 3, $argv);
-}
-
-abstract class NF_Shell{
-    abstract public function main($argc, $argv);
-
-    public static function help(){
-        self::line("nForum Shell");
-        self::line("\nModule Index:");
-        self::line("  Path: " . SHELL);
-        self::line("  Shells:");
-
-        $shells = scandir(SHELL);
-
-        foreach($shells as $v){
-            if('.' === $v || '..' === $v)
-                continue;
-            load(SHELL . DS . $v);
-            $v = strstr($v, '.', true);
-            $class = ucfirst(strtolower($v)) . 'Shell';
-            if(class_exists($class) && is_subclass_of($class, 'NF_Shell')){
-                self::line('    ' . $v);
-            }
-        }
-
-        foreach(c('modules.install') as $m){
-            if('index' === $m) continue;
-            $m_shell = MODULE . DS . ucfirst($m) . DS . 'shells';
-            if(is_dir($m_shell)){
-                self::line("\nModule " . ucfirst($m) . ":");
-                self::line("  Path: " . $m_shell);
-                self::line("  Shells:");
-                foreach(scandir($m_shell) as $v){
-                    if('.' === $v || '..' === $v)
-                        continue;
-                    load($m_shell . DS . $v);
-                    $v = strstr($v, '.', true);
-                    $class = ucfirst(strtolower($v)) . 'Shell';
-                    if(class_exists($class) && is_subclass_of($class, 'NF_Shell')){
-                        self::line('    ' . $m . '.' . $v);
-                    }
-                }
-            }
-        }
-
-        self::line('');
-    }
-
-    public static function line($str, $br = true){
-        echo $str;
-        if($br) echo "\n";
-    }
 }
