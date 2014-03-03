@@ -8,19 +8,12 @@
 class RedirectPlugin extends Yaf_Plugin_Abstract{
 
     public function routerShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response){
-        if('Index' !== ($m = $request->getModuleName())){
-            //if use domain, Index can't visit
-            $d = c('modules.' . strtolower($m) . '.domain');
-            if(!empty($d) && c('site.domain') != 'http://' . $d)
-                nforum_error404(true);
 
-            load(MODULE . DS . $request->getModuleName() . DS . 'lib' . DS . 'controller.php');
-            if('Mobile' === $m || 'Api' === $m){
-                if($request->isXmlHttpRequest())
-                    nforum_error404(true);
-                else
-                    return;
-            }
+        if('Mobile' === $request->getModuleName() || 'Api' === $request->getModuleName()){
+            if($request->isXmlHttpRequest())
+                nforum_error404(true);
+            else
+                return;
         }
 
         //check ajax_* action via xhr in header

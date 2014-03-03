@@ -6,6 +6,7 @@ class NF_ApiController extends NF_Controller {
 
     public function init(){
         c('application.encoding', 'utf-8');
+        $this->cache(false);
         parent::init();
         $this->getRequest()->front = true;
         $this->_abase = c('modules.api.base');
@@ -13,7 +14,6 @@ class NF_ApiController extends NF_Controller {
         if($this->getRequest()->ext === 'html'
             && !($this->getRequest()->getControllerName() === 'Attachment' && $this->getRequest()->getActionName() === 'download'))
             exit('Unknow Return Format');
-        $this->cache(false);
         load('inc/wrapper');
     }
 
@@ -32,6 +32,10 @@ class NF_ApiController extends NF_Controller {
 
     protected function _initSession(){
         load('api.session');
-        NF_ApiSession::getInstance()->init();
+        try{
+            NF_ApiSession::getInstance()->init();
+        }catch(LoginException $e){
+            $this->error($e->getMessage());
+        }
     }
 }

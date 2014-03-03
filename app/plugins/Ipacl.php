@@ -11,7 +11,7 @@ class IpaclPlugin extends Yaf_Plugin_Abstract{
         load(CONF . DS . 'ipacl', $acl);
 
         if(!self::check($acl['global']))
-            exit(Ecode::msg(ECode::$SYS_IPBAN));
+            nforum_error(ECode::$SYS_IPBAN, $request->front);
 
         $m = strtolower($request->getModuleName());
         $c = strtolower($request->getControllerName());

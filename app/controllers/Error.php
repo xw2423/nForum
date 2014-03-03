@@ -10,7 +10,8 @@ class ErrorController extends NF_Controller {
             ));
             $this->render('error');
         }else if(is_a($exception, 'NF_ERROR404Exception')
-            || is_a($exception, 'Yaf_Exception')){
+            || is_a($exception, 'Yaf_Exception')
+            || !is_a($exception, 'Exception')){
             header('HTTP/1.1 404 Not Found');
             $this->set('siteName', c('site.name'));
             $this->render('error404');

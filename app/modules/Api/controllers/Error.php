@@ -7,7 +7,7 @@ class ErrorController extends NF_ApiController {
             $msg = ECode::msg($code);
         }else if(is_a($exception, 'NF_ERROR404Exception')
             || is_a($exception, 'Yaf_Exception')
-            || null === $exception){
+            || !is_a($exception, 'Exception')){
             $code = ECode::$SYS_404;
             $msg = ECode::msg($code);
         }else{

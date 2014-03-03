@@ -88,12 +88,14 @@ class NF_Controller extends Yaf_Controller_Abstract{
         nforum_redirect($this->base . $url);
     }
 
-    public function error($mixed = null){
-        nforum_error($mixed);
+    public function error($mixed = null, $simple = false){
+        if('Error' !== $this->getRequest()->controller)
+            nforum_error($mixed, $simple);
     }
 
-    public function error404(){
-        nforum_error404();
+    public function error404($blank = false){
+        if('Error' !== $this->getRequest()->controller)
+            nforum_error404($blank);
     }
 
     /**
@@ -378,16 +380,16 @@ EOT;
         load(array('model/forum', 'model/user'));
 
         //init session
-        try{
-            $this->_initSession();
-        }catch(LoginException $e){
-            nforum_error($e->getMessage(), true);
-        }
+        $this->_initSession();
         $this->_initKbs = true;
     }
 
     protected function _initSession(){
         load('model/session');
-        NF_Session::getInstance()->init($this->getRequest()->get('sid', null));
+        try{
+            NF_Session::getInstance()->init($this->getRequest()->get('sid', null));
+        }catch(LoginException $e){
+            $this->error($e->getMessage(), true);
+        }
     }
 }

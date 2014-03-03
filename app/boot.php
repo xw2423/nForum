@@ -75,6 +75,8 @@ class Bootstrap extends Yaf_Bootstrap_Abstract{
 
     public function _initPlugin($dispatcher){
         $tmp = c('plugins.install');
+        if(null !== c('modules.install.1'))
+            array_splice($tmp, 0, 0, 'module');
         $tmp[] = 'redirect';
         foreach($tmp as $k=>&$v){
             if(trim($v) === '') continue;
