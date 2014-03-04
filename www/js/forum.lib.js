@@ -655,7 +655,7 @@ $.fn.extend({
         },
         keydown_search:function(e){
             if(e.keyCode == 13){
-                var url = '/s/board?b=' + encodeURIComponent(encodeURIComponent($('#b_search').val()));
+                var url = '/s/board?b=' + encodeURIComponent(encodeURIComponent($.trim($('#b_search').val())));
                 this.body.open(url);
             }
         },
@@ -669,7 +669,7 @@ $.fn.extend({
         click_u_search:function(){
             var t = DIALOG.getTop(),u;
             if(!t) return false;
-            if('' != (u = this.$('#u_search_u').val()))
+            if('' != (u = $.trim(this.$('#u_search_u').val())))
                 this._userQuery(u);
             return false;
         },
