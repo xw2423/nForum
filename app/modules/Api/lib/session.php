@@ -20,23 +20,18 @@ class NF_ApiSession extends NF_CoreSession{
         if($u = $db->one('select utmpnum,utmpkey,expire from pl_api_session where id=?', array($this->uid))){
             $this->utmpnum = $u['utmpnum'];
             $this->utmpkey = $u['utmpkey'];
-            if(parent::init()){
-                if(intval($u['expire']) < time()){
-                    $val = array('expire' => (time() + $this->_expire));
-                    $db->update('pl_api_session', $val, 'where id=?', array($this->uid));
-                }
-                return;
-            }
+            if(parent::init())
+                return true;
         }
 
         //check pwd in BasicAuth, $pwd is null
         parent::login($this->uid);
 
         if($u){
-            $val = array('utmpnum' => $this->utmpnum, 'utmpkey' => $this->utmpkey, 'expire' => time() + $this->_expire);
+            $val = array('utmpnum' => $this->utmpnum, 'utmpkey' => $this->utmpkey, 'expire' => time());
             $db->update('pl_api_session', $val, 'where id=?', array($this->uid));
         }else{
-            $val = array('id' => $this->uid, 'utmpnum' => $this->utmpnum, 'utmpkey' => $this->utmpkey, 'expire' => time() + $this->_expire);
+            $val = array('id' => $this->uid, 'utmpnum' => $this->utmpnum, 'utmpkey' => $this->utmpkey, 'expire' => time());
             $db->insert('pl_api_session', $val);
         }
     }

@@ -20,6 +20,8 @@ class NF_CoreSession{
      * init via userid, utmpnum, utmpkey
      */
     public function init(){
+        if($this->_isInit)
+            return true;
         if(!$this->telnet && null === $this->uid || null === $this->utmpnum || null === $this->utmpkey)
             return false;
         if($this->uid !== 'guest' && !$this->telnet && Forum::checkBanIP($this->uid, $this->from) != 0)
