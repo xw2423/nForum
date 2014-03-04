@@ -3,7 +3,6 @@ load('model/session');
 class NF_ApiSession extends NF_CoreSession{
 
     private static $_instance = null;
-    private $_expire = 1200;
 
     public static function getInstance(){
         if(null === self::$_instance)
@@ -41,11 +40,4 @@ class NF_ApiSession extends NF_CoreSession{
         $db = DB::getInstance();
         $db->delete('pl_api_session', 'where id=?', array($this->uid));
     }
-
-    protected function __construct(){
-        parent::__construct();
-        $expire = c('modules.api.expire');
-        if(null !== $expire)$this->_expire = $expire;
-    }
-
 }
