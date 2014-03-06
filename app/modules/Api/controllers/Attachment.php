@@ -2,6 +2,8 @@
 load(array("model/board", "model/article"));
 class AttachmentController extends NF_ApiController {
 
+    protected $_method = array('post' => array('add', 'delete'));
+
     private $_board;
 
     public function downloadAction(){
@@ -67,8 +69,6 @@ class AttachmentController extends NF_ApiController {
     }
 
     public function addAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
         $this->_attOpInit();
         $isFile = false;
         $u = User::getInstance();
@@ -147,8 +147,6 @@ class AttachmentController extends NF_ApiController {
     }
 
     public function deleteAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
         $this->_attOpInit();
         $u = User::getInstance();
         if(!isset($this->params['form']['name']))

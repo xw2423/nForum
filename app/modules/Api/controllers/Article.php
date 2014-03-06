@@ -3,6 +3,8 @@ class ArticleController extends NF_ApiController {
 
     private $_board;
 
+    protected $_method = array('post' => array('post', 'forward', 'update', 'delete'));
+
     public function init(){
         parent::init();
         load("model/board");
@@ -91,9 +93,6 @@ class ArticleController extends NF_ApiController {
     }
 
     public function postAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if($this->_board->isReadOnly())
             $this->error(ECode::$BOARD_READONLY);
 
@@ -150,9 +149,6 @@ class ArticleController extends NF_ApiController {
     }
 
     public function forwardAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         $this->requestLogin();
         if(!isset($this->params['id']))
             $this->error(ECode::$ARTICLE_NONE);
@@ -184,9 +180,6 @@ class ArticleController extends NF_ApiController {
     }
 
     public function updateAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if($this->_board->isReadOnly()){
             $this->error(ECode::$BOARD_READONLY);
         }
@@ -227,9 +220,6 @@ class ArticleController extends NF_ApiController {
     }
 
     public function deleteAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['id']))
             $this->error(ECode::$ARTICLE_NONE);
 

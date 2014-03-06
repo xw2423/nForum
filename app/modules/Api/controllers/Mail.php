@@ -2,6 +2,8 @@
 load("model/mail");
 class MailController extends NF_ApiController {
 
+    protected $_method = array('post' => array('send', 'reply', 'forward', 'delete'));
+
     public function init(){
         parent::init();
         $this->requestLogin();
@@ -68,9 +70,6 @@ class MailController extends NF_ApiController {
     }
 
     public function sendAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!Mail::canSend())
             $this->error(ECode::$MAIL_SENDERROR);
 
@@ -100,9 +99,6 @@ class MailController extends NF_ApiController {
     }
 
     public function replyAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
         if(!isset($this->params['num']))
@@ -143,9 +139,6 @@ class MailController extends NF_ApiController {
     }
 
     public function forwardAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['form']['target']))
             $this->error(ECode::$USER_NONE);
         if(!isset($this->params['type']))
@@ -176,9 +169,6 @@ class MailController extends NF_ApiController {
     }
 
     public function deleteAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
         if(!isset($this->params['num']))

@@ -4,6 +4,8 @@ class NF_ApiController extends NF_Controller {
     protected $_abase = "";
     protected $_exts = array('xml' => 'application/xml', 'json'=> 'application/json');
 
+    protected $_method = array();
+
     public function init(){
         c('application.encoding', 'utf-8');
         $this->cache(false);
@@ -14,6 +16,7 @@ class NF_ApiController extends NF_Controller {
         if($this->getRequest()->ext === 'html'
             && !($this->getRequest()->getControllerName() === 'Attachment' && $this->getRequest()->getActionName() === 'download'))
             exit('Unknow Return Format');
+        $this->_checkMethod();
         load('inc/wrapper');
     }
 
@@ -36,6 +39,22 @@ class NF_ApiController extends NF_Controller {
             NF_ApiSession::getInstance()->init();
         }catch(LoginException $e){
             $this->error($e->getMessage());
+        }
+    }
+
+    protected function _checkMethod(){
+        $ms = array('post'/*, 'head', 'put', 'options', 'delete'*/);
+        $a = $this->getRequest()->getActionName();
+        $m = strtolower($this->getRequest()->getMethod());
+        if('get' === $m){
+            if(!isset($this->_method['get']) || !in_array($a, $this->_method['get'])){
+                foreach($ms as $v){
+                    if(isset($this->_method[$v]) && in_array($a, $this->_method[$v]))
+                        $this->error(ECode::$SYS_REQUESTERROR);
+                }
+            }
+        }else if(!isset($this->_method[$m]) || !in_array($a, $this->_method[$m])){
+            $this->error(ECode::$SYS_REQUESTERROR);
         }
     }
 }

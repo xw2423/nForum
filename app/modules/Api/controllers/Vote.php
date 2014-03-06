@@ -2,6 +2,8 @@
 load("vote.vote");
 class VoteController extends NF_ApiController {
 
+    protected $_method = array('get' => array('index'), 'post' => array('index'));
+
     public function init(){
         parent::init();
         if(!in_array('vote', c('modules.install')))

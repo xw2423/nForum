@@ -2,6 +2,8 @@
 load('model/refer');
 class ReferController extends NF_ApiController {
 
+    protected $_method = array('post' => array('setread', 'delete'));
+
     public function init(){
         parent::init();
         if(!c('refer.enable'))
@@ -41,9 +43,6 @@ class ReferController extends NF_ApiController {
     }
 
     public function setReadAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['type']))
             $this->error(ECode::$REFER_NONE);
         $type = $this->params['type'];
@@ -65,9 +64,6 @@ class ReferController extends NF_ApiController {
     }
 
     public function deleteAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
-
         if(!isset($this->params['type']))
             $this->error(ECode::$REFER_NONE);
 

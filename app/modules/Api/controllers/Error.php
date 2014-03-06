@@ -1,5 +1,8 @@
 <?php
 class ErrorController extends NF_ApiController {
+
+    protected function _checkMethod(){}
+
     public function errorAction($exception = null) {
         if(is_a($exception, 'NF_ERRORException')){
             $code = $exception->getMessage();

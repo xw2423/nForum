@@ -2,6 +2,8 @@
 load('model/favor');
 class FavoriteController extends NF_ApiController {
 
+    protected $_method = array('post' => array('add', 'delete'));
+
     public function indexAction(){
         $level = $this->params['num'];
         try{
@@ -14,8 +16,6 @@ class FavoriteController extends NF_ApiController {
     }
 
     public function addAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
         if(!isset($this->params['form']['dir']) || !isset($this->params['form']['name']))
             $this->error();
         $dir = ($this->params['form']['dir'] == '1');
@@ -51,8 +51,6 @@ class FavoriteController extends NF_ApiController {
     }
 
     public function deleteAction(){
-        if(!$this->getRequest()->isPost())
-            $this->error(ECode::$SYS_REQUESTERROR);
         if(!isset($this->params['form']['dir']) || !isset($this->params['form']['name']))
             $this->error();
         $dir = ($this->params['form']['dir'] == '1');
