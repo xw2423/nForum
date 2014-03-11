@@ -3,7 +3,7 @@ class ArticleController extends NF_ApiController {
 
     private $_board;
 
-    protected $_method = array('post' => array('post', 'forward', 'update', 'delete'));
+    protected $_method = array('post' => array('post', 'forward', 'cross', 'update', 'delete'));
 
     public function init(){
         parent::init();
@@ -177,6 +177,35 @@ class ArticleController extends NF_ApiController {
         }catch(ArticleForwardException $e){
             $this->error($e->getMessage());
         }
+    }
+
+    public function crossAction(){
+        $this->requestLogin();
+        if(!isset($this->params['id']))
+            $this->error(ECode::$ARTICLE_NONE);
+        if(!isset($this->params['form']['target']))
+            $this->error(ECode::$BOARD_NONE);
+        $id = intval($this->params['id']);
+        $board = $this->params['form']['target'];
+        $outgo = (isset($this->params['form']['outgo']) && $this->params['form']['outgo'] == 1);
+        try{
+            load('model/article');
+            $board = Board::getInstance($board);
+            $article = Article::getInstance($id, $this->_board);
+            $article->cross($board, $outgo);
+
+            $wrapper = Wrapper::getInstance();
+            $this->set('data', $wrapper->article($article, array('content' => true)));
+        }catch(BoardNullException $e){
+            $this->error(ECode::$BOARD_UNKNOW);
+        }catch(ArticleNullException $e){
+            $this->error(ECode::$ARTICLE_NONE);
+        }catch(ArticleCrossException $e){
+            $this->error($e->getMessage());
+        }
+
+        $ret['ajax_code'] = ECode::$ARTICLE_CROSSOK;
+        $this->set('no_html_data', $ret);
     }
 
     public function updateAction(){
