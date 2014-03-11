@@ -16,15 +16,28 @@ class NF_ApiSession extends NF_CoreSession{
         if(false === $this->uid)
             throw new LoginException(ECode::$LOGIN_ERROR);
         $db = DB::getInstance();
-        if($u = $db->one('select utmpnum,utmpkey,expire from pl_api_session where id=?', array($this->uid))){
+        if($u = $db->one('select id,utmpnum,utmpkey,expire from pl_api_session where id=?', array($this->uid))){
+            $this->uid = $u['id'];
             $this->utmpnum = $u['utmpnum'];
             $this->utmpkey = $u['utmpkey'];
             if(parent::init())
                 return true;
         }
 
-        //check pwd in BasicAuth, $pwd is null
-        parent::login($this->uid);
+        try{
+            //check pwd in BasicAuth, $pwd is null
+            parent::login($this->uid);
+        }catch(LoginException $e){
+            sleep(1);
+            if($u = $db->one('select id,utmpnum,utmpkey,expire from pl_api_session where id=?', array($this->uid))){
+                $this->uid = $u['id'];
+                $this->utmpnum = $u['utmpnum'];
+                $this->utmpkey = $u['utmpkey'];
+                if(parent::init())
+                    return true;
+            }
+            throw $e;
+        }
 
         if($u){
             $val = array('utmpnum' => $this->utmpnum, 'utmpkey' => $this->utmpkey, 'expire' => time());
