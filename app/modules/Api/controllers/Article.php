@@ -160,7 +160,7 @@ class ArticleController extends NF_ApiController {
         $noref = (isset($this->params['form']['noref']) && $this->params['form']['noref'] == 1);
         $noatt = (isset($this->params['form']['noatt']) && $this->params['form']['noatt'] == 1);
         $noansi = (isset($this->params['form']['noansi']) && $this->params['form']['noansi'] == 1);
-        $big5 = (isset($this->params['form']['big5']) && isset($this->params['form']['big5']) ==1);
+        $big5 = (isset($this->params['form']['big5']) && $this->params['form']['big5'] == 1);
         try{
             load(array('model/article', 'model/threads'));
             $article = Article::getInstance($id, $this->_board);
