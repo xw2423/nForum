@@ -47,12 +47,12 @@ $export['modules']['vote']['base'] = '/vote';
 $export['modules']['mobile']['base'] = '/m';
 $export['modules']['mobile']['domain'] = '';
 #类型: String
-#描述: Mobile模块的独立域名，不含http://，配置后使用该域名直接访问Mobile模块
+#描述: Mobile模块的独立域名，不含http://，配置后使用该域名直接访问Mobile模块，注意：该域名的web根目录需指向nForum目录
 
 $export['modules']['api']['base'] = '/api';
 $export['modules']['api']['domain'] = '';
 #类型: String
-#描述: Api模块的独立域名，不含http://，配置后使用该域名直接访问Api模块
+#描述: Api模块的独立域名，不含http://，配置后使用该域名直接访问Api模块，注意：该域名的web根目录需指向nForum目录
 
 $export['modules']['api']['page_item_limit'] = 50;
 
