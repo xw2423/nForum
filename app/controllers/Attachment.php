@@ -197,7 +197,7 @@ class AttachmentController extends NF_Controller {
             case UPLOAD_ERR_OK:
                 $tmpFile = $file['tmp_name'];
                 $tmpName = $file['name'];
-                if (!is_uploaded_file($tmpFile))
+                if (!isset($tmp_name) && !is_uploaded_file($tmpFile))
                     $this->error(ECode::$ATT_NONE);
 
                 $size = $file['size'];
