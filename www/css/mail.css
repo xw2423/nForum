@@ -24,6 +24,33 @@
     overflow:hidden;
 }
 .mail-list .m-table tr:hover{cursor:pointer}
+.mail-info{
+    float:right;
+    padding-top:5px;
+    padding-right:20px;
+}
+.mail-info-use,.mail-info-total{
+    display:inline-block;
+    height:16px;
+    line-height:16px;
+}
+.mail-info-bar{
+    display:inline-block;
+    border:1px solid #598EDE;
+    vertical-align:bottom;
+    height:14px;
+    margin:0 6px;
+    width:100px;
+}
+.mail-info-scroll{
+    display:inline-block;
+    height:14px;
+    background-color:#598EDE;
+}
+.mail-info-warning{
+    background-color:red;
+    border-color:red;
+}
 /* mail list end*/
 
 /*friend start*/

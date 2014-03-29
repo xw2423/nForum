@@ -17,6 +17,11 @@
                 <li><a href="<{$base}>/friend"><samp class="ico-pos-dot"></samp>地址薄</a></li>
                 <li><a href="<{$base}>/mail/send"><samp class="ico-pos-dot"></samp>撰写邮件</a></li>
             </ul>
+            <div class="mail-info">
+                <span class="mail-info-use">已使用:<{$space}>KB</span>
+                <span class="mail-info-bar<{if $percent>=100}> mail-info-warning<{/if}>"><span class="mail-info-scroll<{if $percent>=100}> mail-info-warning<{/if}>" style="width:<{$percent}>%"></span></span>
+                <span class="mail-info-total"><{$limit.space}>KB</span>
+            </div>
         </div>
         <div class="b-content">
             <form id="mail_clear" action="<{$base}>/mail/<{$type}>/ajax_delete.json" method="post">

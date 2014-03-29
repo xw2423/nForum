@@ -56,6 +56,13 @@ class MailController extends NF_Controller {
         $this->set("pagination", $pagination);
         $this->set("type", $type);
         $this->set("desc", $mailBox->desc);
+
+        $limit = MailBox::getLimit(User::getInstance());
+        $space = MailBox::getSpace();
+        $this->set("limit", $limit);
+        $this->set("space", $space);
+        $this->set("percent", 100 * ($space > $limit['space']?1:$space/$limit['space']));
+
     }
 
     public function ajax_detailAction(){

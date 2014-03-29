@@ -37,8 +37,24 @@ class MailBox implements Pageable{
         return bbs_mail_get_num($user->userid);
     }
 
+    /**
+     * function getSpace
+     *
+     * @return number of used space(KB)
+     * @access public
+     */
     public static function getSpace(){
         return bbs_getmailusedspace();
+    }
+
+    /**
+     * function getSpace
+     *
+     * @return array('space'=>, 'num'=>)
+     * @access public
+     */
+    public static function getLimit($user){
+        return bbs_mail_get_limit($user->userid);
     }
 
     /**
