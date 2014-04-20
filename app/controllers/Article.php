@@ -703,7 +703,7 @@ class ArticleController extends NF_Controller {
             }catch(ArticleNullException $e){
                 $this->error(ECode::$ARTICLE_NONE);
             }catch(ArticleManageException $e){
-                $this->error($e->getMessage);
+                $this->error($e->getMessage());
             }
         }
         if(isset($this->params['form']['top'])){
@@ -747,7 +747,7 @@ class ArticleController extends NF_Controller {
             }catch(ThreadsNullException $e){
                 $this->error(ECode::$ARTICLE_NONE);
             }catch(ArticleManageException $e){
-                $this->error($e->getMessage);
+                $this->error($e->getMessage());
             }
         }
         $ret['ajax_code'] = ECode::$SYS_AJAXOK;
