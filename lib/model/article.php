@@ -446,7 +446,7 @@ class Article extends Archive{
      */
     public function manage($op, $top = false){
         $code = null;
-        $ret = bbs_bmmanage($this->_board->NAME, $this->ID, $op, $top?1:0);
+        $ret = bbs_bmmanage($this->_board->NAME, $this->_board->getMode() === BOARD::$DELETED?$this->_pos:$this->ID, $op, $top?1:0);
         switch ($ret) {
             case -1:
                 $code = ECode::$BOARD_NONE;

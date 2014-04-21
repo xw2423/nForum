@@ -647,7 +647,7 @@ class ArticleController extends NF_Controller {
     }
 
     /**
-     * op=g|m|;|top|%|x|sharp
+     * op=g|m|;|top|%|x|sharp|ud
      * top=m|um|x|ux|;|u;|d|dx
      */
     public function ajax_manageAction(){
@@ -698,6 +698,9 @@ class ArticleController extends NF_Controller {
                             break;
                         case 'sharp':
                             $a->manage(9);
+                            break;
+                        case 'ud':
+                            $a->manage(6);
                             break;
                     }
                 }

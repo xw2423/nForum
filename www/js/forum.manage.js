@@ -2,6 +2,15 @@ $(function(){
     var tmpl_manage = _.template($('#tmpl_manage').html() || '')
         ,tmpl_deny = _.template($('#tmpl_deny').html() || '');
     $('#body').on('click','.a-func-manage',function(){
+        if($(this).hasClass('a-func-manage-ud')){
+            var url = $(this).attr('href');
+            DIALOG.confirmDialog('确定要恢复此文章?', function(){
+                $.post(url, {op:'ud'}, function(repo){
+                    DIALOG.ajaxDialog(repo);
+                });
+            });
+            return false;
+        }
         var d = DIALOG.formDialog(tmpl_manage({action:$(this).attr('href'), gid:$(this).attr('_gid')}), {
                  buttons:[
                     {text:SYS.code.COM_SUBMIT,click:function(){

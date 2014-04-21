@@ -51,8 +51,12 @@
 <{foreach from=$info item=item}>
                 <tr <{if $item.tag == "T"}>class="top"<{/if}>>
                     <td class="title_8">
-                    <{if $bm || $isAdmin}>
+                    <{if $mode!=5 && ($bm || $isAdmin)}>
+                    <{if $mode==4}>
+                    <a class="a-func-manage a-func-manage-ud" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json?mode=<{$mode}>" title="ª÷∏¥" _gid="<{$item.gid}>">
+                    <{else}>
                     <a class="a-func-manage" href="<{$base}>/article/<{$bName}>/ajax_manage/<{$item.id}>.json" title="π‹¿Ì" _gid="<{$item.gid}>">
+                    <{/if}>
                     <{elseif $mode!=6}>
                     <a href="<{$base}>/article/<{$bName}>/ajax_single/<{$item.id}>.json" class="a-single">
                     <{else}>
