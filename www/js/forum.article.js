@@ -118,7 +118,7 @@ $(function(){
                 $('#a_cross_board').empty().append(_.reduce(list, function(ret, item){
                     ret += '<option value="' + item.name + '">' + item.desc + '(' + item.name + ')</option>';
                     return ret;
-                },''));
+                },'<option value="">«Î—°‘Ò∞Ê√Ê</option>'));
             }, this);
         });
         APP.cacheSection('root', function(list){

@@ -69,24 +69,21 @@ $(function(){
 
         $('#vote_opt').find('input[name="end"]').datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true,minDate:new Date(), dayNamesMin:['日', '一', '二', '三', '四', '五', '六'],monthNames:['一月', '二月', '三月', '四月', '五月', '六月','七月','八月','九月','十月','十一月','十二月']});
 
-        $('#vote_section').change(function(){
+        $('#body').on('change', '#vote_section',function(){
             $(window).focus();
-            var k='sec-' + $(this).val() + 'bo'
-                ,c = SYS.cache(k)
-                ,func = function(list){
-                    $('#vote_board').empty()
-                    .append(_.reduce(list, function(ret, item){
-                        ret += '<option value="' + item.name + '">' + item.desc + '</option>';
-                        return ret;
-                    },'<option value="">请选择版面</option>'));
-            };
-            if(c){func(c);return;}
-            var data = {root:'sec-' + $(this).val(), uid:SESSION.get('id'), bo:1};
-            $.getJSON(SYS.ajax.section_list, data, function(list){
-                SYS.cache(k,list);
-                func(list);
-            });
-        }).change();
+            APP.cacheSection($(this).val(), function(list){
+                $('#vote_board').empty().append(_.reduce(list, function(ret, item){
+                    ret += '<option value="' + item.name + '">' + item.desc + '(' + item.name + ')</option>';
+                    return ret;
+                },'<option value="">请选择版面</option>'));
+            }, this);
+        });
+        APP.cacheSection('root', function(list){
+            $('#vote_section').empty().append(_.reduce(list, function(ret, item){
+                ret += '<option value="' + item.name + '">' + item.name + '区:'+ item.desc + '</option>';
+                return ret;
+            },'')).change();
+        }, this);
     }
     if($('#vote_table').length>0){
         var checkbox = $('#vote_table input:checkbox'),

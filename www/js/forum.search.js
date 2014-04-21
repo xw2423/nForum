@@ -5,9 +5,9 @@ $(function(){
             $('#search_board').empty().append(_.reduce(list, function(ret, item){
                 ret += '<option value="' + item.name + '">' + item.desc + '(' + item.name + ')</option>';
                 return ret;
-            },''));
+            },'<option value="">ÇëÑ¡Ôñ°æÃæ</option>'));
         }, this);
-    }).change();
+    });
     APP.cacheSection('root', function(list){
         $('#search_section').empty().append(_.reduce(list, function(ret, item){
             ret += '<option value="' + item.name + '">' + item.name + 'Çø:'+ item.desc + '</option>';
