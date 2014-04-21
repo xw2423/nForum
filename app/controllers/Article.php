@@ -54,6 +54,7 @@ class ArticleController extends NF_Controller {
         try{
             load('model/threads');
             $gid = $this->params['id'];
+            $this->_board->setMode(Board::$NORMAL);
             $this->_threads = Threads::getInstance($gid, $this->_board);
         }catch(ThreadsNullException $e){
             $this->error(ECode::$ARTICLE_NONE);

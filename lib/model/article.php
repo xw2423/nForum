@@ -441,6 +441,7 @@ class Article extends Archive{
      *     3: digest;
      *     4: noreplay;
      *     5: zhiding;
+     *     6: undel;
      *     7-9: % X #
      */
     public function manage($op, $top = false){
