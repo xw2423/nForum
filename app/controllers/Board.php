@@ -30,7 +30,7 @@ class BoardController extends NF_Controller {
             $mode = (int)trim($this->params['num']);
             if(!$this->_board->setMode($mode))
                 $this->error(ECode::$BOARD_NOPERM);
-        }else if(null !== ($mode = Cookie::getInstance()->read('BMODE'))){
+        }else if('index' !== $this->getRequest()->getActionName() && null !== ($mode = Cookie::getInstance()->read('BMODE'))){
             if(!$this->_board->setMode($mode))
                 $this->error(ECode::$BOARD_NOPERM);
         }
