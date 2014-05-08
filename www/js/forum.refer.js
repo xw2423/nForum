@@ -12,7 +12,7 @@ $(function(){
             $('#refer_form').submit();
         });
     }).on('click', '.refer-clear', function(){
-        DIALOG.confirmDialog("确认要删除全部提醒?",function(){
+        DIALOG.confirmDialog("确认要清空全部提醒?",function(){
             $('#refer_clear').submit();
         });
     }).on('click', '.refer-read', function(){

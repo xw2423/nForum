@@ -28,7 +28,7 @@
                     <div class="t-btn">
                         <input type="checkbox" class="mail-select" />
                         <input type="button" class="button refer-del" value="删除" />
-                        <input type="button" class="button refer-clear" value="全部删除" />
+                        <input type="button" class="button refer-clear" value="清空" />
                         <input type="button" class="button refer-read" value="全部已读" />
                     </div>
                     <div class="page">
@@ -55,7 +55,7 @@
                     <div class="t-btn">
                         <input type="checkbox" class="mail-select" />
                         <input type="button" class="button refer-del" value="删除" />
-                        <input type="button" class="button refer-clear" value="全部删除" />
+                        <input type="button" class="button refer-clear" value="清空" />
                         <input type="button" class="button refer-read" value="全部已读" />
                     </div>
                     <div class="page">

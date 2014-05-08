@@ -33,7 +33,7 @@
                     <div class="t-btn">
                         <input type="checkbox" class="mail-select" />
                         <input type="button" class="button mail-del" value="删除" />
-                        <input type="button" class="button mail-clear" value="全部删除" />
+                        <input type="button" class="button mail-clear" value="清空" />
                     </div>
                     <div class="page">
                         <{include file="pagination.tpl" page_name='邮件总数'}>
@@ -60,7 +60,7 @@
                     <div class="t-btn">
                         <input type="checkbox" class="mail-select" />
                         <input type="button" class="button mail-del" value="删除" />
-                        <input type="button" class="button mail-clear" value="全部删除" />
+                        <input type="button" class="button mail-clear" value="清空" />
                     </div>
                     <div class="page">
                         <{include file="pagination.tpl" page_name='邮件总数'}>

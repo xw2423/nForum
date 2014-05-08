@@ -13,7 +13,7 @@ $(function(){
             $('#mail_form').submit();
         });
     }).on('click', '.mail-clear', function(){
-        DIALOG.confirmDialog("确认要删除全部邮件?",function(){
+        DIALOG.confirmDialog("确认要清空全部邮件?",function(){
             $('#mail_clear').submit();
         });
     }).on('click', '.title_3', function(){
