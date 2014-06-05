@@ -29,7 +29,7 @@ class RssController extends NF_Controller {
             $this->header("Content-Disposition: inline;filename=board-{$brd->NAME}.xml");
             $this->_cache_read('board-' . $brd->NAME, $mTime);
             $channel = $items = array();
-            $channel['title'] = $brd->DESC;
+            $channel['title'] = $this->_siteName . $brd->DESC;
             $channel['description'] = $this->_siteName . " " . $brd->DESC . " 版面主题索引";
             $channel['link'] = $this->_domain . $this->base . '/board/' . $brd->NAME;
             $channel['language'] = "zh-cn";
@@ -74,7 +74,7 @@ class RssController extends NF_Controller {
         $this->header("Content-Disposition: inline;filename=topten.xml");
         $this->_cache_read('topten', $mTime);
         $channel = $items = array();
-        $channel['title'] = "十大热门话题";
+        $channel['title'] = $this->_siteName . "十大热门话题";
         $channel['description'] = $this->_siteName . " 十大热门话题";
         $channel['link'] = $this->_domain . $this->base;
         $channel['language'] = "zh-cn";
