@@ -22,6 +22,10 @@ class NF_Json{
             for(;$i < $l;){
                 if(ord($var[$i]) > 0x81){
                     if($i === $l - 1) break;
+                    if(ord($var[$i+1]) < 0x40){
+                        $i++;
+                        continue;
+                    }
                     $o .= $var[$i] . $var[$i+1];
                     $i += 2;
                 }else if($var[$i] === "\\" &&(
