@@ -815,7 +815,7 @@ $.fn.extend({
                 u = new UserModel({id:uid});
                 u.bind('change', function(user){
                     if(user.ajaxOK())
-                        SYS.cache('user_' + user.get('id'), u);
+                        SYS.cache('user_' + user.get('id'), user);
                     if(typeof cb === 'function') cb.call(caller || this, user);
                     delete user;
                 }, this).fetch();
@@ -860,15 +860,15 @@ $.fn.extend({
                 if(!user.ajaxOK()){
                     DIALOG.ajaxDialog(user.toJSON());
                 }else{
-                    var t = new Date();
-                    t.setTime(user.get('first_login_time') * 1000);
-                    user.set({first_login_time:t.toLocaleString()},{silent:true});
-                    t.setTime(user.get('last_login_time') * 1000);
-                    user.set({last_login_time:t.toLocaleString()},{silent:true});
                     var dd = user.toJSON();
                     dd.session_login = SESSION.get('is_login');
                     dd.session_id = SESSION.get('id');
                     dd.session_is_admin = SESSION.get('is_admin');
+                    var t = new Date();
+                    t.setTime(user.get('first_login_time') * 1000);
+                    dd.first_login_time = t.toLocaleString();
+                    t.setTime(user.get('last_login_time') * 1000);
+                    dd.last_login_time = t.toLocaleString();
                     DIALOG.updateTop(this.tmpl_user(dd));
                 }
             }, this);
