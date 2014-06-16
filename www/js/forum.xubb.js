@@ -15,7 +15,7 @@ window.nForumMap = {
             disableDoubleClickZoom:true
         };
         $('.map-map').each(function(){
-            var bound,marker; 
+            var bound,marker;
             try{
                 bound = eval('(['+$(this).attr('_bound').replace(/{/g,'[').replace(/}/g,']')+'])');
                 marker = eval('(['+$(this).attr('_mark').replace(/{/g,'[').replace(/}/g,']')+'])');
@@ -171,14 +171,14 @@ window.nForumMap = {
                 }else{
                     range.text = t;
                     this.get(0).focus();
-                    range.collapse();    
+                    range.collapse();
                 }
             }else{
                 var s = this.get(0).selectionStart,
                 e = this.get(0).selectionEnd,
                 val = this.get(0).value;
                 this.get(0).value = val.substring(0,s) + t + val.substring(e);
-            }  
+            }
             this.focus();
         };
         if(config.enable){
@@ -215,7 +215,7 @@ window.nForumMap = {
                 }
                 ret += '<br /><div class="ubb-icon">';
                 for(var i in config.ubb_img){
-                    ret += ('<img id="' + config.ubb_img[i].id + '" src="' + config.ubb_img_path + config.ubb_img[i].src + '" alt="' + config.ubb_img[i].alt + '" title="' + config.ubb_img[i].alt + '"border="0">');        
+                    ret += ('<img id="' + config.ubb_img[i].id + '" src="' + config.ubb_img_path + config.ubb_img[i].src + '" alt="' + config.ubb_img[i].alt + '" title="' + config.ubb_img[i].alt + '"border="0">');
                 }
                 return ret + '</div>';
             })());
@@ -324,10 +324,10 @@ window.nForumMap = {
         }
 
         if(config.ubb_em && config.ubb_em instanceof jQuery){
-            var em = config.ubb_em, 
+            var em = config.ubb_em,
             file = config.ubb_em_img,
-            tab = $('<div class="ubb-img-tab"></div>'),    
-            img = $('<div class="ubb-img"></div>'),    
+            tab = $('<div class="ubb-img-tab"></div>'),
+            img = $('<div class="ubb-img"></div>'),
             li = '';
             for(var i in file){
                 li += ('<li _index="' + i + '" _cur="0" ><div>' + file[i].name + '</div></li>');
@@ -356,6 +356,7 @@ window.nForumMap = {
                 $(this).attr('_cur', "1").find('div').addClass('selected');
                 _img_update($(this).attr('_index'));
             }).on("click", 'img', function(){
+                if(($.isIE(7) || $.isIE(8)) && textarea.get(0).value == textarea.attr('placeholder')) textarea.get(0).value = '';
                 textarea._makeUBB('[' + file[tab.find('li[_cur="1"]').attr('_index')].path + $(this).attr('_val') + ']', false)
             });
             //tab.find('li').eq(0).click();
