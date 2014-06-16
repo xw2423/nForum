@@ -17,6 +17,22 @@
                 <td><textarea name="q[<{$k+1}>]" style="width:90%"></textarea></td>
             </tr>
 <{/foreach}>
+<{if ($isAtt)}>
+            <tr>
+                <td colspan="2">
+                    <table class="m-table">
+                        <tr>
+                            <th width="60px">文件上传</th>
+                            <td>
+                                <div style="width:692px;margin:6px auto 6px">
+<{include file="attachment/upload.tpl"}>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+<{/if}>
             <tr class="tmpl-op">
                 <td colspan="2">
                 <input type="submit" class="button" value="提交发文" />

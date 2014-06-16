@@ -545,6 +545,13 @@ class ArticleController extends NF_Controller {
             $this->set("num", $t->NUM);
             $this->set("tmplTitle", nforum_html($t->TITLE));
             $this->set("title", $t->TITLE_TMPL);
+
+            $this->js[] = "forum.upload.js";
+            $this->set("isAtt", $this->_board->isAttach());
+            $upload = c("article");
+            $this->set("maxNum", $upload['att_num']);
+            $this->set("maxSize", $upload['att_size']);
+
             $this->render("tmpl_que");
         }else{
             //template list

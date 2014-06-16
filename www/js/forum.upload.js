@@ -2,7 +2,7 @@ $(function(){
     if($('#upload').length <= 0)
         return false;
 
-    var url = BODY.get('path').match(/[^\/]*(\/[^\/]*)(\/[^\/]*)(\/?[^\/?]*)/), bName = url[1] || '', id = url[2] === '/post'?'':(url[3] || '')
+    var url = BODY.get('path').match(/[^\/]*(\/[^\/]*)(\/[^\/]*)(\/?[^\/?]*)/), bName = url[1] || '', id = (url[2] === '/post' || url[2] === '/tmpl')?'':(url[3] || '')
     ,maxNum = parseInt($('#upload .upload-max-num').html())
     ,maxSize = parseInt($('#upload .upload-max-size').html())
     ,sessionid = $('#sessionid').val()?('?sid=' + $('#sessionid').val()):'';
