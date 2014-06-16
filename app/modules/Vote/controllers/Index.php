@@ -28,6 +28,9 @@ class IndexController extends NF_Controller {
         $this->css[] = "vote.css";
         $this->js[] = "vote.js";
         $this->cache(false);
+
+        Forum::setUserMode(BBS_MODE_VOTING);
+
         @$category = $this->params['url']['c'];
         $u = User::getInstance();
         $time = time();
@@ -227,6 +230,9 @@ class IndexController extends NF_Controller {
         $this->js[] = "vote.js";
         $this->notice[] = array("url" => "", "text" => "查看投票");
         $this->cache(false);
+
+        Forum::setUserMode(BBS_MODE_VOTING);
+
         if(!isset($this->params['vid']))
             $this->error("未知的投票");
         $vid = intval($this->params['vid']);

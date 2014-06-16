@@ -36,6 +36,8 @@ class ForumController extends NF_Controller {
         $this->css[] = "xwidget.css";
         $this->notice = array(array("url"=>c("site.notice.url"), "text"=>c("site.notice.text")));
 
+        Forum::setUserMode(BBS_MODE_WEBEXPLORE);
+
         load('model/widget');
         $u = User::getInstance();
         $ret = $w = array();
@@ -136,6 +138,8 @@ class ForumController extends NF_Controller {
         $this->requestLogin();
         $this->css[] = "mail.css";
         $this->notice[] = array("url"=>"/forum/online", "text"=>"在线用户");
+
+        Forum::setUserMode(BBS_MODE_LUSERS);
 
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
         try{

@@ -13,6 +13,8 @@ class SectionController extends NF_Controller {
         $this->js[] = "forum.board.js";
         $this->css[] = "board.css";
 
+        Forum::setUserMode(BBS_MODE_SELECT);
+
         if(!isset($this->params['num'])){
             $this->error(ECode::$SEC_NOSECTION);
         }

@@ -154,5 +154,9 @@ class Forum {
         }
         return false;
     }
+
+    public static function setUserMode($mode){
+        bbs_session_modify_user_mode($mode);
+    }
 }
 class AttException extends Exception{}

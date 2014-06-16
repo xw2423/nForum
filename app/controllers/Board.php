@@ -215,6 +215,9 @@ class BoardController extends NF_Controller {
         $this->requestLogin();
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"ͶƱ");
+
+        Forum::setUserMode(BBS_MODE_VOTING);
+
         if(isset($this->params['num'])){
             $num = (int) $this->params['num'];
             $vote = $this->_board->getVote($num);

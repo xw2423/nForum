@@ -17,6 +17,8 @@ class MailController extends NF_Controller {
         $this->js[] = "forum.mail.js";
         $this->css[] = "mail.css";
 
+        Forum::setUserMode(BBS_MODE_MAIL);
+
         $type = MailBox::$IN;
         $pageBar = "";
         if(isset($this->params['type'])){
@@ -66,6 +68,8 @@ class MailController extends NF_Controller {
     }
 
     public function ajax_detailAction(){
+        Forum::setUserMode(BBS_MODE_RMAIL);
+
         if(!isset($this->params['type']))
             $this->error(ECode::$MAIL_NOBOX);
         if(!isset($this->params['num']))
@@ -99,6 +103,8 @@ class MailController extends NF_Controller {
         $this->js[] = "forum.post.js";
         $this->css[] = "post.css";
         $this->notice[] = array("url"=>"/mail/send", "text"=>"×«Ð´ÓÊ¼þ");
+
+        Forum::setUserMode(BBS_MODE_SMAIL);
 
         $u = User::getInstance();
         $title = $content = "";
@@ -143,6 +149,9 @@ class MailController extends NF_Controller {
         $this->js[] = "forum.post.js";
         $this->css[] = "post.css";
         $this->notice[] = array("url"=>"/mail/send", "text"=>"»Ø¸´ÓÊ¼þ");
+
+        Forum::setUserMode(BBS_MODE_SMAIL);
+
         $u = User::getInstance();
         if(false === $mail){
             //reply article

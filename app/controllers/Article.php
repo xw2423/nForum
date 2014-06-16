@@ -49,6 +49,8 @@ class ArticleController extends NF_Controller {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"阅读文章");
 
+        Forum::setUserMode(BBS_MODE_READING);
+
         if(!isset($this->params['id']) || $this->params['id'] == '0')
             $this->error(ECode::$ARTICLE_NONE);
         try{
@@ -253,6 +255,8 @@ class ArticleController extends NF_Controller {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"发表文章");
 
+        Forum::setUserMode(BBS_MODE_POSTING);
+
         $reTitle = $reContent = "";
         if(false !== $article){
             $reContent = "\n".$article->getRef();
@@ -386,6 +390,8 @@ class ArticleController extends NF_Controller {
         $this->css[] = "post.css";
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"编辑文章");
+
+        Forum::setUserMode(BBS_MODE_EDIT);
 
         $article = Article::getInstance($id, $this->_board);
         $title = nforum_html($article->TITLE);
@@ -522,6 +528,8 @@ class ArticleController extends NF_Controller {
         $this->_getNotice();
         $this->notice[] = array("url"=>"", "text"=>"模版发文");
 
+        Forum::setUserMode(BBS_MODE_POSTTMPL);
+
         if(isset($this->params['url']['tmplid'])){
             //template question
             $id = trim($this->params['url']['tmplid']);
@@ -622,6 +630,8 @@ class ArticleController extends NF_Controller {
     }
 
     public function ajax_singleAction(){
+        Forum::setUserMode(BBS_MODE_READING);
+
         if(!isset($this->params['id']))
             $this->error(ECode::$ARTICLE_NONE);
         $id = $this->params['id'];

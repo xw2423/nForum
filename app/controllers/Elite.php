@@ -12,6 +12,7 @@ class EliteController extends NF_Controller {
         $this->js[] = "forum.elite.js";
         $this->css[] = "board.css";
 
+        Forum::setUserMode(BBS_MODE_CSIE_ANNOUNCE);
         $path = $boardName = $path_tmp = "";
         $articles = array();
         if(isset($this->params['url']['v']))

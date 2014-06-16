@@ -38,6 +38,8 @@ class FriendController extends NF_Controller {
     public function onlineAction(){
         $this->css[] = "mail.css";
 
+        Forum::setUserMode(BBS_MODE_FRIEND);
+
         $u = User::getInstance();
         $online = $u->getOnlineFriends();
         if(count($online) > 0){

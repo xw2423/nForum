@@ -123,6 +123,8 @@ class UserController extends NF_Controller {
         $this->css[] = "control.css";
         $this->js[] = "forum.control.js";
 
+        Forum::setUserMode(BBS_MODE_EDITUFILE);
+
         $u = User::getInstance();
         $ret = array(
             "gender" => ($u->gender == 77)?1:2,
@@ -215,6 +217,8 @@ class UserController extends NF_Controller {
         $this->css[] = "control.css";
         $this->js[] = "forum.control.js";
         $this->notice[] = array("url"=>"/user/custom", "text"=>"用户自定义参数");
+
+        Forum::setUserMode(BBS_MODE_USERDEF);
 
         $u = User::getInstance();
         $list = c("user.custom");
