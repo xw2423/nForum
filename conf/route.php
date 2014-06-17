@@ -22,6 +22,7 @@ $export[] = array('/authimg', array('controller' => 'reg', 'action' => 'authimg'
 $export[] = array('/widget/set', array('controller' => 'widget', 'action' => 'ajax_set'));
 $export[] = array('/widget/add', array('controller' => 'widget', 'action' => 'add'));
 $export[] = array('/widget/list', array('controller' => 'widget', 'action' => 'ajax_list'));
+$export[] = array('/widget/reset', array('controller' => 'widget', 'action' => 'ajax_reset'));
 $export[] = array('/widget/:name', array('controller' => 'widget', 'action' => 'ajax_widget'));
 $export[] = array('/rss/topten', array('controller' => 'rss', 'action' => 'topten'));
 $export[] = array('/rss/:board', array('controller' => 'rss', 'action' => 'board'), array('board' => 'board-\w+'));

@@ -23,7 +23,8 @@ var WidgetAppView = Backbone.View.extend({
     el:'#body',
     events: {
        'click .tab-normal' : 'click_tab',
-       'click #widget_add .submit' : 'click_submit'
+       'click #widget_add .submit' : 'click_submit',
+       'click .widget-reset' : 'click_reset'
     },
     initialize: function() {
         var self = this;
@@ -61,12 +62,20 @@ var WidgetAppView = Backbone.View.extend({
             ]}
         );
     },
+    click_reset:function(e){
+        DIALOG.confirmDialog('你确定要恢复到默认的个性化首页设置吗?', function(){
+            $.post($(e.target).attr('href'), function(json){
+                DIALOG.ajaxDialog(json);
+            }, 'json');
+        });
+        return false;
+    },
     onWidgetUpdate:function(){
         var self = this,
         html = this.model.reduce(function(html,widget){
             html += self.tmpl_app(widget.toJSON());
             return html;
-        },''); 
+        },'');
         this.$('#widget_add').empty().append(html);
     }
 });

@@ -82,6 +82,7 @@ class Widget {
      * @access public
      */
     public static function wInit($user){
+        $user->setCustom(array('userdefine1' => array(array('pos' => 31, 'val' => 1))));
         try{
             $uid = $user->userid;
             $db = DB::getInstance();
@@ -333,6 +334,11 @@ class Widget {
         }catch(DBException $e){
             throw new WidgetOpException("set error");
         }
+    }
+
+    public static function clear($user){
+        $db = DB::getInstance();
+        $db->delete(self::$table, 'where uid=?', array($user->userid));
     }
 
     public static function w3to2($user){

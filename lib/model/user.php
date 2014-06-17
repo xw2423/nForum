@@ -402,7 +402,7 @@ class User extends OverloadObject{
     /**
      * function setCustom set user custom via $val
      * the structure of $val is
-     * array($k => array("pos"=>int, "val"=>))
+     * array($k => array(array("pos"=>int, "val"=>)))
      * the $k must in $this->_customList
      *
      * @param array $val
@@ -411,14 +411,14 @@ class User extends OverloadObject{
      */
     public function setCustom($val){
         foreach($this->_customList as $p){
-            if(!isset($val[$p]))
-                return false;
             $prop = $this->{$p};
-            foreach($val[$p] as $v){
-                if($v['val'] == 1)
-                    $prop |= (1 << $v['pos']);
-                else
-                    $prop &= ~(1 << $v['pos']);
+            if(isset($val[$p])){
+                foreach($val[$p] as $v){
+                    if($v['val'] == 1)
+                        $prop |= (1 << $v['pos']);
+                    else
+                        $prop &= ~(1 << $v['pos']);
+                }
             }
             $$p = $prop;
         }

@@ -318,4 +318,11 @@ class WidgetController extends NF_Controller {
         //no ajax status info
         $this->set('no_ajax_info', true);
     }
+
+    public function ajax_resetAction(){
+        if(!$this->getRequest()->isPost())
+            $this->error(ECode::$SYS_REQUESTERROR);
+        $this->requestLogin();
+        Widget::clear(User::getInstance());
+    }
 }

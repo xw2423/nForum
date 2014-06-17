@@ -4,6 +4,7 @@
                 <li <{if $type=="board"}>class="selected"<{/if}>><a href="<{$base}>/widget/add?t=board">版面</a></li>
                 <li <{if $type=="favor"}>class="selected"<{/if}>><a href="<{$base}>/widget/add?t=favor">收藏夹</a></li>
                 <li <{if $type=="ext"}>class="selected"<{/if}>><a href="<{$base}>/widget/add?t=ext">其他应用</a></li>
+                <li><a href="<{$base}>/widget/reset.json" class="widget-reset">恢复默认值</a></li>
             </ul>
         </div>
         <div class="b-content corner">
