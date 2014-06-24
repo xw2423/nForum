@@ -84,14 +84,11 @@ $(function(){
         }).on('change.nforum', 'select', function(){
             $(this).prev().val($(this).val());
         });
-        APP.cacheFriends(function(json){
-            if(!_.isArray(json)) return;
-            d.find('#a_forward_list').append(
-                _.reduce(json,function(ret,item){
-                    ret += ('<option value="' + item + '">' + item + '</option>');
-                    return ret;
-                },'')
-            );
+        APP.cacheFriends(function(list){
+            d.find('#a_forward_list').empty().append(_.reduce(list,function(ret,item){
+                ret += ('<option value="' + item + '">' + item + '</option>');
+                return ret;
+            },'<option value="">—°‘Ò∫√”—</option>'));
         });
         return false;
     });

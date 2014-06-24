@@ -4,7 +4,6 @@
     <li>
         <span>Ñ¡Ôñ·ÖÇø:</span>
         <select id="a_cross_section">
-        <{html_options options=$sec selected=$selected }>
         </select>
     </li>
     <li>
