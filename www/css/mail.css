@@ -54,9 +54,9 @@
 /* mail list end*/
 
 /*friend start*/
-.t-btn .friend-select{padding-top:0;padding-bottom:0}
-#friend_add{padding:4px 12px;border-bottom:1px solid #c9d7f1;}
-#friend_add input{margin-left:5px}
+.t-btn .user-select{padding-top:0;padding-bottom:0}
+.f-user-add{padding:4px 12px;border-bottom:1px solid #c9d7f1;}
+.f-user-add input{margin-left:5px}
 /*friend end*/
 
 /*online*/

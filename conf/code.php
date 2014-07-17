@@ -226,6 +226,16 @@ $code['1404'] = "请输入封禁理由";
 $code['1405'] = "不能封禁在版面无发表权限的用户";
 //DENY_NOID
 $code['1406'] = "请输入欲封禁的ID";
+//BLACKLSIT_MAX
+$code['1501'] = "黑名单人数达到上限";
+//BLACKLSIT_ERROR
+$code['1502'] = "添加黑名单发生错误";
+//BLACKLSIT_NOEXIST
+$code['1503'] = "黑名单中不存在该用户";
+//BLACKLSIT_ADDOK
+$code['1504'] = "用户成功添加至黑名单";
+//BLACKLSIT_DELETEOK
+$code['1505'] = "用户成功从黑名单中删除";
 //XW_JOKE
 $code['9999'] = "WHAT DO YOU WANT TO DO?!";
 

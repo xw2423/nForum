@@ -9,16 +9,16 @@
         </div>
         <div class="c-mbar">
             <ul>
-                <li><a href="<{$base}>/friend" class="select"><samp class="ico-pos-dot"></samp>我的好友</a></li>
+                <li><a href="<{$base}>/friend"><samp class="ico-pos-dot"></samp>我的好友</a></li>
                 <li><a href="<{$base}>/friend/online"><samp class="ico-pos-dot"></samp>在线好友</a></li>
                 <li><a href="<{$base}>/forum/online"><samp class="ico-pos-dot"></samp>在线用户</a></li>
-                <li><a href="<{$base}>/blacklist"><samp class="ico-pos-dot"></samp>黑名单</a></li>
+                <li><a href="<{$base}>/blacklist" class="select"><samp class="ico-pos-dot"></samp>黑名单</a></li>
             </ul>
         </div>
         <div class="b-content">
             <div>
-                <form method="get" action="<{$base}>/friend/ajax_add.json" class="f-user-add">
-                    添加好友:<input type="text" class="input-text" name="id" value="" />
+                <form method="get" action="<{$base}>/blacklist/ajax_add.json" id="bl_add" class="f-user-add">
+                    添加黑名单用户:<input type="text" class="input-text" name="id" value="" />
                     <input type="submit" class="button" value="添加" />
                 </form>
                 <div class="t-pre">
@@ -27,23 +27,22 @@
                         <input type="button" class="button user-del" value="删除" />
                     </div>
                     <div class="page">
-                        <{include file="pagination.tpl" page_name='好友总数'}>
+                        <{include file="pagination.tpl" page_name='用户总数'}>
                     </div>
                 </div>
-            <form class="f-user-delete" action="<{$base}>/friend/ajax_delete.json" method="post">
+            <form action="<{$base}>/blacklist/ajax_delete.json" method="post" class="f-user-delete">
                 <table class="m-table">
-<{if isset($friends)}>
-<{foreach from=$friends item=item}>
+<{if isset($blacklist)}>
+<{foreach from=$blacklist item=item}>
                     <tr>
-                        <td class="title_1"><input type="checkbox" name="f_<{$item.fid}>" class="user-item"/></td>
-                        <td class="title_2"><a href="<{$base}>/user/query/<{$item.fid}>"><{$item.fid}></a></td>
-                        <td class="title_3"><{$item.desc|default:"&nbsp;"}></td>
-                        <td class="title_6"><a href="<{$base}>/mail/send?id=<{$item.fid}>">发信问候</a></td>
+                        <td class="title_1"><input type="checkbox" name="f_<{$item.bid}>" class="user-item"/></td>
+                        <td class="title_2"><a href="<{$base}>/user/query/<{$item.bid}>"><{$item.bid}></a></td>
+                        <td>&nbsp;</td>
                     </tr>
 <{/foreach}>
 <{else}>
                     <tr>
-                        <td colspan="4" style="text-align:center">您没有任何好友</td>
+                        <td colspan="3" style="text-align:center">没有任何用户</td>
                     </tr>
 <{/if}>
                 </table>

@@ -117,7 +117,12 @@ class ECode {
     public static $DENY_INVALIDDAY =     '1403';
     public static $DENY_NOREASON =       '1404';
     public static $DENY_CANTPOST =       '1405';
-    public static $DENY_NOID  =          '1406';
+    public static $DENY_NOID =           '1406';
+    public static $BLACKLIST_MAX =       '1501';
+    public static $BLACKLIST_ERROR =     '1502';
+    public static $BLACKLIST_NOEXIST =   '1503';
+    public static $BLACKLIST_ADDOK =     '1504';
+    public static $BLACKLIST_DELETEOK =  '1505';
 
     //no use just remember some time
     public static $XW_JOKE =             '9999';

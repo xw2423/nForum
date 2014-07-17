@@ -1,5 +1,5 @@
 $(function(){
-    $('#friend_add').submit(function(){
+    $('.f-user-add').submit(function(){
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
                 SYS.clear('friends');
@@ -7,7 +7,7 @@ $(function(){
             },'json');
         return false;
     });
-    $('#friend_form').submit(function(){
+    $('.f-user-delete').submit(function(){
         $.post($(this).attr('action'), $(this).getPostData(),
             function(json){
                 SYS.clear('friends');
@@ -15,17 +15,17 @@ $(function(){
             }, 'json');
         return false;
     });
-    $('#body').on('click', '.friend-select', function(){
+    $('#body').on('click', '.user-select', function(){
         var val = ($(this).attr("checked") == 'checked');
-        $(".friend-select").attr("checked", val);
-        $(".friend-item").attr("checked", val);
-    }).on('click', '.friend-del', function(){
-        if($(".friend-item:checked").length <= 0){
-            DIALOG.alertDialog("请先选择要删除的好友!");
+        $(".user-select").attr("checked", val);
+        $(".user-item").attr("checked", val);
+    }).on('click', '.user-del', function(){
+        if($(".user-item:checked").length <= 0){
+            DIALOG.alertDialog("请先选择要删除的用户!");
             return false;
         }
-        DIALOG.confirmDialog("确认要删除这些好友?",function(){
-            $('#friend_form').submit();
+        DIALOG.confirmDialog("确认要删除这些用户?",function(){
+            $('.f-user-delete').submit();
         });
     });
 });
