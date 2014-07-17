@@ -75,26 +75,11 @@
  *         ["utmpkey"]=> int(2995880)
  *         ["realname"]=> string(0) ""
  * end if
- * if the user is get from getOnlineFriend or online user
- *         ["invisible"]=> bool(false)
- *         ["pid"]=> int(1)
- *         ["isfriend"]=> bool(true)
- *         ["idle"]=> int(0)
- *         ["userid"]=> string(6) "xw2423"
- *         ["username"]=> string(25) "<script>alert(1)</script>"
- *         ["userfrom"]=> string(14) "118.229.170.10"
- *         ["mode"]=> string(7) "Webä¯ÀÀ"
- * end if
- * if the user is friend
- *         ["exp"]=> string(7)
- * end if
  * }
- * @see
+ *
  * @see bbs_getcurrentuser in phpbbs_user.c
  * @see bbs_getcurrentuinfo in phpbbs_user.c
  * @see bbs_getuser in phpbbs_user.c
- * @see bbs_getonlinefriends in phpbbs_friend.c
- * @see bbs_getfriends in phpbbs_friend.c
  * @author xw
  */
 load(array('model/overload'));
@@ -423,55 +408,6 @@ class User extends OverloadObject{
             $$p = $prop;
         }
         bbs_setuserparam(${$this->_customList[0]},${$this->_customList[1]},${$this->_customList[2]});
-    }
-
-    public function getFriendNum(){
-        if(is_null($this->_friendNum))
-            $this->_friendNum = bbs_countfriends($this->userid);
-        return $this->_friendNum;
-    }
-
-    /**
-     * function getFriends get my friends
-     * bbs_getfriends return array(ID,EXP)
-     *
-     * @param int $start
-     * @param int $num
-     * @return array the element is User
-     * @access public
-     */
-    public function getFriends($start = 0, $num = null){
-        $friends = array();
-        $num = is_null($num)?$this->getFriendNum():$num;
-        $res = bbs_getfriends($this->userid, $start, $num);
-        foreach((array)$res as $v){
-            $info = array();
-            if(bbs_getuser($v['ID'], $info) != 0)
-                $friends[] = new User($info,array("exp"=>$v['EXP']));
-        }
-        return $friends;
-    }
-
-    /**
-     * function getOnlineFriends get my online friends
-     * online friends has more info
-     *
-     * @return array the element is User
-     * @access public
-     */
-    public function getOnlineFriends(){
-        $friends = array();
-        $ret = bbs_getonlinefriends();
-        if($ret == 0)
-            return array();
-        foreach($ret as $v){
-            $info = array();
-            if(bbs_getuser($v['userid'], $info) == 0){
-                throw new UserNullException();
-            }
-            $friends[] = new User($info, $v);
-        }
-        return $friends;
     }
 
     /**

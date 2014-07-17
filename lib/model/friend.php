@@ -9,9 +9,8 @@ load('inc/pagination');
  */
 class Friend implements Pageable{
 
-    private static $_users = array();
     private $_user = null;
-    private $_num = 0;
+    private $_num = null;
 
     /**
      * function __construct get a Friend object via $u
@@ -27,7 +26,6 @@ class Friend implements Pageable{
             throw new FriendNullException();
         }
         $this->_user = $u;
-        $this->_num = $u->getFriendNum();
     }
 
     public static function add($id){
@@ -65,19 +63,43 @@ class Friend implements Pageable{
         return true;
     }
 
-    public function getTotalNum(){
-        return $this->_num;
-    }
-
-    public function getRecord($start, $num){
-        $ret = $this->_user->getFriends($start - 1, $num);
-        if(!$ret)
+    /**
+     * function getOnlineFriends get my online friends
+     *
+     * @return array the element is array(
+     *    ["invisible"]=> bool(false)
+     *    ["pid"]=> int(1)
+     *    ["isfriend"]=> bool(true)
+     *    ["idle"]=> int(0)
+     *    ["userid"]=> string(6) "xw2423"
+     *    ["username"]=> string(25) "<script>alert(1)</script>"
+     *    ["userfrom"]=> string(14) "118.229.170.10"
+     *    ["mode"]=> string(7) "Webä¯ÀÀ"
+     * )
+     * @access public
+     */
+    public static function getOnlineFriends(){
+        $friends = array();
+        $ret = bbs_getonlinefriends();
+        if($ret == 0)
             return array();
         return $ret;
     }
 
-    private function _isAll(){
-        return is_null($this->_user);
+    public function getTotalNum(){
+        if(null === $this->_num)
+            $this->_num = bbs_countfriends($this->_user->userid);
+        return $this->_num;
+    }
+
+    /**
+     * return array(array(ID,EXP)...)
+     */
+    public function getRecord($start, $num){
+        $ret = bbs_getfriends($this->_user->userid, $start - 1, $num);
+        if(!$ret)
+            return array();
+        return $ret;
     }
 }
 class FriendNullException extends Exception{}

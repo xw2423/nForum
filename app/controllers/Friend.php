@@ -11,6 +11,9 @@ class FriendController extends NF_Controller {
     public function indexAction(){
         $this->js[] = "forum.friend.js";
         $this->css[] = "mail.css";
+
+        Forum::setUserMode(BBS_MODE_FRIEND);
+
         $p = isset($this->params['url']['p'])?$this->params['url']['p']:1;
         try{
             $f = new Friend(User::getInstance());
@@ -24,8 +27,8 @@ class FriendController extends NF_Controller {
             $info = array();
             foreach($friends as $v){
                 $info[] = array(
-                    "fid" => $v->userid,
-                    "desc" => $v->exp
+                    "fid" => $v['ID'],
+                    "desc" => $v['EXP']
                 );
             }
             $this->set("friends", $info);
@@ -41,14 +44,14 @@ class FriendController extends NF_Controller {
         Forum::setUserMode(BBS_MODE_FRIEND);
 
         $u = User::getInstance();
-        $online = $u->getOnlineFriends();
+        $online = Friend::getOnlineFriends();
         if(count($online) > 0){
             foreach($online as $v){
                 $info[] = array(
-                    "fid" => $v->userid,
-                    "from" => $v->userfrom,
-                    "mode" => $v->mode,
-                    "idle" => sprintf('%02d:%02d',intval($v->idle/60), ($v->idle%60))
+                    "fid" => $v['userid'],
+                    "from" => $v['userfrom'],
+                    "mode" => $v['mode'],
+                    "idle" => sprintf('%02d:%02d',intval($v['idle']/60), ($v['idle']%60))
                 );
             }
             $this->set("friends", $info);
@@ -60,7 +63,7 @@ class FriendController extends NF_Controller {
         $friends = $f->getRecord(1, $f->getTotalNum());
         $ret = array();
         foreach($friends as $v){
-            $ret[] = $v->userid;
+            $ret[] = $v['ID'];
         }
         $this->set('no_html_data', $ret);
         $this->set('no_ajax_info', true);

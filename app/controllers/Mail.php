@@ -123,7 +123,7 @@ class MailController extends NF_Controller {
             $friends = $f->getRecord(1, $f->getTotalNum());
             $ret = array();
             foreach($friends as $v){
-                $ret[$v->userid] = $v->userid;
+                $ret[$v['ID']] = $v['ID'];
             }
             $this->set("friends", $ret);
         }
