@@ -52,7 +52,7 @@
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/info" ><samp class="ico-pos-dot"></samp>基本资料修改</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/passwd" ><samp class="ico-pos-dot"></samp>昵称密码修改</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/user/custom" ><samp class="ico-pos-dot"></samp>用户自定义参数</a></span></li>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友列表</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友/黑名单</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏夹管理</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/forum/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <{/if}>

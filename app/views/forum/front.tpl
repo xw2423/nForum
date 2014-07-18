@@ -127,7 +127,7 @@ if(!location.hash.match(/^#.+$/)) location.href='index';
 <{if $refer}>
                     <li class="leaf"><span class="text"><a href="<{$base}>/refer" ><samp class="ico-pos-dot"></samp>文章提醒</a></span></li>
 <{/if}>
-                    <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友列表</a></span></li>
+                    <li class="leaf"><span class="text"><a href="<{$base}>/friend" ><samp class="ico-pos-dot"></samp>好友/黑名单</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/fav" ><samp class="ico-pos-dot"></samp>收藏版面</a></span></li>
                     <li class="leaf"><span class="text"><a href="<{$base}>/forum/online" ><samp class="ico-pos-dot"></samp>在线用户</a></span></li>
             <%}%>
