@@ -123,6 +123,10 @@ class Wrapper {
             $ret['post_threads_count'] = $board->getTypeNum();
             $ret['post_all_count'] = $board->getTypeNum(Board::$NORMAL);
             $ret['user_online_count'] = $board->CURRENTUSERS;
+            if(isset($board->MAXONLINE)){
+                $ret['user_online_max_count'] = $board->MAXONLINE;
+                $ret['user_online_max_time'] = $board->MAXTIME;
+            }
             $ret['is_read_only'] = $board->isReadOnly();
             $ret['is_no_reply'] = $board->isNoReply();
             $ret['allow_attachment'] = $board->isAttach();
