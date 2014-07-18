@@ -18,4 +18,5 @@ $export[] = array($base . '/search/:action', array('controller' => 'search', 'mo
 $export[] = array($base . '/favorite/:action/:num', array('controller' => 'favorite', 'module' => 'api', 'action' => null), array('num' => '\d+'));
 $export[] = array($base . '/refer/:type/:action/:index', array('controller' => 'refer', 'module' => 'api', 'action' => null, 'index' => null), array('index' => '\d+'));
 $export[] = array($base . '/vote/:action/:id', array('controller' => 'vote', 'module' => 'api', 'action' => null), array('id' => '\w+'));
+$export[] = array($base . '/blacklist/:action', array('controller' => 'blacklist', 'module' => 'api', 'action' => null));
 $export[] = array($base . '/*', array('controller' => 'error', 'module' => 'api', 'action' => 'error'), array(), false);
