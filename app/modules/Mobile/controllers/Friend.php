@@ -4,8 +4,8 @@ class friendController extends NF_MobileController {
     public function onlineAction(){
         $this->requestLogin();
         $this->notice = "ÔÚÏßºÃÓÑ";
-        $u = User::getInstance();
-        $online = $u->getOnlineFriends();
+        load('model/friend');
+        $online = Friend::getOnlineFriends();
         if(count($online) > 0){
             foreach($online as $v){
                 $info[] = array(
