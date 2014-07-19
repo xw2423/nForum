@@ -53,7 +53,7 @@ class Blacklist implements Pageable{
 
     public function getTotalNum(){
         if(null === $this->_num)
-            $this->_num = bbs_countignores($this->_user->userid);
+            $this->_num = (int)bbs_countignores($this->_user->userid);
         return $this->_num;
     }
 
@@ -61,6 +61,8 @@ class Blacklist implements Pageable{
      * return array(array(ID)...)
      */
     public function getRecord($start, $num){
+        if($this->getTotalNum() === 0)
+            return array();
         $ret = bbs_getignores($this->_user->userid, $start - 1 ,$num);
         if(!$ret)
             return array();
