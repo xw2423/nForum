@@ -2,10 +2,13 @@
 abstract class NF_Shell{
     abstract public function main($argc, $argv);
 
-    protected function _initKbs(){
+    protected function _initKbs($sysop = false){
         if (!bbs_ext_initialized())
             bbs_init_ext();
-        bbs_setguest_nologin();
+        if($sysop)
+            bbs_setSYSOP_nologin();
+        else
+            bbs_setguest_nologin();
     }
 
     public static function help(){
