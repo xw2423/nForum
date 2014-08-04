@@ -131,8 +131,8 @@ class Section extends collection implements iWidget{
                     foreach($xml->hotsubject as $v){
                         $title = nforum_fix_gbk(urldecode($v->title));
                         try{
-                            $brd = Board::getInstance(urldecode($v->board));
-                            $ret[] = array("text" => '[<a style="color:blue" href="'. c("site.base") . "/board/" . $brd->NAME.'">' . $brd->DESC . '</a>] <a title="'. $title. '" href="'.c("site.base").'/article/' . $v->board . "/" . $v->groupid .'">'. $title . '</a>', "url"=> "");
+                            $brd = Board::getInstance(rawurldecode($v->board));
+                            $ret[] = array("text" => '[<a style="color:blue" href="'. c("site.base") . "/board/" . $brd->NAME.'">' . $brd->DESC . '</a>] <a title="'. $title. '" href="'.c("site.base").'/article/' . rawurldecode($v->board) . "/" . $v->groupid .'">'. $title . '</a>', "url"=> "");
                         }catch(BoardNullException $e){
                         }
                     }
