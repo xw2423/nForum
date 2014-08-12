@@ -1,6 +1,6 @@
 <?php
 $base = c('modules.api.base');
-$export[] = array($base . '/board/:action/:name', array('controller' => 'board', 'module'=>'api', 'action' => null), array('name' => '[-\w]+'));
+$export[] = array($base . '/board/:action/:name', array('controller' => 'board', 'module'=>'api', 'action' => null));
 $export[] = array($base . '/threads/:name/:id', array('controller' => 'article', 'module'=>'api', 'action' => 'threads'), array('id' => '\d+'));
 $export[] = array($base . '/article/:name/:action/:id', array('controller' => 'article', 'module' => 'api', 'action' => null), array('id' => '\d+'));
 $export[] = array($base . '/article/:name/:action', array('controller' => 'article', 'module' => 'api'));
@@ -8,7 +8,7 @@ $export[] = array($base . '/attachment/:name/:mode/:id/:pos/:type', array('contr
 $export[] = array($base . '/attachment/:name/:action/:id', array('controller' => 'attachment', 'module' => 'api', 'action' => null, 'id' => null), array('id' => '\d+'));
 $export[] = array($base . '/user/:action/:id', array('controller' => 'user', 'module' => 'api', 'id' => null), array('id' => '\w+'));
 $export[] = array($base . '/section', array('controller' => 'section', 'module'=>'api', 'action' => 'root'));
-$export[] = array($base . '/section/:name', array('controller' => 'section', 'module' => 'api', 'action' => 'index'), array('name' => '[-\w]+'));
+$export[] = array($base . '/section/:name', array('controller' => 'section', 'module' => 'api', 'action' => 'index'));
 $export[] = array($base . '/mail/send', array('controller' => 'mail', 'module' => 'api', 'action' => 'send'));
 $export[] = array($base . '/mail/info', array('controller' => 'mail', 'module' => 'api', 'action' => 'info'));
 $export[] = array($base . '/mail/:type/:action/:num', array('controller' => 'mail', 'module' => 'api', 'action' => null), array('num' => '\d+'));

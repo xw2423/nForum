@@ -25,7 +25,7 @@ $export[] = array('/widget/list', array('controller' => 'widget', 'action' => 'a
 $export[] = array('/widget/reset', array('controller' => 'widget', 'action' => 'ajax_reset'));
 $export[] = array('/widget/:name', array('controller' => 'widget', 'action' => 'ajax_widget'));
 $export[] = array('/rss/topten', array('controller' => 'rss', 'action' => 'topten'));
-$export[] = array('/rss/:board', array('controller' => 'rss', 'action' => 'board'), array('board' => 'board-\w+'));
+$export[] = array('/rss/:board', array('controller' => 'rss', 'action' => 'board'), array('board' => 'board-[\w-.]+'));
 $export[] = array('/rss/:file', array('controller' => 'rss', 'action' => 'classic'));
 $export[] = array('/fav/op/:num', array('controller' => 'favor', 'action' => 'ajax_change'));
 $export[] = array('/fav/:num', array('controller' => 'favor', 'action' => 'ajax_show'));
