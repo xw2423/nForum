@@ -722,7 +722,12 @@
     });
 
     function _handler(e){
-        if(!kb.enable || $(e.target).is('input,textarea,object') || e.ctrlKey || e.altKey || e.metaKey) return;
+        if(!kb.enable || e.ctrlKey || e.altKey || e.metaKey) return;
+        if($(e.target).is('input,textarea,object')){
+            if(27 === e.keyCode)
+                $(e.target).blur();
+            return;
+        }
         //console.log(e.keyCode,String.fromCharCode(e.keyCode), e);
         if(!scanner.scan(e)) return false;
         var k = e.keyCode;
