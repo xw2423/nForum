@@ -736,11 +736,29 @@
         }
         switch(k){
             case 'J': case 'j': case 40:
-                if(e.shiftKey) page.action('subDown');
+                if(DIALOG.getTop() !== null){
+                    var btns = DIALOG.getTop().next().find('.ui-button');
+                    if(btns.length){
+                        if(btns.is('.ui-state-focus'))
+                            btns.filter('.ui-state-focus').next().focus();
+                        else{
+                            btns.eq(0).focus();
+                        }
+                    }
+                }else if(e.shiftKey) page.action('subDown');
                 else page.action('down');
                 break;
             case 'K': case 'k': case 38:
-                if(e.shiftKey) page.action('subUp');
+                if(DIALOG.getTop() !== null){
+                    var btns = DIALOG.getTop().next().find('.ui-button');
+                    if(btns.length){
+                        if(btns.is('.ui-state-focus'))
+                            btns.filter('.ui-state-focus').prev().focus();
+                        else{
+                            btns.eq(btns.length - 1).focus();
+                        }
+                    }
+                }else if(e.shiftKey) page.action('subUp');
                 else page.action('up');
                 break;
             case 'H': case 'h': case 37:
