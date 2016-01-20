@@ -151,13 +151,10 @@ class UserController extends NF_Controller {
         $this->requestLogin();
         $u = User::getInstance();
         extract($this->params['form']);
-        if(empty($furl) || strpos($furl, c("user.face.dir"). "/") === 0){
-            try{
-                $u->setInfo(intval($gender), intval($year), intval($month),intval($day),$email, $qq, $msn,  $homepage, 0, $furl, intval($fwidth), intval($fheight));
-            }catch(UserSaveException $e){
-                $this->error($e->getMessage());
-            }
-            $this->_clearFace(basename($furl));
+        try{
+            $u->setInfo(intval($gender), intval($year), intval($month),intval($day),$email, $qq, $msn,  $homepage, 0, $furl, intval($fwidth), intval($fheight));
+        }catch(UserSaveException $e){
+            $this->error($e->getMessage());
         }
         $signature = nforum_iconv('utf-8', $this->encoding, $signature);
         $u->setSignature($signature);
@@ -375,18 +372,5 @@ class UserController extends NF_Controller {
             ,"ajax_code" =>ECode::$SYS_AJAXERROR
             ,"ajax_msg" => $msg
         ));
-    }
-
-    private function _clearFace($exclude){
-        $u = User::getInstance();
-        $faceDir = c("user.face.dir"). DS . strtoupper(substr($u->userid,0,1));
-        $faceFullDir = WWW . DS . $faceDir;
-        if ($hDir = @opendir($faceFullDir)) {
-            while($file = readdir($hDir)){
-                if(preg_match("/{$u->userid}\./", $file) && $file !== $exclude)
-                    unlink($faceFullDir . DS . $file);
-            }
-            closedir($hDir);
-        }
     }
 }

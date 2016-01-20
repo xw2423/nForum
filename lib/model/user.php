@@ -309,6 +309,15 @@ class User extends OverloadObject{
         $tname = empty($tname)?$this->realname:$tname;
         $address = empty($address)?$this->address:$address;
         $phone = empty($phone)?$this->telephone:$phone;
+        $f = explode('/', $furl);
+        if(count($f) === 3
+            && c("user.face.dir") === $f[0]
+            && strtoupper($this->userid[0]) === $f[1]
+            && preg_match("/^{$this->userid}\\.\\d+(" .join("|", c("user.face.ext"))  . ")$/", $f[2])){
+            $this->_clearFace(basename($furl));
+        }else{
+            $furl = $this->userface_url;
+        }
         $ret = bbs_saveuserdata(
             $this->userid,
             $tname,//ÕæÊµÐÕÃû
@@ -443,7 +452,8 @@ class User extends OverloadObject{
      * @access public
      */
     public function getFace(){
-        if($this->userface_url != "" && strpos($this->userface_url, c('user.face.dir') . '/') === 0){
+        $f = explode('/', $this->userface_url);
+        if(count($f) === 3 && c("user.face.dir") === $f[0] && strtoupper($this->userid[0]) === $f[1]){
             $furl = "/" . $this->userface_url;
         }else{
             $furl = "/img/face_default_" . (($this->gender == "77")?"m":"f") . ".jpg";
@@ -481,6 +491,18 @@ class User extends OverloadObject{
         $this->_info = array_merge($info, $uinfo);
         $this->_customList = array_keys(c('user.custom'));
         unset($info);unset($uinfo);
+    }
+
+    private function _clearFace($exclude){
+        $faceDir = c("user.face.dir"). DS . strtoupper($this->userid[0]);
+        $faceFullDir = WWW . DS . $faceDir;
+        if ($hDir = @opendir($faceFullDir)) {
+            while($file = readdir($hDir)){
+                if(strpos($file, $this->userid . '.') === 0 && $file !== $exclude)
+                    unlink($faceFullDir . DS . $file);
+            }
+            closedir($hDir);
+        }
     }
 }
 class UserNullException extends Exception {}
