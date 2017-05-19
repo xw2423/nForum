@@ -10,6 +10,7 @@ window.SYS = {
     allowFrame:"/att/.*|/user/face",
     protocol:"http://",
     redirect:3,
+    GAPIKEY:'',
     session:{
         timeout:30
     },

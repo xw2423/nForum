@@ -288,3 +288,4 @@ $export['jsr']['allowFrame'] = '';
 $export['jsr']['session']['timeout'] = 60;
 $export['jsr']['redirect'] = $export['redirect']['time'];
 $export['jsr']['keyboard'] = true;
+$export['jsr']['GAPIKEY'] = '';

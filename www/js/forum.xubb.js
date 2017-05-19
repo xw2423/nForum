@@ -4,7 +4,7 @@ window.nForumMap = {
     markers:[],
     geocoder:null,
     loadJs:function(name, opt){
-        var url = 'http://maps.google.com/maps/api/js?sensor=false&region=GB&callback=' + name;
+        var url = 'https://maps.google.com/maps/api/js?sensor=false&region=GB&key=' + window.SYS.GAPIKEY + '&callback=' + name;
         $.getScript(url);
         this.opt = opt;
     },
